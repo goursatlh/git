@@ -109,5 +109,67 @@ for i in D.values():
 for i,j in D.items():
     print("key:", i, "value:", j)
 
-l = [i*i for i in range(1,100) if i % 2 == 0]
+#list comprehension
+l = [i*i for i in range(1,30) if i % 2 == 0]
 print(l)
+
+l = [i+j for i in "abc" for j in "efg"]
+print(l)
+
+import os
+l = [d for d in os.listdir(".")]
+print(l)
+
+L = ["Hello", "WORLD", "AppLE", "THINKpad"]
+l = [i.lower() for i in L ]
+print(l)
+
+#generator
+L = [x * x for x in range(1, 10)]
+print(L)
+
+g = (x * x for x in range(1, 10))
+print(g)
+for i in range(1, 10):
+    print(next(g))
+print(g)
+
+#g = (x * x for x in range(1, 10))
+for i in g:
+    print(i)
+
+def fib(max):
+    n,a,b = 0,0,1
+    while n < max:
+        yield b
+        a, b=b, a+b
+        n = n + 1
+    return "done"
+fib(20)
+
+def odd():
+    print('step 1')
+    yield 1
+    print('step 2')
+    yield(3)
+    print('step 3')
+    yield(5)
+o = odd()
+for i in range(1,4):
+    print(next(o))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
