@@ -66,3 +66,36 @@ print(i)
 
 for i,value in enumerate([1, 2, 3]):
     print(i, value)
+
+#tuble
+i = (1,2,3,4)
+print(i)
+i = (1,)
+print(i)
+
+s = 100
+i = (s,)
+print(i)
+s = 200
+print(i)
+
+#slice
+s = ["hello", "world", "fuck", "you"]
+print(s[1:2])
+print(s[-3:-1])
+
+L = list(range(100))
+print(L[:10:2])
+print(L[::5])
+
+S = "hello, world"
+print(S[:5])
+print(S[-5:])
+print(S[-5:-1])
+
+#dict
+D = {"a":1, "b":2, "c":3, "d":4, "e":5}
+print(D)
+print(D["a"])
+D.pop("a")
+print(D)
