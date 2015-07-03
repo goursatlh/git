@@ -99,3 +99,15 @@ print(D)
 print(D["a"])
 D.pop("a")
 print(D)
+
+for i in D:
+    print("key:", i)
+
+for i in D.values():
+    print("value:", i)
+
+for i,j in D.items():
+    print("key:", i, "value:", j)
+
+l = [i*i for i in range(1,100) if i % 2 == 0]
+print(l)
