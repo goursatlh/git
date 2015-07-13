@@ -7,6 +7,51 @@ using std::cout;
 using std::endl;
 using std::string;
 
+#if 1 // pointer and reference
+void test(int *p, int * &q)
+{
+    int i = 1;
+    cout<<"&: "<<&i<<endl;
+    cout<<"&p: "<<&p<<endl;
+    cout<<"&q: "<<&q<<endl;
+    //p = &i;;
+    q = &i;;
+}
+
+void test2(int *p)
+{
+    int i = 2;
+    p = NULL;
+}
+
+int main()
+{
+    int a = 10;
+    int *p = &a;
+    int * &q = p;
+    cout<<"&p: "<<&p<<endl;
+    cout<<"&q: "<<&q<<endl;
+    cout<<"p: "<<p<<endl;
+    cout<<"q: "<<q<<endl;
+    test(p, q);
+    cout<<"p: "<<p<<endl;
+    cout<<"q: "<<q<<endl;
+
+    test2(p);
+    cout<<"after test, p "<<p<<endl;
+
+    short bb = 1;
+    short *pbb = &bb;
+    short &aa = bb;
+    cout<<sizeof(bb)<<endl;
+    cout<<sizeof(pbb)<<endl;
+    cout<<sizeof(p)<<endl;
+    
+    return 0;
+}
+#endif
+
+#if 0
 class A
 {
     public:
@@ -50,7 +95,7 @@ int main()
         A c(a); 
         return 0;
 }
-
+#endif
 
 #if 0 
 class A
