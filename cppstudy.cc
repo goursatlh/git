@@ -7,6 +7,51 @@ using std::cout;
 using std::endl;
 using std::string;
 
+class A
+{
+    public:
+        static int a;
+        int *p;
+    public:
+        A()
+        {
+                a = 1;
+                cout<<"create A"<<endl;
+                p = new int(32);
+        }
+
+        ~A()
+        {
+                if (p)
+                {
+                        delete p;
+                }
+        }
+};
+int A::a = 10;
+
+class B: public A
+{
+    public:
+        B()
+        {
+                a++;
+                cout<<"create B"<<endl;
+        }
+
+};
+
+int main()
+{
+        B b;
+        cout<<b.a<<endl;
+
+        A a;
+        A c(a); 
+        return 0;
+}
+
+
 #if 0 
 class A
 {
@@ -35,6 +80,8 @@ int main()
 
     cout<<cc;
     cout<<s<<endl;
+    cout<<sizeof(a)<<endl;
+    cout<<sizeof(b)<<endl;
 
     a.print();
     b.print();
@@ -120,6 +167,7 @@ int main()
 }
 #endif
 
+#if 0
 class CExample 
 {
     private:
@@ -164,3 +212,51 @@ int main()
 
     return 0;
 }
+#endif
+
+#if 0
+class Rect
+{
+    public:
+        Rect()      
+        {
+            count++;
+            cout<<"add"<<endl;
+        }
+#if 0
+        Rect(const Rect & rec)   //why add const   
+        {
+            width = rec.width;
+            height = rec.height;
+            count++;
+            cout<<"add"<<endl;
+        }
+#endif
+        ~Rect()     
+        {
+            count--;
+            cout<<"del"<<endl;
+        }
+        static int getCount()       
+        {
+            return count;
+        }
+    private:
+        int width;
+        int height;
+        static int count;       
+};
+
+int Rect::count = 0;        
+
+int main()
+{
+    Rect rect1;
+    cout<<"The count of Rect: "<<Rect::getCount()<<endl;
+
+    Rect rect2(rect1);   
+    cout<<"The count of Rect: "<<Rect::getCount()<<endl;
+
+    return 0;
+}
+#endif
