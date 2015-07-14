@@ -1,13 +1,52 @@
 #include <iostream>
+#include <string>
+#include <iterator>
 #include <unistd.h>
-
+#include <vector>
 //using namespace std; // don't use this style code, that may cause name conflict
 using std::cin;
 using std::cout;
 using std::endl;
 using std::string;
+using std::vector;
 
-#if 1 // pointer and reference
+#if 1 //vector push_back
+int main()
+{
+    vector<string> str(1);
+    str[0] = "hello world";
+    cout<<str[0]<<endl;
+
+    vector<string> strnull;
+    cout<<"strnull size "<<strnull.size()<<endl;
+    strnull.push_back("hello world");
+    cout<<"strnull size "<<strnull.size()<<endl;
+    cout<<strnull[0]<<endl;
+
+    vector<string>::iterator iter = strnull.begin();
+    cout<<*iter<<endl;
+    return 0;
+}
+#endif
+
+#if 0 // iterator
+int main()
+{
+    string c("hello world");
+    iterator j;
+    if (c.begin() != c.end())
+    {
+
+        auto i = c.begin();
+        cout<<i<<endl;
+        i++;
+    }
+
+    return 0;
+}
+#endif
+
+#if 0 // pointer and reference
 void test(int *p, int * &q)
 {
     int i = 1;
