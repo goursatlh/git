@@ -9,17 +9,16 @@ using std::vector;
 
 int main(void)
 {
-    vector<int> num(3, 0);
-    vector<int> sum(100, 0);
-    vector<int>::iterator iter;
+    vector<int> num, sum;
+    int tmp = 0;
     int count = 0;
     int index = 0;
     int i = 0;
 
     cout<<"please input numbers: "<<endl;
-    cin>>num[count++];
-    while (num[count-1] != 255 && (count < num.size()))
+    while (cin>>tmp)
     {
+        num.push_back(tmp);
         if ((count >= 2) && ((count % 2) == 0))
         {
             sum[index++] = num[count-2] + num[count-1];
@@ -37,7 +36,14 @@ int main(void)
     {
         cout<<num[i]<<" ";
     }
+
+    cout<<endl;
     
+    cout<<"use iterator to walk vector<int> type: "<<endl;
+    for (vector<int>::iterator iter = num.begin(); iter != num.end(); iter++)
+    {
+        cout<<*iter<<" ";
+    }
     cout<<endl;
     
     for (i = 0; i < index; i++)
