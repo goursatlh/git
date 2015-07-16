@@ -10,7 +10,45 @@ using std::endl;
 using std::string;
 using std::vector;
 
-#if 1 //vector push_back
+#if 1
+class A
+{
+public:
+    int a;
+    A()
+    {
+        a = 1;
+        cout<<"constrct class A object"<<endl;
+    }
+    A(const class A &c)
+    {
+        //this->a = a.a;
+        a = c.a;
+        cout<<"constrct class A object with copy constrct"<<endl;
+    }
+    ~A()
+    {
+        a--;
+        cout<<"disconstrct class A object"<<endl;
+    }
+};
+
+void test(class A a)
+//void test(class A &a)
+{
+    cout<<"class a "<<a.a<<endl;
+}
+
+int main()
+{
+    A c;
+    test(c);
+    cout<<c.a<<endl;
+    return 0;
+}
+#endif
+
+#if 0 //vector push_back
 int main()
 {
     vector<string> str(1);
@@ -25,6 +63,7 @@ int main()
 
     vector<string>::iterator iter = strnull.begin();
     cout<<*iter<<endl;
+
     return 0;
 }
 #endif
