@@ -10,7 +10,53 @@ using std::endl;
 using std::string;
 using std::vector;
 
-#if 1
+#if 1 //defalut constrctor and public/protected inherit
+class A{
+public:
+    int a;
+    A() = default;
+    A(int c, int d): a(c),b(d){};
+    void printx()
+    {
+        cout<<"class a "<<b<<endl; 
+    }
+
+    void printy()
+    {
+        e++;
+        cout<<"class a's private member "<<e<<endl; 
+    }
+protected:
+    int b;
+private:
+    int e;
+
+};
+
+class B: public A{
+public:
+    void print()
+    {
+        cout<<b<<endl;
+    }
+};
+
+int main()
+{
+    A oa(33,44);
+    B ob;
+    cout<<ob.a<<endl;
+    oa.printx();
+    oa.printy();
+    ob.printy(); // why this is no compile error;
+    ob.print();
+    //cout<<oa.b<<endl; // b is a protected member, so it cannot be assessed by object.
+    //cout<<ob.b<<endl;
+    return 0;
+}
+#endif
+
+#if 0
 class A
 {
 public:
