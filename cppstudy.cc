@@ -10,7 +10,101 @@ using std::endl;
 using std::string;
 using std::vector;
 
-#if 1 //defalut constrctor and public/protected inherit
+#if 1 //function overload 2
+class Base{
+    public:
+        int display(int n_count){
+            cout <<"display function defined in the Class Base"<<endl;
+            return 0;
+        }
+};
+
+class Derived: public Base{
+    public:
+        using Base::display;
+        int display(int n_count,int n_width){
+            cout << "display function defined in the Class Derived"<<endl;
+            return 0;
+        }
+};
+
+int main(int argc,char** argv)
+{
+    Base *p_base;
+    Derived *p_derived = new Derived();
+    p_base = p_derived;
+    p_derived->display(8);
+    p_derived->display(10,20);
+
+    return 0;
+}
+#endif
+
+#if 0 //function overload
+
+void print(char i)
+{
+    cout<<i<<endl;
+    return;
+}
+
+void print(long i)
+{
+    cout<<i<<endl;
+    return;
+}
+
+int main()
+{
+    print(static_cast<long>(38));
+    //print(38); //error
+    return 0;
+}
+
+#endif
+
+#if 0  // destructor should be virtual
+class A
+{
+    public:
+        A();
+        //virtual ~A();
+        ~A();
+};
+
+A::A()
+{
+}
+
+A::~A()
+{
+    printf("Delete class APn\n");
+}
+
+class B : public A
+{
+    public:
+        B();
+        ~B();
+};
+
+B::B()
+{ }
+
+B::~B()
+{
+    printf("Delete class BPn\n");
+}
+
+int main(int argc, char* argv[])
+{
+    A *b=new B;
+    delete b;
+    return 0;
+}
+#endif
+
+#if 0 //defalut constrctor and public/protected inherit
 class A{
 public:
     int a;
@@ -221,7 +315,7 @@ int main()
 }
 #endif
 
-#if 0 
+#if 0 // virtual function 
 class A
 {
     public:
@@ -234,7 +328,7 @@ class A
 class B: public A
 {
     public:
-        void print()
+        void print() override
         {
             cout<<"hello B"<<endl;
         }
@@ -257,9 +351,11 @@ int main()
 
     A *p = &a;
     A *q = &b;
+    A *n;
 
     p->print();
     q->print();
+    //n->print();  // pointer must be initialized before accessed.
 
     return 0;
 }
