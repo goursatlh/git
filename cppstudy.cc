@@ -10,7 +10,41 @@ using std::endl;
 using std::string;
 using std::vector;
 
-#if 1 //function overload 2
+#if 1
+/* function override and overload 
+ * */
+class Base {
+    public:
+        void print() {
+            cout << "print() in Base." << endl;
+        }
+        void print(int a) {
+            cout << "print(int a) in Base." << endl;
+        }
+        void print(string s) {
+            cout << "print(string s) in Base." << endl;
+        }
+};
+
+//class Derived : public Base { };
+class Derived : public Base 
+{
+    public:
+        void print() {
+            cout << "print() in Derived." << endl;
+        }
+};
+
+int main() {
+    Derived d;
+    d.print();
+    d.print(10);
+    d.print("");
+    return 0;
+}
+#endif
+
+#if 0 //function overload 2
 class Base{
     public:
         int display(int n_count){
@@ -328,35 +362,28 @@ class A
 class B: public A
 {
     public:
-        void print() override
+        //void print() override
+        //using A::print;
+        void print()
         {
             cout<<"hello B"<<endl;
         }
 };
-
+#endif
+#if 0
 int main()
 {
     A a;
     B b;
-    char cc[] = "hello world\n";
-    string s(10, 'f');
-
-    cout<<cc;
-    cout<<s<<endl;
-    cout<<sizeof(a)<<endl;
-    cout<<sizeof(b)<<endl;
 
     a.print();
     b.print();
-
     A *p = &a;
     A *q = &b;
-    A *n;
 
     p->print();
     q->print();
     //n->print();  // pointer must be initialized before accessed.
-
     return 0;
 }
 #endif
@@ -368,16 +395,11 @@ int main()
     A *p = new B;
     long lVptrAddr; 
     
-    printf("%s/%d: enter\n", __FUNCTION__, __LINE__);
     memcpy(&lVptrAddr,p,4); 
-    printf("%s/%d: enter %x/%x\n", __FUNCTION__, __LINE__, lVptrAddr, &fun);
-    sleep(10000000); 
     memcpy(&fun, reinterpret_cast<long*>(lVptrAddr),4);
-    printf("%s/%d: enter\n", __FUNCTION__, __LINE__);
     fun(p); 
 
-    printf("%s/%d: enter\n", __FUNCTION__, __LINE__);
-    delete p; 
+    //delete p; 
     system("pause"); 
 } 
 #endif
