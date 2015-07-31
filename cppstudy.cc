@@ -10,6 +10,39 @@ using std::endl;
 using std::string;
 using std::vector;
 
+#if 0 // memory layout for the base and derived class
+class base
+{
+public:
+    int a;
+    int b;
+    virtual void print()
+    {
+        cout<<"base"<<endl;
+    }
+};
+
+class derived: public base
+//class derived: protected base
+{
+public:
+    int c;
+};
+
+int main()
+{
+    base a;
+    derived b;
+
+    cout<<sizeof(a)<<endl;
+    cout<<sizeof(b)<<endl;
+    cout<<&b<<endl;
+    cout<<&(b.a)<<endl;
+    
+    return 0;
+}
+#endif
+
 #if 1
 /* function override and overload 
  * */
@@ -30,6 +63,7 @@ class Base {
 class Derived : public Base 
 {
     public:
+        using Base::print;
         void print() {
             cout << "print() in Derived." << endl;
         }
@@ -40,6 +74,8 @@ int main() {
     d.print();
     d.print(10);
     d.print("");
+    //d.Base::print(10);
+    //d.Base::print("");
     return 0;
 }
 #endif
@@ -355,7 +391,11 @@ class A
     public:
         virtual void print()
         {
-            cout<<"hello A"<<endl;
+            cout<<"A: virtual function 1"<<endl;
+        }
+        virtual void printx()
+        {
+            cout<<"A: virtual function 2"<<endl;
         }
 };
 
@@ -366,7 +406,11 @@ class B: public A
         //using A::print;
         void print()
         {
-            cout<<"hello B"<<endl;
+            cout<<"B: virtual function 1"<<endl;
+        }
+        void printx()
+        {
+            cout<<"B: virtual function 2"<<endl;
         }
 };
 #endif
@@ -388,19 +432,28 @@ int main()
 }
 #endif
 
-#if 0
+#if 0 // virtual function table memory layout
 int main()
 { 
     void (*fun)(A*);
     A *p = new B;
     long lVptrAddr; 
-    
-    memcpy(&lVptrAddr,p,4); 
-    memcpy(&fun, reinterpret_cast<long*>(lVptrAddr),4);
+   
+    cout<<sizeof(A)<<endl;
+    cout<<sizeof(B)<<endl;
+    memcpy(&lVptrAddr,p,8);
+    cout<<p<<endl;
+    printf("%p\n", lVptrAddr);  // lVptrAddr is the address of virfun table
+    printf("%p\n", *((long *)lVptrAddr));
+    memcpy(&fun, reinterpret_cast<long*>(lVptrAddr),8);
+    printf("%p\n", fun);
+    fun(p); 
+    memcpy(&fun, reinterpret_cast<long*>(lVptrAddr+8),8);
+    printf("%p\n", fun);
     fun(p); 
 
-    //delete p; 
-    system("pause"); 
+    delete p; 
+    //system("pause"); 
 } 
 #endif
 
