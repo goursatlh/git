@@ -28,7 +28,7 @@ int main(int argc, char **argv)
     addr.sin_addr.s_addr = inet_addr("10.88.23.144");
     addr.sin_port = htons(port);
 
-    memset(&addr, 0, sizeof(addr));
+    memset(&addr1, 0, sizeof(addr));
     addr1.sin_family = AF_INET;
     addr1.sin_addr.s_addr = inet_addr("10.88.23.139");
     addr1.sin_port = htons(port);
@@ -59,6 +59,25 @@ EXIT:
         close(fd);
     }
     
+    return 0;
+}
+#endif
+
+
+
+#if 0
+int main(int argc, char* argv[])
+{
+    struct in_addr addr1,addr2;    
+    unsigned long l1,l2;
+    l1= inet_addr("192.168.0.74"); 
+    l2 = inet_addr("211.100.21.179"); 
+    memcpy(&addr1, &l1, 4);
+    memcpy(&addr2, &l2, 4);
+    printf("%s : %s\n", inet_ntoa(addr1), inet_ntoa(addr2));
+
+    printf("%s\n", inet_ntoa(addr1));
+    printf("%s\n", inet_ntoa(addr2));
     return 0;
 }
 #endif

@@ -2,6 +2,7 @@
 #include <errno.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <arpa/inet.h> // this must add, otherwise the inet_ntoa can't work in 64 system
 
 int main(int argc, char **argv)
 {
@@ -42,7 +43,7 @@ int main(int argc, char **argv)
     }
     else
     {
-        printf("recv %d bytes data from (%s/%d): %s", ret, inet_ntoa(client.sin_addr), ntohs(client.sin_port), buff);
+        printf("recv %d bytes data from (%s/%d): %s\n", ret, inet_ntoa(client.sin_addr), ntohs(client.sin_port), buff);
     }
 
 EXIT:
