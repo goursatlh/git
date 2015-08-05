@@ -2,6 +2,7 @@
 #if 1
 /* udp data transport: does one udp socket use the same src port to send different dip/dport */
 #include <stdio.h>
+#include <string.h>
 #include <errno.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -37,11 +38,19 @@ int main(int argc, char **argv)
     {
         printf("sendto %d bytes to (10.88.23.144/%d)\n", n, port);
     }
+    else
+    {
+        printf("sendto return %s\n", strerror(errno));
+    }
 
     n = sendto(fd, buff, sizeof(buff), 0, (struct sockaddr *)(&addr1), sizeof(addr1));
     if (n > 0)
     {
         printf("sendto %d bytes to (10.88.23.139/%d)\n", n, port);
+    }
+    else
+    {
+        printf("sendto return %s\n", strerror(errno));
     }
 
 EXIT:

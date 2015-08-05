@@ -42,7 +42,7 @@ int main(int argc, char **argv)
     }
     else
     {
-        printf("recv %d bytes data from (%s/%d): %s", ret, inet_ntoa(client.sin_addr), client.sin_port, buff);
+        printf("recv %d bytes data from (%s/%d): %s", ret, inet_ntoa(client.sin_addr), ntohs(client.sin_port), buff);
     }
 
 EXIT:
