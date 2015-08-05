@@ -10,7 +10,77 @@ using std::endl;
 using std::string;
 using std::vector;
 
-#if 1 //function overload 2
+#if 0 // memory layout for the base and derived class
+class base
+{
+public:
+    int a;
+    int b;
+    virtual void print()
+    {
+        cout<<"base"<<endl;
+    }
+};
+
+class derived: public base
+//class derived: protected base
+{
+public:
+    int c;
+};
+
+int main()
+{
+    base a;
+    derived b;
+
+    cout<<sizeof(a)<<endl;
+    cout<<sizeof(b)<<endl;
+    cout<<&b<<endl;
+    cout<<&(b.a)<<endl;
+    
+    return 0;
+}
+#endif
+
+#if 1
+/* function override and overload 
+ * */
+class Base {
+    public:
+        void print() {
+            cout << "print() in Base." << endl;
+        }
+        void print(int a) {
+            cout << "print(int a) in Base." << endl;
+        }
+        void print(string s) {
+            cout << "print(string s) in Base." << endl;
+        }
+};
+
+//class Derived : public Base { };
+class Derived : public Base 
+{
+    public:
+        using Base::print;
+        void print() {
+            cout << "print() in Derived." << endl;
+        }
+};
+
+int main() {
+    Derived d;
+    d.print();
+    d.print(10);
+    d.print("");
+    //d.Base::print(10);
+    //d.Base::print("");
+    return 0;
+}
+#endif
+
+#if 0 //function overload 2
 class Base{
     public:
         int display(int n_count){
@@ -321,64 +391,69 @@ class A
     public:
         virtual void print()
         {
-            cout<<"hello A"<<endl;
+            cout<<"A: virtual function 1"<<endl;
+        }
+        virtual void printx()
+        {
+            cout<<"A: virtual function 2"<<endl;
         }
 };
 
 class B: public A
 {
     public:
-        void print() override
+        //void print() override
+        //using A::print;
+        void print()
         {
-            cout<<"hello B"<<endl;
+            cout<<"B: virtual function 1"<<endl;
+        }
+        void printx()
+        {
+            cout<<"B: virtual function 2"<<endl;
         }
 };
-
+#endif
+#if 0
 int main()
 {
     A a;
     B b;
-    char cc[] = "hello world\n";
-    string s(10, 'f');
-
-    cout<<cc;
-    cout<<s<<endl;
-    cout<<sizeof(a)<<endl;
-    cout<<sizeof(b)<<endl;
 
     a.print();
     b.print();
-
     A *p = &a;
     A *q = &b;
-    A *n;
 
     p->print();
     q->print();
     //n->print();  // pointer must be initialized before accessed.
-
     return 0;
 }
 #endif
 
-#if 0
+#if 0 // virtual function table memory layout
 int main()
 { 
     void (*fun)(A*);
     A *p = new B;
     long lVptrAddr; 
-    
-    printf("%s/%d: enter\n", __FUNCTION__, __LINE__);
-    memcpy(&lVptrAddr,p,4); 
-    printf("%s/%d: enter %x/%x\n", __FUNCTION__, __LINE__, lVptrAddr, &fun);
-    sleep(10000000); 
-    memcpy(&fun, reinterpret_cast<long*>(lVptrAddr),4);
-    printf("%s/%d: enter\n", __FUNCTION__, __LINE__);
+   
+    cout<<sizeof(A)<<endl;
+    cout<<sizeof(B)<<endl;
+    memcpy(&lVptrAddr,p,8);
+    cout<<p<<endl;
+    printf("%p\n", lVptrAddr);  // lVptrAddr is the address of virfun table
+    printf("%p\n", *((long *)lVptrAddr));
+    memcpy(&fun, reinterpret_cast<long*>(lVptrAddr),8);
+    printf("%p\n", fun);
+    fun(p); 
+    memcpy(&fun, reinterpret_cast<long*>(lVptrAddr+8),8);
+    printf("%p\n", fun);
     fun(p); 
 
-    printf("%s/%d: enter\n", __FUNCTION__, __LINE__);
     delete p; 
-    system("pause"); 
+    //system("pause"); 
 } 
 #endif
 
