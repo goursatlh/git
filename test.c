@@ -1,3 +1,4 @@
+#if 0  // backtrace() to dump the call stack
 #include <stdio.h>
 #include <execinfo.h>
 #include <dlfcn.h>
@@ -63,3 +64,4 @@ void main()
 {
    func(); 
 }
+#endif

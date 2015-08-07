@@ -10,6 +10,40 @@ using std::endl;
 using std::string;
 using std::vector;
 
+#if 1 // template
+template <typename T>
+int compare(T a, T b)
+{
+    if (a > b)
+        return 1;
+    else if (a < b)
+        return -1;
+    else
+        return 0;
+}
+
+template <unsigned N, unsigned M>   // nontype template parameter, represent a value rather than a type
+int comp(const char (&p)[N], const char (&q)[M])
+{
+    cout<<"N: "<<N<<"M: "<<M<<endl;
+    return strcmp(p, q);
+}
+
+int main()
+{
+    int a = 1, b = 2;
+    string s1("hello world."), s2("fuck you then");
+    char s3[] = "hello world";
+    char s4[] = "fuck you then";
+    cout<<compare(s1, s2)<<endl;
+    cout<<compare(a, b)<<endl;
+    cout<<comp("hello", "world")<<endl;
+    cout<<comp(s4, s3)<<endl;
+    //cout<<comp(s1, s2)<<endl;   // error, string isn't equal to char a[]
+    return 0;
+}
+#endif
+
 #if 0 // memory layout for the base and derived class
 class base
 {
@@ -43,7 +77,7 @@ int main()
 }
 #endif
 
-#if 1
+#if 0
 /* function override and overload 
  * */
 class Base {
