@@ -1,15 +1,30 @@
+#if 1 // function call flow
+#include <stdio.h>
+void func(int x, int y)
+{
+    printf("%p: x\n", &x);
+    printf("%p: y\n", &y);
+    int c = x + y;
+    printf("%p: c\n", &c);
+}
+void main()
+{
+    int a = 1;
+    int b = 2;
+
+    printf("%p: a\n", &a);
+    printf("%p: b\n", &b);
+
+    func(a, b);
+}
+#endif
+
+
 #if 0  // backtrace() to dump the call stack
 #include <stdio.h>
 #include <execinfo.h>
 #include <dlfcn.h>
 
-typedef struct
-{
-      __const char *dli_fname;      /* File name of defining object.  */
-        void *dli_fbase;              /* Load address of that object.  */
-          __const char *dli_sname;      /* Name of nearest symbol.  */
-            void *dli_saddr;              /* Exact value of nearest symbol.  */
-} Dl_info;
 void **getEBP( int dummy )
 {
     void **ebp = (void **)&dummy -2 ;
@@ -45,19 +60,30 @@ void do_gnu_backtrace()
     size = backtrace(array, BACKTRACE_SIZ);
     strings = backtrace_symbols(array, size);
 
+    printf("-------------------------------begin to dump the call stack ---------------------------------\n");
     for (i = 0; i < size; ++i) {
-        printf("%p : %s\n", array[i], strings[i]);
+        //printf("%p : %s\n", array[i], strings[i]);
+        printf("%s\n", strings[i]);
     }
 
-    printf("---------------------------------------------------------\n");
+    printf("---------------------------------------------------------------------------------------------\n");
+    printf("int sizeof %d\n", sizeof(int));
+    printf("int sizeof %d\n", sizeof(int *));
     free(strings);
 }
 
+void func1()
+{
+    printf("fuck you then.\n");
+    do_gnu_backtrace();
+    //print_walk_backtrace();
+}
 void func()
 {
     printf("hello world.\n");
-    do_gnu_backtrace();
-    print_walk_backtrace();
+    func1();
+    //do_gnu_backtrace();
+    //print_walk_backtrace();
 }
 
 void main()

@@ -10,9 +10,141 @@ using std::endl;
 using std::string;
 using std::vector;
 
-#if 1 // template
+#if 0 // operator
+class person{
+    private:
+        int age;
+    public:
+        person(int a){
+            this->age=a;
+        }
+        inline bool operator==(const person &ps) const;
+};
+
+inline bool person::operator==(const person &ps) const
+{
+    if (this->age == ps.age)
+    {
+        cout<<"here"<<endl;
+        return true;
+    }
+    return false;
+}
+
+int main()
+{
+    person p1(10);
+    person p2(10);
+    
+    if (p1 == p2) 
+        cout<<"the age is equal 0"<<endl;
+
+    return 0;
+}
+#endif
+#if 0 // template class for a link
+template <class Type> class Queue; 
+template <class Type> class QueueItem { 
+    friend class Queue<Type>;
+    QueueItem(const Type &t): item(t), next(0) { }  
+    Type item;      
+    QueueItem *next;      
+};
+
+template <class Type> class Queue {  
+    public:  
+        Queue(): head(0), tail(0) { } 
+        void push(const Type &);        
+        void pop();                      
+        bool empty() const 
+        {            
+            return (head == 0);  
+        }
+        void print_size()
+        {
+            cout<<"link note number: "<<size<<endl;
+        }
+        //void init_size(unsigned val){size = val;}
+
+    private:  
+        QueueItem<Type> *head;           
+        QueueItem<Type> *tail;    
+        static unsigned size;
+};
+template <class Type> unsigned Queue<Type>::size = 0;
+
+template <class Type> void Queue<Type>::pop()
+{
+    QueueItem<Type> *p = head;
+    delete(p);
+    head = head->next;
+    size--;
+}
+
+template <class Type> void Queue<Type>::push(const Type &val)
+{
+    QueueItem<Type> *p = new QueueItem<Type>(val);
+    if (empty())
+    {
+        head = tail = p;
+    }
+    else
+    {
+        tail->next = p;
+        tail = p;
+    }
+    size++;
+}
+
+int main(void)
+{
+    Queue<int> oa;
+    oa.push(2);
+    oa.push(3);
+    oa.print_size();
+    Queue<string> ob;
+    string s("hello");
+    ob.push(s);
+
+    return 0;
+}
+#endif
+
+#if 0 // implicit invert
+int main(void)
+{
+    int i = 0;
+    const int j = 1;
+    const int &ci = i; 
+    const int &cj = j;
+    const int *pi = &i; 
+    const int *pj = &j;
+    //int &ck = j;  //error 
+    //int *pk = &j;  //error
+    //int array[i] = {0};
+    unsigned cnt = 2;
+    int array[cnt];
+    string arraystr[cnt];
+    array[0] = 1;
+
+    cout<<array[i]<<endl;
+}
+#endif
+#if 0 // template
 template <typename T>
 int compare(T a, T b)
+{
+    if (a > b)
+        return 1;
+    else if (a < b)
+        return -1;
+    else
+        return 0;
+}
+
+//template <typename T>
+//int compare_ref(T &a, T &b)
+int compare_ref(char * &a, char * &b)
 {
     if (a > b)
         return 1;
@@ -36,10 +168,13 @@ int main()
     char s3[] = "hello world";
     char s4[] = "fuck you then";
     cout<<compare(s1, s2)<<endl;
+    cout<<compare(s3, s4)<<endl;
     cout<<compare(a, b)<<endl;
     cout<<comp("hello", "world")<<endl;
     cout<<comp(s4, s3)<<endl;
     //cout<<comp(s1, s2)<<endl;   // error, string isn't equal to char a[]
+    //cout<<compare_ref(s1, s2)<<endl;
+    cout<<compare_ref(s3, s4)<<endl;  //error, char [12] not equal to char [14]
     return 0;
 }
 #endif
