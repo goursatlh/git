@@ -1,4 +1,39 @@
-#if 1 // function call flow
+#if 1 // array override
+/*--------
+ *argument3 c       
+ *argument2 b
+ *argument1 a
+ *next instruction address
+ *ebp for main                        4 
+ *ret                                 4
+ *sum                                 4
+ *buffer                              14
+ * */
+#include <stdio.h>
+int function(int a, int b, int c)
+{
+    char buffer[14];          
+    int sum;                  
+    int *ret;
+
+    ret = buffer + 26;
+    (*ret) += 8;
+    sum = a + b + c;
+    return sum;
+}
+
+void main()
+{
+    int x;
+    x = 0;
+    function(1,2,3);
+    x = 1;
+
+    printf("%d\n",x);
+}
+#endif
+
+#if 0 // function call flow
 #include <stdio.h>
 void func(int x, int y)
 {
