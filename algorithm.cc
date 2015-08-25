@@ -18,6 +18,8 @@ template <typename Type> void sort_select(vector<Type> &);
 template <typename Type> void exch(Type &, Type &);
 template <typename Type> void show(vector<Type> &);
 
+static int count = 0;
+
 template <class Type> 
 int less(Type a, Type b)
 {
@@ -35,13 +37,13 @@ void exch(Type &a, Type &b)
     Type tmp = a;
     a = b;
     b = tmp;
+    count++;
 }
 
 template <class Type> 
-void sort_bubble(vector<Type> &a, int *change)
+void sort_bubble(vector<Type> &a)
 {
     int i = 0, j = 0;
-    int chag = 0;
     
     for (i = 0; i < a.size() - 1; i++)
     {
@@ -50,20 +52,16 @@ void sort_bubble(vector<Type> &a, int *change)
             if (a[j] > a[j+1])
             {
                 exch(a[j], a[j+1]);
-                chag++;
             }
         }
     }
-    *change = chag;
 }
 
 template <class Type> 
-void sort_select(vector<Type> &a, int *change)
+void sort_select(vector<Type> &a)
 {
     int i = 0, j = 0;
     int min = 0;
-    int compare = 0;
-    int chag = 0;
     
     for (i = 0; i < a.size(); i++)
     {
@@ -78,23 +76,18 @@ void sort_select(vector<Type> &a, int *change)
         if (min != i)
         {
             exch(a[min], a[i]);
-            chag++;
         }
     }
-    *change = chag;
 }
 
 template <class Type> 
-void sort_insert(vector<Type> &a, int *change)
+void sort_insert(vector<Type> &a)
 {
     int i = 0, j = 0, m = 0;
     int temp = 0;
-    int chag = 0;
-    int flag = 0;
    
     for (i = 1; i < a.size(); i++)
     {
-        flag = 0;
         for (j = 0; j < i; j++)
         {
             if (a[i] < a[j])
@@ -108,7 +101,6 @@ void sort_insert(vector<Type> &a, int *change)
             }
         }
     }
-    *change = chag;
 }
 
 template <typename Type>
@@ -139,17 +131,17 @@ void sort_quick(vector<Type> &a, int left, int right)
     if (right > left)
     {
         index = (right - left + 1)/2;
-        index = partition(a, index, left, right);
+        index = partition(a, left+index, left, right);
         sort_quick(a, left, index - 1);
         sort_quick(a, index + 1, right);
     }
 }
 
 template <class Type> 
-void show(vector<Type> &a, int change, string b, long time)
+void show(vector<Type> &a, string b, long time)
 {
     int index = 0;
-    cout<<"After "<<b<<" sort "<<change<<" changes:"<<"time spend: "<<time<<endl;
+    cout<<"After "<<b<<" sort "<<count<<" changes "<<"time spend: "<<time<<endl;
     while (index < a.size())
     {
         cout<<a[index++]<<"  ";
@@ -164,49 +156,52 @@ int main(int argc, char **argv)
     vector<int> num2;
     vector<int> num3;
     vector<int> num4;
-    int change = 0;
-    unsigned int count = 0;
     unsigned int index = 0;
+    unsigned int numinput = 0;
     struct timeval tvstart, tvend;
     long timespend = 0;
 
     cout<<"Please input the number you want to sort: "<<endl;
-    cin>>count;
-    while (num.size() < count)
+    cin>>numinput;
+    while (num.size() < numinput)
     {
         num.push_back(rand()%100);
         cout<<num[index++]<<endl;
     }
 
-    show(num, change, "none", timespend);
+    show(num, "none", timespend);
     
     num1 = num;
+    count = 0;
     gettimeofday( &tvstart, NULL);
-    sort_bubble(num1, &change);
+    sort_bubble(num1);
     gettimeofday( &tvend, NULL);
     timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
-    show(num1, change, "bubble", timespend);
+    show(num1, "bubble", timespend);
    
     num2 = num;
+    count = 0;
     gettimeofday( &tvstart, NULL);
-    sort_select(num2, &change);
+    sort_select(num2);
     gettimeofday( &tvend, NULL);
     timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
-    show(num2, change, "select", timespend);
+    show(num2, "select", timespend);
     
     num3 = num;
+    count = 0;
     gettimeofday( &tvstart, NULL);
-    sort_insert(num3, &change);
+    sort_insert(num3);
     gettimeofday( &tvend, NULL);
     timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
-    show(num3, change, "insert", timespend);
+    show(num3, "insert", timespend);
   
     num4 = num;
+    count = 0;
     gettimeofday( &tvstart, NULL);
     sort_quick(num4, 0, num4.size()-1);
     gettimeofday( &tvend, NULL);
     timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
-    show(num4, change, "quick", timespend);
+    show(num4, "quick", timespend);
     return 0;
 }
 #endif
