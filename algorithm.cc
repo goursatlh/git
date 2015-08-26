@@ -1,5 +1,20 @@
+#if 1 //suffix array
+#include <iostream>
+#include <iostream>
 
-#if 1 // sort
+using std::cout;
+using std::cin;
+using std::endl;
+using std::vector;
+
+int main(int argc, char **argv)
+{
+
+    return 0;
+}
+#endif
+
+#if 0 // sort
 #include <iostream>
 #include <vector>
 #include <stdlib.h>
@@ -106,6 +121,43 @@ void sort_insert(vector<Type> &a)
 template <typename Type>
 int partition(vector<Type> &a, int index, int left, int right)
 {
+    int restore = left;
+    int piovt = a[index];
+    int i = 0;
+
+    exch(a[index], a[right]);
+    for (i = left; i < right; i++)
+    {
+        if (a[i] < piovt)
+        {
+            if (i != restore)
+            {
+                exch(a[i], a[restore]);
+            }
+            restore++;
+        }
+    }
+    exch(a[restore], a[right]);
+    return restore;
+}
+
+template <typename Type>
+void sort_quick(vector<Type> &a, int left, int right)
+{
+    int index = 0;
+    if (right > left)
+    {
+       index = (right-left+1)/2;
+       index = partition(a, left+index, left, right);
+       sort_quick(a, left, index - 1);
+       sort_quick(a, index + 1, right);
+    }
+}
+
+#if 0
+template <typename Type>
+int partition(vector<Type> &a, int index, int left, int right)
+{
     int poivt = a[index];
     int position = left;
     int i = 0;
@@ -136,6 +188,7 @@ void sort_quick(vector<Type> &a, int left, int right)
         sort_quick(a, index + 1, right);
     }
 }
+#endif
 
 template <class Type> 
 void show(vector<Type> &a, string b, long time)
