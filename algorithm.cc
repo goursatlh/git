@@ -1,42 +1,119 @@
-#if 1 //suffix array
+#if 1 //suffix array // find the longest duplicate substring
 #include <iostream>
-#include <iostream>
+#include <string>
+#include <vector>
+#include <stdlib.h>
+#include <sys/time.h>
 
 using std::cout;
 using std::cin;
 using std::endl;
+using std::string;
 using std::vector;
+
+template <typename Type> void sort_quick(vector<Type> &, int left, int right);
+template <typename Type> int less(Type &, Type &);
+template <typename Type> void exch(Type &, Type &);
+template <typename Type> void show(vector<Type> &);
+
+void prints(vector<string> &a)
+{
+    vector<string>::iterator index = a.begin();
+    while (index != a.end())
+    {
+        cout<<*index<<endl;
+        index++;
+    }
+}
+
+void printi(vector<int> &a)
+{
+    vector<int>::iterator index = a.begin();
+    while (index != a.end())
+    {
+        cout<<*index<<endl;
+        index++;
+    }
+}
+
+int duplen(string &a, string &b)
+{
+    int index = 0;
+    while (a[index] == b[index])
+    {
+        index++;
+    }
+
+    return index;
+}
+
+int findhuge(vector<int> &a)
+{
+    int index = 0;
+    int max = index;
+    while (++index < a.size())
+    {
+        if (a[index] > a[max])
+            max = index;
+    }
+    return max;
+}
+
+string dup(string &a)
+{
+    vector<string> s;
+    vector<int> r;
+    //vector<string>::iterator vindex;
+    string dupstr;
+    int index = 0;
+    int i = 0;
+    int max = 0;
+
+    while (index < a.size())
+    {
+        s.push_back(a.substr(index));
+        index++;
+    }
+    cout<<"before sort:"<<endl;
+    prints(s);
+    sort_quick(s, 0, s.size()-1);
+    cout<<"after sort:"<<endl;
+    prints(s);
+
+    cout<<"s size: "<<s.size()<<endl;
+
+    //find the longest duplicate substring
+    for (i = 0; i < s.size()-1; i++)
+    {
+        r.push_back(duplen(s[i], s[i+1]));
+    }
+    printi(r);
+    max = findhuge(r);
+    cout<<"max index: "<<max<<endl;
+    cout<<"max duplicate str: "<<s[max].substr(r[max])<<endl;
+     
+
+    return dupstr;
+}
 
 int main(int argc, char **argv)
 {
+    string a;
 
+    cout<<"please input string: "<<endl;
+    cin>>a;
+    cout<<a<<" size: "<<a.size()<<endl;
+
+    dup(a);
     return 0;
 }
 #endif
 
-#if 0 // sort
-#include <iostream>
-#include <vector>
-#include <stdlib.h>
-#include <string>
-#include <sys/time.h>
-
-using std::cin;
-using std::cout;
-using std::endl;
-using std::vector;
-using std::string;
-
-template <typename Type> void sort_select(vector<Type> &);
-//template <typename Type> int less(Type &, Type &);
-//template <typename Type> bool is_sorted(vetcor<Type> &);
-template <typename Type> void exch(Type &, Type &);
-template <typename Type> void show(vector<Type> &);
-
+#if 1 // sort
 static int count = 0;
 
 template <class Type> 
-int less(Type a, Type b)
+int less(Type &a, Type &b)
 {
     if (a > b)
         return 1;
@@ -55,6 +132,7 @@ void exch(Type &a, Type &b)
     count++;
 }
 
+#if 0
 template <class Type> 
 void sort_bubble(vector<Type> &a)
 {
@@ -117,18 +195,20 @@ void sort_insert(vector<Type> &a)
         }
     }
 }
+#endif
 
 template <typename Type>
 int partition(vector<Type> &a, int index, int left, int right)
 {
     int restore = left;
-    int piovt = a[index];
+    Type piovt = a[index];
     int i = 0;
 
     exch(a[index], a[right]);
     for (i = left; i < right; i++)
     {
         if (a[i] < piovt)
+        //if (less(a[i], piovt) < 0)
         {
             if (i != restore)
             {
@@ -202,6 +282,7 @@ void show(vector<Type> &a, string b, long time)
     cout<<endl;
 }
 
+#if 0
 int main(int argc, char **argv)
 {
     vector<int> num;
@@ -257,6 +338,7 @@ int main(int argc, char **argv)
     show(num4, "quick", timespend);
     return 0;
 }
+#endif
 #endif
 
 #if 0 //gcd
