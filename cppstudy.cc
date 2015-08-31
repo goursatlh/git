@@ -1,3 +1,4 @@
+#if 0
 #include <iostream>
 #include <string>
 #include <iterator>
@@ -11,20 +12,74 @@ using std::endl;
 using std::string;
 using std::vector;
 //using std::initializer_list;
+#endif
 
-void func(initializer_list<string> li)
+#if 1 //pair
+#include <iostream>
+#include <utility>
+
+using std::pair;
+using std::cout;
+using std::cin;
+using std::endl;
+int main()
+{
+   pair<int, int> a(1, 2);
+   cout<<a.first<<endl;
+   cout<<a.second<<endl;
+
+   auto b = make_pair(1,2);
+   return 0;
+}
+#endif
+#if 0 // thread-safe class
+class Counter
+{
+public:
+    Counter(): value_(0){};
+    Counter(int a): value_(a){};
+    int value() const;
+    int getAndIncrease();
+private:
+    int value_;
+};
+
+int Counter::value() const
+{
+    return value_;
+}
+
+int Counter::getAndIncrease()
+{
+    int ret = value_++;
+    return ret;
+}
+
+int main()
+{
+    Counter ci(2);
+    cout<<ci.value()<<endl;
+    return 0;
+}
+
+#endif
+
+#if 0 // smart pointer
+int func(initializer_list<string> li)
 {
     for (auto err = li.begin(); err != li.end(); err++)
     {
         cout<<*err<<endl;
     }
+    return 0;
 }
 
 int main(int argc, char **argv)
 {
-    func({"hello", "world"});
+    //func({"hello", "world"});
     return 0;
 }
+#endif
 
 #if 0 // operator
 class person{

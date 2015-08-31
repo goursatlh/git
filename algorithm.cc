@@ -16,6 +16,55 @@ template <typename Type> int less(Type &, Type &);
 template <typename Type> void exch(Type &, Type &);
 template <typename Type> void show(vector<Type> &);
 
+
+void twosum(vector<int> &a, int num, int target, vector<int> &index)
+{
+    int i = 0; 
+    int j = 0; 
+    int value = 0; 
+    for (i = 0; i < a.size(); i++)
+    {
+        if (a[i] > target) continue;
+        value = target - a[i];
+        for (j = i + 1; j < a.size(); j++)
+        {
+            if (a[j] == value)
+            {
+                index[0] = i;
+                index[1] = j;
+                break;
+            }
+        }
+    }
+}
+int main()
+{
+    int num = 0, target = 0, i = 0;
+    vector<int> array;
+    vector<int> index(2,0);
+    struct timeval tvstart, tvend;
+    long timespend = 0;
+
+    cout<<"please input the number you want to process: "<<endl;
+    cin>>num;
+    while (array.size() < num)
+    {
+        array.push_back(rand()%10000);
+        cout<<array[i++]<<" ";
+    }
+    cout<<endl;
+    cout<<"please input the target: "<<endl;
+    cin>>target;
+    gettimeofday( &tvstart, NULL);
+    twosum(array, array.size(), target, index);
+    gettimeofday( &tvend, NULL);
+    timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
+    cout<<"result: "<<index[0]<<" "<<index[1]<<" time spend: "<<timespend<<endl;
+
+    return 0;
+}
+
+
 template <typename Type>
 void printx(vector<Type> &a)
 {
@@ -86,6 +135,7 @@ string dup(string &a)
     return dupstr;
 }
 
+#if 0
 int main(int argc, char **argv)
 {
     string a;
@@ -97,6 +147,7 @@ int main(int argc, char **argv)
     dup(a);
     return 0;
 }
+#endif
 #endif
 
 #if 1 // sort
