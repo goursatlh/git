@@ -16,19 +16,10 @@ template <typename Type> int less(Type &, Type &);
 template <typename Type> void exch(Type &, Type &);
 template <typename Type> void show(vector<Type> &);
 
-void prints(vector<string> &a)
+template <typename Type>
+void printx(vector<Type> &a)
 {
-    vector<string>::iterator index = a.begin();
-    while (index != a.end())
-    {
-        cout<<*index<<endl;
-        index++;
-    }
-}
-
-void printi(vector<int> &a)
-{
-    vector<int>::iterator index = a.begin();
+    typename vector<Type>::iterator index = a.begin();
     while (index != a.end())
     {
         cout<<*index<<endl;
@@ -75,10 +66,10 @@ string dup(string &a)
         index++;
     }
     cout<<"before sort:"<<endl;
-    prints(s);
+    printx(s);
     sort_quick(s, 0, s.size()-1);
     cout<<"after sort:"<<endl;
-    prints(s);
+    printx(s);
 
     cout<<"s size: "<<s.size()<<endl;
 
@@ -87,12 +78,11 @@ string dup(string &a)
     {
         r.push_back(duplen(s[i], s[i+1]));
     }
-    printi(r);
+    printx(r);
     max = findhuge(r);
-    cout<<"max index: "<<max<<endl;
-    cout<<"max duplicate str: "<<s[max].substr(r[max])<<endl;
+    cout<<"max index: "<<max<<" value: "<<r[max]<<endl;
+    cout<<"max duplicate str: "<<s[max].substr(0,r[max])<<endl;
      
-
     return dupstr;
 }
 
