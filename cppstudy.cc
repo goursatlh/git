@@ -3,12 +3,28 @@
 #include <iterator>
 #include <unistd.h>
 #include <vector>
+#include <initializer_list>
 //using namespace std; // don't use this style code, that may cause name conflict
 using std::cin;
 using std::cout;
 using std::endl;
 using std::string;
 using std::vector;
+//using std::initializer_list;
+
+void func(initializer_list<string> li)
+{
+    for (auto err = li.begin(); err != li.end(); err++)
+    {
+        cout<<*err<<endl;
+    }
+}
+
+int main(int argc, char **argv)
+{
+    func({"hello", "world"});
+    return 0;
+}
 
 #if 0 // operator
 class person{
