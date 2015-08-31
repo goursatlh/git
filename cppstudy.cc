@@ -14,11 +14,48 @@ using std::vector;
 //using std::initializer_list;
 #endif
 
-#if 1 //pair
+
+#if 1
+#include <iostream>
+#include <string>
+#include <map>
+#include <set>
+using std::cout;
+using std::cin;
+using std::endl;
+using std::string;
+using std::map;
+using std::set;
+
+int main()
+{
+   map<string, int> count;
+   //map<string, int> count1 = {{"hello", 2}};
+   //set<string> exclude = {"fuck"};
+   set<string> exclude;
+   string word;
+
+   exclude.insert("fuck");
+   while (cin>>word)
+   {
+       if (exclude.find(word) == exclude.end())
+           ++count[word];
+   }
+   //for (const auto w : count)
+   for (const auto &w : count)
+   {
+       cout<<w.first<<" occurs "<<w.second<<((w.second > 1) ? "times" : "time")<<endl;
+   }
+   return 0;
+}
+#endif
+
+#if 0 //pair
 #include <iostream>
 #include <utility>
 
 using std::pair;
+using std::string;
 using std::cout;
 using std::cin;
 using std::endl;
@@ -28,7 +65,19 @@ int main()
    cout<<a.first<<endl;
    cout<<a.second<<endl;
 
-   auto b = make_pair(1,2);
+   auto b = std::make_pair(1, 1);
+   cout<<b.first<<endl;
+   cout<<b.second<<endl;
+
+   if (a < b)
+       cout<<"a < b"<<endl;
+   else
+       cout<<"a >= b"<<endl;
+
+   pair<int, string> c(1, "hello");
+   cout<<c.first<<endl;
+   cout<<c.second<<endl;
+
    return 0;
 }
 #endif
