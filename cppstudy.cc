@@ -1,4 +1,4 @@
-#if 0
+#if 0 
 #include <iostream>
 #include <string>
 #include <iterator>
@@ -13,7 +13,8 @@ using std::string;
 using std::vector;
 //using std::initializer_list;
 #endif
-#if 1
+
+#if 1      // map / set
 #include <iostream>
 #include <vector>
 #include <string>
@@ -24,17 +25,14 @@ using std::cout;
 using std::cin;
 using std::endl;
 using std::string;
-using std::map;
-using std::set;
-using std::multiset;
 using std::vector;
+using std::set;
+using std::map;
+using std::multiset;
 
 int main()
 {
-#if 0
    map<string, int> count;
-   //map<string, int> count1 = {{"hello", 2}};
-   //set<string> exclude = {"fuck"};
    set<string> exclude;
    string word;
 
@@ -44,12 +42,19 @@ int main()
        if (exclude.find(word) == exclude.end())
            ++count[word];
    }
-   //for (const auto w : count)
+   
    for (const auto &w : count)
    {
        cout<<w.first<<" occurs "<<w.second<<((w.second > 1) ? "times" : "time")<<endl;
    }
-#endif
+
+   //iterator of map is a pair type
+   auto map_it = count.begin();
+   while (map_it != count.end())
+   {
+       cout<<map_it->first<<"  "<<map_it->second<<endl;
+       map_it++;
+   }
 
    vector<int> ivec;
    for (vector<int>::size_type i = 0; i < 10; i++)
@@ -57,21 +62,27 @@ int main()
        ivec.push_back(i);    
        ivec.push_back(i);    
    }
+
    set<int> iset(ivec.cbegin(), ivec.cend());
-   multiset<int> miset(ivec.cbegin(), ivec.cend());
+   multiset<int> miset(ivec.cbegin(), ivec.cend()); // cbegin() return const_iterator
 
    cout<<ivec.size()<<endl;
    cout<<iset.size()<<endl;
    cout<<miset.size()<<endl;
+  
+
    return 0;
 }
 #endif
 
 #if 0 //pair
 #include <iostream>
+#include <vector>
 #include <utility>
 
 using std::pair;
+using std::make_pair;
+using std::vector;
 using std::string;
 using std::cout;
 using std::cin;
@@ -79,10 +90,14 @@ using std::endl;
 int main()
 {
    pair<int, int> a(1, 2);
+   pair<string, string> is("hello", "world");
    cout<<a.first<<endl;
    cout<<a.second<<endl;
+   cout<<is.first<<endl;
+   cout<<is.second<<endl;
+   //vector<string> ss = {"hello", "world"};
 
-   auto b = std::make_pair(1, 1);
+   auto b = make_pair(1, 1);
    cout<<b.first<<endl;
    cout<<b.second<<endl;
 
@@ -94,10 +109,11 @@ int main()
    pair<int, string> c(1, "hello");
    cout<<c.first<<endl;
    cout<<c.second<<endl;
-
+   //c.first = "world"; //error: c.first is a const type
    return 0;
 }
 #endif
+
 #if 0 // thread-safe class
 class Counter
 {
