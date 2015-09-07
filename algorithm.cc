@@ -32,7 +32,7 @@ int* twoSum(int* nums, int numsSize, int target)
 }
 #endif
 
-#if 1 //suffix array // find the longest duplicate substring
+#if 1 //map/set 
 #include <iostream>
 #include <string>
 #include <vector>
@@ -46,14 +46,14 @@ using std::endl;
 using std::string;
 using std::vector;
 using std::multimap;
+using std::map;
 
 template <typename Type> void sort_quick(vector<Type> &, int left, int right);
 template <typename Type> int less(Type &, Type &);
 template <typename Type> void exch(Type &, Type &);
 template <typename Type> void show(vector<Type> &);
 
-
-void twosum(vector<int> &a, int num, int target, vector<int> &index)
+map<int, int> twosum(vector<int> &a, int target)
 {
     int i = 0; 
     int j = 0; 
@@ -66,15 +66,14 @@ void twosum(vector<int> &a, int num, int target, vector<int> &index)
         {
             if (a[j] == value)
             {
-                index[0] = i;
-                index[1] = j;
-                break;
+                return {{i, a[i]}, {j, a[j]}};
             }
         }
     }
+    return map<int, int>();
 }
 
-void twosum_map(multimap<int, int> &a, int target, vector<int> &index)
+map<int, int> twosum_map(multimap<int, int> &a, int target)
 {
     int value = 0;
     for (auto iter = a.begin(); iter != a.end(); iter++)
@@ -85,16 +84,27 @@ void twosum_map(multimap<int, int> &a, int target, vector<int> &index)
         auto iter2 = a.find(value);
         while (iter2 != a.end())
         {
-            cout<<iter.first<<" "<<iter.second<<endl;
-            if (iter.second != iter2.second)
+            if (iter->second != iter2->second)
             {
-                index[0] = iter->second; 
-                index[1] = iter2->second; 
-                break;
+                return {{iter->second, iter->first}, {iter2->second, iter2->first}};
             }
             iter2++;
         }
     }
+    return map<int, int>();
+}
+
+void print_sum(map<int, int> &a, struct timeval tvstart, struct timeval tvend)
+{
+    long timespend;
+
+    cout<<"---------------------------------------------"<<endl;
+    for (auto iter = a.begin(); iter != a.end(); iter++)
+    {
+        cout<<iter->first<<": "<<iter->second<<endl; 
+    }
+    timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
+    cout<<"time spend: "<<timespend<<" us"<<endl;
 }
 
 int main()
@@ -102,17 +112,14 @@ int main()
     int num = 0, target = 0, i = 0;
     vector<int> array;
     multimap<int, int> imap;
-    pair<int, int> ret;
-    vector<int> index(2,0);
     struct timeval tvstart, tvend;
-    long timespend = 0;
 
     cout<<"please input the number you want to process: "<<endl;
     cin>>num;
     while (array.size() < num)
     {
         array.push_back(rand()%10000);
-        imap.insert(array[i], i);
+        imap.insert(std::make_pair(array[i], i));
         cout<<array[i++]<<" ";
     }
     cout<<endl;
@@ -120,20 +127,19 @@ int main()
     cin>>target;
 
     gettimeofday( &tvstart, NULL);
-    twosum(array, array.size(), target, index);
+    auto ret = twosum(array, target);
     gettimeofday( &tvend, NULL);
-    timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
-    cout<<"result: "<<index[0]<<" "<<index[1]<<" time spend: "<<timespend<<endl;
+    print_sum(ret, tvstart, tvend);
     
     gettimeofday( &tvstart, NULL);
-    twosum_map(imap, imap.size(), target, index);
+    ret = twosum_map(imap, target);
     gettimeofday( &tvend, NULL);
-    timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
-    cout<<"result: "<<index[0]<<" "<<index[1]<<" time spend: "<<timespend<<endl;
+    print_sum(ret, tvstart, tvend);
     return 0;
 }
+#endif
 
-
+#if 0
 template <typename Type>
 void printx(vector<Type> &a)
 {
@@ -204,7 +210,6 @@ string dup(string &a)
     return dupstr;
 }
 
-#if 0
 int main(int argc, char **argv)
 {
     string a;
@@ -216,7 +221,6 @@ int main(int argc, char **argv)
     dup(a);
     return 0;
 }
-#endif
 #endif
 
 #if 1 // sort

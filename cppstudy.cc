@@ -1,3 +1,28 @@
+
+#if 1 //file input and output //ifstream ofstream fstream
+#include <iostream>
+#include <fstream>
+#include <string>
+using std::ifstream;
+using std::ofstream;
+using std::string;
+using std::cout;
+using std::endl;
+
+int main()
+{
+    ifstream in("test");
+    ofstream out("output");
+    string s;
+    while (getline(in, s))
+    {
+        cout<<s<<endl;
+        s>>out;
+    }
+    return 0;
+}
+#endif
+
 #if 0 
 #include <iostream>
 #include <string>
@@ -14,7 +39,7 @@ using std::vector;
 //using std::initializer_list;
 #endif
 
-#if 1      // map / set
+#if 0      // map / set
 #include <iostream>
 #include <vector>
 #include <string>
@@ -27,13 +52,15 @@ using std::endl;
 using std::string;
 using std::vector;
 using std::set;
-using std::map;
 using std::multiset;
+using std::map;
+using std::multimap;
+using std::pair;
 
 int main()
 {
    map<string, int> count;
-   set<string> exclude;
+   set<string> exclude = {"hello"};
    string word;
 
    exclude.insert("fuck");
@@ -69,7 +96,41 @@ int main()
    cout<<ivec.size()<<endl;
    cout<<iset.size()<<endl;
    cout<<miset.size()<<endl;
+ 
+   multimap<string, int> map2 = {{"hello", 1}, {"world", 1}, {"fuck", 1}, {"you", 1}, {"then", 1}};
+   auto iter2 = map2.insert(std::make_pair("hello", 0));
+   cout<<"map2: "<<iter2->first<<" "<<iter2->second<<endl;
   
+   //find and count
+   auto cou = map2.count("hello");
+   cout<<"hello number: "<<cou<<endl;
+   auto iter3 = map2.find("hello");
+   while (cou)
+   {
+       cout<<"map3: "<<iter3->first<<" "<<iter3->second<<endl;
+       iter3++;
+       cou--;
+   }
+
+   //lower_bound and upper_bound
+   for (auto beg = map2.lower_bound("hello"), end = map2.upper_bound("hello"); beg != end; beg++)
+   {
+       cout<<"map3 2: "<<beg->first<<" "<<beg->second<<endl;
+   }
+
+   auto iter4 = map2.lower_bound("halat");
+   cout<<"iter4: "<<iter4->first<<" "<<iter4->second<<endl;
+   auto iter5 = map2.upper_bound("halat");
+   cout<<"iter5: "<<iter5->first<<" "<<iter5->second<<endl;
+
+   //equal_range  reutrn a pair 
+   for (auto pos = map2.equal_range("hello"); pos.first != pos.second; ++(pos.first))
+   //for (pair<multimap<string, int>::iterator, multimap<string, int>::iterator> pos = map2.equal_range("hello"); 
+   //     pos.first != pos.second; ++(pos.first))
+   {
+       cout<<"iter6: "<<pos.first->first<<" "<<pos.first->second<<endl;
+       cout<<"iter6: "<<pos.second->first<<" "<<pos.second->second<<endl;
+   }
 
    return 0;
 }
