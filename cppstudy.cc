@@ -1,8 +1,55 @@
 
-#if 1 //file input and output //ifstream ofstream fstream
+#if 0 //unordered_map: a hash struct ?
+#include <iostream>
+#include <string>
+#include <unordered_map>
+
+using std::cin;
+using std::cout;
+using std::endl;
+using std::string;
+using std::unordered_map;
+
+int main()
+{
+    unordered_map<string, int> imap;
+    string word;
+
+    while (cin>>word)
+    {
+        //imap.insert(make_pair(word, 1));
+        ++imap[word]; // if the element doesn't exist, insert it.
+    }
+    
+    for (auto beg = imap.begin(); beg != imap.end(); beg++)
+    {
+        cout<<beg->first<<" "<<beg->second<<endl; //it seems that the order is inverted for the input.
+    }
+   
+    cout<<"map size: "<<imap.size()<<endl;
+    cout<<"bucket number: "<<imap.bucket_count()<<endl;
+    cout<<"max bucket number supported: "<<imap.max_bucket_count()<<endl;
+    cout<<"average number of elements per bucket: "<<imap.load_factor()<<endl;
+    cout<<"max average number of elements per bucket: "<<imap.max_load_factor()<<endl;
+    for (auto i = 0; i < imap.bucket_count(); i++)
+    {
+        cout<<"bucket "<<i<<" size: "<<imap.bucket_size(i)<<endl;
+        for (auto j = imap.begin(i); j != imap.end(i); j++)
+        {
+            cout<<"bucket "<<i<<" element "<<j->first<<" "<<j->second<<endl;        
+        }
+    }
+    return 0;
+}
+#endif
+
+#if 0 //file input and output //ifstream ofstream fstream
+      // istream ifstream istringstream
+      // ostream ofstream ostringstream
 #include <iostream>
 #include <fstream>
 #include <string>
+
 using std::ifstream;
 using std::ofstream;
 using std::string;
@@ -17,7 +64,7 @@ int main()
     while (getline(in, s))
     {
         cout<<s<<endl;
-        s>>out;
+        out<<s<<endl;
     }
     return 0;
 }
@@ -132,6 +179,29 @@ int main()
        cout<<"iter6: "<<pos.second->first<<" "<<pos.second->second<<endl;
    }
 
+   //delete elements with the specified key.
+   auto num = map2.count("hello");
+   if (num > 0)
+   {
+       cout<<"erase element "<<map2.erase("hello")<<endl;
+   }
+   cout<<"after erase hello: "<<endl;
+   for (auto iter9 = map2.begin(); iter9 != map2.end(); iter9++)
+   {
+       cout<<"iter9 "<<iter9->first<<" "<<iter9->second<<endl;
+   }
+
+   auto iter7 = map2.find("world");
+   if (iter7 != map2.end())
+   {
+       auto iter8 = map2.erase(iter7);
+       cout<<"after erase, iter denote "<<iter8->first<<" "<<iter8->second<<endl;
+   }
+   cout<<"after erase world: "<<endl;
+   for (auto iter10 = map2.begin(); iter10 != map2.end(); iter10++)
+   {
+       cout<<"iter10 "<<iter10->first<<" "<<iter10->second<<endl;
+   }
    return 0;
 }
 #endif
