@@ -1,3 +1,70 @@
+#if 1 //word transport program
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <map>
+
+using std::cout;
+using std::cin;
+using std::endl;
+using std::string;
+using std::ifstream;
+using std::ofstream;
+using std::istringstream;
+using std::map;
+
+// get one line, use getline()
+// get one word use >> and istringstream
+
+int main(int argc, char **argv)
+{
+    ifstream map_file("test1");
+    ifstream input_file("test2");
+    string key, value, text, word;
+    map<string, string> trans_map;
+
+    /* create the transport map */
+    while (map_file>>key && getline(map_file, value))
+    {
+        if (value.size() > 1)
+        {
+            trans_map[key] = value.substr(1);
+        }
+        else
+        {
+            cout<<"wrong format of trans file"<<endl;
+        }
+    }
+
+    for (auto iter = trans_map.begin(); iter != trans_map.end(); iter++)
+    {
+        cout<<iter->first<<"=>"<<iter->second<<endl;
+    }
+
+    while (getline(input_file, text))
+    {
+        cout<<"original text: "<<text<<endl;
+        istringstream streamtmp(text);
+        cout<<"after convert: ";
+        while (streamtmp>>word)
+        {
+            auto iter1 = trans_map.find(word);
+            if (iter1 != trans_map.end())
+            {
+                cout<<iter1->second;
+            }
+            else
+            {
+                cout<<word<<" ";
+            }
+        }
+        cout<<endl;
+    }
+    
+    return 0;
+}
+#endif
 
 #if 0 //unordered_map: a hash struct ?
 #include <iostream>
