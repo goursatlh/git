@@ -1,4 +1,39 @@
-#if 1 //word transport program
+#if 1 //smart pointer
+#include <iostream>
+#include <string>
+#include <memory>
+#include <vector>
+using std::cout;
+using std::endl;
+using std::string;
+using std::shared_ptr;
+using std::make_shared;
+using std::vector;
+int main()
+{
+    shared_ptr<string> p1 = make_shared<string>(10, '9');
+    cout<<*p1<<endl;
+    auto q(p1);
+    cout<<*q<<endl;
+    cout<<p1.use_count()<<endl;
+    auto r = make_shared<string>();
+    q = r;
+    cout<<p1.use_count()<<endl;
+    cout<<r.use_count()<<endl;
+    cout<<sizeof(p1)<<endl;//why 16 bytes
+
+    vector<string> v1;
+    {
+        vector<string> v2 = {"hello", "world"};
+        v1 = v2;
+    }
+    cout<<v1[0]<<endl;
+
+    return 0;
+}
+#endif
+
+#if 0 //word transport program
 #include <iostream>
 #include <fstream>
 #include <sstream>
