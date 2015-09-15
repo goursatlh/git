@@ -1,18 +1,78 @@
-#if 1 //smart pointer
+#if 1
+#include <iostream>
+#include <memory>
+using std::cout;
+using std::endl;
+using std::allocator;
+
+int main()
+{
+    int *p = new int[100]{1,2,3,4};
+    delete [] p;
+
+    allocator<int> alloc;
+    auto p1 = alloc.allocate(10);
+    alloc.construct(p1, 1234);
+    cout<<p1<<" "<<*p1<<endl;
+    alloc.construct(++p1, 5678);
+    cout<<p1<<" "<<*p1<<endl;
+
+    return 0;
+}
+#endif
+
+#if 0 //type conversion
+#include <iostream>
+using std::cout;
+using std::endl;
+int main()
+{
+    double dval = 3.14;
+    const int &ri = dval;
+    //int &ri = dval; //error
+    cout<<ri<<endl;
+    return 0;
+}
+#endif
+
+#if 0 //smart pointer
 #include <iostream>
 #include <string>
 #include <memory>
 #include <vector>
+
 using std::cout;
 using std::endl;
 using std::string;
 using std::shared_ptr;
 using std::make_shared;
 using std::vector;
+
+shared_ptr<int> factory(int a)
+{
+    return make_shared<int>(a);
+}
+
+void print(shared_ptr<int> p)
+{
+    cout<<"in print func "<<p.use_count()<<endl;
+    cout<<"p "<<p<<" p value "<<*p<<endl;
+}
+
+void print_ref(shared_ptr<int> &p)
+{
+    cout<<"in print_ref func "<<p.use_count()<<endl;
+    cout<<"p "<<p<<" p value "<<*p<<endl;
+}
+
 int main()
 {
     shared_ptr<string> p1 = make_shared<string>(10, '9');
+    shared_ptr<string> p2; //p2 is 0 if it has not pointer to a object
     cout<<*p1<<endl;
+    cout<<p1.get()<<endl;
+    cout<<p1<<endl;
+    cout<<p2<<endl;
     auto q(p1);
     cout<<*q<<endl;
     cout<<p1.use_count()<<endl;
@@ -22,13 +82,34 @@ int main()
     cout<<r.use_count()<<endl;
     cout<<sizeof(p1)<<endl;//why 16 bytes
 
-    vector<string> v1;
-    {
-        vector<string> v2 = {"hello", "world"};
-        v1 = v2;
-    }
-    cout<<v1[0]<<endl;
+    auto p3 = factory(1);
+    cout<<p3.use_count()<<endl;
 
+    shared_ptr<int> i(new int(4));
+    cout<<"i "<<i<<" count "<<i.use_count()<<endl;
+    print(i);
+    cout<<i.use_count()<<endl;
+    print_ref(i);
+    cout<<i.use_count()<<endl;
+
+    int *p(new int(4));
+    print(shared_ptr<int>(p));
+    int j = *p; //this is dangerous
+    //free(p); //this will cause a run error: p has been freed twice.
+
+    shared_ptr<int> p4(new int(4)); //what difference between new and make_shared to assign to shared_ptr
+    //shared_ptr<int> p4 = make_shared<int>(4);
+    int *q4 = p4.get();
+    {
+        shared_ptr<int>(q4);
+    }
+    auto a = *p4; //this is dangerous! memory has been deleted already.
+
+    shared_ptr<int> p5(new int(38));
+    if (p5.unique())
+        p5.reset(new int(1));//does reset decreases the reference of the old pointed memory for p5;
+
+    cout<<*p5<<endl;
     return 0;
 }
 #endif
@@ -1014,6 +1095,12 @@ int main()
 
 #if 0
 //direct initialize and copy initialize
+#include <iostream>
+
+using std::cin;
+using std::cout;
+using std::endl;
+
 class ClassTest
 {
     public:
@@ -1030,6 +1117,7 @@ class ClassTest
             return *this;
         }
         
+        //explicit ClassTest(const char *pc)
         ClassTest(const char *pc)
         {
             strcpy(c, pc);
@@ -1051,18 +1139,22 @@ int main()
     cout<<"ct1: ";
     ClassTest ct1("ab");
     cout<<"ct2: ";
-    ClassTest ct2 = "ab";
+    ClassTest ct2 = "ab"; //converting constructor
     cout<<"ct3: ";
     ClassTest ct3 = ct1;
     cout<<"ct4: ";
     ClassTest ct4(ct1);
-    cout<<"ct5: ";
-    ClassTest ct5 = ClassTest();
+    //cout<<"ct5: ";
+    //ClassTest ct5 = ClassTest();
     return 0;
 }
 #endif
 
 #if 0
+#include <iostream>
+
+using std::cout;
+using std::endl;
 class CExample 
 {
     private:
@@ -1110,35 +1202,47 @@ int main()
 #endif
 
 #if 0
+#include <iostream>
+using std::cout;
+using std::endl;
 class Rect
 {
     public:
         Rect()      
         {
             count++;
-            cout<<"add"<<endl;
+            p = new int(1);
+            cout<<"add default"<<endl;
         }
-#if 0
+#if 1
         Rect(const Rect & rec)   //why add const   
         {
             width = rec.width;
             height = rec.height;
+            p = new int(1);
             count++;
-            cout<<"add"<<endl;
+            cout<<"add copy"<<endl;
         }
 #endif
         ~Rect()     
         {
             count--;
+            if (p)
+                delete p;
             cout<<"del"<<endl;
         }
         static int getCount()       
         {
             return count;
         }
+        void show()
+        {
+            cout<<p<<endl;
+        }
     private:
         int width;
         int height;
+        int *p;
         static int count;       
 };
 
@@ -1148,10 +1252,15 @@ int main()
 {
     Rect rect1;
     cout<<"The count of Rect: "<<Rect::getCount()<<endl;
+    rect1.show();
 
     Rect rect2(rect1);   
     cout<<"The count of Rect: "<<Rect::getCount()<<endl;
+    rect2.show();
 
+    Rect rect3 = rect1;   
+    cout<<"The count of Rect: "<<Rect::getCount()<<endl;
+    rect3.show();
     return 0;
 }
 #endif
