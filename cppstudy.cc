@@ -10,13 +10,14 @@ int main()
     int *p = new int[100]{1,2,3,4};
     delete [] p;
 
-    allocator<int> alloc;
-    auto p1 = alloc.allocate(10);
-    alloc.construct(p1, 1234);
+    allocator<int> al;
+    auto p1 = al.allocate(10); //only alloc memory, not construct
+    al.construct(p1, 1234);
     cout<<p1<<" "<<*p1<<endl;
-    alloc.construct(++p1, 5678);
+    al.construct(++p1, 5678);
     cout<<p1<<" "<<*p1<<endl;
 
+    al.destroy(p1);
     return 0;
 }
 #endif
@@ -894,22 +895,46 @@ int main()
 }
 #endif
 
-#if 0 //vector push_back
+#if 0 //vector size and capacity
+#include <iostream>
+#include <vector>
+#include <string>
+
+using std::cout;
+using std::endl;
+using std::vector;
+using std::string;
+
 int main()
 {
-    vector<string> str(1);
-    str[0] = "hello world";
-    cout<<str[0]<<endl;
+    vector<int> str;
+    cout<<str.size()<<endl;
+    cout<<str.capacity()<<endl;
+    for (vector<int>::size_type ix = 0; ix != 24; ix++)
+    {
+        auto iter = str.end();
+        str.insert(iter, ix); 
+        //str.push_back(ix);
+    }
+    cout<<str.size()<<endl;
+    cout<<str.capacity()<<endl;
+    
+    str.reserve(33); //set the capacity to the specified
+    cout<<str.size()<<endl;
+    cout<<str.capacity()<<endl;
 
-    vector<string> strnull;
-    cout<<"strnull size "<<strnull.size()<<endl;
-    strnull.push_back("hello world");
-    cout<<"strnull size "<<strnull.size()<<endl;
-    cout<<strnull[0]<<endl;
+    while (str.size() != str.capacity())
+    {
+        str.push_back(0);
+    }
+    str.push_back(0);
+    cout<<str.size()<<endl;
+    cout<<str.capacity()<<endl;
 
-    vector<string>::iterator iter = strnull.begin();
-    cout<<*iter<<endl;
-
+    str.shrink_to_fit();
+    cout<<str.size()<<endl;
+    cout<<str.capacity()<<endl;
+    
     return 0;
 }
 #endif
