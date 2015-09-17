@@ -1,9 +1,56 @@
-#if 1
+#if 1 //query word program
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <vector>
+#include <map>
+using std::cout;
+using std::cin;
+using std::endl;
+using std::ifstream;
+using std::string;
+using std::vector;
+using std::map;
+
+int main()
+{
+    vector<string> iword;
+    string str;
+    map<string, int> imap;
+    ifstream input("test1");
+
+    while (getline(input, str))
+    {
+        iword.push_back(str);
+    }
+    auto iter = iword.begin();
+    while (iter != iword.end())
+    {
+        cout<<*iter<<endl;
+        iter++;
+    }
+
+    //create the map map<string, line>
+    for (int idex = 0; idex != iword.size(); idex++)
+    {
+        
+    }
+    return 0;    
+}
+
+#endif
+#if 0 //allocator
 #include <iostream>
 #include <memory>
+#include <string>
+#include <vector>
+
 using std::cout;
 using std::endl;
 using std::allocator;
+using std::string;
+using std::vector;
+using std::uninitialized_fill_n;
 
 int main()
 {
@@ -12,12 +59,34 @@ int main()
 
     allocator<int> al;
     auto p1 = al.allocate(10); //only alloc memory, not construct
+    auto p2 = p1;
     al.construct(p1, 1234);
     cout<<p1<<" "<<*p1<<endl;
     al.construct(++p1, 5678);
     cout<<p1<<" "<<*p1<<endl;
 
     al.destroy(p1);
+    al.deallocate(p2, 1); //first para must be the return of allocate()
+
+    allocator<string> stral;
+    auto q = stral.allocate(1); //how to get the size of the alloced memory;
+    auto q1 = q;
+    stral.construct(q, 10, 'h');
+    cout<<*q<<endl;
+    stral.construct(++q, 10, 's');
+    cout<<*q<<endl;
+
+    stral.deallocate(q1, 1);
+
+    vector<int> vi = {1, 2, 3, 4};
+    allocator<int> ali;
+    auto ri = ali.allocate(vi.size()*2);
+    auto ri2 = uninitialized_copy(vi.begin(), vi.end(), ri);
+    auto ri3 = uninitialized_fill_n(ri2, vi.size(), 38);
+    cout<<*ri<<endl;
+    cout<<*ri2<<endl;
+
+
     return 0;
 }
 #endif
