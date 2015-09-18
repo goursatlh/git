@@ -1,44 +1,169 @@
+#if 0 //move constructor
+#include <iostream>
+#include <vector>
+
+using std::cout;
+using std::endl;
+using std::vector;
+
+int main()
+{
+    vector<int> ivec{1,2,3};
+    vector<int> ivec2(ivec.begin(),ivec.end());
+    vector<int> ivec3(make_move_iterator(ivec.begin()), make_move_iterator(ivec.end()));
+    cout<<ivec.size()<<endl;
+    cout<<ivec2.size()<<endl;
+    cout<<ivec3.size()<<endl;
+    ivec3.push_back(0);
+    cout<<ivec.size()<<endl;
+    cout<<ivec3.size()<<endl;
+    ivec2.push_back(0);
+    return 0;
+}
+#endif
 #if 1 //query word program
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <sstream>
 #include <vector>
 #include <map>
 using std::cout;
 using std::cin;
 using std::endl;
 using std::ifstream;
+using std::istringstream;
 using std::string;
 using std::vector;
-using std::map;
+using std::multimap;
 
+#if 0 //c_style code
 int main()
 {
-    vector<string> iword;
-    string str;
-    map<string, int> imap;
-    ifstream input("test1");
+    vector<string> line;
+    string word;
+    string temp;
+    multimap<string, int> imap;
+    ifstream input("test3");
+    istringstream str;
 
-    while (getline(input, str))
+    while (getline(input, word))
     {
-        iword.push_back(str);
+        line.push_back(word);
     }
-    auto iter = iword.begin();
-    while (iter != iword.end())
+    auto iter = line.begin();
+    while (iter != line.end())
     {
         cout<<*iter<<endl;
         iter++;
     }
 
-    //create the map map<string, line>
-    for (int idex = 0; idex != iword.size(); idex++)
+    //create the map map<string, line> from the vector
+    for (int idex = 0; idex != line.size(); idex++)
     {
-        
+        istringstream str(line[idex]);
+        while (str >> temp)
+        {
+            imap.insert(make_pair(temp, idex));
+        }
+    }
+    auto iter2 = imap.begin();
+    while (iter2 != imap.end())
+    {
+        cout<<iter2->first<<" "<<iter2->second<<endl;
+        iter2++;
+    }
+
+    string query;
+    cout<<"please input the word you want to find: "<<endl;
+    cin>>query;
+
+    auto num = imap.count(query);
+    auto iter3 = imap.find(query);
+    for (auto i = 0; i < num; i++)
+    {
+        cout<<"line:"<<iter3->second<<" "<<line[iter3->second]<<endl;
+        iter3++;
     }
     return 0;    
 }
-
 #endif
+
+#if 1 //c++_style code
+class TextQuery 
+{
+    vector<string> line;
+    multimap<string, int> imap;
+public:
+    TextQuery(string &);
+    void Query(string &);
+    void Show();
+};
+
+TextQuery::TextQuery(string &file_name)
+{
+    string word;
+    string temp;
+    ifstream input(file_name);
+    while (getline(input, word))
+    {
+        line.push_back(word);
+    }
+    
+    for (int idex = 0; idex != line.size(); idex++)
+    {
+        istringstream str(line[idex]);
+        while (str >> temp)
+        {
+            imap.insert(make_pair(temp, idex));
+        }
+    }
+}
+
+void TextQuery::Show()
+{
+    auto iter = line.begin();
+    while (iter != line.end())
+    {
+        cout<<*iter<<endl;
+        iter++;
+    }
+}
+
+void TextQuery::Query(string &query)
+{
+    auto num = imap.count(query);
+    auto iter3 = imap.find(query);
+    for (auto i = 0; i < num; i++)
+    {
+        cout<<"line:"<<iter3->second<<" "<<line[iter3->second]<<endl;
+        iter3++;
+    }
+}
+
+int main()
+{
+    string name;
+    string word;
+    cout<<"please input the file name: "<<endl;
+    cin>>name;
+    TextQuery a(name);
+    a.Show();
+
+    cout<<"please input the word your want to find: "<<endl;
+    cin>>word;
+    a.Query(word);
+
+    int i = 3;
+    int &refi = i;
+    //int &refi2 = i * 2;
+    const int &refi3 = i * 2;
+
+    return 0;
+}
+#endif
+#endif
+
 #if 0 //allocator
 #include <iostream>
 #include <memory>
