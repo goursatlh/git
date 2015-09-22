@@ -21,7 +21,7 @@ int main()
     return 0;
 }
 #endif
-#if 1 //query word program
+#if 0 //query word program
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -89,7 +89,7 @@ int main()
 }
 #endif
 
-#if 1 //c++_style code
+#if 0 //c++_style code
 class TextQuery 
 {
     vector<string> line;
@@ -1051,40 +1051,70 @@ int main()
 }
 #endif
 
-#if 0
+#if 1
+#include <iostream>
+#include <string>
+#include <vector>
+using std::cout;
+using std::endl;
+using std::vector;
+using std::string;
+
 class A
 {
 public:
     int a;
+    string b;
+#if 1
     A()
     {
         a = 1;
+        b = "hello world";
         cout<<"constrct class A object"<<endl;
     }
+#endif
+#if 1
     A(const class A &c)
     {
-        //this->a = a.a;
         a = c.a;
+        b = c.b;
         cout<<"constrct class A object with copy constrct"<<endl;
+    }
+#endif
+    A& operator=(const A &c)
+    {
+        a = c.a;
+        b = c.b;
+        cout<<"constrct class A object with operator="<<endl;
+        return *this;
     }
     ~A()
     {
         a--;
         cout<<"disconstrct class A object"<<endl;
     }
+    void test(const A &);
 };
 
-void test(class A a)
-//void test(class A &a)
+void A::test(const A &a)
 {
-    cout<<"class a "<<a.a<<endl;
+    cout<<"class a "<<a.a<<" "<<a.b<<endl;
 }
 
 int main()
 {
     A c;
-    test(c);
-    cout<<c.a<<endl;
+    //vector<A> a;
+    //a.push_back(c); //vector doesn't support insert, but push api xxxx no
+
+    
+    //A b = c;
+    A b;
+    b = c;
+#if 0
+    string tem("hello world");
+    A::test(tem); //why can not use implicit comversion?
+#endif
     return 0;
 }
 #endif
