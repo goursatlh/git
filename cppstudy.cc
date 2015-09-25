@@ -1,3 +1,176 @@
+#if 1
+#include <iostream>
+#include <string>
+#include <memory>
+
+using std::cout;
+using std::endl;
+using std::string;
+using std::allocator;
+
+class StrVec {
+public:
+   StrVec(): elements(nullptr), first_free(nullptr), cap(nullptr) {}
+   StrVec(const StrVec &) {}
+   StrVec& operator=(const StrVec &) {}
+   ~StrVec() {}
+
+   void push_back(const string &);
+   size_t size() { return first_free - elements; }
+   size_t capacity() { return cap - elements; }
+   string* begin() { return elements; }
+   string* end() { return first_free; }
+
+private:
+    allocator<string> alloc;
+    void chk_n_alloc() {}
+    //pair<string*, string*> alloc_n_copy() {}
+    void free() {}
+    void reallocate() {}
+
+    string *elements;
+    string *first_free;
+    string *cap;
+};
+
+#define MAX_BUFF 128
+void StrVec::push_back(const string &s)
+{
+    if (elements == cap) //null vec
+    {
+        elements = alloc.allocate(MAX_BUFF);
+        alloc.construct(elements, s);
+    }
+    else
+    {
+        alloc.construct(first_free, s);
+    }
+    first_free = first_size + s.size();
+}
+
+int main()
+{
+    StrVec vec;
+    vec.push_back("hello world");
+    auto iter = vec.begin();
+    cout<<*iter<<endl;
+    return 0;
+}
+#endif
+#if 0 //copy initialize for initialized_list
+#include <iostream>
+#include <vector>
+
+using std::cout;
+using std::endl;
+using std::vector;
+
+class X {
+public:
+    X() { cout <<"X()"<<endl; }
+    X(const X&) { cout<<"X(const X&)"<<endl; }
+    X& operator = (const  X&) 
+    { 
+        cout<<"X& operator = (const X&)"<<endl; 
+        return *this; 
+    }
+    ~X() { cout<< "~X()"<<endl; }
+};
+
+int main()
+{
+    X x = X();
+    //vector<X> vec_x{ x };
+    //vector<X> vec_x = {x};
+}
+
+#endif
+
+
+#if 0 //copy control  class has valuelike and pointerlike members.
+
+#include <iostream>
+#include <string>
+
+using std::cout;
+using std::endl;
+using std::string;
+
+#if 1 //this is pointerlike
+class HasPtr {
+public:
+    HasPtr(const string &s = string()): ps(new string(s)), i(0), use(new int(1)) {} // 1, Is this default constructor? 
+    HasPtr(const HasPtr &p): ps(p.ps), i(p.i), use(*(p.use)){ (*use)++};
+    HasPtr& operator=(const HasPtr &);
+    ~HasPtr();
+private:
+    string *ps;
+    int i;
+    int *use;
+};
+
+HasPtr & HasPtr::operator=(const HasPtr &rhs)
+{
+    (++*(rhs.use));
+    if (--(*use))
+    {
+        delete ps;
+        delete use;
+    }
+    ps = rhs.ps;
+    i = rhs.i;
+    use = rhs.use;
+    return *this;
+}
+
+HasPtr::~HasPtr()
+{
+    (*use)--;
+    if (*use == 0)
+    {
+        delete ps;
+        delete use;
+    }
+}
+#endif
+#if 0//this if valuelike
+class HasPtr {
+public:
+    HasPtr(const string &s = string()): ps(new string(s)), i(0) {} // 1, Is this default constructor? 
+                                                               //2, why use new to define a null string, why not use nullptr to assign the ps pointer
+    //HasPtr(const HasPtr &p): ps(new string(*p.ps)), i(p.i){}
+    HasPtr(const HasPtr &p);
+    HasPtr & operator=(const HasPtr &);
+    ~HasPtr(){delete ps;}
+private:
+    string *ps;
+    int i; 
+};
+
+HasPtr & HasPtr::operator=(const HasPtr &rhs)
+{
+    auto newp = new string(*rhs.ps);
+    delete ps;
+    ps = newp;
+    i = rhs.i;
+    return *this;
+}
+
+HasPtr::HasPtr(const HasPtr &p)
+{
+    ps = new string(*p.ps);
+    i = p.i;
+}
+#endif
+
+int main()
+{
+    HasPtr temp;
+    return 0;
+}
+
+#endif
+
 #if 0 //move constructor
 #include <iostream>
 #include <vector>
@@ -1051,7 +1224,7 @@ int main()
 }
 #endif
 
-#if 1
+#if 0
 #include <iostream>
 #include <string>
 #include <vector>
@@ -1062,7 +1235,6 @@ using std::string;
 
 class A
 {
-public:
     int a;
     string b;
 #if 1
@@ -1073,6 +1245,7 @@ public:
         cout<<"constrct class A object"<<endl;
     }
 #endif
+public:
 #if 1
     A(const class A &c)
     {
