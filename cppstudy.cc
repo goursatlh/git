@@ -1,3 +1,45 @@
+#if 0 // container adaptor: stack, queue, priority queue
+#include <iostream>
+#include <stack>
+#include <queue>
+using std::cout;
+using std::endl;
+using std::stack;
+using std::queue;
+
+int main(void)
+{
+    // stack
+    stack<int> iStack; // what relationship between stack and sequential container
+                       // why use deque to construct the stack, why not use vector?
+
+    for (int idx = 0; idx < 10; idx++)
+    {
+        iStack.push(idx);
+    }
+    
+    while (!iStack.empty())
+    {
+        cout<<iStack.top()<<" "<<&(iStack.top())<<endl; // why does stack grow from low to high?
+        iStack.pop();
+    }
+
+    // queue and priority queue
+    queue<int> iQueue;
+    for (int idx = 0; idx < 10; idx++)
+    {
+        iQueue.push(idx);
+    }
+    while (!iQueue.empty())
+    {
+        cout<<iQueue.front()<<" "<<&(iQueue.front())<<endl; 
+        iQueue.pop();
+    }
+
+    return 0;
+}
+#endif
+
 #if 1
 #include <iostream>
 #include <string>
@@ -13,6 +55,7 @@ public:
    StrVec(): elements(nullptr), first_free(nullptr), cap(nullptr) {}
    StrVec(const StrVec &) {}
    StrVec& operator=(const StrVec &) {}
+   StrVec* operator++(const StrVec *src) { return src + src->size(); }
    ~StrVec() {}
 
    void push_back(const string &);
@@ -36,27 +79,33 @@ private:
 #define MAX_BUFF 128
 void StrVec::push_back(const string &s)
 {
+    cout<<first_free<<endl;
     if (elements == cap) //null vec
     {
         elements = alloc.allocate(MAX_BUFF);
         alloc.construct(elements, s);
+        first_free = elements + s.size();
     }
     else
     {
         alloc.construct(first_free, s);
+        first_free = first_free + s.size();
     }
-    first_free = first_size + s.size();
 }
 
 int main()
 {
     StrVec vec;
     vec.push_back("hello world");
-    auto iter = vec.begin();
-    cout<<*iter<<endl;
+    vec.push_back("fuck you then");
+    for (auto iter = vec.begin(); iter != vec.end(); iter++)
+    {
+        cout<<*iter<<endl;
+    }
     return 0;
 }
 #endif
+
 #if 0 //copy initialize for initialized_list
 #include <iostream>
 #include <vector>
@@ -173,27 +222,37 @@ int main()
 
 #if 0 //move constructor
 #include <iostream>
-#include <vector>
 
 using std::cout;
 using std::endl;
-using std::vector;
+
+class A {
+public:
+    A(): a(1), b(2) {}
+    A(A &&s): a(s.a), b(s.b) { cout<<"move"<<endl; }
+    A(const A &s): a(s.a), b(s.b) { cout<<"copy"<<endl; }
+    void show() 
+    { 
+        cout<<a<<" "<<&a<<" "<<b<<" "<<&b<<endl; 
+    }
+    ~A() { cout<<"destructor"<<endl; }
+private:
+    int a;
+    int b;
+};
 
 int main()
 {
-    vector<int> ivec{1,2,3};
-    vector<int> ivec2(ivec.begin(),ivec.end());
-    vector<int> ivec3(make_move_iterator(ivec.begin()), make_move_iterator(ivec.end()));
-    cout<<ivec.size()<<endl;
-    cout<<ivec2.size()<<endl;
-    cout<<ivec3.size()<<endl;
-    ivec3.push_back(0);
-    cout<<ivec.size()<<endl;
-    cout<<ivec3.size()<<endl;
-    ivec2.push_back(0);
+    A a;
+    a.show();
+    A b(a);
+    b.show();
+    A c(std::move(a));
+    c.show();
     return 0;
 }
 #endif
+
 #if 0 //query word program
 #include <iostream>
 #include <string>
