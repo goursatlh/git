@@ -40,7 +40,7 @@ int main(void)
 }
 #endif
 
-#if 1
+#if 0
 #include <iostream>
 #include <string>
 #include <memory>
@@ -220,7 +220,7 @@ int main()
 
 #endif
 
-#if 0 //move constructor
+#if 1 //move constructor
 #include <iostream>
 
 using std::cout;
@@ -228,17 +228,27 @@ using std::endl;
 
 class A {
 public:
-    A(): a(1), b(2) {}
-    A(A &&s): a(s.a), b(s.b) { cout<<"move"<<endl; }
-    A(const A &s): a(s.a), b(s.b) { cout<<"copy"<<endl; }
+    A(): a(1), b(2), p(new int[10]) {} // how to initalize the new int[] when define
+    A(A &&s) noexcept : a(s.a), b(s.b), p(s.p) 
+    {
+        s.p = nullptr;
+        cout<<"move"<<endl; 
+    }
+    A(const A &s): a(s.a), b(s.b), p(new int[10]) { cout<<"copy"<<endl; }
     void show() 
     { 
-        cout<<a<<" "<<&a<<" "<<b<<" "<<&b<<endl; 
+        cout<<a<<" "<<&a<<" "<<b<<" "<<&b<<" "<<p<<endl; 
     }
-    ~A() { cout<<"destructor"<<endl; }
-private:
+    ~A() 
+    {
+        if (p)
+            delete p;
+        cout<<"destructor"<<endl; 
+    }
+//private:
     int a;
     int b;
+    int *p;
 };
 
 int main()
@@ -249,6 +259,8 @@ int main()
     b.show();
     A c(std::move(a));
     c.show();
+    a.a = 10000; // a has been moved to c, why a and c have the different memory
+    cout<<a.a<<" "<<c.a<<endl;
     return 0;
 }
 #endif
