@@ -1,3 +1,123 @@
+
+#if 1
+#include <iostream>
+#include <string>
+#include <utility>
+using std::cout;
+using std::endl;
+using std::string;
+
+class MetaData
+{
+public:
+    MetaData (int size, const std::string& name): _name( name ), _size( size ){}
+
+    // copy constructor
+    MetaData (const MetaData& other): _name( other._name ), _size( other._size ){ cout<<"copy"<<endl; }
+
+    // move constructor2
+    MetaData (MetaData&& other): _name( other._name ), _size( other._size ){ cout<<"move"<<endl; }
+
+    std::string getName () const { return _name; }
+    int getSize () const { return _size; }
+
+private:
+    std::string _name;
+    int _size;
+};
+
+class ArrayWrapper
+{
+public:
+    // default constructor produces a moderately sized array
+    ArrayWrapper (): _p_vals( new int[ 64 ] ), _metadata( 64, "ArrayWrapper" )
+    {
+        cout<<"default constructor"<<endl;
+    }
+
+    ArrayWrapper (int n): _p_vals( new int[ n ] ), _metadata( n, "ArrayWrapper" )
+    {
+        cout<<"n constructor"<<endl;
+    }
+
+    // move constructor
+    ArrayWrapper (ArrayWrapper&& other): _p_vals( other._p_vals  ), _metadata( std::move(other._metadata) )
+    {
+        cout<<"move constructor"<<endl;
+        other._p_vals = NULL;
+    }
+
+#if 0
+    // copy constructor
+    ArrayWrapper (const ArrayWrapper& other): _p_vals( new int[ other._metadata.getSize() ] ), _metadata( other._metadata )
+    {
+        cout<<"copy constructor"<<endl;
+        for ( int i = 0; i < _metadata.getSize(); ++i )
+        {
+            _p_vals[ i ] = other._p_vals[ i ];
+        }
+    }
+#endif 
+    ~ArrayWrapper ()
+    {
+        cout<<"destructor"<<endl;
+        delete [] _p_vals;
+    }
+private:
+        int *_p_vals;
+        MetaData _metadata;
+};
+
+ArrayWrapper getArray(ArrayWrapper &a)
+{
+    return a;
+}
+
+int main()
+{
+    ArrayWrapper st;
+    ArrayWrapper st2(getArray(st));
+    //getArray(st);
+    return 0;
+}
+#endif
+
+#if 0 // rvalue ref and move constructor
+#include <iostream>
+#include <string>
+using std::cout;
+using std::endl;
+using std::string;
+
+string printstr(void)
+{
+    return "fuck you then";
+}
+
+void printRef(const string &s)
+{
+    cout<<"lvalule ref version: "<<s<<endl;
+}
+
+void printRef(const string &&s)
+{
+    cout<<"rvalule ref version: "<<s<<endl;
+}
+
+int main()
+{
+    string a("hello world");
+    printRef(a); 
+    printRef(printstr()); //only temp object calls the move-function
+
+    int i = 0;
+    int &lref = i;
+    int &&rref = i+1;
+    //int &&rref2 = rref; // rref is a lvaule itself
+    return 0;
+}
+#endif
+
 #if 0 // container adaptor: stack, queue, priority queue
 #include <iostream>
 #include <stack>
@@ -220,7 +340,7 @@ int main()
 
 #endif
 
-#if 1 //move constructor
+#if 0 //move constructor
 #include <iostream>
 
 using std::cout;
