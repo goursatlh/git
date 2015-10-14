@@ -2,20 +2,24 @@
 #if 1
 #include <iostream>
 #include <string>
+#include <vector>
 #include <utility>
 using std::cout;
 using std::endl;
 using std::string;
+using std::vector;
 
 class MetaData
 {
 public:
+    //MetaData() = default; 
     MetaData (int size, const std::string& name): _name( name ), _size( size ){}
 
     // copy constructor
     MetaData (const MetaData& other): _name( other._name ), _size( other._size ){ cout<<"copy"<<endl; }
 
     // move constructor2
+    //MetaData (MetaData&& other): _name( std::move(other._name) ), _size( other._size ){ cout<<"move"<<endl; }
     MetaData (MetaData&& other): _name( other._name ), _size( other._size ){ cout<<"move"<<endl; }
 
     std::string getName () const { return _name; }
@@ -26,6 +30,7 @@ private:
     int _size;
 };
 
+#if 1
 class ArrayWrapper
 {
 public:
@@ -42,14 +47,16 @@ public:
 
     // move constructor
     ArrayWrapper (ArrayWrapper&& other): _p_vals( other._p_vals  ), _metadata( std::move(other._metadata) )
+    //ArrayWrapper (ArrayWrapper&& other): _p_vals( other._p_vals  ), _metadata( other._metadata )
     {
         cout<<"move constructor"<<endl;
         other._p_vals = NULL;
     }
 
-#if 0
     // copy constructor
-    ArrayWrapper (const ArrayWrapper& other): _p_vals( new int[ other._metadata.getSize() ] ), _metadata( other._metadata )
+    ArrayWrapper (const ArrayWrapper& other): 
+                 _p_vals( new int[ other._metadata.getSize() ] ), 
+                 _metadata( other._metadata )
     {
         cout<<"copy constructor"<<endl;
         for ( int i = 0; i < _metadata.getSize(); ++i )
@@ -57,7 +64,7 @@ public:
             _p_vals[ i ] = other._p_vals[ i ];
         }
     }
-#endif 
+    
     ~ArrayWrapper ()
     {
         cout<<"destructor"<<endl;
@@ -67,6 +74,46 @@ private:
         int *_p_vals;
         MetaData _metadata;
 };
+#endif
+
+#if 0
+class ArrayWrapper
+{
+public:
+    // default constructor produces a moderately sized array
+    ArrayWrapper (): _p_vals( new int[ 64 ] ), _size( 64 ){ cout<<"default"<<endl; }
+    ArrayWrapper (int n): _p_vals( new int[ n ] ), _size( n ){ cout<<"n constructor"<<endl; }
+
+    // move constructor
+    ArrayWrapper (ArrayWrapper&& other): _p_vals( other._p_vals  ), _size( other._size )
+    {
+        cout<<"move"<<endl;
+        other._p_vals = NULL;
+        other._size = 0;
+    }
+
+    // copy constructor
+    ArrayWrapper (ArrayWrapper& other): _p_vals( new int[ other._size  ] ), _size( other._size )
+    {
+        cout<<"copy"<<endl;
+        for ( int i = 0; i < _size; ++i )
+        {
+            _p_vals[ i ] = other._p_vals[ i ];
+        }
+    }
+    
+    ~ArrayWrapper ()
+    {
+        cout<<"destructor"<<endl;
+        //if (_p_vals)
+            delete [] _p_vals;
+    }
+
+private:
+    int *_p_vals;
+    int _size;
+};
+#endif
 
 ArrayWrapper getArray(ArrayWrapper &a)
 {
@@ -76,8 +123,14 @@ ArrayWrapper getArray(ArrayWrapper &a)
 int main()
 {
     ArrayWrapper st;
+    //const ArrayWrapper &lva = getArray(st); 
+    //ArrayWrapper &&rva = getArray(st); 
+    //ArrayWrapper st2(std::move(st));
     ArrayWrapper st2(getArray(st));
-    //getArray(st);
+    //ArrayWrapper st2(std::move(getArray(st)));
+
+    //vector<ArrayWrapper> ArrayVec;
+    //ArrayVec.push_back(ArrayWrapper(2));
     return 0;
 }
 #endif
