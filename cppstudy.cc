@@ -1,5 +1,63 @@
+#if 1 // mutex
+#include <iostream>
+#include <pthread.h>
 
-#if 1
+using std::cout;
+using std::endl;
+
+class Couter {
+public:
+    Couter(): value_(0) {}
+    int64_t value() const;
+    int64_t getAndIncrease();
+    int64_t getAndDecrease();
+private:
+    int64_t value_;
+};
+
+int64_t Couter::value() const
+{
+    cout<<"value: "<<value_<<endl;
+    return value_;
+}
+
+int64_t Couter::getAndIncrease()
+{
+    value_++;
+}
+
+int64_t Couter::getAndDecrease()
+{
+    value_--;
+}
+
+void *inc_thread(void *para)
+{
+    Couter *tem = (Couter *)para;
+    tem->getAndIncrease(); 
+}
+
+void *dec_thread(void *para)
+{
+    Couter *tem = (Couter *)para;
+    tem->getAndDecrease(); 
+}
+
+int main()
+{
+    Couter temp;
+    pthread_t pid1, pid2;
+    pthread_create(&pid1, NULL, inc_thread, &temp);
+    pthread_create(&pid2, NULL, dec_thread, &temp);
+    temp.value();
+    
+    pthread_join(pid1, NULL);
+    pthread_join(pid2, NULL);
+    return 0;
+}
+
+#endif
+#if 0
 #include <iostream>
 #include <string>
 #include <vector>
