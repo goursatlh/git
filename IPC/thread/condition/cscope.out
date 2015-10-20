@@ -1,0 +1,1503 @@
+cscope 15 /home/code/test/IPC/thread/condition -q 0000000092 0000007196
+	@condition.c
+
+2 
+	~<¡dio.h
+>
+
+3 
+	~<±h»ad.h
+>
+
+5 
+±h»ad_mu‹x_t
+ 
+	gmu‹x
+ = 
+PTHREAD_MUTEX_INITIALIZER
+;
+
+7 
+±h»ad_cÚd_t
+ 
+	gcÚd
+ = 
+PTHREAD_COND_INITIALIZER
+;
+
+9 *
+th»ad1
+(*);
+
+11 *
+th»ad2
+(*);
+
+13 
+	gi
+ = 1;
+
+15 
+	$maš
+()
+
+17 
+±h»ad_t
+ 
+t_a
+;
+
+19 
+±h»ad_t
+ 
+t_b
+;
+
+21 
+	`±h»ad_ü—‹
+(&
+t_a
+, 
+NULL
+, 
+th»ad2
+, (*)NULL);
+
+22 
+	`±h»ad_ü—‹
+(&
+t_b
+, 
+NULL
+, 
+th»ad1
+, (*)NULL);
+
+23 
+	`±h»ad_još
+(
+t_b
+, 
+NULL
+);
+
+24 
+	`±h»ad_mu‹x_de¡roy
+(&
+mu‹x
+);
+
+25 
+	`±h»ad_cÚd_de¡roy
+(&
+cÚd
+);
+
+26 
+	`ex™
+(0);
+
+27 
+	}
+}
+
+30 *
+	$th»ad1
+(*
+junk
+)
+
+32 
+i
+ < 30)
+
+34 
+	`±h»ad_mu‹x_lock
+(&
+mu‹x
+);
+
+35 ià(
+i
+ % 3 == 0)
+
+37 
+	`±h»ad_cÚd_sigÇl
+(&
+cÚd
+);
+
+38 
+	`±h»ad_cÚd_wa™
+(&
+cÚd
+, &
+mu‹x
+);
+
+40 
+	`´štf
+("th—d1:%d\n", 
+i
+);
+
+41 ++
+i
+;
+
+42 
+	`±h»ad_mu‹x_uÆock
+(&
+mu‹x
+);
+
+45 
+	}
+}
+
+47 *
+	$th»ad2
+(*
+junk
+)
+
+49 
+i
+ < 30)
+
+51 
+	`±h»ad_mu‹x_lock
+(&
+mu‹x
+);
+
+52 ià(
+i
+ % 3 != 0)
+
+54 
+	`±h»ad_cÚd_sigÇl
+(&
+cÚd
+);
+
+55 
+	`±h»ad_cÚd_wa™
+(&
+cÚd
+, &
+mu‹x
+);
+
+57 
+	`´štf
+("th»ad2:%d\n", 
+i
+);
+
+58 ++
+i
+;
+
+59 
+	`±h»ad_mu‹x_uÆock
+(&
+mu‹x
+);
+
+62 
+	}
+}
+
+	@control.c
+
+26 
+	~"cÚŒŞ.h
+"
+
+27 
+	$cÚŒŞ_š™
+(
+d©a_cÚŒŞ
+ * 
+mycÚŒŞ
+)
+
+29 
+my¡©us
+;
+
+31 ià(
+	`±h»ad_mu‹x_š™
+(&(
+mycÚŒŞ
+->
+mu‹x
+), 
+NULL
+))
+
+33 ià(
+	`±h»ad_cÚd_š™
+(&(
+mycÚŒŞ
+->
+cÚd
+), 
+NULL
+))
+
+35 
+mycÚŒŞ
+->
+aùive
+ = 0;
+
+37 
+	}
+}
+
+39 
+	$cÚŒŞ_de¡roy
+(
+d©a_cÚŒŞ
+ * 
+mycÚŒŞ
+)
+
+41 
+my¡©us
+;
+
+43 ià(
+	`±h»ad_cÚd_de¡roy
+(&(
+mycÚŒŞ
+->
+cÚd
+)))
+
+45 ià(
+	`±h»ad_mu‹x_de¡roy
+(&(
+mycÚŒŞ
+->
+mu‹x
+)))
+
+47 
+mycÚŒŞ
+->
+aùive
+ = 0;
+
+48 
+	`´štf
+("contion‡nd mutex have been destroyed successfully!\n");
+
+50 
+	}
+}
+
+52 
+	$cÚŒŞ_aùiv©e
+(
+d©a_cÚŒŞ
+ * 
+mycÚŒŞ
+)
+
+54 
+my¡©us
+;
+
+56 ià(
+	`±h»ad_mu‹x_lock
+(&(
+mycÚŒŞ
+->
+mu‹x
+)))
+
+58 
+mycÚŒŞ
+->
+aùive
+ = 1;
+
+59 
+	`±h»ad_mu‹x_uÆock
+(&(
+mycÚŒŞ
+->
+mu‹x
+));
+
+60 
+	`±h»ad_cÚd_brßdÿ¡
+(&(
+mycÚŒŞ
+->
+cÚd
+));
+
+62 
+	}
+}
+
+64 
+	$cÚŒŞ_d—ùiv©e
+(
+d©a_cÚŒŞ
+ * 
+mycÚŒŞ
+)
+
+66 
+my¡©us
+;
+
+68 ià(
+	`±h»ad_mu‹x_lock
+(&(
+mycÚŒŞ
+->
+mu‹x
+)))
+
+70 
+mycÚŒŞ
+->
+aùive
+ = 0;
+
+71 
+	`±h»ad_mu‹x_uÆock
+(&(
+mycÚŒŞ
+->
+mu‹x
+));
+
+72 
+	`±h»ad_cÚd_brßdÿ¡
+(&(
+mycÚŒŞ
+->
+cÚd
+));
+
+74 
+	}
+}
+
+	@control.h
+
+1 
+	~<±h»ad.h
+>
+
+3 
+	sd©a_cÚŒŞ
+
+
+5 
+±h»ad_mu‹x_t
+ 
+	mmu‹x
+;
+
+6 
+±h»ad_cÚd_t
+ 
+	mcÚd
+;
+
+7 
+	maùive
+;
+
+8 } 
+	td©a_cÚŒŞ
+;
+
+10 
+±h»ad_cÚd_t
+ 
+	gmycÚd
+;
+
+13 
+±h»ad_cÚd_š™
+(&
+mycÚd
+, 
+NULL
+);
+
+14 
+±h»ad_cÚd_de¡roy
+(&
+mycÚd
+);
+
+15 
+±h»ad_cÚd_wa™
+(&
+mycÚd
+, &
+mymu‹x
+);
+
+16 
+±h»ad_cÚd_brßdÿ¡
+(&
+mycÚd
+);
+
+17 
+±h»ad_cÚd_sigÇl
+(&
+mycÚd
+);
+
+	@dbug.h
+
+1 
+	#dabÜt
+() \
+
+2 { 
+	`´štf
+("AbÜtšg‡ˆlš%d iÀsourû f%s\n",
+__LINE__
+,
+__FILE__
+); 
+	`abÜt
+(); }
+
+	)
+
+	@leak.c
+
+1 
+	~<¡dio.h
+>
+
+2 
+	~<±h»ad.h
+>
+
+3 
+	$run
+()
+
+5 
+	`±h»ad_ex™
+(0);
+
+6 
+	}
+}
+
+8 
+	$maš
+()
+
+10 
+±h»ad_t
+ 
+th»ad
+;
+
+12 
+rc
+;
+
+14 
+couÁ
+ = 0;
+
+18 ià(
+rc
+ = 
+	`±h»ad_ü—‹
+(&
+th»ad
+, 0, 
+run
+, 0))
+
+20 
+	`´štf
+("ERROR,„c is %d, so far %ldhreads created\n",
+
+21 
+rc
+, 
+couÁ
+);
+
+22 
+	`³¼Ü
+("Fail:");
+
+23 
+	`¦“p
+(10000);
+
+26 
+couÁ
+++;
+
+29 
+	}
+}
+
+	@queue.c
+
+23 
+	~<¡dio.h
+>
+
+24 
+	~"queue.h
+"
+
+25 
+	$queue_š™
+(
+queue
+ * 
+myroÙ
+)
+
+27 
+myroÙ
+->
+h—d
+ = 
+NULL
+;
+
+28 
+myroÙ
+->
+
+ = 
+NULL
+;
+
+29 
+	}
+}
+
+31 
+	$queue_put
+(
+queue
+ * 
+myroÙ
+, 
+node
+ * 
+mynode
+)
+
+33 
+mynode
+->
+Ãxt
+ = 
+NULL
+;
+
+34 ià(
+myroÙ
+->
+
+ !ğ
+NULL
+)
+
+35 
+myroÙ
+->
+
+->
+Ãxt
+ = 
+mynode
+;
+
+36 
+myroÙ
+->
+
+ = 
+mynode
+;
+
+37 ià(
+myroÙ
+->
+h—d
+ =ğ
+NULL
+)
+
+38 
+myroÙ
+->
+h—d
+ = 
+mynode
+;
+
+39 
+	}
+}
+
+41 
+node
+ *
+	$queue_g‘
+(
+queue
+ * 
+myroÙ
+)
+
+44 
+node
+ *
+mynode
+;
+
+46 
+mynode
+ = 
+myroÙ
+->
+h—d
+;
+
+47 ià(
+myroÙ
+->
+h—d
+ !ğ
+NULL
+)
+
+48 
+myroÙ
+->
+h—d
+ = myroÙ->h—d->
+Ãxt
+;
+
+49  
+mynode
+;
+
+50 
+	}
+}
+
+	@queue.h
+
+6 
+	snode
+
+
+8 
+node
+ *
+	mÃxt
+;
+
+9 } 
+	tnode
+;
+
+11 
+	squeue
+
+
+13 
+node
+ *
+	mh—d
+, *
+	m
+;
+
+14 } 
+	tqueue
+;
+
+16 
+queue_š™
+(
+queue
+ * 
+myroÙ
+);
+
+18 
+queue_put
+(
+queue
+ * 
+myroÙ
+, 
+node
+ * 
+mynode
+);
+
+20 
+node
+ *
+queue_g‘
+(
+queue
+ * 
+myroÙ
+);
+
+	@workcrew.c
+
+1 
+	~<¡dio.h
+>
+
+2 
+	~<¡dlib.h
+>
+
+3 
+	~"cÚŒŞ.h
+"
+
+4 
+	~"queue.h
+"
+
+5 
+	~"dbug.h
+"
+
+7 
+	swÜk_queue
+
+
+9 
+d©a_cÚŒŞ
+ 
+	mcÚŒŞ
+;
+
+10 
+queue
+ 
+	mwÜk
+;
+
+11 } 
+	gwq
+;
+
+15 
+	swÜk_node
+
+
+17 
+node
+ *
+	mÃxt
+;
+
+18 
+	mjobnum
+;
+
+19 } 
+	twnode
+;
+
+25 
+	sş—nup_queue
+
+
+27 
+d©a_cÚŒŞ
+ 
+	mcÚŒŞ
+;
+
+28 
+queue
+ 
+	mş—nup
+;
+
+29 } 
+	gcq
+;
+
+37 
+	sş—nup_node
+
+
+39 
+node
+ *
+	mÃxt
+;
+
+40 
+	mth»adnum
+;
+
+41 
+±h»ad_t
+ 
+	mtid
+;
+
+42 } 
+	túode
+;
+
+44 *
+	$th»adfunc
+(*
+my¬g
+)
+
+46 
+wnode
+ *
+mywÜk
+;
+
+48 
+úode
+ *
+mynode
+;
+
+50 
+mynode
+ = (
+úode
+ *è
+my¬g
+;
+
+51 
+	`±h»ad_mu‹x_lock
+(&
+wq
+.
+cÚŒŞ
+.
+mu‹x
+);
+
+52 
+wq
+.
+cÚŒŞ
+.
+aùive
+)
+
+54 
+wq
+.
+wÜk
+.
+h—d
+ =ğ
+NULL
+ && wq.
+cÚŒŞ
+.
+aùive
+)
+
+56 
+	`±h»ad_cÚd_wa™
+(&
+wq
+.
+cÚŒŞ
+.
+cÚd
+, &wq.cÚŒŞ.
+mu‹x
+);
+
+58 ià(!
+wq
+.
+cÚŒŞ
+.
+aùive
+)
+
+61 
+mywÜk
+ = (
+wnode
+ *è
+	`queue_g‘
+(&
+wq
+.
+wÜk
+);
+
+62 
+	`±h»ad_mu‹x_uÆock
+(&
+wq
+.
+cÚŒŞ
+.
+mu‹x
+);
+
+64 
+	`´štf
+("Thread‚umber %d…rocessing job %d\n",
+
+65 
+mynode
+->
+th»adnum
+, 
+mywÜk
+->
+jobnum
+);
+
+66 
+	`ä“
+(
+mywÜk
+);
+
+67 
+	`±h»ad_mu‹x_lock
+(&
+wq
+.
+cÚŒŞ
+.
+mu‹x
+);
+
+69 
+	`±h»ad_mu‹x_uÆock
+(&
+wq
+.
+cÚŒŞ
+.
+mu‹x
+);
+
+70 
+	`±h»ad_mu‹x_lock
+(&
+cq
+.
+cÚŒŞ
+.
+mu‹x
+);
+
+71 
+	`queue_put
+(&
+cq
+.
+ş—nup
+, (
+node
+ *è
+mynode
+);
+
+72 
+	`±h»ad_mu‹x_uÆock
+(&
+cq
+.
+cÚŒŞ
+.
+mu‹x
+);
+
+73 
+	`±h»ad_cÚd_sigÇl
+(&
+cq
+.
+cÚŒŞ
+.
+cÚd
+);
+
+74 
+	`´štf
+("th»ad %d shu‰šg down...\n", 
+mynode
+->
+th»adnum
+);
+
+75  
+NULL
+;
+
+77 
+	}
+}
+
+79 
+	#NUM_WORKERS
+ 4
+
+	)
+
+80 
+	gnumth»ads
+;
+
+82 
+	$još_th»ads
+()
+
+84 
+úode
+ *
+cuºode
+;
+
+86 
+	`´štf
+("joininghreads...\n");
+
+87 
+numth»ads
+)
+
+89 
+	`±h»ad_mu‹x_lock
+(&
+cq
+.
+cÚŒŞ
+.
+mu‹x
+);
+
+94 
+cq
+.
+ş—nup
+.
+h—d
+ =ğ
+NULL
+)
+
+96 
+	`±h»ad_cÚd_wa™
+(&
+cq
+.
+cÚŒŞ
+.
+cÚd
+, &cq.cÚŒŞ.
+mu‹x
+);
+
+105 
+cuºode
+ = (
+úode
+ *è
+	`queue_g‘
+(&
+cq
+.
+ş—nup
+);
+
+106 
+	`±h»ad_mu‹x_uÆock
+(&
+cq
+.
+cÚŒŞ
+.
+mu‹x
+);
+
+107 
+	`±h»ad_još
+(
+cuºode
+->
+tid
+, 
+NULL
+);
+
+108 
+	`´štf
+("jošed w™hh»ad %d\n", 
+cuºode
+->
+th»adnum
+);
+
+109 
+	`ä“
+(
+cuºode
+);
+
+110 
+numth»ads
+--;
+
+112 
+	`´štf
+("%dh»ad tÙ®\n", 
+numth»ads
+);
+
+114 
+	}
+}
+
+116 
+	$ü—‹_th»ads
+()
+
+118 
+x
+;
+
+120 
+úode
+ *
+cuºode
+;
+
+122 
+x
+ = 0; x < 
+NUM_WORKERS
+; x++)
+
+124 
+cuºode
+ = 
+	`m®loc
+((
+úode
+));
+
+125 ià(!
+cuºode
+)
+
+127 
+cuºode
+->
+th»adnum
+ = 
+x
+;
+
+128 ià(
+±h»ad_ü—‹
+
+
+129 (&
+cuºode
+->
+tid
+, 
+NULL
+, 
+th»adfunc
+, (*)curnode))
+
+131 
+	`´štf
+("ü—‹dh»ad %d\n", 
+x
+);
+
+132 
+numth»ads
+++;
+
+135 
+	}
+}
+
+137 
+	$š™Ÿlize_¡ruùs
+()
+
+139 
+numth»ads
+ = 0;
+
+140 ià(
+	`cÚŒŞ_š™
+(&
+wq
+.
+cÚŒŞ
+))
+
+141 
+	`dabÜt
+();
+
+142 
+	`queue_š™
+(&
+wq
+.
+wÜk
+);
+
+143 ià(
+	`cÚŒŞ_š™
+(&
+cq
+.
+cÚŒŞ
+))
+
+145 
+	`cÚŒŞ_de¡roy
+(&
+wq
+.
+cÚŒŞ
+);
+
+146 
+	`dabÜt
+();
+
+148 
+	`queue_š™
+(&
+wq
+.
+wÜk
+);
+
+149 
+	`cÚŒŞ_aùiv©e
+(&
+wq
+.
+cÚŒŞ
+);
+
+150 
+	}
+}
+
+152 
+	$ş—nup_¡ruùs
+()
+
+154 
+	`cÚŒŞ_de¡roy
+(&
+cq
+.
+cÚŒŞ
+);
+
+155 
+	`cÚŒŞ_de¡roy
+(&
+wq
+.
+cÚŒŞ
+);
+
+156 
+	}
+}
+
+158 
+	$maš
+()
+
+160 
+x
+;
+
+162 
+wnode
+ *
+mywÜk
+;
+
+164 
+	`š™Ÿlize_¡ruùs
+();
+
+167 ià(
+	`ü—‹_th»ads
+())
+
+169 
+	`´štf
+("Error startinghreads... cleaning up.\n");
+
+170 
+	`još_th»ads
+();
+
+171 
+	`dabÜt
+();
+
+173 
+	`±h»ad_mu‹x_lock
+(&
+wq
+.
+cÚŒŞ
+.
+mu‹x
+);
+
+174 
+x
+ = 0; x < 160000; x++)
+
+176 
+mywÜk
+ = 
+	`m®loc
+((
+wnode
+));
+
+177 ià(!
+mywÜk
+)
+
+179 
+	`´štf
+("ouch! can't malloc!\n");
+
+182 
+mywÜk
+->
+jobnum
+ = 
+x
+;
+
+183 
+	`queue_put
+(&
+wq
+.
+wÜk
+, (
+node
+ *è
+mywÜk
+);
+
+186 
+	`±h»ad_mu‹x_uÆock
+(&
+wq
+.
+cÚŒŞ
+.
+mu‹x
+);
+
+187 
+	`±h»ad_cÚd_brßdÿ¡
+(&
+wq
+.
+cÚŒŞ
+.
+cÚd
+);
+
+188 
+	`´štf
+("sleeping...\n");
+
+189 
+	`¦“p
+(10);
+
+190 
+	`´štf
+("deactivating work queue...\n");
+
+191 
+	`cÚŒŞ_d—ùiv©e
+(&
+wq
+.
+cÚŒŞ
+);
+
+193 
+	`još_th»ads
+();
+
+194 
+	`ş—nup_¡ruùs
+();
+
+195 
+	}
+}
+
+	@
+1
+.
+0
+8
+73
+condition.c
+control.c
+control.h
+dbug.h
+leak.c
+queue.c
+queue.h
+workcrew.c
