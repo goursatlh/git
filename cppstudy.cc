@@ -1,4 +1,4 @@
-#if 1 // mutex
+#if 0 // mutex
 #include <iostream>
 #include <pthread.h>
 
@@ -1439,37 +1439,42 @@ int main()
 
 #endif
 
-#if 0  // destructor should be virtual
-class A
-{
-    public:
+#if 0  // destructor should be virtuali
+#include <iostream>
+using std::cout;
+using std::endl;
+
+class A {
+public:
         A();
-        //virtual ~A();
-        ~A();
+        virtual ~A();
+        //~A();
 };
 
 A::A()
 {
+    cout<<"A constructor"<<endl;
 }
 
 A::~A()
 {
-    printf("Delete class APn\n");
+    cout<<"A destructor"<<endl;
 }
 
-class B : public A
-{
-    public:
+class B : public A {
+public:
         B();
         ~B();
 };
 
 B::B()
-{ }
+{ 
+    cout<<"B constructor"<<endl;
+}
 
 B::~B()
 {
-    printf("Delete class BPn\n");
+    cout<<"B destructor"<<endl;
 }
 
 int main(int argc, char* argv[])

@@ -84,7 +84,7 @@ void *thread1(void *junk)
         pthread_mutex_lock(&mutex);
         if (i % 3 == 0)
         {       
-            pthread_cond_signal(&cond);     
+            pthread_cond_signal(&cond);    // cond is (i % 3 == 0), true wake up thread2, then i sleep 
             pthread_cond_wait(&cond, &mutex);
         }
         printf("thead1:%d\n", i);
@@ -101,7 +101,7 @@ void *thread2(void *junk)
         pthread_mutex_lock(&mutex);
         if (i % 3 != 0)
         {
-            pthread_cond_signal(&cond);
+            pthread_cond_signal(&cond);// cond is (i % 3 != 0), true wake up thread1, then i sleep
             pthread_cond_wait(&cond, &mutex);
         }
         printf("thread2:%d\n", i);
