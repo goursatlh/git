@@ -1,17 +1,50 @@
-#include <iostream>
 
+/********************************************* C ***************************************************/
+#include <stdio.h>
 
-int receiver()
+/*  ttcp option:
+ *  -r
+ *  -t
+ *  -l
+ *
+*/
+typedef struct option {
+    int type;
+    uint16_t port;
+    bool transmit;
+    bool receive;
+    int length;
+    int number;
+}Options;
+
+void receiver(Options *opt)
 {
 }
-int sender()
+
+void sender(Options *opt)
 {
 
+}
+
+bool parse_opt(int argc, char **argv, Options *opt)
+{
+    int i = 0;
+    while (argc-- > )
+    {
+        ++i;    
+    }
 }
 
 int main(int argc, char **argv)
 {
-    //server
-    //client
+    Options opt = {0};
+    if (parse_opt(argc, argv, &opt))
+    {
+        if (opt.receive)
+            receive(&opt);
+        if (opt.transmit)
+            transmit(&opt);
+    }
+
     return 0;
 }
