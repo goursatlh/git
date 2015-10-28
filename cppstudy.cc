@@ -705,7 +705,7 @@ int main()
 }
 #endif
 
-#if 0 //smart pointer
+#if 1 //smart pointer
 #include <iostream>
 #include <string>
 #include <memory>
@@ -715,6 +715,7 @@ using std::cout;
 using std::endl;
 using std::string;
 using std::shared_ptr;
+using std::unique_ptr;
 using std::make_shared;
 using std::vector;
 
@@ -738,14 +739,32 @@ void print_ref(shared_ptr<int> &p)
 int main()
 {
     shared_ptr<string> p1 = make_shared<string>(10, '9');
-    shared_ptr<string> p2; //p2 is 0 if it has not pointer to a object
-    cout<<*p1<<endl;
-    cout<<p1.get()<<endl;
+    unique_ptr<string> p11(new string("hello world")); //p2 is 0 if it has not pointer to a object
+   
+    // size of the smart pointer
+    cout<<"size of smart pointer(shared_ptr): "<<sizeof(p1)<<" => raw int * size: "<<sizeof(int *)<<endl;//why 16 bytes
+    cout<<"size of smart pointer(unique_ptr): "<<sizeof(p11)<<" => raw int * size: "<<sizeof(int *)<<endl;//why 16 bytes
+
+    // get()
     cout<<p1<<endl;
-    cout<<p2<<endl;
+    cout<<p1.get()<<endl;
+    cout<<sizeof(p1.get())<<endl;
+
+    string *p12 = new string("fuck");
+    shared_ptr<string> p13(p12);
+    cout<<p12<<endl;
+    cout<<p13<<endl;
+    cout<<p13.get()<<endl;
+    
+    // reset()
+    p11.reset(); //free the memory just now.
+    //cout<<*p11<<endl; //this is error, because the memory p11 pointed has been already freed.
+
     auto q(p1);
     cout<<*q<<endl;
     cout<<p1.use_count()<<endl;
+    cout<<q.use_count()<<endl;
+   
     auto r = make_shared<string>();
     q = r;
     cout<<p1.use_count()<<endl;
@@ -780,6 +799,23 @@ int main()
         p5.reset(new int(1));//does reset decreases the reference of the old pointed memory for p5;
 
     cout<<*p5<<endl;
+
+    //unique_ptr
+    //vector<unique_ptr<string>> pvec;
+    //unique_ptr<string> pvec1(new string("hello"));
+    vector<shared_ptr<string>> pvec;
+    pvec.push_back(make_shared<string>("hello"));
+    pvec.push_back(make_shared<string>("world"));
+    for (auto vec : pvec)
+        cout<<*vec<<endl;
+
+    vector<unique_ptr<string>> pvec2;
+    unique_ptr<string> pvec3(new string("hello"));
+    pvec2.push_back(std::move(pvec3));
+    for (const auto& vec2 : pvec2) //why use reference
+        cout<<*vec2<<endl;
+    for (auto iter = pvec2.begin(); iter != pvec2.end(); iter++)
+        cout<<*(iter->get())<<endl;
     return 0;
 }
 #endif
