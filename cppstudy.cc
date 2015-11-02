@@ -705,7 +705,7 @@ int main()
 }
 #endif
 
-#if 1 // smart pointer 2
+#if 0 // smart pointer 2
 #include <iostream>
 #include <memory>
 #include <string>
@@ -789,7 +789,7 @@ int main()
 
 #endif
 
-#if 0 //smart pointer
+#if 1 //smart pointer
 #include <iostream>
 #include <string>
 #include <memory>
@@ -800,6 +800,7 @@ using std::endl;
 using std::string;
 using std::shared_ptr;
 using std::unique_ptr;
+using std::weak_ptr;
 using std::make_shared;
 using std::vector;
 
@@ -839,7 +840,7 @@ int main()
     cout<<p12<<endl;
     cout<<p13<<endl;
     cout<<p13.get()<<endl;
-    
+   
     // reset()
     p11.reset(); //free the memory just now.
     //cout<<*p11<<endl; //this is error, because the memory p11 pointed has been already freed.
@@ -900,6 +901,18 @@ int main()
         cout<<*vec2<<endl;
     for (auto iter = pvec2.begin(); iter != pvec2.end(); iter++)
         cout<<*(iter->get())<<endl;
+
+    //weak_ptr
+    shared_ptr<string> shP = make_shared<string>("hello world");
+    shared_ptr<string> shP2 = shP;
+    shared_ptr<string> shP3(shP2);
+    weak_ptr<string> weP(shP);
+    cout<<"shared_ptr count: "<<shP.use_count()<<" weak_ptr count: "<<weP.use_count()<<endl;
+
+    if (!weP.expired())
+    {
+         auto shP3 = weP.lock();
+    }
     return 0;
 }
 #endif
