@@ -5,6 +5,7 @@
 #include <netdb.h>
 #include <assert.h>
 #include <errno.h>
+#include <sys/time.h>
 
 using std::cout;
 using std::endl;
@@ -83,19 +84,23 @@ bool parseCommandLine(int argc, char* argv[], Options* opt)
 } 
 
 struct sockaddr_in resolveOrDie(const char* host, uint16_t port)
-{ 
+{
+#if 0
     struct hostent* he = ::gethostbyname(host);
     if (!he)
     {
         perror("gethostbyname");
         exit(1);
-    } 
-    assert(he->h_addrtype == AF_INET && he->h_length == sizeof(uint32_t));
+    }
+#endif
+   
+    //assert(he->h_addrtype == AF_INET && he->h_length == sizeof(uint32_t));
     struct sockaddr_in addr;
     bzero(&addr, sizeof(addr));
     addr.sin_family = AF_INET;
     addr.sin_port = htons(port);
-    addr.sin_addr = *reinterpret_cast<struct in_addr*>(he->h_addr);
+    //addr.sin_addr = *reinterpret_cast<struct in_addr*>(he->h_addr);
+    addr.sin_addr.s_addr = inet_addr(host);
     return addr;
 } 
 
@@ -236,6 +241,9 @@ void receive(const Options& opt)
 
 void transmit(const Options& opt)
 {
+    struct timeval tvstart;
+    struct timeval tvend;
+    double elapsed = 0;
     struct sockaddr_in addr = resolveOrDie(opt.host.c_str(), opt.port);
     printf("connecting to %s:%d\n", inet_ntoa(addr.sin_addr), opt.port);
 
@@ -252,6 +260,8 @@ void transmit(const Options& opt)
 
     printf("connected\n");
     //muduo::Timestamp start(muduo::Timestamp::now());
+    
+    gettimeofday( &tvstart, NULL);
     struct SessionMessage sessionMessage = { 0, 0 };
     sessionMessage.number = htonl(opt.number);
     sessionMessage.length = htonl(opt.length);
@@ -284,11 +294,13 @@ void transmit(const Options& opt)
         ack = ntohl(ack);
         assert(ack == opt.length);
     }
+    gettimeofday( &tvend, NULL);
+    elapsed = (tvend.tv_sec-tvstart.tv_sec)+(tvend.tv_usec-tvstart.tv_usec)/1000000;
 
     ::free(payload);
     ::close(sockfd);
     //double elapsed = timeDifference(muduo::Timestamp::now(), start);
-    //printf("%.3f seconds\n%.3f MiB/s\n", elapsed, total_mb / elapsed);
+    printf("%.3f seconds\n%.3f MiB/s\n", elapsed, total_mb / elapsed);
 }
     
 int main(int argc, char* argv[])
@@ -298,7 +310,7 @@ int main(int argc, char* argv[])
     {
         if (options.transmit)
         {
-            //transmit(options);
+            transmit(options);
         }
         else if (options.receive)
         {
