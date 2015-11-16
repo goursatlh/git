@@ -789,7 +789,7 @@ int main()
 
 #endif
 
-#if 1 //smart pointer
+#if 0 //smart pointer
 #include <iostream>
 #include <string>
 #include <memory>
@@ -1482,9 +1482,14 @@ int main()
 }
 #endif
 
-#if 0
+#if 1
 /* function override and overload 
  * */
+#include <iostream>
+#include <string>
+using std::cout;
+using std::endl;
+using std::string;
 class Base {
     public:
         void print() {
@@ -1515,11 +1520,20 @@ int main() {
     d.print("");
     //d.Base::print(10);
     //d.Base::print("");
+    //d.Base::print();
+
+    Base &pBase = d;
+    pBase.print();
+    //pBase.Derived::print();
     return 0;
 }
 #endif
 
 #if 0 //function overload 2
+#include <iostream>
+using std::cout;
+using std::endl;
+
 class Base{
     public:
         int display(int n_count){
@@ -1530,7 +1544,7 @@ class Base{
 
 class Derived: public Base{
     public:
-        using Base::display;
+        //using Base::display;
         int display(int n_count,int n_width){
             cout << "display function defined in the Class Derived"<<endl;
             return 0;
@@ -1542,34 +1556,44 @@ int main(int argc,char** argv)
     Base *p_base;
     Derived *p_derived = new Derived();
     p_base = p_derived;
-    p_derived->display(8);
+    //p_derived->display(8);
     p_derived->display(10,20);
-
+    p_base->display(8);
     return 0;
 }
 #endif
 
 #if 0 //function overload
+#include <iostream>
+using std::cout;
+using std::endl;
 
+#if 0
 void print(char i)
 {
-    cout<<i<<endl;
+    cout<<"int "<<i<<endl;
     return;
 }
 
-void print(long i)
+int print(int i)
 {
-    cout<<i<<endl;
-    return;
+    cout<<"int "<<i<<endl;
+    return 0;
+}
+#endif
+
+long print(long i)
+{
+    cout<<"long "<<i<<endl;
+    return 0;
 }
 
 int main()
 {
     print(static_cast<long>(38));
-    //print(38); //error
+    print('a'); //error
     return 0;
 }
-
 #endif
 
 #if 0  // destructor should be virtuali
