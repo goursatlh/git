@@ -1,3 +1,55 @@
+#if 0 // strcpy with overlapping area
+#include <iostream>
+#include <stdlib.h>
+#include <string.h>
+
+using std::cout;
+using std::endl;
+
+void str_copy(char *src, char *dst, int size)
+{
+    while (size > 0)
+    {
+            *dst = *src;
+            dst++;
+            src++;
+            size--;
+    }
+}
+
+void str_move(char *src, char *dst, int size)
+{
+    char *shmem = NULL;
+    if ((src + size > dst) && (src < dst))
+    {
+        cout<<"dst and src hava some overlapping area."<<endl;
+        shmem = new char[size];
+        memset(shmem, 0, size);
+        memcpy((void *)shmem, src, size);
+        str_copy(shmem, dst, size);
+    }
+    else
+    {
+        str_copy(src, dst, size);
+    }
+    if (shmem)
+        delete shmem;
+}
+
+int main()
+{
+    char src[128] = {0};
+    char *dst = src + 5;
+    char tmp[] = "hello world";
+
+    strncpy(src, tmp, strlen(tmp));
+    str_move(src, dst, strlen(src));
+    cout<<"move successfully: "<<dst<<endl;
+
+    return 0;
+}
+#endif
+
 #if 0
 int* twoSum(int* nums, int numsSize, int target) 
 {
@@ -32,7 +84,7 @@ int* twoSum(int* nums, int numsSize, int target)
 }
 #endif
 
-#if 1 //map/set 
+#if 0 //map/set 
 #include <iostream>
 #include <string>
 #include <vector>
@@ -311,6 +363,7 @@ void sort_insert(vector<Type> &a)
 }
 #endif
 
+#if 0
 template <typename Type>
 int partition(vector<Type> &a, int index, int left, int right)
 {
@@ -347,7 +400,7 @@ void sort_quick(vector<Type> &a, int left, int right)
        sort_quick(a, index + 1, right);
     }
 }
-
+#endif
 #if 0
 template <typename Type>
 int partition(vector<Type> &a, int index, int left, int right)
@@ -384,6 +437,7 @@ void sort_quick(vector<Type> &a, int left, int right)
 }
 #endif
 
+#if 0
 template <class Type> 
 void show(vector<Type> &a, string b, long time)
 {
@@ -396,7 +450,6 @@ void show(vector<Type> &a, string b, long time)
     cout<<endl;
 }
 
-#if 0
 int main(int argc, char **argv)
 {
     vector<int> num;
