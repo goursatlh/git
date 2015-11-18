@@ -1,5 +1,4 @@
 #!/bin/bash
-echo "fuck you" #echo
 function xyz()
 {
     echo 'inside func $1: ' $1
@@ -14,14 +13,16 @@ function xyz()
 
 xyz fuck you then fuck you then fuck you then fuck
 
+CMD="\033[1;32mUsage for: \033[0m"  
+
 echo
-echo 'usage for $# $@ $*'
+echo -e ${CMD}'$# $@ $*'
 echo '$# vaule is :' $#
 echo '$@ value is :' "$@" 
 echo '$* value is :' "$*" 
 echo
 
-echo "test usage: "
+echo -e ${CMD}"test and if"
 A="hello"
 B=1
 
@@ -56,4 +57,68 @@ else
     echo "file doesn't exist"
 fi
 
+echo
+echo -e ${CMD}"case"
+case $1 in 
+    "hello")
+        echo "hello"
+        ;;
+    "world"):
+        echo "world"
+        ;;
+    *)
+        echo "none match"
+        ;;
+esac
+
+echo
+echo -e ${CMD}"loop"
+for var in one two three four five
+do
+    echo '$var is '$var
+done
+
+for var1
+do
+    echo $var1
+done
+
+i=0
+while [ $i -le 10 ]
+do
+    echo -n "$i "
+    #i=$(($i + 1)) #why add two ()
+    ((i = i + 1))
+done
+echo
+
+echo
+echo -e ${CMD}"add opt"
+n=1;echo -n "$n "
+ 
+let "n = $n + 1"
+echo -n "$n "
+ 
+: $((n = $n + 1))
+echo -n "$n "
+ 
+(( n = n +1 ))
+echo -n "$n "
+ 
+: $[ n = $n +1 ]
+echo -n "$n "
+ 
+n=$[ $n + 1 ]
+echo -n "$n "
+ 
+let "n++"
+echo -n "$n "
+ 
+(( n++ ))
+echo -n "$n "
+ 
+: $[ n++ ]
+echo -n "$n "
+ 
+echo
 exit
