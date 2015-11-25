@@ -1,15 +1,20 @@
-#if 0
+#if 1
 #include <iostream>
 #include <vector>
+#include <string>
 #include <algorithm>
+#include <numeric>
 
 using std::cout;
 using std::endl;
 using std::vector;
+using std::string;
 
 int main()
 {
     vector<int> vec = {1,2,3,4,5,6,7,8,10};
+    vector<int> vec2 = {1,2,3,4,5,6,7,8,10,11,12};
+    vector<string> vecStr = {"hello", "world", "fuck", "you", "then"};
     int val = 10;
     auto result = find(vec.begin(), vec.end(), val);
     cout<<"value "<<val<<(result == vec.end() ? " is not present" : " is present")<<endl;
@@ -20,6 +25,15 @@ int main()
     result = find(iter+3, iter+6, val);
     cout<<"value "<<val<<(result == iter+6 ? " is not present" : " is present")<<endl;
     cout<<*result<<endl;
+
+    int sum = accumulate(vec.begin(), vec.end(), 0);
+    cout<<"sum "<<sum<<endl;
+
+    string sumStr = accumulate(vecStr.begin(), vecStr.end(), string(""));
+    cout<<"sum string "<<sumStr<<endl;
+
+    auto ret = equal(vec.begin(), vec.end(), vec2.begin());
+    cout<<"equal "<<ret<<endl;
     return 0;
 }
 #endif
