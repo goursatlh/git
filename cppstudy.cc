@@ -1,61 +1,27 @@
-#if 0 // mutex
+#if 0
 #include <iostream>
-#include <pthread.h>
+#include <vector>
+#include <algorithm>
 
 using std::cout;
 using std::endl;
-
-class Couter {
-public:
-    Couter(): value_(0) {}
-    int64_t value() const;
-    int64_t getAndIncrease();
-    int64_t getAndDecrease();
-private:
-    int64_t value_;
-};
-
-int64_t Couter::value() const
-{
-    cout<<"value: "<<value_<<endl;
-    return value_;
-}
-
-int64_t Couter::getAndIncrease()
-{
-    value_++;
-}
-
-int64_t Couter::getAndDecrease()
-{
-    value_--;
-}
-
-void *inc_thread(void *para)
-{
-    Couter *tem = (Couter *)para;
-    tem->getAndIncrease(); 
-}
-
-void *dec_thread(void *para)
-{
-    Couter *tem = (Couter *)para;
-    tem->getAndDecrease(); 
-}
+using std::vector;
 
 int main()
 {
-    Couter temp;
-    pthread_t pid1, pid2;
-    pthread_create(&pid1, NULL, inc_thread, &temp);
-    pthread_create(&pid2, NULL, dec_thread, &temp);
-    temp.value();
-    
-    pthread_join(pid1, NULL);
-    pthread_join(pid2, NULL);
+    vector<int> vec = {1,2,3,4,5,6,7,8,10};
+    int val = 10;
+    auto result = find(vec.begin(), vec.end(), val);
+    cout<<"value "<<val<<(result == vec.end() ? " is not present" : " is present")<<endl;
+   
+    //find in the subrange; the range is [ )
+    val = 7;
+    auto iter = vec.begin();
+    result = find(iter+3, iter+6, val);
+    cout<<"value "<<val<<(result == iter+6 ? " is not present" : " is present")<<endl;
+    cout<<*result<<endl;
     return 0;
 }
-
 #endif
 #if 0
 #include <iostream>
@@ -1482,7 +1448,7 @@ int main()
 }
 #endif
 
-#if 1
+#if 0
 /* function override and overload 
  * */
 #include <iostream>
