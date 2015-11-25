@@ -119,6 +119,76 @@ echo -n "$n "
  
 : $[ n++ ]
 echo -n "$n "
- 
 echo
+
+echo
+echo -e ${CMD}"unset"
+str=
+var=${str=expr}
+echo $var
+echo $str
+echo "newline"
+unset str
+var=${str=expr}
+echo $var
+echo $str
+
+echo
+echo -e ${CMD}"{}/()"
+echo $PWD
+(
+    cd IPC
+    echo ${PWD}" ()"
+)
+echo $PWD
+echo
+{
+    cd IPC
+    echo ${PWD}" {}"
+}
+echo $PWD
+cd ..
+echo $PWD
+
+
+echo
+echo -e ${CMD}"source/exec/fork"
+touch 2.sh
+chmod 777 2.sh
+echo '#!/bin/bash
+echo "PID for 2.sh: $$"
+echo "2.sh get \$A=$A from 1.sh"
+A=C
+export A
+echo "2.sh: \$A is $A"' > 2.sh
+
+A=B
+echo "PID for 1.sh before exec/source/fork:$$"
+export A
+echo "1.sh: \$A is $A"
+case $1 in
+    exec)
+        echo "using exec..."
+        exec ./2.sh ;;
+    source)
+        echo "using source..."
+        . ./2.sh ;;
+    *)
+        echo "using fork by default..."
+        ./2.sh ;;
+esac
+echo "PID for 1.sh after exec/source/fork:$$"
+echo "1.sh: \$A is $A"
+
+if [ -e 2.sh ];then
+    rm -f 2.sh
+fi
+
+echo
+echo -e ${CMD}'$()/${}'
+file=/dir1/dir2/dir3/my.file.txt
+echo '${#file} '${#file}
+
+
+
 exit
