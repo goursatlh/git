@@ -189,6 +189,7 @@ echo -e ${CMD}'$()/${}'
 file=/dir1/dir2/dir3/my.file.txt
 echo '${#file} '${#file}
 
-
+echo $((16#3f))
+echo $((8#30))
 
 exit
