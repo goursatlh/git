@@ -7,15 +7,30 @@
 #include <arpa/inet.h>
 #include <errno.h>
 #include <string.h>
+#include <fcntl.h>
+#include <thread>
 
 using std::cout;
 using std::endl;
+using std::thread;
+
+void recv_thread(int fd)
+{
+    size_t recvsum = 0, rb = 0;
+    char buff[8192] = {0};
+    cout<<"recv thread start, pid: "<<pthread_self()<<endl;
+    while ((rb = recv(fd, buff, sizeof(buff), 0)) > 0)
+    {
+        recvsum += rb;
+    }
+    cout<<"recv "<<recvsum<<" bytes from client "<<endl;
+}
 
 int main(int argc, char **argv)
 {
     if (argc < 4)
     {
-        cout<<"usage: ./sock type port addr"<<endl;
+        cout<<"usage: ./sock sock_type addr port [ser_type(server)]/[file_name(client)]"<<endl;
         return -1;
     }
     int type = atoi(argv[1]);
@@ -31,47 +46,63 @@ int main(int argc, char **argv)
     
     if (type == 1)
     {
-        size_t recvsum = 0;
+        int mode = atoi(argv[4]);
         struct sockaddr_in cli_addr;
         ser_addr.sin_port = htons(port);
         ser_addr.sin_addr.s_addr = inet_addr(argv[2]);
         ser_addr.sin_family = AF_INET;
         cout<<"server start: "<<endl;
         ret = bind(fd, (struct sockaddr *)(&ser_addr), addrlen);
-        cout<<"bind "<<ret<<endl;
+        if (ret != 0)
+        {
+            cout<<"bind failed, err: "<<strerror(errno)<<endl;
+            goto Exit;
+        }
   
         cout<<"listen on "<<port<<endl;
         ret = listen(fd, 5);
-        fd2 = accept(fd, (struct sockaddr *)(&cli_addr), &addrlen);
-        if (fd2 > 0)
+
+        if (mode == 1)
         {
-            while ((ret = recv(fd2, buff, sizeof(buff), 0)) > 0)
+            cout<<"server is in non=-locking mode"<<endl;
+            ret = fcntl(fd, F_SETFL, O_NONBLOCK);
+            if (ret != 0)
+                goto Exit;
+        }
+        else
+        {
+            cout<<"server is in blocking mode: one thread per connection"<<endl;
+            while ((fd2 = accept(fd, (struct sockaddr *)(&cli_addr), &addrlen)) > 0)
             {
-                recvsum += ret;
+                cout<<"accept from "<<inet_ntoa(cli_addr.sin_addr)<<endl;
+                thread t(recv_thread, fd2);
+                t.detach();
+                //t.join();
+                //cout<<"pid "<<t.get_id()<<endl;
             }
-            cout<<"recv "<<recvsum<<" bytes from client "<<inet_ntoa(cli_addr.sin_addr)<<endl;
         }
     }
     else if (type == 2)
     {
         FILE *pfile = NULL;
-        size_t nr = 0;
+        size_t nr = 0, sb = 0;
         size_t sendsum = 0;
         struct linger linger;
         cout<<"client start: "<<endl;
         cout<<"connect to "<<argv[2]<<":"<<argv[3]<<endl;
-
+#if 0
         linger.l_onoff = 1;
         linger.l_linger = 0;
-        //ret = setsockopt(fd, SOL_SOCKET, SO_LINGER, (char*)&linger, sizeof(struct linger));
+        ret = setsockopt(fd, SOL_SOCKET, SO_LINGER, (char*)&linger, sizeof(struct linger));
         cout<<"setsockopt ret "<<ret<<endl;
+#endif
         ser_addr.sin_port = htons(port);
         ser_addr.sin_addr.s_addr = inet_addr(argv[2]);
         ser_addr.sin_family = AF_INET;
         ret = connect(fd, (struct sockaddr *)(&ser_addr), addrlen);
         if (ret == -1)
         {
-            cout<<strerror(errno)<<endl;
+            cout<<"connect failed, err: "<<strerror(errno)<<endl;
             goto Exit;
         }
        
@@ -80,9 +111,10 @@ int main(int argc, char **argv)
             goto Exit; 
         while ((nr = fread(buff, 1, sizeof(buff), pfile)) > 0)
         {
-            ret = send(fd, buff, nr, 0);
-            sendsum += ret;
+            sb = send(fd, buff, nr, 0);
+            sendsum += sb;
         }
+        fclose(pfile);
         cout<<"send "<<sendsum<<" bytes from file "<<argv[4]<<endl;
 #if 0
         shutdown(fd, SHUT_WR);
