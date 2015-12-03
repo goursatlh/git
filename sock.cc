@@ -64,9 +64,9 @@ int main(int argc, char **argv)
 
         if (mode == 1)
         {
-            fd_set rfds;
-            int fdset[1024] = {0};
-            int num = 0;
+            fd_set rfds, master;
+            int maxfd = fd;
+            int nready = 0, ret = 0;
             cout<<"server is in non-locking mode"<<endl;
             ret = fcntl(fd, F_SETFL, O_NONBLOCK);
             if (ret == -1)
@@ -75,54 +75,54 @@ int main(int argc, char **argv)
                 goto Exit;
             }
             FD_ZERO(&rfds);
-            cout<<"begin to accept clients: "<<endl;
+            FD_ZERO(&master);
+            FD_SET(fd, &master);
+            
             while (1)
             {
-                sleep(2);
-                fd2 = accept(fd, (struct sockaddr *)(&cli_addr), &addrlen);
-                if (fd2 > 0)
+                memcpy(&rfds, &master, sizeof(master));
+                nready = select(maxfd+1, &rfds, NULL, NULL, NULL);
+                if (nready > 0)
                 {
-                    cout<<"accept from "<<inet_ntoa(cli_addr.sin_addr)<<endl;
-                    FD_SET(fd2, &rfds);
-                    fdset[num] = fd2;
-                    num++;
-                }
-                if (num > 0)
-                {
-                    for (int i = 0; i < num; i++)
+                    for (int i = 0; i <= maxfd, nready > 0; i++)
                     {
-                        if (fdset[i] > 0)
+                        if (FD_ISSET(i, &rfds))
                         {
-                            ret = select(fdset[i]+1, &rfds, NULL, NULL, NULL);
-                            if (ret > 0)
+                            nready--;
+                            if (i == fd)
                             {
-                                if (FD_ISSET(fdset[i], &rfds))
+                                fd2 = accept(fd, (struct sockaddr *)(&cli_addr), &addrlen);
+                                if (fd2 > 0)
                                 {
-                                    size_t recvsum = 0, rb = 0;
-                                    char buff[8192] = {0};
-                                    while ((rb = recv(fdset[i], buff, sizeof(buff), 0)) > 0)
+                                    cout<<"accept from "<<inet_ntoa(cli_addr.sin_addr)<<endl;
+                                    FD_SET(fd2, &master);
+                                    ret = fcntl(fd2, F_SETFL, O_NONBLOCK);
+                                    if (ret == -1)
                                     {
-                                        recvsum += rb;
+                                        cout<<"fcntl failed, err: "<<strerror(errno)<<endl;
+                                        goto Exit;
                                     }
-                                    cout<<"recv "<<recvsum<<" bytes from client "<<endl;
-                                    close(fdset[i]);
-                                    fdset[i] = 0;
-                                    break;
+                                    if (fd2 > maxfd)
+                                        maxfd = fd2;
                                 }
-                            }
-                            else if (ret == 0)
-                            {
-                                cout<<"select timeout"<<endl;    
                             }
                             else
                             {
-                                cout<<"select return -1, err: "<<strerror(errno)<<endl;    
+                                size_t recvsum = 0, rb = 0;
+                                char buff[8192] = {0};
+                                while ((rb = recv(i, buff, sizeof(buff), 0)) > 0)
+                                {
+                                    recvsum += rb;
+                                }
+                                cout<<"recv "<<recvsum<<" bytes from client "<<endl;
+                                close(i);
+                                FD_CLR(i, &master);
+                                break;
                             }
                         }
                     }
                 }
             }
-
         }
         else
         {
