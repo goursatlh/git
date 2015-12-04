@@ -9,6 +9,7 @@
 #include <string.h>
 #include <fcntl.h>
 #include <thread>
+#include <sys/time.h>
 
 using std::cout;
 using std::endl;
@@ -24,6 +25,7 @@ void recv_thread(int fd)
         recvsum += rb;
     }
     cout<<"recv "<<recvsum<<" bytes from client "<<endl;
+    close(fd);
 }
 
 int main(int argc, char **argv)
@@ -140,6 +142,8 @@ int main(int argc, char **argv)
     else if (type == 2)
     {
         FILE *pfile = NULL;
+        struct timeval tvstart, tvend;
+        long timespend = 0;
         size_t nr = 0, sb = 0;
         size_t sendsum = 0;
         struct linger linger;
@@ -161,6 +165,7 @@ int main(int argc, char **argv)
             goto Exit;
         }
        
+        gettimeofday( &tvstart, NULL);
         pfile = fopen(argv[4], "rb");
         if (pfile == NULL)
             goto Exit; 
@@ -170,8 +175,10 @@ int main(int argc, char **argv)
             sendsum += sb;
         }
         fclose(pfile);
-        cout<<"send "<<sendsum<<" bytes from file "<<argv[4]<<endl;
-#if 0
+        gettimeofday( &tvend, NULL);
+        timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
+        cout<<"send "<<sendsum<<" bytes from file "<<argv[4]<<" time spent: "<<timespend<<"us"<<endl;
+#if 1
         shutdown(fd, SHUT_WR);
         ret = recv(fd, buff, 4096, 0);
         if (ret == 0)
