@@ -10,6 +10,7 @@
 #include <fcntl.h>
 #include <thread>
 #include <sys/time.h>
+#include <sys/epoll.h>
 
 using std::cout;
 using std::endl;
@@ -64,7 +65,7 @@ int main(int argc, char **argv)
         cout<<"listen on "<<port<<endl;
         ret = listen(fd, 5);
 
-        if (mode == 1)
+        if (mode == 1) //non-blocking select
         {
             fd_set rfds, master;
             int maxfd = fd;
@@ -126,6 +127,65 @@ int main(int argc, char **argv)
                 }
             }
         }
+        else if (mode == 2) //non-blocking epoll
+        {
+            int epfd = 0, nfds = 0, fd2 = 0, i = 0;
+            struct epoll_event ev, events[20];
+
+            epfd = epoll_create(256);
+            if (epfd == -1)
+            {
+                cout<<"epoll_create failed, err: "<<strerror(errno)<<endl;
+                goto Exit;
+            }
+            ev.data.fd = fd;
+            ev.events = EPOLLIN | EPOLLET;
+            ret = epoll_ctl(epfd, EPOLL_CTL_ADD, fd, &ev);
+            if (ret == -1)
+            {
+                cout<<"epoll_ctl failed, err: "<<strerror(errno)<<endl;
+                goto Exit;
+            }
+            while (1)
+            {
+                nfds = epoll_wait(epfd, events, 20, 500);
+                for (i = 0; i < nfds; i++)
+                {
+                    if (events[i].data.fd == fd)
+                    {
+                        fd2 = accept(fd, (struct sockaddr *)(&cli_addr), &addrlen);
+                        if (fd2 > 0)
+                        {
+                            cout<<"accept from "<<inet_ntoa(cli_addr.sin_addr)<<endl;
+                            ret = fcntl(fd2, F_SETFL, O_NONBLOCK);
+                            if (ret == -1)
+                            {
+                                cout<<"fcntl failed, err: "<<strerror(errno)<<endl;
+                                goto Exit;
+                            }
+                            ev.data.fd = fd2;
+                            ev.events = EPOLLIN | EPOLLET;
+                            ret = epoll_ctl(epfd, EPOLL_CTL_ADD, fd2, &ev);
+                        }
+                    }
+                    else if (events[i].events == EPOLLIN)
+                    {
+                        size_t recvsum = 0, rb = 0;
+                        char buff[8192] = {0};
+                        int fd3 = events[i].data.fd;
+                        while ((rb = recv(fd3, buff, sizeof(buff), 0)) > 0)
+                        {
+                            recvsum += rb;
+                        }
+                        cout<<"recv "<<recvsum<<" bytes from client "<<endl;
+                        close(i);
+                        ev.data.fd = -1;
+                        ret = epoll_ctl(epfd, EPOLL_CTL_MOD, fd3, &ev);
+                        break;
+                    }
+                }
+            }
+        }
         else
         {
             cout<<"server is in blocking mode: one thread per connection"<<endl;
@@ -149,7 +209,7 @@ int main(int argc, char **argv)
         struct linger linger;
         cout<<"client start: "<<endl;
         cout<<"connect to "<<argv[2]<<":"<<argv[3]<<endl;
-#if 0
+#if 1
         linger.l_onoff = 1;
         linger.l_linger = 0;
         ret = setsockopt(fd, SOL_SOCKET, SO_LINGER, (char*)&linger, sizeof(struct linger));
