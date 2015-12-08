@@ -15,6 +15,12 @@
 using std::cout;
 using std::endl;
 using std::thread;
+#define exit_proc(func, ret) \
+    if (ret == -1)\
+    {\
+        cout<<#func" "<<__LINE__<<" failed, err: "<<strerror(errno)<<endl;\
+        goto Exit;\
+    }\
 
 void recv_thread(int fd)
 {
@@ -27,6 +33,15 @@ void recv_thread(int fd)
     }
     cout<<"recv "<<recvsum<<" bytes from client "<<endl;
     close(fd);
+}
+
+void set_nonblock(int fd)
+{
+    int ret = 0;
+    ret = fcntl(fd, F_SETFL, O_NONBLOCK);
+    exit_proc(set_nonblock, ret);
+Exit:
+    return;
 }
 
 int main(int argc, char **argv)
@@ -43,6 +58,7 @@ int main(int argc, char **argv)
     char buff[8192] = {0};
     int ret = 0;
     int fd2 = 0;
+    int i = 0;
 
     int fd = socket(PF_INET, SOCK_STREAM, 0);
     cout<<"fd "<<fd<<" created"<<endl;
@@ -71,12 +87,9 @@ int main(int argc, char **argv)
             int maxfd = fd;
             int nready = 0, ret = 0;
             cout<<"server is in non-locking mode"<<endl;
-            ret = fcntl(fd, F_SETFL, O_NONBLOCK);
-            if (ret == -1)
-            {
-                cout<<"fcntl failed, err: "<<strerror(errno)<<endl;
-                goto Exit;
-            }
+            
+            set_nonblock(fd);
+            
             FD_ZERO(&rfds);
             FD_ZERO(&master);
             FD_SET(fd, &master);
@@ -99,12 +112,7 @@ int main(int argc, char **argv)
                                 {
                                     cout<<"accept from "<<inet_ntoa(cli_addr.sin_addr)<<endl;
                                     FD_SET(fd2, &master);
-                                    ret = fcntl(fd2, F_SETFL, O_NONBLOCK);
-                                    if (ret == -1)
-                                    {
-                                        cout<<"fcntl failed, err: "<<strerror(errno)<<endl;
-                                        goto Exit;
-                                    }
+                                    set_nonblock(fd2);
                                     if (fd2 > maxfd)
                                         maxfd = fd2;
                                 }
@@ -129,23 +137,20 @@ int main(int argc, char **argv)
         }
         else if (mode == 2) //non-blocking epoll
         {
-            int epfd = 0, nfds = 0, fd2 = 0, i = 0;
-            struct epoll_event ev, events[20];
+            int epfd = 0, nfds = 0;
+            struct epoll_event ev = {0}, events[20];
+            memset(events, 0, sizeof(events));
 
+            cout<<"server is in non-blocking epoll mode"<<endl;
+            set_nonblock(fd);
             epfd = epoll_create(256);
-            if (epfd == -1)
-            {
-                cout<<"epoll_create failed, err: "<<strerror(errno)<<endl;
-                goto Exit;
-            }
+            exit_proc(epoll_create, epfd);
+            
             ev.data.fd = fd;
             ev.events = EPOLLIN | EPOLLET;
             ret = epoll_ctl(epfd, EPOLL_CTL_ADD, fd, &ev);
-            if (ret == -1)
-            {
-                cout<<"epoll_ctl failed, err: "<<strerror(errno)<<endl;
-                goto Exit;
-            }
+            exit_proc(epoll_ctl, epfd);
+            
             while (1)
             {
                 nfds = epoll_wait(epfd, events, 20, 500);
@@ -156,32 +161,32 @@ int main(int argc, char **argv)
                         fd2 = accept(fd, (struct sockaddr *)(&cli_addr), &addrlen);
                         if (fd2 > 0)
                         {
-                            cout<<"accept from "<<inet_ntoa(cli_addr.sin_addr)<<endl;
-                            ret = fcntl(fd2, F_SETFL, O_NONBLOCK);
-                            if (ret == -1)
-                            {
-                                cout<<"fcntl failed, err: "<<strerror(errno)<<endl;
-                                goto Exit;
-                            }
+                            cout<<"accept from "<<inet_ntoa(cli_addr.sin_addr)<<" port: "<<cli_addr.sin_port<<" new fd: "<<fd2<<endl;
+                            set_nonblock(fd2);
+                            
                             ev.data.fd = fd2;
                             ev.events = EPOLLIN | EPOLLET;
                             ret = epoll_ctl(epfd, EPOLL_CTL_ADD, fd2, &ev);
+                            exit_proc(epoll_ctl, ret);
                         }
                     }
                     else if (events[i].events == EPOLLIN)
                     {
                         size_t recvsum = 0, rb = 0;
-                        char buff[8192] = {0};
                         int fd3 = events[i].data.fd;
+                        cout<<"recv the read event for fd "<<fd3<<endl;
+                        if (fd3 < 0)
+                            continue;
                         while ((rb = recv(fd3, buff, sizeof(buff), 0)) > 0)
                         {
                             recvsum += rb;
                         }
                         cout<<"recv "<<recvsum<<" bytes from client "<<endl;
-                        close(i);
-                        ev.data.fd = -1;
-                        ret = epoll_ctl(epfd, EPOLL_CTL_MOD, fd3, &ev);
-                        break;
+                        events[i].data.fd = -1;
+                        ev.data.fd = fd3;
+                        ret = epoll_ctl(epfd, EPOLL_CTL_DEL, fd3, &ev);
+                        exit_proc(epoll_ctl, ret);
+                        //close(fd3);
                     }
                 }
             }
@@ -211,7 +216,7 @@ int main(int argc, char **argv)
         cout<<"connect to "<<argv[2]<<":"<<argv[3]<<endl;
 #if 1
         linger.l_onoff = 1;
-        linger.l_linger = 0;
+        linger.l_linger = 30;
         ret = setsockopt(fd, SOL_SOCKET, SO_LINGER, (char*)&linger, sizeof(struct linger));
         cout<<"setsockopt ret "<<ret<<endl;
 #endif
@@ -237,12 +242,15 @@ int main(int argc, char **argv)
         fclose(pfile);
         gettimeofday( &tvend, NULL);
         timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
-        cout<<"send "<<sendsum<<" bytes from file "<<argv[4]<<" time spent: "<<timespend<<"us"<<endl;
-#if 1
-        shutdown(fd, SHUT_WR);
+        cout<<"\nsend "<<sendsum<<" bytes from file "<<argv[4]<<" time spent: "<<timespend<<"us"<<endl;
+#if 0
+        //shutdown(fd, SHUT_WR);
         ret = recv(fd, buff, 4096, 0);
         if (ret == 0)
+        {
+            cout<<"recv 0 note that peer close the sock"<<endl;
             goto Exit;
+        }
 #endif
     }
 Exit:
