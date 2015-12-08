@@ -192,4 +192,22 @@ echo '${#file} '${#file}
 echo $((16#3f))
 echo $((8#30))
 
+echo -e ${CMD}'printf & echo'
+printf "%-10s %-010d %-10.3f\n" hello 1 3.1415926 world 2 4.5678 
+printf "%010s %010d %010.3f\n" hello 1 3.1415926 world 2 4.5678 
+
+echo -e "1\t2\t"
+echo -n "1\t2\t"
+echo "hello"
+echo -en "hello\n"
+
+#Colors are represented by color codes, some examples being, reset = 0, black = 30, red = 31, 
+#green = 32, yellow = 33, blue = 34, magenta = 35, cyan = 36, and white = 37. 
+echo -e "\e[45;37m This is red text \e[0m"
+#For a colored background, reset = 0, black = 40, red = 41, green = 42, yellow = 43, blue = 44, 
+#magenta = 45, cyan = 46, and white=47, are the color codes that are commonly used.
+echo -e "\e[1;42m Green Background \e[0m" 
+
+
+
 exit
