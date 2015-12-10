@@ -1,3 +1,54 @@
+#if 1
+#include <iostream>
+#include <string.h>
+using std::cout;
+using std::endl;
+char *strstr_wt(const char *src, const char *target)
+{
+    char *p1 = (char *)src;
+    cout<<"strstr_wt enter"<<endl;
+
+    if (!*target)
+        return p1;
+    while (*p1)
+    {
+        char *p1begin = p1;
+        char *p2 = (char *)target;
+        while (*p1 && *p2 && *p1 == *p2)
+        {
+            cout<<*p1<<" "<<*p2<<endl;
+            p1++;
+            p2++;
+        }
+        if (!*p2)
+            return p1begin;
+        p1 = p1begin + 1;
+    }
+    return NULL;
+}
+
+int main(int argc, char **argv)
+{
+    char src[128] = {0};
+    char target[128] = {0};
+    char *result = NULL;
+    if (argc != 3)
+    {
+        cout<<"wrong paras: usage: strstr src-string dst-string"<<endl;
+        return 0;
+    }
+    strcpy(src, argv[1]);
+    strcpy(target, argv[2]);
+    cout<<src<<endl;
+    cout<<target<<endl;
+    result = strstr_wt(src, target);
+    printf("%p\n", src);
+    printf("%p\n", result);
+
+    return 0;
+}
+#endif
+
 #if 0 // strcpy with overlapping area
 #include <iostream>
 #include <stdlib.h>
@@ -275,7 +326,7 @@ int main(int argc, char **argv)
 }
 #endif
 
-#if 1 // sort
+#if 0 // sort
 static int count = 0;
 
 template <class Type> 
