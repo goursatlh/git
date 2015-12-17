@@ -1,3 +1,57 @@
+#if 0 // mutex for bit filed:  we should lock whole of the int, not bit field part
+#include <iostream>
+#include <thread>
+#include <unistd.h>
+
+using std::cout;
+using std::endl;
+using std::thread;
+
+#define MAX_LOOP 100000000
+pthread_mutex_t mymutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mymutex1 = PTHREAD_MUTEX_INITIALIZER;
+struct foo
+{
+    long flag:1;
+    long counter:31;
+}my_foo;
+
+void func1()
+{
+    int i = 0;
+    cout<<"thread1 begin"<<endl;
+    while (i++ < MAX_LOOP)
+    {
+        pthread_mutex_lock(&mymutex);
+        my_foo.flag = !my_foo.flag;
+        pthread_mutex_unlock(&mymutex);
+    }
+}
+
+void func2()
+{
+    int i = 0;
+    cout<<"thread2 begin"<<endl;
+    while (i++ < MAX_LOOP)
+    {
+        pthread_mutex_lock(&mymutex1); // we should use mymutex, not mymutex1
+        my_foo.counter++;
+        pthread_mutex_unlock(&mymutex1);
+    }
+}
+int main()
+{
+       cout<<"size "<<sizeof(my_foo)<<endl;
+       thread t1(func1); 
+       thread t2(func2);
+       cout<<"begin to join thread1"<<endl;
+       t1.join(); //join() is a blocking opt until thread return
+       cout<<"begin to join thread2"<<endl;
+       t2.join();
+       cout<<"result: "<<my_foo.flag<<" "<<my_foo.counter<<endl;
+       return 0;
+}
+#endif
 #if 0 // mutex
 #include <pthread.h>
 #include <stdlib.h>
@@ -5,20 +59,30 @@
 #include <stdio.h>
 
 int myglobal;
-pthread_mutex_t mymutex=PTHREAD_MUTEX_INITIALIZER;
+#define LOOP_MAX 10000
+struct foo
+{
+    int flag:1;
+    int counter:15;
+}my_foo;
+
+pthread_mutex_t mymutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mutex_flag = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mutex_counter = PTHREAD_MUTEX_INITIALIZER;
 
 void *thread_function(void *arg)
 {
     int i,j;
-    for ( i=0; i<20; i++ ) {
+    for ( i=0; i<LOOP_MAX; i++ ) {
         pthread_mutex_lock(&mymutex);
         j=myglobal;
         j=j+1;
-        printf(".");
-        fflush(stdout);
-        sleep(1);
+        //printf(".");
+        //fflush(stdout);
+        //sleep(1);
         myglobal=j;
         pthread_mutex_unlock(&mymutex);
+        my_foo.flag = !my_foo.flag;
     }
     return NULL;
 }
@@ -27,19 +91,23 @@ int main(void)
 {
     pthread_t mythread;
     int i;
+    my_foo.flag = 0;
+    my_foo.counter = 0;
+    printf("size %ld\n", sizeof(my_foo));
 
     if ( pthread_create( &mythread, NULL, thread_function, NULL) ) {
         printf("error creating thread.");
         abort();
     }
 
-    for ( i=0; i<20; i++) {
+    for ( i=0; i<LOOP_MAX; i++) {
         pthread_mutex_lock(&mymutex);
         myglobal=myglobal+1;
         pthread_mutex_unlock(&mymutex);
-        printf("o");
-        fflush(stdout);
-        sleep(1);
+        my_foo.counter++;
+        //printf("o");
+        //fflush(stdout);
+        //sleep(1);
     }
 
     if ( pthread_join ( mythread, NULL ) ) {
@@ -48,11 +116,12 @@ int main(void)
     }
 
     printf("\nmyglobal equals %d\n",myglobal);
+    printf("\nmyglobal flag %d, counter %d\n",my_foo.flag, my_foo.counter);
     exit(0);
 }
 #endif
 
-#if 1 // condition
+#if 0 // condition
 #include <stdio.h>
 #include <pthread.h>
 
