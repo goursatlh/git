@@ -1,3 +1,176 @@
+#if 1 // pthread_spin_lock vs pthread_mutex_lock
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/syscall.h>
+#include <errno.h>
+#include <sys/time.h>
+#include <list>
+#include <pthread.h>
+
+#define LOOPS 20000000
+using namespace std;
+list<int> the_list;
+
+#ifdef USE_SPINLOCK
+pthread_spinlock_t spinlock;
+#else
+pthread_mutex_t mutex;
+#endif
+
+pid_t gettid() { return syscall( __NR_gettid ); }
+void *consumer(void *ptr)
+{
+    int i;
+    printf("Consumer TID %lu\n", (unsigned long)gettid());
+    while (1)
+    {
+#ifdef USE_SPINLOCK
+        pthread_spin_lock(&spinlock);
+#else
+        pthread_mutex_lock(&mutex);
+#endif
+        if (the_list.empty())
+        {
+#ifdef USE_SPINLOCK
+            pthread_spin_unlock(&spinlock);
+#else
+            pthread_mutex_unlock(&mutex);
+#endif
+            break;
+        }
+
+        i = the_list.front();
+        the_list.pop_front();
+
+#ifdef USE_SPINLOCK
+        pthread_spin_unlock(&spinlock);
+#else
+        pthread_mutex_unlock(&mutex);
+#endif
+    }
+    return NULL;
+}
+
+
+int main()
+{
+    int i;
+    pthread_t thr1, thr2;
+    struct timeval tv1, tv2;
+
+#ifdef USE_SPINLOCK
+    pthread_spin_init(&spinlock, 0);
+#else
+    pthread_mutex_init(&mutex, NULL);
+#endif
+    
+    for (i = 0; i < LOOPS; i++)
+        the_list.push_back(i);
+    gettimeofday(&tv1, NULL);
+    pthread_create(&thr1, NULL, consumer, NULL);
+    pthread_create(&thr2, NULL, consumer, NULL);
+    pthread_join(thr1, NULL);
+    pthread_join(thr2, NULL);
+    gettimeofday(&tv2, NULL);
+
+    if (tv1.tv_usec > tv2.tv_usec)
+    {
+        tv2.tv_sec--;
+        tv2.tv_usec += 1000000;
+    }
+    printf("Result - %ld.%ld\n", tv2.tv_sec - tv1.tv_sec,
+            tv2.tv_usec - tv1.tv_usec);
+#ifdef USE_SPINLOCK
+    pthread_spin_destroy(&spinlock);
+#else
+    pthread_mutex_destroy(&mutex);
+#endif
+    return 0;
+}
+
+#endif
+#if 0 // atomic APIs in gcc 
+#include <stdio.h>
+#include <pthread.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <sched.h>
+#include <linux/unistd.h>
+#include <sys/syscall.h>
+#include <errno.h>
+
+#define INC_TO 1000000 // one million...
+
+int global_int = 0;
+pid_t gettid( void )
+{
+    return syscall( __NR_gettid );
+}
+
+void *thread_routine( void *arg )
+{
+    int i;
+    int proc_num = (int)(long)arg;
+    cpu_set_t set;
+    CPU_ZERO( &set );
+
+    CPU_SET( proc_num, &set );
+    if (sched_setaffinity( gettid(), sizeof( cpu_set_t ), &set ))
+    {
+        perror( "sched_setaffinity" );
+        return NULL;
+    }
+    for (i = 0; i < INC_TO; i++)
+    {
+
+        global_int++;
+        //__sync_fetch_and_add( &global_int, 2 );
+    }
+    return NULL;
+}
+
+int main()
+{
+    int procs = 0;
+    int i;
+    pthread_t *thrs;
+
+    procs = (int)sysconf( _SC_NPROCESSORS_ONLN );
+    if (procs < 0)
+    {
+        perror( "sysconf" );
+        return -1;
+    }
+
+    thrs = (pthread_t *)malloc( sizeof( pthread_t ) * procs );
+    if (thrs == NULL)
+    {
+        perror( "malloc" );
+        return -1;
+    }
+    printf( "Starting %d threads...\n", procs );
+
+    for (i = 0; i < procs; i++)
+    {
+        if (pthread_create( &thrs[i], NULL, thread_routine,
+                    (void *)(long)i ))
+        {
+            perror( "pthread_create" );
+            procs = i;
+            break;
+        }
+    }
+
+    for (i = 0; i < procs; i++)
+        pthread_join( thrs[i], NULL );
+    free( thrs );
+    printf( "After doing all the math, global_int value is: %d\n",
+            global_int );
+    printf( "Expected value is: %d\n", INC_TO * procs );
+    return 0;
+}
+
+#endif
 #if 0 // mutex for bit filed:  we should lock whole of the int, not bit field part
 #include <iostream>
 #include <thread>
