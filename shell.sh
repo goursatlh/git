@@ -19,7 +19,13 @@ echo
 echo -e ${CMD}'$# $@ $*'
 echo '$# vaule is :' $#
 echo '$@ value is :' "$@" 
-echo '$* value is :' "$*" 
+echo '$* value is :' "$*"
+
+my_fun() {
+    echo "$#"
+}
+echo 'the number of parameter in "$@" is '$(my_fun "$@")
+echo 'the number of parameter in "$*" is '$(my_fun "$*")
 echo
 
 echo -e ${CMD}"test and if"
@@ -208,6 +214,6 @@ echo -e "\e[45;37m This is red text \e[0m"
 #magenta = 45, cyan = 46, and white=47, are the color codes that are commonly used.
 echo -e "\e[1;42m Green Background \e[0m" 
 
-
-
+echo -e ${CMD}'regex'
+echo "abc" |grep -E "ab." # www.regexper.com perfect url
 exit
