@@ -1,4 +1,69 @@
-#if 1 // pthread_spin_lock vs pthread_mutex_lock
+#if 1
+#include <iostream>       // std::cout
+#include <atomic>         // std::atomic, std::atomic_flag, ATOMIC_FLAG_INIT
+#include <thread>         // std::thread, std::this_thread::yield
+#include <vector>         // std::vector
+
+std::atomic<bool> ready(false);  // 由 false 初始化一个 std::atomic<bool> 类型的原子变量
+std::atomic_flag winner = ATOMIC_FLAG_INIT;
+
+void do_count1m(int id)
+{
+    while (!ready) { std::this_thread::yield(); } // 等待 ready 变为 true.
+
+    for (volatile int i=0; i<1000000; ++i) {} // 计数
+
+    if (!winner.test_and_set()) {
+        std::cout << "thread #" << id << " won!\n";
+    }
+}
+
+int main ()
+{
+    std::vector<std::thread> threads;
+    std::cout << "spawning 10 threads that count to 1 million...\n";
+    for (int i=1; i<=10; ++i) 
+        threads.push_back(std::thread(do_count1m,i));
+    ready = true;
+
+    for (auto& th : threads) 
+        th.join();
+    return 0;
+}
+
+#endif
+
+#if 0 //atomic_flag as a spinning lock
+#include <iostream>       // std::cout
+#include <atomic>         // std::atomic_flag
+#include <thread>         // std::thread
+#include <vector>         // std::vector
+#include <sstream>        // std::stringstream
+
+std::atomic_flag lock_stream = ATOMIC_FLAG_INIT;
+std::stringstream stream;
+
+void append_number(int x) 
+{
+    while (lock_stream.test_and_set()) { }
+    stream << "thread #" << x << '\n';
+    lock_stream.clear();
+}
+
+int main ()
+{
+    std::vector<std::thread> threads;
+    for (int i=1; i<=10; ++i) 
+        threads.push_back(std::thread(append_number,i));
+    for (auto& th : threads) 
+        th.join();
+
+    std::cout << stream.str();
+    return 0;
+}
+#endif
+
+#if 0 // pthread_spin_lock vs pthread_mutex_lock
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/syscall.h>
@@ -89,6 +154,7 @@ int main()
 }
 
 #endif
+
 #if 0 // atomic APIs in gcc 
 #include <stdio.h>
 #include <pthread.h>
@@ -123,8 +189,8 @@ void *thread_routine( void *arg )
     for (i = 0; i < INC_TO; i++)
     {
 
-        global_int++;
-        //__sync_fetch_and_add( &global_int, 2 );
+        //global_int++;
+        __sync_fetch_and_add( &global_int, 2 );
     }
     return NULL;
 }
@@ -133,6 +199,7 @@ int main()
 {
     int procs = 0;
     int i;
+    int ret = 0;
     pthread_t *thrs;
 
     procs = (int)sysconf( _SC_NPROCESSORS_ONLN );
@@ -167,6 +234,10 @@ int main()
     printf( "After doing all the math, global_int value is: %d\n",
             global_int );
     printf( "Expected value is: %d\n", INC_TO * procs );
+    ret = __sync_lock_test_and_set(&global_int, 0);
+    printf("pre %d, aft %d\n", ret, global_int);
+    ret = __sync_lock_test_and_set(&global_int, 0);
+    printf("pre %d, aft %d\n", ret, global_int);
     return 0;
 }
 
