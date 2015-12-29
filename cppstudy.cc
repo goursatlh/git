@@ -1,3 +1,37 @@
+#if 0 // string object
+#include <iostream>
+#include <string>
+
+using std::cout;
+using std::endl;
+using std::string;
+
+int main()
+{
+    string s0;
+    cout<<s0<<" "<<s0.size()<<" "<<sizeof(s0)<<endl;
+    if (s0.empty())
+        cout<<"empty string"<<endl;
+
+    string s1 = "hello";
+    //string s1("hello");
+    cout<<s1<<" "<<s1.size()<<" "<<sizeof(s1)<<endl;
+
+    string s2(s1);
+    cout<<s2<<endl;
+    string s3(10, 's');
+    cout<<s3<<endl;
+    string s4 = string(10, 'w');
+    cout<<s4<<endl;
+
+    string s5(" world");
+    string s6(s1+s5);
+    cout<<s6<<endl;
+    //os<<s6;
+    return 0;
+}
+#endif
+
 #if 0 //exception throw
 #include <iostream>
 

@@ -1,4 +1,158 @@
-#if 1
+#if 1 //string sort
+#include <iostream>
+#include <string>
+using std::cout;
+using std::cin;
+using std::endl;
+using std::string;
+
+void sort(String[] a, int W) 
+{   // Sort a[] on leading W characters. 
+    int N = a.length; 
+    int R = 256; 
+    string[] aux = new String[N]; 
+
+    for (int d = W-1; d >= 0; d--) 
+    { // Sort by key-indexed counting on dth char. 
+
+        int[] count = new int[R+1];               // Compute frequency counts. 
+        for (int i = 0; i < N; i++) 
+            count[a[i].charAt(d) + 1]++; 
+
+        for (int r = 0; r < R; r++)               // Transform counts to indices. 
+            count[r+1] += count[r]; 
+
+        for (int i = 0; i < N; i++)               // Distribute. 
+            aux[count[a[i].charAt(d)]++] = a[i]; 
+
+        for (int i = 0; i < N; i++)               // Copy back. 
+            a[i] = aux[i]; 
+    } 
+} 
+
+int main()
+{
+    vector<string> a = {"hello", "world", "fuck2", "you23", "other"};
+    sort(a, 5);
+    for (int i = 0; i < a.size(); i++)
+    {
+        cout<<a[i]<<endl;
+    }
+
+    return 0;
+}
+
+#endif
+#if 0//
+#include<stdio.h>
+#include<stdlib.h>
+typedef int DataType;
+typedef struct treenode *TreeNode;
+typedef struct treenode *BinTree;
+
+struct treenode
+{
+    DataType element;
+    TreeNode llink;
+    TreeNode rlink;
+};
+
+BinTree createBinTree(DataType x)
+{
+    BinTree tree = NULL;
+    tree = malloc(sizeof(struct treenode));
+    tree->element = x;
+    return tree;
+}
+
+BinTree addToLeft(BinTree t, DataType x)
+{
+    TreeNode node = NULL;
+    node = malloc(sizeof(struct treenode));
+    if (node != NULL)
+        node->element = x;
+    t -> llink = node;
+    return node;
+}
+
+BinTree addToRight(BinTree t, DataType x)
+{
+    TreeNode node = NULL;
+    node = malloc(sizeof(struct treenode));
+    if (node != NULL)
+        node->element = x;
+    t-> rlink = node;
+    return node;
+}
+
+void visitRoot(BinTree tree)
+{
+    printf("%d ", tree->element);
+}
+
+BinTree leftChild(BinTree tree)
+{
+    return tree->llink;
+}
+
+BinTree rightChild(BinTree tree)
+{
+    return tree->rlink;
+}
+
+void preOrder(BinTree tree)
+{
+    if(tree == NULL)
+        return;
+    visitRoot(tree);
+    preOrder(leftChild(tree));
+    preOrder(rightChild(tree));
+}
+
+void inOrder(BinTree tree)
+{
+    if(NULL == tree)
+        return;
+    inOrder(leftChild(tree));
+    visitRoot(tree);
+    inOrder(rightChild(tree));
+}
+
+void postOrder(BinTree tree)
+{
+    if(NULL == tree)
+        return;
+    postOrder(leftChild(tree));
+    postOrder(rightChild(tree));
+    visitRoot(tree);
+}
+
+int main()
+{
+    BinTree left, right;
+    BinTree tree = createBinTree(5);
+    left = addToLeft(tree, 4);
+    right = addToRight(tree, 3);
+    addToLeft(left, 8);
+    addToRight(left, 7);
+    addToLeft(right, 6);
+
+    printf("先根周游次序：");
+    preOrder(tree);
+    printf("\n");
+    printf("中根周游次序：");
+    inOrder(tree);
+    printf("\n");
+    printf("后根周游算法：");
+    postOrder(tree);
+    printf("\n");
+    return 1;
+}
+
+
+
+#endif
+#if 0
 #include <iostream>
 #include <string.h>
 #include <sys/time.h>
@@ -386,6 +540,17 @@ int main(int argc, char **argv)
 #endif
 
 #if 0 // sort
+#include <iostream>
+#include <vector>
+#include <string>
+#include <sys/time.h>
+
+using std::cin;
+using std::cout;
+using std::endl;
+using std::vector;
+using std::string;
+
 static int count = 0;
 
 template <class Type> 
@@ -408,7 +573,6 @@ void exch(Type &a, Type &b)
     count++;
 }
 
-#if 0
 template <class Type> 
 void sort_bubble(vector<Type> &a)
 {
@@ -471,9 +635,7 @@ void sort_insert(vector<Type> &a)
         }
     }
 }
-#endif
 
-#if 0
 template <typename Type>
 int partition(vector<Type> &a, int index, int left, int right)
 {
@@ -510,44 +672,7 @@ void sort_quick(vector<Type> &a, int left, int right)
        sort_quick(a, index + 1, right);
     }
 }
-#endif
-#if 0
-template <typename Type>
-int partition(vector<Type> &a, int index, int left, int right)
-{
-    int poivt = a[index];
-    int position = left;
-    int i = 0;
 
-    exch(a[index], a[right]);
-    for (i = left; i < right; i++)
-    {
-        if (a[i] <= poivt)
-        {
-            exch(a[i], a[position]);
-            position++;
-        }
-    }
-   
-    exch(a[position], a[right]);
-    return position;
-}
-
-template <class Type> 
-void sort_quick(vector<Type> &a, int left, int right)
-{
-    int index = 0;
-    if (right > left)
-    {
-        index = (right - left + 1)/2;
-        index = partition(a, left+index, left, right);
-        sort_quick(a, left, index - 1);
-        sort_quick(a, index + 1, right);
-    }
-}
-#endif
-
-#if 0
 template <class Type> 
 void show(vector<Type> &a, string b, long time)
 {
@@ -615,7 +740,6 @@ int main(int argc, char **argv)
     show(num4, "quick", timespend);
     return 0;
 }
-#endif
 #endif
 
 #if 0 //gcd
