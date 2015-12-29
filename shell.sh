@@ -216,4 +216,11 @@ echo -e "\e[1;42m Green Background \e[0m"
 
 echo -e ${CMD}'regex'
 echo "abc" |grep -E "ab." # www.regexper.com perfect url
-exit
+echo
+
+echo -e ${CMD}'sed'
+echo thisthisthis | sed 's/this/THIS/3g'
+echo
+
+
+
