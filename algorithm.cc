@@ -1,29 +1,46 @@
-#if 1 //string sort
+#if 1 //string sort1: key-index sort
 #include <iostream>
 #include <string>
+#include <vector>
+#include <sys/time.h>
+
 using std::cout;
 using std::cin;
 using std::endl;
 using std::string;
+using std::vector;
 
-void sort(String[] a, int W) 
+struct timeval tvstart, tvend;
+
+void show(vector<string> &a)
+{
+    long timespend = 0;
+    for (int i = 0; i < a.size(); i++)
+    {
+        cout<<a[i]<<endl;
+    }
+    timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
+    cout<<"time spend: "<<timespend<<endl;
+}
+
+void sort_lsd(vector<string> &a, int W) 
 {   // Sort a[] on leading W characters. 
-    int N = a.length; 
+    int N = a.size(); 
     int R = 256; 
-    string[] aux = new String[N]; 
+    vector<string> aux(a);
 
     for (int d = W-1; d >= 0; d--) 
     { // Sort by key-indexed counting on dth char. 
 
-        int[] count = new int[R+1];               // Compute frequency counts. 
+        vector<int> count(R+1, 0);                // Compute frequency counts.
         for (int i = 0; i < N; i++) 
-            count[a[i].charAt(d) + 1]++; 
+            count[a[i].at(d) + 1]++; 
 
         for (int r = 0; r < R; r++)               // Transform counts to indices. 
             count[r+1] += count[r]; 
 
         for (int i = 0; i < N; i++)               // Distribute. 
-            aux[count[a[i].charAt(d)]++] = a[i]; 
+            aux[count[a[i].at(d)]++] = a[i]; 
 
         for (int i = 0; i < N; i++)               // Copy back. 
             a[i] = aux[i]; 
@@ -32,12 +49,31 @@ void sort(String[] a, int W)
 
 int main()
 {
-    vector<string> a = {"hello", "world", "fuck2", "you23", "other"};
-    sort(a, 5);
-    for (int i = 0; i < a.size(); i++)
+    vector<string> a;
+    string b;
+    int num, len;
+    cout<<"Please input the length and the number of the string you want to sort: "<<endl;
+    cin>>len;
+    cin>>num;
+
+    //construct the array
+    for (int i = 0; i < num; i++)
     {
-        cout<<a[i]<<endl;
+        b.clear();
+        for (int j = 0; j < len; j++)
+        {
+            b.push_back('a'+rand()%26);
+        }
+        a.push_back(b);
     }
+    //do the string sort
+    cout<<"before sort: "<<endl;
+    show(a);
+    cout<<"after sort: "<<endl;
+    gettimeofday(&tvstart, NULL);
+    sort_lsd(a, len);
+    gettimeofday(&tvend, NULL);
+    show(a);
 
     return 0;
 }
