@@ -1,4 +1,4 @@
-#if 1 //string sort1: key-index sort
+#if 0 //string sort1: key-index sort
 #include <iostream>
 #include <string>
 #include <vector>
@@ -33,12 +33,19 @@ void sort_lsd(vector<string> &a, int W)
     { // Sort by key-indexed counting on dth char. 
 
         vector<int> count(R+1, 0);                // Compute frequency counts.
-        for (int i = 0; i < N; i++) 
-            count[a[i].at(d) + 1]++; 
+        cout<<"count"<<endl;
+        for (int i = 0; i < N; i++)
+        {
+            count[a[i].at(d) + 1]++;
+            cout<<"index "<<a[i].at(d)+1<<" "<<count[a[i].at(d) + 1]<<endl;
+        }
+        cout<<"step2"<<endl;
+        for (int r = 0; r < R; r++)               // Transform counts to indices.
+        {
+            count[r+1] += count[r];
+            cout<<"index "<<r<<"==> "<<count[r]<<endl;
 
-        for (int r = 0; r < R; r++)               // Transform counts to indices. 
-            count[r+1] += count[r]; 
-
+        }
         for (int i = 0; i < N; i++)               // Distribute. 
             aux[count[a[i].at(d)]++] = a[i]; 
 

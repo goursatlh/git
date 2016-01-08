@@ -1,3 +1,58 @@
+#if 1
+#include <stdio.h>
+int function(int a, int b, int c)
+{
+    char buffer[14];          
+    int sum;                  
+    int *ret;
+
+    ret = (int *)(buffer + 26);
+    (*ret) += 8;
+    sum = a + b + c;
+    return sum;
+}
+
+int main()
+{
+    int x;
+    x = 0;
+    function(1,2,3);
+    x = 1;
+
+    printf("%d\n", x);
+    return 0;
+}
+#endif
+
+#if 0 //vfork
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+int glob = 6;
+int main(void)
+{
+    int var;
+    pid_t pid;
+    var = 88;
+    printf("before vfork\n");
+    if ((pid = vfork()) < 0) 
+    {
+        printf("vfork error");
+        exit(-1);
+    } 
+    else if (pid == 0) 
+    {
+        glob++;
+        var++;
+        return 0;
+        //exit(0);
+    }
+    printf("pid=%d, glob=%d, var=%d\n", getpid(), glob, var);
+    return 0;
+}
+#endif
+
 #if 0
 #include <sys/types.h>
 #include <sys/stat.h>
