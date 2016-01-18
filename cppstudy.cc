@@ -1,3 +1,41 @@
+#if 1
+#include <iostream>
+#include <string>
+using std::cout;
+using std::endl;
+using std::string;
+class A
+{
+public:
+    int val;
+    float val2;
+    char val3;
+    long val4;
+    static int static_val;
+    string arr;
+    //A *pnext;
+};
+A a;
+int main()
+{
+    A b;
+    cout<<"val "<<b.val<<endl;
+    cout<<"val2 "<<b.val2<<endl;
+    cout<<"val3 "<<b.val3<<endl;
+    cout<<"val4 "<<b.val4<<endl;
+    cout<<"arr "<<b.arr<<endl;
+    cout<<"static val "<<b.static_val<<endl;
+   
+    cout<<"global val "<<a.val<<endl;
+    cout<<"global val2 "<<a.val2<<endl;
+    cout<<"global val3 "<<a.val3<<endl;
+    cout<<"glocal val4 "<<a.val4<<endl;
+    cout<<"global arr "<<a.arr<<endl;
+    cout<<"global static "<<a.static_val<<endl;
+    
+    return 0;
+}
+#endif
 #if 0 // string object
 #include <iostream>
 #include <string>

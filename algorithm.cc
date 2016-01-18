@@ -1,4 +1,4 @@
-#if 0 //string sort1: key-index sort
+#if 1 //string sort1: key-index sort
 #include <iostream>
 #include <string>
 #include <vector>
@@ -21,6 +21,48 @@ void show(vector<string> &a)
     }
     timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
     cout<<"time spend: "<<timespend<<endl;
+}
+
+int R = 256;         // radix 
+int M = 5;          // cutoff for small subarrays 
+int charAt(string s, int d) 
+{  
+    if (d < s.length()) 
+        return s.at(d); 
+    else 
+        return -1;               
+} 
+
+void sort(vector<string> a, int lo, int hi, int d) 
+{    
+    vector<string> aux;  // auxiliary array for distribution 
+
+    if (hi <= lo + M) 
+    {  Insertion.sort(a, lo, hi, d); return;  } 
+
+    int[] count = new int[R+2];               // Compute frequency counts. 
+    for (int i = lo; i <= hi; i++) 
+        count[charAt(a[i], d) + 2]++; 
+
+    for (int r = 0; r < R+1; r++)             // Transform counts to indices. 
+        count[r+1] += count[r]; 
+
+    for (int i = lo; i <= hi; i++)            // Distribute. 
+        aux[count[charAt(a[i], d) + 1]++] = a[i]; 
+
+    for (int i = lo; i <= hi; i++)            // Copy back. 
+        a[i] = aux[i - lo]; 
+
+    // Recursively sort for each character value. 
+    for (int r = 0; r < R; r++) 
+        sort(a, lo + count[r], lo + count[r+1] - 1, d+1); 
+
+} 
+
+void sort_msd(vector<string> &a)
+{
+    int N = a.size(); 
+    sort(a, 0, N-1, 0); 
 }
 
 void sort_lsd(vector<string> &a, int W) 
