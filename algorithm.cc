@@ -1,4 +1,139 @@
-#if 1 //string sort1: key-index sort
+#if 1 // binary tree/red-black tree
+#include <iostream>
+
+using std::cout;
+using std::cin;
+using std::endl;
+
+class Node
+{
+public:
+    Node *left;
+    Node *right;
+    int key;
+    //int num; //num of nodes of the tree which use this node as the root.
+    Node(int key, Node *left, Node *right): 
+         key(key), left(left), right(right) {}
+};
+
+class BSD 
+{
+    Node *root;
+    //how to present the node(not root node)
+public:
+    BSD(): root(NULL) {}
+    //int get(int key); // how to insert a new node and make the tree ordered and balance.
+    void put(int key);    
+    void print();
+private:
+    //int get();
+    void put(Node *&n, int key);
+    void print(Node *n);
+};
+#if 0
+int get(Node *x, int key)
+{
+    if (x->num == 0)
+        return -1;
+    if (key < x->key)
+        get(x->left, key);
+    else if (key > x->key)
+        get(x->right, key);
+    else
+        return x->value;
+}
+
+int BSD::get(int key)
+{
+    return get(&root, key);
+}
+#endif
+
+void BSD::put(Node *&x, int key)
+{
+   if (x == NULL)
+   {
+       x = new Node(key, NULL, NULL);
+       return;
+   }
+   if (key < x->key)
+       put(x->left, key);
+   else if (key > x->key)
+       put(x->right, key);
+   else
+       cout<<"duplicate key, can't insert to tree"<<endl;
+}
+
+void BSD::put(int key)
+{
+    return put(root, key);
+}
+
+void BSD::print()
+{
+   print(root); 
+}
+
+void BSD::print(Node *x)
+{
+    if (x)
+    {
+        print(x->left);
+        cout<<x->key<<endl;
+        print(x->right);
+    }
+}
+
+int main(int argc, char **argv)
+{
+    BSD t;
+    int tmp = 0;
+    cout<<"Please input the value: "<<endl;
+    while (cin>>tmp)
+    {
+        t.put(tmp);
+        cout<<"input "<<tmp<<endl;
+    }
+    t.print();
+    return 0;
+}
+#endif
+
+#if 0 //greedy algorithum
+#include <iostream>  
+using namespace std;  
+
+void GreedyChoose(int len,int *s,int *f,bool *flag);  
+
+int main(int argc, char* argv[])  
+{  
+    int s[11] ={1,3,0,5,3,5,6, 8, 8, 2, 12};  
+    int f[11] ={4,5,6,7,8,9,10,11,12,13,14};  
+
+    bool mark[11] = {0};  
+
+    GreedyChoose(11,s,f,mark);  
+    for(int i=0;i<11;i++)  
+        if(mark[i])  
+            cout<<i<<" ";  
+    //system("pause");  
+    return 0;  
+}  
+
+void GreedyChoose(int len,int *s,int *f,bool *flag)  
+{  
+    flag[0] = true;  
+    int j = 0;  
+    for(int i=1;i<len;++i)  
+        if(s[i] >= f[j])  
+        {  
+            flag[i] = true;  
+            j = i;  
+        }  
+}  
+#endif
+
+#if 0 //string sort1: key-index sort
 #include <iostream>
 #include <string>
 #include <vector>

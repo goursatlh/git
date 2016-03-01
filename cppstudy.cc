@@ -1,4 +1,4 @@
-#if 1
+#if 0
 #include <iostream>
 #include <string>
 using std::cout;
@@ -340,6 +340,7 @@ int main(void)
     while (!iStack.empty())
     {
         cout<<iStack.top()<<" "<<&(iStack.top())<<endl; // why does stack grow from low to high?
+                                                        // maybe it's just a app layer statck, not stack in memory layer
         iStack.pop();
     }
 
