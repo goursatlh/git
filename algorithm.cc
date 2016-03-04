@@ -23,11 +23,15 @@ class BSD
 public:
     BSD(): root(NULL) {}
     //int get(int key); // how to insert a new node and make the tree ordered and balance.
-    void put(int key);    
+    void put(int key);   
+    void del(int key);
+    void del_min();
+    void del_min(Node *&x);
     void print();
 private:
     //int get();
     void put(Node *&n, int key);
+    void del(Node *x, int key);
     void print(Node *n);
 };
 #if 0
@@ -69,6 +73,40 @@ void BSD::put(int key)
     return put(root, key);
 }
 
+#if 0
+void BSD::del(int key)
+{
+    delete(root, key);
+}
+
+void BSD::delete(Node *x, int key)
+{
+    if (x->key == key) //how to rebuild the tree
+        x = NULL;
+    else if (key < x->key)
+        delete(x->left, key);
+    else if (key > x->key)
+        delete(x->right, key);
+}
+#endif
+
+void BSD::del_min()
+{
+    del_min(root);
+}
+
+void BSD::del_min(Node *&x)
+{
+    if (x->left == NULL)
+        //delete this node
+        if (x->right == NULL)
+            x = NULL;
+        else
+            x = x->right;
+    else
+        del_min(x->left);
+}
+
 void BSD::print()
 {
    print(root); 
@@ -95,6 +133,10 @@ int main(int argc, char **argv)
         cout<<"input "<<tmp<<endl;
     }
     t.print();
+    cout<<"delete the min node."<<endl;
+    t.del_min();
+    t.print();
+
     return 0;
 }
 #endif
