@@ -9,6 +9,7 @@ s = string.ascii_lowercase
 e = enumerate(s)
 print(s)
 print(list(e))
+print("name %s: age %d"%("walter", 33))
 
 for i, j in enumerate(s):
     print(i,j)
