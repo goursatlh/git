@@ -1,9 +1,20 @@
 #if 1 // binary tree/red-black tree
 #include <iostream>
+#include <list>
 
 using std::cout;
 using std::cin;
 using std::endl;
+using std::list;
+
+class DisplayInfo  
+{  
+public:  
+    int level;  
+    int pos;        //结点在屏幕中的绝对位置  
+    bool enter;  
+    int spaceNum;  
+}; 
 
 class Node
 {
@@ -11,49 +22,50 @@ public:
     Node *left;
     Node *right;
     int key;
-    //int num; //num of nodes of the tree which use this node as the root.
+    //int num; /\num of nodes of the tree which use this node as the root.
     Node(int key, Node *left, Node *right): 
          key(key), left(left), right(right) {}
 };
 
-class BSD 
+class BST 
 {
     Node *root;
     //how to present the node(not root node)
 public:
-    BSD(): root(NULL) {}
-    //int get(int key); // how to insert a new node and make the tree ordered and balance.
+    BST(): root(NULL) {}
+    int get(int key); // how to insert a new node and make the tree ordered and balance.
     void put(int key);   
     void del(int key);
     void del_min();
     void del_min(Node *&x);
     void print();
+    void NatureDisplayTree();  
 private:
-    //int get();
+    int get(Node *x, int key);
     void put(Node *&n, int key);
-    void del(Node *x, int key);
+    void del(Node *&x, int key);
+    Node *min(Node *x);
     void print(Node *n);
 };
-#if 0
-int get(Node *x, int key)
+
+int BST::get(Node *x, int key)
 {
-    if (x->num == 0)
+    if (x == 0)
         return -1;
     if (key < x->key)
         get(x->left, key);
     else if (key > x->key)
         get(x->right, key);
     else
-        return x->value;
+        return 0;
 }
 
-int BSD::get(int key)
+int BST::get(int key)
 {
-    return get(&root, key);
+    return get(root, key);
 }
-#endif
 
-void BSD::put(Node *&x, int key)
+void BST::put(Node *&x, int key)
 {
    if (x == NULL)
    {
@@ -68,34 +80,57 @@ void BSD::put(Node *&x, int key)
        cout<<"duplicate key, can't insert to tree"<<endl;
 }
 
-void BSD::put(int key)
+void BST::put(int key)
 {
     return put(root, key);
 }
 
-#if 0
-void BSD::del(int key)
+Node *BST::min(Node *x)
 {
-    delete(root, key);
+    if (x == NULL)
+        return NULL;
+    else if (x->left == NULL)
+        return x;
+    else 
+        return min(x->left);
+}
+void BST::del(int key)
+{
+    del(root, key);
 }
 
-void BSD::delete(Node *x, int key)
+void BST::del(Node *&x, int key)
 {
-    if (x->key == key) //how to rebuild the tree
-        x = NULL;
+    if (x->key == key)
+    {
+        if (x->left == NULL)
+            x = x->right;
+        else
+        {
+            if (x->right)
+            {
+                Node *p = min(x->right);
+                del_min(x->right);
+                p->left = x->left;
+                p->right = x->right;
+                x  = p;
+            }
+            else
+                x = x->left;
+        }
+    }
     else if (key < x->key)
-        delete(x->left, key);
+        del(x->left, key);
     else if (key > x->key)
-        delete(x->right, key);
+        del(x->right, key);
 }
-#endif
 
-void BSD::del_min()
+void BST::del_min()
 {
     del_min(root);
 }
 
-void BSD::del_min(Node *&x)
+void BST::del_min(Node *&x)
 {
     if (x->left == NULL)
         //delete this node
@@ -107,12 +142,13 @@ void BSD::del_min(Node *&x)
         del_min(x->left);
 }
 
-void BSD::print()
+void BST::print()
 {
-   print(root); 
+    cout<<"trees: "<<endl;
+    print(root); 
 }
 
-void BSD::print(Node *x)
+void BST::print(Node *x)
 {
     if (x)
     {
@@ -122,21 +158,113 @@ void BSD::print(Node *x)
     }
 }
 
+void BST::NatureDisplayTree()
+{
+    int i;
+    list<Node *>Q;
+    list<DisplayInfo>QI;
+    int screenWidth=64;
+    int dataWidth=2;
+    DisplayInfo info;    //将插入队列的结点的打印信息
+    DisplayInfo preInfo; //队尾的结点的打印信息
+    Node *curNode;       //队列当前取出的结点
+    DisplayInfo curInfo; //队列当前取出的结点的打印信息
+    if(!root)
+    {
+        printf("Tree is empty !\n");
+        return;
+    }
+
+    printf("Nature Display Tree:\n");
+    Q.push_back(root);
+    info.level=1;
+    info.enter=true;
+    info.spaceNum=screenWidth>>info.level;
+    info.pos=info.spaceNum;
+    QI.push_back(info);
+    preInfo=info;
+    while(Q.size())
+    {
+        curNode=Q.front();
+        Q.pop_front();
+        curInfo=QI.front();
+        if(curInfo.enter) 
+            printf("\n\n");
+        for (i=0;i<curInfo.spaceNum;i++)
+            printf(" ");
+        printf("%2d",curNode->key);
+        QI.pop_front();
+        if(curNode->left)
+        {
+            Q.push_back(curNode->left);
+            info.level=curInfo.level+1;
+            info.pos=curInfo.pos-(screenWidth>>info.level);
+            if(info.level>preInfo.level)
+            {
+                info.enter=true;
+                info.spaceNum=info.pos;
+            }
+            else
+            {
+                info.enter=false;
+                info.spaceNum=info.pos-preInfo.pos;
+            }
+            info.spaceNum-=dataWidth;
+            QI.push_back(info);
+            preInfo=info;
+
+        }
+        if(curNode->right)
+        {
+            Q.push_back(curNode->right);
+            info.level=curInfo.level+1;
+            info.pos=curInfo.pos+(screenWidth>>info.level);
+            if(info.level>preInfo.level)
+            {
+                info.enter=true;
+                info.spaceNum=info.pos;
+            }
+            else
+            {
+                info.enter=false;
+                info.spaceNum=info.pos-preInfo.pos;
+            }
+            info.spaceNum-=dataWidth;
+            QI.push_back(info);
+            preInfo=info;
+        }
+
+    }
+    printf("\n");
+}
+
 int main(int argc, char **argv)
 {
-    BSD t;
-    int tmp = 0;
-    cout<<"Please input the value: "<<endl;
-    while (cin>>tmp)
+    BST t;
+    int num = 0;
+    int a = 0;
+    cout<<"please input the number you want to play: "<<endl;
+    cin>>num;
+    while (num--)
     {
-        t.put(tmp);
-        cout<<"input "<<tmp<<endl;
+        t.put(rand()%100);
     }
     t.print();
+    t.NatureDisplayTree();
     cout<<"delete the min node."<<endl;
     t.del_min();
     t.print();
-
+    t.NatureDisplayTree();
+    cout<<"plese input the key you want to delete: "<<endl;
+    if (cin>>a)
+    {
+        if (!t.get(a))
+            t.del(a);
+        else
+            cout<<"the number you input is not existed"<<endl;
+    }
+    t.print();
+    t.NatureDisplayTree();
     return 0;
 }
 #endif
