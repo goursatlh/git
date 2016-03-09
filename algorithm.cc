@@ -1,4 +1,31 @@
-#if 1 // binary tree/red-black tree
+#if 1 // rb tree
+#include <iostream>
+class node
+{
+    node *left;
+    node *right;
+    int color;
+#define RED 0
+#define BLCAK 1
+    int key;
+
+    node(int key, int color): key(key), color(color) {}
+};
+
+class rb_tree
+{
+    node *root;
+    bool is_red(node *x);
+
+};
+
+int main()
+{
+    return 0;
+}
+#endif
+
+#if 0 // binary tree/red-black tree
 #include <iostream>
 #include <list>
 
