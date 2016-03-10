@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+'''
 print("hello world.","fuck you then")
 name = input("please input your name: ")
 print("hello", name)
@@ -160,17 +161,130 @@ for i in range(1,4):
     print(next(o))
 
 
+def circle(x):
+    return 3.14 *x *x
+print(circle(2))
 
+def my_abs(x):
+    if not isinstance(x, (int, float)):
+        raise TypeError("bad input")
+        print("come herr")
+        if x > 20:
+            print("bigger than 20")
+        else:
+            print("smaller than 20")
 
+my_abs('s')
 
+import math
 
+def move(x, y, step, angle=0):
+    nx = x + step * math.cos(angle)
+    ny = y + step * math.sin(angle)
+    return nx, ny
+print(math.pi)
+print(math.sin(math.pi/3))
+r = move(10, 20, 3, math.pi/6)
+print(r)
 
+def power(x, y = 2):
+    s = 1
+    while y > 0:
+        s = s * x 
+        y -= 1
+    return s
+print(power(2, 3))
+print(power(2)) #use default parameter
 
+def enroll(name, gender, age=6, city="beijing"):
+    print("name", name)
+    print("gender", gender)
+    print("age", age)
+    print("city", city)
+enroll("sam", "M")
+enroll("tom", 'F', city="shenzhen")
+'''
+'''
+def add_end(L=[]):
+    L.append("END")
+    return L
+print(add_end([1, 2, 3]))
+print(add_end())
+print(add_end())
+print(add_end())
+'''
+'''
+# list, tuple, dict, set
+L = [3, 2, 1]
+print(L)
+print(L[0], L[1])
+L.append("hello")
+print(L)
+L[0] = 0.3
+print(L)
+L.insert(1, [9,9])
+print(L)
+L.append(2) #insert duplicate element
+print(L)
+L.pop()
+print(L)
+L.pop(1)
+print(L)
 
+T = (2, 1);
+print(T)
+print(T[0])
+#T[0] = 3
 
+T1 = (1, "hello", T, L)
+print(T1)
+L[0] = 99
+print(T1)
 
+D = {"sam":1, "gary":3}
+print(D)
+print(D["sam"])
+D[100] = "jerry"
+print(D)
+print(D.get("sam", -1))
+print(D.get(100, -1))
+print(D.get(1000, -1))
+print(D)
+D.pop(100)
+print(D)
+D[T] = 20
+print(D)
+#D[T1] = 30
 
+S = set([10, 2, 3, 0, 0, 2])
+print(S)
+S1 = set(T)
+print(S1)
+print(D)
+S2 = set(D)
+print(S2)
+'''
 
+def funcx(*n):
+    sum = 0
+    for i in n:
+        sum = sum + i*i
+    return sum
+print(funcx(*list(range(10))))
+print(funcx())
 
+def fact(n):
+    if n == 1:
+        return n
+    else:
+        return n * fact(n-1)
+print(fact(100))
 
- 
+def fact1(n):
+    return fact_iter(n, 1)
+
+def fact_iter(num, product):
+    if num == 1:
+        return product
+    return fact_iter(num - 1, num * product)
+print(fact1(100))
