@@ -270,9 +270,9 @@ def funcx(*n):
     for i in n:
         sum = sum + i*i
     return sum
-print(funcx(*list(range(10))))
+print(funcx(*list(range(3))))
 print(funcx())
-
+'''
 def fact(n):
     if n == 1:
         return n
@@ -288,3 +288,25 @@ def fact_iter(num, product):
         return product
     return fact_iter(num - 1, num * product)
 print(fact1(100))
+'''
+#slice for list and tuple 
+L = [4, 2, 7, 0, 8]
+print(L[0:4])
+print(L[-3:-2])
+L = list(range(100))
+print(L[-10:-1])
+print(L[-10:])
+print(L[-10::2])
+print(L[0:10:3])
+T = tuple([4, 2, 7, 0, 8])
+print(T)
+print(T[:4])
+L1 = list(range(10))
+def printx():
+    i = 1
+    while i <= 10:
+        print(L1[::i])
+        i+=1
+printx()
+    
+
