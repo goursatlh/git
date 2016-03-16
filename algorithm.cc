@@ -16,8 +16,21 @@ class rb_tree
 {
     node *root;
     bool is_red(node *x);
+    void rotate_left(node *x);
+    void rotate_right();
 
 };
+
+void rb_tree::rotate_left(node *&x)
+{
+   node * t = x->right;
+   x->right = t->left;
+   t->left = x;
+   x->color = RED;
+   t->color = BLACK;
+   x = x->right;
+
+}
 
 int main()
 {
