@@ -290,6 +290,7 @@ def fact_iter(num, product):
     return fact_iter(num - 1, num * product)
 print(fact1(100))
 '''
+
 '''
 #slice for list and tuple 
 L = [4, 2, 7, 0, 8]
@@ -322,6 +323,55 @@ def add(x, y):
     return x + y
 print(reduce(add, [1, 3, 5, 7, 9]))
 
+r = map(str, [1, 2, 3, 4, 5])
+print(list(r))
+#str2int
 
+#"123" => 123
+print("str2int")
+def f1(x):
+    return {'0':0, '1':1, '2':2, '3':3}[x]
+def f2(x1, x2):
+    return x1 * 10 + x2
+r1 = map(f1, "123")
+r2 = reduce(f2, r1)
+print(r2)
+#list and iterator and iteratorable
+
+r = [x * x for x in range(10)]
+print(r)
+
+g = (x * x for x in range(10))
+print(next(g))
+for i in g:
+    print(i, end=' ')
+print()
+
+def fib(x):
+    n, a, b = 0, 0, 1
+    while n < x:
+        #print(b, end=' ')
+        yield b
+        a, b = b, a + b
+        n += 1
+    return "done"
+for i in fib(20):
+    print(i, end=' ')
+
+'''
+def odd():
+    print('step 1')
+    yield 1
+    print('step 2')
+    yield(3)
+    print('step 3')
+    yield(5)
+
+o = odd()
+print(next(o))
+print(next(o))
+print(next(o))
+print(next(o))
+'''
 
 
