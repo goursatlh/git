@@ -311,7 +311,6 @@ def printx():
         print(L1[::i])
         i+=1
 printx()
-'''
 
 #map reduce 
 def f(x):
@@ -357,8 +356,10 @@ def fib(x):
     return "done"
 for i in fib(20):
     print(i, end=' ')
-
 '''
+
+# generator and exception catch
+a = "hello world"
 def odd():
     print('step 1')
     yield 1
@@ -368,10 +369,10 @@ def odd():
     yield(5)
 
 o = odd()
-print(next(o))
-print(next(o))
-print(next(o))
-print(next(o))
-'''
-
+while True:
+    try: 
+        print(next(o))
+    except StopIteration as e:
+        print("catch an error: ", e.value)
+        break
 
