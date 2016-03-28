@@ -356,7 +356,6 @@ def fib(x):
     return "done"
 for i in fib(20):
     print(i, end=' ')
-'''
 
 # generator and exception catch
 a = "hello world"
@@ -375,4 +374,28 @@ while True:
     except StopIteration as e:
         print("catch an error: ", e.value)
         break
+'''
+#class type
+
+class Student():
+    def __init__(self, name, score):
+        self.name = name
+        self.score = score
+    def printx(self):
+        print(self.name, self.score)
+r = Student("walter", 20)
+r.printx()
+
+
+
+
+
+
+
+
+
+
+
+
+
 
