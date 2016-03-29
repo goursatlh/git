@@ -28,6 +28,7 @@ public:
     //public api
     void put(int key);  
     void get(int key);  
+    void print();  
     void NatureDisplayTree();
 private:
     //process balance
@@ -39,6 +40,7 @@ private:
     //internal api
     int get(Node *x, int key);
     void put(Node *&x, int key);
+    void print(Node *x);  
 };
 
 class DisplayInfo  
@@ -130,12 +132,30 @@ void RBT::NatureDisplayTree()
     printf("\n");
 }
 
+void RBT::print()
+{
+    print(root);
+}
+
+void RBT::print(Node *x)
+{
+    if (x)
+    {
+        print(x->left);
+        cout<<x->key<<endl;
+        print(x->right);
+    }
+}
+
 void RBT::put(Node *&x, int key)
 {
     Node *p;
+    cout<<"key "<<key<<endl;
     if (x == NULL)
     {
-       new Node(key, RED);
+       x = new Node(key, RED);
+       cout<<"alloc new node "<<x<<endl;
+       return;
     }
     if (key < x->key)
        put(x->left, key);
@@ -146,14 +166,18 @@ void RBT::put(Node *&x, int key)
 
     if (is_red(x->right) && !is_red(x->left))
         rotate_left(x);
+
+    cout<<"here "<<x<<endl;
     if (is_red(x->left) && is_red(x->left->left))
         rotate_right(x);
+    cout<<"here2 "<<x<<endl;
     if (is_red(x->left) && is_red(x->right))
         flip_color(x);
 }
 
 void RBT::put(int key)
 {
+    cout<<"key "<<key<<endl;
     put(root, key);
     if (root)
         root->color = BLACK;
@@ -161,22 +185,26 @@ void RBT::put(int key)
 
 void RBT::rotate_left(Node *&x)
 {
+   cout<<"rotate left"<<endl;
    Node * t = x->right;
    x->right = t->left;
    t->left = x;
-   x->color = RED;
    t->color = x->color;
-   x = x->right;
+   x->color = RED;
+   x = t;
+   cout<<"rotate left out"<<endl;
 }
 
 void RBT::rotate_right(Node *&x)
 {
+   cout<<"rotate right"<<endl;
    Node * t = x->left;
    x->left = t->right;
    t->right = x;
-   x->color = RED;
    t->color = x->color;
-   x = x->left;
+   x->color = RED;
+   x = t;
+   cout<<"rotate right out"<<endl;
 }
 
 void RBT::flip_color(Node *x)
@@ -188,9 +216,10 @@ void RBT::flip_color(Node *x)
 
 bool RBT::is_red(Node *x)
 {
+   cout<<"is red "<<x<<endl;
     if (x == NULL)
         return false;
-    return x->color == RED;
+    return (x->color == RED);
 }
 
 int main(int argc, char **argv)
@@ -203,10 +232,11 @@ int main(int argc, char **argv)
     cin>>num;
     while (num--)
     {
-        //t.put(rand()%100);
-        t.put(num);
+        t.put(rand()%100);
+        //t.put(num);
     }
-    t.NatureDisplayTree();
+    t.print();
+    //t.NatureDisplayTree();
 #if 0 
     // test the delete operation
     cout<<"plese input the key you want to delete: "<<endl;
