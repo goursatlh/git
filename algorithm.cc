@@ -17,7 +17,10 @@ public:
 #define BLACK 1
     int key;
 
-    Node(int key, int color): key(key), color(color) {}
+    Node(int key, int color): key(key), color(color) 
+    {
+        left = right = NULL;
+    }
 };
 
 class RBT
@@ -150,11 +153,9 @@ void RBT::print(Node *x)
 void RBT::put(Node *&x, int key)
 {
     Node *p;
-    cout<<"key "<<key<<endl;
     if (x == NULL)
     {
        x = new Node(key, RED);
-       cout<<"alloc new node "<<x<<endl;
        return;
     }
     if (key < x->key)
@@ -166,18 +167,14 @@ void RBT::put(Node *&x, int key)
 
     if (is_red(x->right) && !is_red(x->left))
         rotate_left(x);
-
-    cout<<"here "<<x<<endl;
     if (is_red(x->left) && is_red(x->left->left))
         rotate_right(x);
-    cout<<"here2 "<<x<<endl;
     if (is_red(x->left) && is_red(x->right))
         flip_color(x);
 }
 
 void RBT::put(int key)
 {
-    cout<<"key "<<key<<endl;
     put(root, key);
     if (root)
         root->color = BLACK;
@@ -185,26 +182,22 @@ void RBT::put(int key)
 
 void RBT::rotate_left(Node *&x)
 {
-   cout<<"rotate left"<<endl;
    Node * t = x->right;
    x->right = t->left;
    t->left = x;
    t->color = x->color;
    x->color = RED;
    x = t;
-   cout<<"rotate left out"<<endl;
 }
 
 void RBT::rotate_right(Node *&x)
 {
-   cout<<"rotate right"<<endl;
    Node * t = x->left;
    x->left = t->right;
    t->right = x;
    t->color = x->color;
    x->color = RED;
    x = t;
-   cout<<"rotate right out"<<endl;
 }
 
 void RBT::flip_color(Node *x)
@@ -216,7 +209,6 @@ void RBT::flip_color(Node *x)
 
 bool RBT::is_red(Node *x)
 {
-   cout<<"is red "<<x<<endl;
     if (x == NULL)
         return false;
     return (x->color == RED);
@@ -232,11 +224,11 @@ int main(int argc, char **argv)
     cin>>num;
     while (num--)
     {
-        t.put(rand()%100);
-        //t.put(num);
+        //t.put(rand()%100);
+        t.put(num);
     }
     t.print();
-    //t.NatureDisplayTree();
+    t.NatureDisplayTree();
 #if 0 
     // test the delete operation
     cout<<"plese input the key you want to delete: "<<endl;
