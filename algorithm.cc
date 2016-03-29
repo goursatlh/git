@@ -1,39 +1,226 @@
 #if 1 // rb tree
 #include <iostream>
-class node
+#include <list>
+
+using std::cout;
+using std::cin;
+using std::endl;
+using std::list;
+
+class Node
 {
-    node *left;
-    node *right;
+public:
+    Node *left;
+    Node *right;
     int color;
 #define RED 0
-#define BLCAK 1
+#define BLACK 1
     int key;
 
-    node(int key, int color): key(key), color(color) {}
+    Node(int key, int color): key(key), color(color) {}
 };
 
-class rb_tree
+class RBT
 {
-    node *root;
-    bool is_red(node *x);
-    void rotate_left(node *x);
-    void rotate_right();
-
+    Node *root;
+public:
+    RBT(): root(NULL) {}
+    //public api
+    void put(int key);  
+    void get(int key);  
+    void NatureDisplayTree();
+private:
+    //process balance
+    void rotate_left(Node *&x);
+    void rotate_right(Node *&x);
+    bool is_red(Node *x);
+    void flip_color(Node *x);
+   
+    //internal api
+    int get(Node *x, int key);
+    void put(Node *&x, int key);
 };
 
-void rb_tree::rotate_left(node *&x)
+class DisplayInfo  
+{  
+public:  
+    int level;  
+    int pos;        //结点在屏幕中的绝对位置  
+    bool enter;  
+    int spaceNum;  
+}; 
+
+void RBT::NatureDisplayTree()
 {
-   node * t = x->right;
+    int i;
+    list<Node *>Q;
+    list<DisplayInfo>QI;
+    int screenWidth=64;
+    int dataWidth=2;
+    DisplayInfo info;    //将插入队列的结点的打印信息
+    DisplayInfo preInfo; //队尾的结点的打印信息
+    Node *curNode;       //队列当前取出的结点
+    DisplayInfo curInfo; //队列当前取出的结点的打印信息
+    if(!root)
+    {
+        printf("Tree is empty !\n");
+        return;
+    }
+
+    printf("Nature Display Tree:\n");
+    Q.push_back(root);
+    info.level=1;
+    info.enter=true;
+    info.spaceNum=screenWidth>>info.level;
+    info.pos=info.spaceNum;
+    QI.push_back(info);
+    preInfo=info;
+    while(Q.size())
+    {
+        curNode=Q.front();
+        Q.pop_front();
+        curInfo=QI.front();
+        if(curInfo.enter) 
+            printf("\n\n");
+        for (i=0;i<curInfo.spaceNum;i++)
+            printf(" ");
+        printf("%2d",curNode->key);
+        QI.pop_front();
+        if(curNode->left)
+        {
+            Q.push_back(curNode->left);
+            info.level=curInfo.level+1;
+            info.pos=curInfo.pos-(screenWidth>>info.level);
+            if(info.level>preInfo.level)
+            {
+                info.enter=true;
+                info.spaceNum=info.pos;
+            }
+            else
+            {
+                info.enter=false;
+                info.spaceNum=info.pos-preInfo.pos;
+            }
+            info.spaceNum-=dataWidth;
+            QI.push_back(info);
+            preInfo=info;
+
+        }
+        if(curNode->right)
+        {
+            Q.push_back(curNode->right);
+            info.level=curInfo.level+1;
+            info.pos=curInfo.pos+(screenWidth>>info.level);
+            if(info.level>preInfo.level)
+            {
+                info.enter=true;
+                info.spaceNum=info.pos;
+            }
+            else
+            {
+                info.enter=false;
+                info.spaceNum=info.pos-preInfo.pos;
+            }
+            info.spaceNum-=dataWidth;
+            QI.push_back(info);
+            preInfo=info;
+        }
+
+    }
+    printf("\n");
+}
+
+void RBT::put(Node *&x, int key)
+{
+    Node *p;
+    if (x == NULL)
+    {
+       new Node(key, RED);
+    }
+    if (key < x->key)
+       put(x->left, key);
+    else if (key > x->key)
+       put(x->right, key);
+    else
+       cout<<"duplicate key, can't insert to tree"<<endl;
+
+    if (is_red(x->right) && !is_red(x->left))
+        rotate_left(x);
+    if (is_red(x->left) && is_red(x->left->left))
+        rotate_right(x);
+    if (is_red(x->left) && is_red(x->right))
+        flip_color(x);
+}
+
+void RBT::put(int key)
+{
+    put(root, key);
+    if (root)
+        root->color = BLACK;
+}
+
+void RBT::rotate_left(Node *&x)
+{
+   Node * t = x->right;
    x->right = t->left;
    t->left = x;
    x->color = RED;
-   t->color = BLACK;
+   t->color = x->color;
    x = x->right;
-
 }
 
-int main()
+void RBT::rotate_right(Node *&x)
 {
+   Node * t = x->left;
+   x->left = t->right;
+   t->right = x;
+   x->color = RED;
+   t->color = x->color;
+   x = x->left;
+}
+
+void RBT::flip_color(Node *x)
+{
+    x->color = RED;
+    x->left->color = BLACK;
+    x->right->color = BLACK;
+}
+
+bool RBT::is_red(Node *x)
+{
+    if (x == NULL)
+        return false;
+    return x->color == RED;
+}
+
+int main(int argc, char **argv)
+{
+    RBT t;
+    int num = 0;
+    int a = 0;
+    // test the insert operation
+    cout<<"please input the number you want to play: "<<endl;
+    cin>>num;
+    while (num--)
+    {
+        //t.put(rand()%100);
+        t.put(num);
+    }
+    t.NatureDisplayTree();
+#if 0 
+    // test the delete operation
+    cout<<"plese input the key you want to delete: "<<endl;
+    if (cin>>a)
+    {
+        if (!t.get(a))
+            t.del(a);
+        else
+            cout<<"the key you input doesn't exist"<<endl;
+    }
+    
+    t.print();
+    t.NatureDisplayTree();
+#endif
     return 0;
 }
 #endif
