@@ -375,16 +375,23 @@ while True:
         print("catch an error: ", e.value)
         break
 '''
+'''
 #class type
-
-class Student():
+class Student(object):
+    "decribe class Student"
+    __x = 2
     def __init__(self, name, score):
         self.name = name
-        self.score = score
-    def printx(self):
-        print(self.name, self.score)
+        self.__score = score
+    def printc(self):
+        print(self.name, self.__score)
 r = Student("walter", 20)
-r.printx()
+r.printc()
+#r.__x = 22 #equal to add a new public element for object r
+#print(r.__x)
+print(r._Student__score) #not recommend
+'''
+
 
 
 
