@@ -1,3 +1,101 @@
+#if 0 // hash_map
+#include <iostream>
+#include <string.h>
+#include <ext/hash_map>
+
+using std::cout;
+using std::cin;
+using std::endl;
+using std::string;
+using namespace __gnu_cxx;
+
+#if 0
+const int LEN = 62; // 26 + 26 + 10
+char g_arrCharElem[LEN] = {'0', '1', '2',... 'A', 'B', 'C', ... 'a', 'b', 'c'};
+ 
+int rand_str()
+{
+    int iLen;
+    cout<<"Please input the len of string: ";
+    do
+    {
+        cin >> iLen;
+    } while (iLen <= 0);
+
+    char* szStr = new char[iLen + 1];
+    szStr[iLen] = '\0';
+    srand((unsigned)time(0));
+    int iRand = 0;
+    for (int i = 0; i < iLen; ++i)
+    {
+        iRand = rand() % LEN;            // iRand = 0 - 61
+        szStr[i] = g_arrCharElem[iRand];
+    }
+    cout << "生成的随机字符串为:\n";
+    cout << szStr << endl;
+    delete[] szStr;
+    return 0;
+}
+#endif
+
+struct hash_string {
+    size_t operator()(const string &str) const
+    {
+        unsigned int h = 0;
+        for (size_t i = 0; i < str.size(); i++)
+        {
+            h = h*5 + str[i];
+        }
+        return (size_t)h;
+    }
+};
+
+struct compare_string {
+    bool operator()(const string &str1, const string &str2) const
+    {
+        cout<<"compare func"<<endl;
+        return str1 == str2;
+    }
+};
+
+int main(void)
+{
+    //hash_map<int, string> my_map;
+    hash_map<string, int, hash_string, compare_string> my_map;
+    unsigned int num = 0;
+    cout<<"Please input the num you want to hash: "<<endl;
+    do 
+    {
+        cin>>num;
+    }while (num <= 0);
+
+    string b;
+    for (int i = 0; i < num; i++)
+    {
+        b.clear();
+        unsigned int len = 1 + rand()%10;
+        for (int j = 0; j < len; j++)
+        {
+            b.push_back('a'+rand()%26);
+        }
+        cout<<i<<" "<<b<<endl;
+        my_map[b] = rand()%100;
+    }
+    
+    if (my_map.find(b) != my_map.end())
+    {
+        cout<<"find the key: "<<b<<endl;
+    }
+    else
+    {
+        cout<<"can't find the key"<<endl;
+    }
+    cout<<sizeof(my_map)<<endl;
+    cout<<my_map.size()<<endl;
+    return 0;
+}
+#endif
+
 #if 1 // rb tree
 #include <iostream>
 #include <list>
@@ -28,6 +126,7 @@ public:
     //public api
     void put(int key);  
     void get(int key);  
+    void del(int key);  
     void NatureDisplayTree();
 private:
     //process balance
@@ -84,7 +183,7 @@ void RBT::NatureDisplayTree()
             printf("\n\n");
         for (i=0;i<curInfo.spaceNum;i++)
             printf(" ");
-        printf("%2d",curNode->key);
+        printf("%2d(%d)",curNode->key, curNode->color);
         QI.pop_front();
         if(curNode->left)
         {
@@ -135,7 +234,8 @@ void RBT::put(Node *&x, int key)
     Node *p;
     if (x == NULL)
     {
-       new Node(key, RED);
+       x = new Node(key, RED);
+       return;
     }
     if (key < x->key)
        put(x->left, key);
@@ -166,7 +266,7 @@ void RBT::rotate_left(Node *&x)
    t->left = x;
    x->color = RED;
    t->color = x->color;
-   x = x->right;
+   x = t;
 }
 
 void RBT::rotate_right(Node *&x)
@@ -176,7 +276,7 @@ void RBT::rotate_right(Node *&x)
    t->right = x;
    x->color = RED;
    t->color = x->color;
-   x = x->left;
+   x = t;
 }
 
 void RBT::flip_color(Node *x)
@@ -200,7 +300,10 @@ int main(int argc, char **argv)
     int a = 0;
     // test the insert operation
     cout<<"please input the number you want to play: "<<endl;
-    cin>>num;
+    do {
+        cin>>num;
+    } while (num <= 0);
+    
     while (num--)
     {
         //t.put(rand()%100);

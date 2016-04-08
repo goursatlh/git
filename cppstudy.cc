@@ -1401,7 +1401,15 @@ int main()
     return 0;
 }
 #endif
-#if 0 // template class for a link
+
+#if 0 // template class for a link and static member in template class
+#include <iostream>
+#include <string>
+
+using std::cout;
+using std::endl;
+using std::string;
+
 template <class Type> class Queue; 
 template <class Type> class QueueItem { 
     friend class Queue<Type>;
@@ -1412,6 +1420,7 @@ template <class Type> class QueueItem {
 
 template <class Type> class Queue {  
     public:  
+        //Queue(): head(0), tail(0), size(0) { } 
         Queue(): head(0), tail(0) { } 
         void push(const Type &);        
         void pop();                      
@@ -1419,9 +1428,18 @@ template <class Type> class Queue {
         {            
             return (head == 0);  
         }
-        void print_size()
+        void print()
         {
-            cout<<"link note number: "<<size<<endl;
+            QueueItem<Type> *pItem = head;
+            cout<<"link item number: "<<size<<endl;
+            if (!empty())
+            {
+                while (pItem)
+                {
+                    cout<<pItem->item<<endl;
+                    pItem = pItem->next;
+                }
+            }
         }
         //void init_size(unsigned val){size = val;}
 
@@ -1429,7 +1447,9 @@ template <class Type> class Queue {
         QueueItem<Type> *head;           
         QueueItem<Type> *tail;    
         static unsigned size;
+        //unsigned size;
 };
+
 template <class Type> unsigned Queue<Type>::size = 0;
 
 template <class Type> void Queue<Type>::pop()
@@ -1460,10 +1480,17 @@ int main(void)
     Queue<int> oa;
     oa.push(2);
     oa.push(3);
-    oa.print_size();
+    oa.print();
+    oa.pop();
+    oa.print();
+    Queue<int> oa1;
+    oa1.push(38);
+    oa1.print();
+    
     Queue<string> ob;
     string s("hello");
     ob.push(s);
+    ob.print();
 
     return 0;
 }
@@ -1489,7 +1516,15 @@ int main(void)
     cout<<array[i]<<endl;
 }
 #endif
-#if 0 // template
+
+#if 0 // template function
+#include <iostream>
+#include <string>
+
+using std::cout;
+using std::endl;
+using std::string;
+
 template <typename T>
 int compare(T a, T b)
 {
@@ -1527,6 +1562,7 @@ int main()
     char s3[] = "hello world";
     char s4[] = "fuck you then";
     cout<<compare(s1, s2)<<endl;
+#if 0
     cout<<compare(s3, s4)<<endl;
     cout<<compare(a, b)<<endl;
     cout<<comp("hello", "world")<<endl;
@@ -1534,6 +1570,7 @@ int main()
     //cout<<comp(s1, s2)<<endl;   // error, string isn't equal to char a[]
     //cout<<compare_ref(s1, s2)<<endl;
     cout<<compare_ref(s3, s4)<<endl;  //error, char [12] not equal to char [14]
+#endif
     return 0;
 }
 #endif

@@ -391,18 +391,52 @@ r.printc()
 #print(r.__x)
 print(r._Student__score) #not recommend
 '''
+#inherit
+class animal():
+    def printx(self):
+        print("this is animal...")
+class cat(animal):
+    def printx(self):
+        print("this is cat...")
+class people():
+    def printx(self):
+        print("this is people...")
+a = animal()
+a.printx()
+c = cat()
+c.printx()
+print(isinstance(c, animal))
+p = people()
+print(isinstance(p, animal))
 
+#polymorphic
+def run(animal):  #file-like object
+    animal.printx()
+run(a)
+run(c)
+run(p)
 
+#type()/isinstance()/dir()
+print("a is ", type(a))
+print("c is ", type(a))
+print("p is ", type(a))
+print(dir(a))
+print(a.__sizeof__())
+print(dir("hello"))
 
+#class attribute and instance attribute
+class A():
+    name = "this is A"
+class B(A):
+    pass
+b = B()
+b.name = "this is B" #instance attribute will override the class attribute which has the same name
+print(B.name)
+print(b.name)
+c = B()
+print(c.name)
 
-
-
-
-
-
-
-
-
+#advanced 
 
 
 
