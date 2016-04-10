@@ -115,7 +115,10 @@ public:
 #define BLACK 1
     int key;
 
-    Node(int key, int color): key(key), color(color) {}
+    Node(int key, int color): key(key), color(color) 
+    {
+        left = right = NULL;
+    }
 };
 
 class RBT
@@ -127,6 +130,7 @@ public:
     void put(int key);  
     void get(int key);  
     void del(int key);  
+    void print();  
     void NatureDisplayTree();
 private:
     //process balance
@@ -138,6 +142,7 @@ private:
     //internal api
     int get(Node *x, int key);
     void put(Node *&x, int key);
+    void print(Node *x);  
 };
 
 class DisplayInfo  
@@ -229,6 +234,21 @@ void RBT::NatureDisplayTree()
     printf("\n");
 }
 
+void RBT::print()
+{
+    print(root);
+}
+
+void RBT::print(Node *x)
+{
+    if (x)
+    {
+        print(x->left);
+        cout<<x->key<<endl;
+        print(x->right);
+    }
+}
+
 void RBT::put(Node *&x, int key)
 {
     Node *p;
@@ -264,8 +284,8 @@ void RBT::rotate_left(Node *&x)
    Node * t = x->right;
    x->right = t->left;
    t->left = x;
-   x->color = RED;
    t->color = x->color;
+   x->color = RED;
    x = t;
 }
 
@@ -274,8 +294,8 @@ void RBT::rotate_right(Node *&x)
    Node * t = x->left;
    x->left = t->right;
    t->right = x;
-   x->color = RED;
    t->color = x->color;
+   x->color = RED;
    x = t;
 }
 
@@ -290,7 +310,7 @@ bool RBT::is_red(Node *x)
 {
     if (x == NULL)
         return false;
-    return x->color == RED;
+    return (x->color == RED);
 }
 
 int main(int argc, char **argv)
@@ -309,6 +329,7 @@ int main(int argc, char **argv)
         //t.put(rand()%100);
         t.put(num);
     }
+    t.print();
     t.NatureDisplayTree();
 #if 0 
     // test the delete operation
