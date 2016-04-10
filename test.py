@@ -437,6 +437,30 @@ c = B()
 print(c.name)
 
 #advanced 
+# __slots__
+class AA:
+    __slots__ = ("name", "score")
+    def __init__(self, name ,score):
+        self.name = name
+        self.score = score
+a = AA("walter", 90)
+print(a.name, a.score)
 
 
+# list/tuple/dict
+# list: append, insert, pop, 
+L = [1,2,3]
+T = ("Walter", 2)
+print(T[-1])
+#T[0] = "Gary"
+D = {"walter":90, "gary": 22}
+print(type(L), type(T), type(D))
+print(L[2])
+L.append(4)
+print(L)
+print(dir(L))
+print(dir(T))
+print(dir(D))
+D["busi"] = 3
+print(D)
 
