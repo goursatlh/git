@@ -1,3 +1,73 @@
+
+#if 1 //find the longest duplicate substring => suffix array
+#include <iostream>
+#include <stdlib.h>
+#include <time.h>
+
+using std::cout;
+using std::cin;
+using std::endl;
+using std::string;
+
+char *rand_str(unsigned int len)
+{
+    const int LEN = 62; // 26 + 26 + 10
+    char g_arrCharElem[LEN] = {'0', '1', '2', '3','4', '5', '6', '7', '8', '9', 
+        'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
+        'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
+    
+    char* szStr = new char[len + 1];
+    szStr[len] = '\0';
+    //srand((unsigned)time(0));
+    int iRand = 0;
+    for (int i = 0; i < len; ++i)
+    {
+        iRand = rand() % LEN;            // iRand = 0 - 61
+        szStr[i] = g_arrCharElem[iRand];
+    }
+    cout << szStr << endl;
+    return szStr;
+}
+
+void lsd(string &s1, string &s2)
+{
+    int minlen = s1.size();
+    if (s1.size() >= s2.size)
+        minlen = s2.size();
+    if (s1.size() <= s2.size())
+    {
+        for (int i = 0; i < s1.size(); i++)
+        {
+            for (int j = i; j < s1.size(); j++)
+            {
+                
+            }
+        }
+    }
+    for (int i = 0; i < minlen; i++)
+    {
+        
+    }
+}
+
+int main(int argc, char **argv)
+{
+    if (argc != 3)
+    {
+        cout<<"please input right paras: xx len1 len2"<<endl;
+        return -1;
+    }
+    srand((unsigned)time(0));
+    char *s1 = rand_str(atoi(argv[1]));
+    char *s2 = rand_str(atoi(argv[2]));
+
+    string str1(s1);
+    string str2(s2);
+    lsd(s1, s2);
+    return 0;
+}
+#endif
+
 #if 0 // hash_map
 #include <iostream>
 #include <string.h>
@@ -8,35 +78,6 @@ using std::cin;
 using std::endl;
 using std::string;
 using namespace __gnu_cxx;
-
-#if 0
-const int LEN = 62; // 26 + 26 + 10
-char g_arrCharElem[LEN] = {'0', '1', '2',... 'A', 'B', 'C', ... 'a', 'b', 'c'};
- 
-int rand_str()
-{
-    int iLen;
-    cout<<"Please input the len of string: ";
-    do
-    {
-        cin >> iLen;
-    } while (iLen <= 0);
-
-    char* szStr = new char[iLen + 1];
-    szStr[iLen] = '\0';
-    srand((unsigned)time(0));
-    int iRand = 0;
-    for (int i = 0; i < iLen; ++i)
-    {
-        iRand = rand() % LEN;            // iRand = 0 - 61
-        szStr[i] = g_arrCharElem[iRand];
-    }
-    cout << "生成的随机字符串为:\n";
-    cout << szStr << endl;
-    delete[] szStr;
-    return 0;
-}
-#endif
 
 struct hash_string {
     size_t operator()(const string &str) const
@@ -96,7 +137,7 @@ int main(void)
 }
 #endif
 
-#if 1 // rb tree
+#if 0 // rb tree
 #include <iostream>
 #include <list>
 

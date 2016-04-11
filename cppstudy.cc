@@ -1,3 +1,48 @@
+#if 1 //string operations
+#include <iostream>
+#include <string>
+
+using std::cout;
+using std::endl;
+using std::string;
+
+int main()
+{
+    string s1 = "hello wolrd";
+    cout<<s1<<endl;
+    cout<<"len "<<s1.size()<<endl;
+
+    //substr(pos, len)
+    string s2 = s1.substr(0, 2);
+    cout<<s2<<endl;
+    string s3 = s1.substr(2);
+    cout<<s3<<endl;
+    string s4 = s1.substr(3, 12);
+    cout<<s4<<endl;
+    try {
+        string s5 = s1.substr(12);
+    }
+    catch(...) {
+        cout << "Found throw." << endl; // Found throw.
+    }
+
+    char a[] = "fuck you then";
+    char b[] = {'f', 'u', 'c', 'k'};
+    string sa1(a, 2);
+    cout<<sa1<<endl;
+    string sa2(s1, 2);
+    cout<<sa2<<endl;
+    string sa3(s1, 2, 3);
+    cout<<sa3<<endl;
+
+    string sa4(b);
+    cout<<sa4<<endl;
+    string sa5 = b;
+    cout<<sa5<<endl;
+    return 0;
+}
+#endif
+
 #if 0
 #include <iostream>
 #include <string>
