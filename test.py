@@ -446,21 +446,21 @@ class AA:
 a = AA("walter", 90)
 print(a.name, a.score)
 
+# @property change attribute to functions
+class Student():
+    @property
+    def score(self): #get_score()
+        return self.score
+    @score.setter
+    def score(self, score): #set_score()
+        if not isinstance(score, int):
+            raise ValueError("score must be an int")
+        if score < 0 or score > 100:
+            raise ValueError("score must be in (0,100)")
+        self.score = score
+s = Student()
+#s.score("walter")
+#s.score = "walter"
+s.score = 1000
 
-# list/tuple/dict
-# list: append, insert, pop, 
-L = [1,2,3]
-T = ("Walter", 2)
-print(T[-1])
-#T[0] = "Gary"
-D = {"walter":90, "gary": 22}
-print(type(L), type(T), type(D))
-print(L[2])
-L.append(4)
-print(L)
-print(dir(L))
-print(dir(T))
-print(dir(D))
-D["busi"] = 3
-print(D)
 
