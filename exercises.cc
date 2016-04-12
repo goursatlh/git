@@ -1,4 +1,42 @@
-#if 1
+
+#if 0 // variables in the memory layout
+/*
+ *   kernel space     
+ *   
+ *   statck space
+ *   ...                
+ *   heap space        
+ *   ...
+ *   bss             => uninitialized global and static variables  
+ *   data            => initialized global and static variables
+ *   constant
+ *   text
+ * */
+#include <stdio.h>
+int a;           
+int b = 10;
+void func()
+{
+    return;
+}
+int main()
+{
+    char *p = "hello wolrd";
+    static int c;
+    static int d = 10;
+
+    printf("%p\n", p);                //constant area
+    printf("%p\n", &p);               
+    printf("%p\n", &a);
+    printf("%p\n", &b);
+    printf("%p\n", &c);
+    printf("%p\n", &d);
+    printf("%p\n", func);
+    return 0;
+}
+
+#endif
+#if 0
 #include < stdio.h>
 #include < stdlib.h>
 int main()
