@@ -1,6 +1,7 @@
 #if 1 //string operations
 #include <iostream>
 #include <string>
+#include <string.h>
 
 using std::cout;
 using std::endl;
@@ -8,9 +9,29 @@ using std::string;
 
 int main()
 {
-    string s1 = "hello wolrd";
+    string s1 = "hello wolrd"; //not including null
     cout<<s1<<endl;
     cout<<"len "<<s1.size()<<endl;
+
+    //init
+    string ss1 = s1;  //copy init
+    string ss2(s1);   //direct init
+    string ss3 = string(10, 'a'); //copy init
+    cout<<ss3<<endl;
+    string ss4(10, 'b'); //direct init
+    cout<<ss4<<endl;
+
+    string ss5(s1, 2);
+    cout<<ss5<<endl;
+    string ss6(s1, 2, 3);
+    cout<<ss6<<endl;
+   
+    //operations +/>/==/
+    cout<<"opetations for string:"<<endl;
+    string so1("hello ");
+    string so2("world ");
+    string so3 = so1 + so2;
+    cout<<so3<<endl;
 
     //substr(pos, len)
     string s2 = s1.substr(0, 2);
@@ -26,17 +47,15 @@ int main()
         cout << "Found throw." << endl; // Found throw.
     }
 
-    char a[] = "fuck you then";
+    char a[] = "fuck";
+    cout<<sizeof(a)<<" "<<strlen(a)<<endl;
+    string sa1(a); //not including the terminating '\0' character
+    cout<<sa1.size()<<" "<<sa1<<endl;
+    
     char b[] = {'f', 'u', 'c', 'k'};
-    string sa1(a, 2);
-    cout<<sa1<<endl;
-    string sa2(s1, 2);
-    cout<<sa2<<endl;
-    string sa3(s1, 2, 3);
-    cout<<sa3<<endl;
-
+    cout<<sizeof(b)<<" "<<strlen(b)<<endl;
     string sa4(b);
-    cout<<sa4<<endl;
+    cout<<sa4.size()<<" "<<sa4<<endl;
     string sa5 = b;
     cout<<sa5<<endl;
     return 0;
@@ -1767,7 +1786,7 @@ int main()
 }
 #endif
 
-#if 0  // destructor should be virtuali
+#if 0  // destructor should be virtual
 #include <iostream>
 using std::cout;
 using std::endl;
