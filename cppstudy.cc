@@ -1,3 +1,25 @@
+#if 0 // IO API
+#include <iostream>
+#include <string>
+using std::cout;
+using std::cin;
+using std::string;
+using std::endl;
+
+int main()
+{
+   string s1,s2,s3;
+   cin>>s1;
+   cout<<s1<<endl;
+   cin>>s2>>s3; //read first input to s2, second to s3; each input separates by whitespace
+   cout<<s2<<s3<<endl;
+
+   string word;
+   while (cin>>word)
+       cout<<word<<endl;
+   return 0;
+}
+#endif
 #if 1 //string operations
 #include <iostream>
 #include <string>
@@ -21,6 +43,8 @@ int main()
     string ss4(10, 'b'); //direct init
     cout<<ss4<<endl;
 
+    //s(s1,pos,len)
+    cout<<"s(s1, pos, len): "<<endl;
     string ss5(s1, 2);
     cout<<ss5<<endl;
     string ss6(s1, 2, 3);
@@ -34,6 +58,7 @@ int main()
     cout<<so3<<endl;
 
     //substr(pos, len)
+    cout<<"substr: "<<endl;
     string s2 = s1.substr(0, 2);
     cout<<s2<<endl;
     string s3 = s1.substr(2);

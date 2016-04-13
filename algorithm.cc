@@ -29,29 +29,48 @@ char *rand_str(unsigned int len)
     return szStr;
 }
 
-void lsd(string &s1, string &s2)
+unsigned int lsd_prefix(string &s1, string &s2)
 {
-    int minlen = s1.size();
-    if (s1.size() >= s2.size)
-        minlen = s2.size();
-    if (s1.size() <= s2.size())
+    unsigned int len = s1.size();
+    if (s1.size() > s2.size())
     {
-        for (int i = 0; i < s1.size(); i++)
+        len = s2.size();
+    }
+    for (int i = 0; i < len; i++)
+    {
+        if (s1[i] != s2[i])
         {
-            for (int j = i; j < s1.size(); j++)
-            {
-                
-            }
+            return i;
         }
     }
-    for (int i = 0; i < minlen; i++)
+    return len;
+}
+
+void lsd(string &s1, string &s2)
+{
+    unsigned int len = 0;
+    unsigned int index = 0;
+    unsigned int max_len = len;
+    for (int i = 0; i < s1.size(); i++)
     {
-        
+        for (int j = 0; j < s2.size(); j++)
+        {
+           string ss1(s1.substr(i));
+           string ss2(s2.substr(j));
+           len = lsd_prefix(ss1, ss2);
+           if (len > max_len)
+           {
+               index = i;
+               max_len = len;
+           }
+        }
     }
+    cout<<"lsd: "<<s1.substr(index, max_len)<<endl;
 }
 
 int main(int argc, char **argv)
 {
+#if 0
     if (argc != 3)
     {
         cout<<"please input right paras: xx len1 len2"<<endl;
@@ -60,10 +79,11 @@ int main(int argc, char **argv)
     srand((unsigned)time(0));
     char *s1 = rand_str(atoi(argv[1]));
     char *s2 = rand_str(atoi(argv[2]));
-
-    string str1(s1);
-    string str2(s2);
-    lsd(s1, s2);
+#endif
+    string str1;
+    string str2;
+    cin>>str1>>str2;
+    lsd(str1, str2);
     return 0;
 }
 #endif
@@ -80,60 +100,60 @@ using std::string;
 using namespace __gnu_cxx;
 
 struct hash_string {
-    size_t operator()(const string &str) const
+size_t operator()(const string &str) const
+{
+    unsigned int h = 0;
+    for (size_t i = 0; i < str.size(); i++)
     {
-        unsigned int h = 0;
-        for (size_t i = 0; i < str.size(); i++)
-        {
-            h = h*5 + str[i];
-        }
-        return (size_t)h;
+        h = h*5 + str[i];
     }
+    return (size_t)h;
+}
 };
 
 struct compare_string {
-    bool operator()(const string &str1, const string &str2) const
-    {
-        cout<<"compare func"<<endl;
-        return str1 == str2;
-    }
+bool operator()(const string &str1, const string &str2) const
+{
+    cout<<"compare func"<<endl;
+    return str1 == str2;
+}
 };
 
 int main(void)
 {
-    //hash_map<int, string> my_map;
-    hash_map<string, int, hash_string, compare_string> my_map;
-    unsigned int num = 0;
-    cout<<"Please input the num you want to hash: "<<endl;
-    do 
-    {
-        cin>>num;
-    }while (num <= 0);
+//hash_map<int, string> my_map;
+hash_map<string, int, hash_string, compare_string> my_map;
+unsigned int num = 0;
+cout<<"Please input the num you want to hash: "<<endl;
+do 
+{
+    cin>>num;
+}while (num <= 0);
 
-    string b;
-    for (int i = 0; i < num; i++)
+string b;
+for (int i = 0; i < num; i++)
+{
+    b.clear();
+    unsigned int len = 1 + rand()%10;
+    for (int j = 0; j < len; j++)
     {
-        b.clear();
-        unsigned int len = 1 + rand()%10;
-        for (int j = 0; j < len; j++)
-        {
-            b.push_back('a'+rand()%26);
-        }
-        cout<<i<<" "<<b<<endl;
-        my_map[b] = rand()%100;
+        b.push_back('a'+rand()%26);
     }
-    
-    if (my_map.find(b) != my_map.end())
-    {
-        cout<<"find the key: "<<b<<endl;
-    }
-    else
-    {
-        cout<<"can't find the key"<<endl;
-    }
-    cout<<sizeof(my_map)<<endl;
-    cout<<my_map.size()<<endl;
-    return 0;
+    cout<<i<<" "<<b<<endl;
+    my_map[b] = rand()%100;
+}
+
+if (my_map.find(b) != my_map.end())
+{
+    cout<<"find the key: "<<b<<endl;
+}
+else
+{
+    cout<<"can't find the key"<<endl;
+}
+cout<<sizeof(my_map)<<endl;
+cout<<my_map.size()<<endl;
+return 0;
 }
 #endif
 
@@ -149,244 +169,244 @@ using std::list;
 class Node
 {
 public:
-    Node *left;
-    Node *right;
-    int color;
+Node *left;
+Node *right;
+int color;
 #define RED 0
 #define BLACK 1
-    int key;
+int key;
 
-    Node(int key, int color): key(key), color(color) 
-    {
-        left = right = NULL;
-    }
+Node(int key, int color): key(key), color(color) 
+{
+    left = right = NULL;
+}
 };
 
 class RBT
 {
-    Node *root;
+Node *root;
 public:
-    RBT(): root(NULL) {}
-    //public api
-    void put(int key);  
-    void get(int key);  
-    void del(int key);  
-    void print();  
-    void NatureDisplayTree();
+RBT(): root(NULL) {}
+//public api
+void put(int key);  
+void get(int key);  
+void del(int key);  
+void print();  
+void NatureDisplayTree();
 private:
-    //process balance
-    void rotate_left(Node *&x);
-    void rotate_right(Node *&x);
-    bool is_red(Node *x);
-    void flip_color(Node *x);
-   
-    //internal api
-    int get(Node *x, int key);
-    void put(Node *&x, int key);
-    void print(Node *x);  
+//process balance
+void rotate_left(Node *&x);
+void rotate_right(Node *&x);
+bool is_red(Node *x);
+void flip_color(Node *x);
+
+//internal api
+int get(Node *x, int key);
+void put(Node *&x, int key);
+void print(Node *x);  
 };
 
 class DisplayInfo  
 {  
 public:  
-    int level;  
-    int pos;        //结点在屏幕中的绝对位置  
-    bool enter;  
-    int spaceNum;  
+int level;  
+int pos;        //结点在屏幕中的绝对位置  
+bool enter;  
+int spaceNum;  
 }; 
 
 void RBT::NatureDisplayTree()
 {
-    int i;
-    list<Node *>Q;
-    list<DisplayInfo>QI;
-    int screenWidth=64;
-    int dataWidth=2;
-    DisplayInfo info;    //将插入队列的结点的打印信息
-    DisplayInfo preInfo; //队尾的结点的打印信息
-    Node *curNode;       //队列当前取出的结点
-    DisplayInfo curInfo; //队列当前取出的结点的打印信息
-    if(!root)
-    {
-        printf("Tree is empty !\n");
-        return;
-    }
+int i;
+list<Node *>Q;
+list<DisplayInfo>QI;
+int screenWidth=64;
+int dataWidth=2;
+DisplayInfo info;    //将插入队列的结点的打印信息
+DisplayInfo preInfo; //队尾的结点的打印信息
+Node *curNode;       //队列当前取出的结点
+DisplayInfo curInfo; //队列当前取出的结点的打印信息
+if(!root)
+{
+    printf("Tree is empty !\n");
+    return;
+}
 
-    printf("Nature Display Tree:\n");
-    Q.push_back(root);
-    info.level=1;
-    info.enter=true;
-    info.spaceNum=screenWidth>>info.level;
-    info.pos=info.spaceNum;
-    QI.push_back(info);
-    preInfo=info;
-    while(Q.size())
+printf("Nature Display Tree:\n");
+Q.push_back(root);
+info.level=1;
+info.enter=true;
+info.spaceNum=screenWidth>>info.level;
+info.pos=info.spaceNum;
+QI.push_back(info);
+preInfo=info;
+while(Q.size())
+{
+    curNode=Q.front();
+    Q.pop_front();
+    curInfo=QI.front();
+    if(curInfo.enter) 
+        printf("\n\n");
+    for (i=0;i<curInfo.spaceNum;i++)
+        printf(" ");
+    printf("%2d(%d)",curNode->key, curNode->color);
+    QI.pop_front();
+    if(curNode->left)
     {
-        curNode=Q.front();
-        Q.pop_front();
-        curInfo=QI.front();
-        if(curInfo.enter) 
-            printf("\n\n");
-        for (i=0;i<curInfo.spaceNum;i++)
-            printf(" ");
-        printf("%2d(%d)",curNode->key, curNode->color);
-        QI.pop_front();
-        if(curNode->left)
+        Q.push_back(curNode->left);
+        info.level=curInfo.level+1;
+        info.pos=curInfo.pos-(screenWidth>>info.level);
+        if(info.level>preInfo.level)
         {
-            Q.push_back(curNode->left);
-            info.level=curInfo.level+1;
-            info.pos=curInfo.pos-(screenWidth>>info.level);
-            if(info.level>preInfo.level)
-            {
-                info.enter=true;
-                info.spaceNum=info.pos;
-            }
-            else
-            {
-                info.enter=false;
-                info.spaceNum=info.pos-preInfo.pos;
-            }
-            info.spaceNum-=dataWidth;
-            QI.push_back(info);
-            preInfo=info;
-
+            info.enter=true;
+            info.spaceNum=info.pos;
         }
-        if(curNode->right)
+        else
         {
-            Q.push_back(curNode->right);
-            info.level=curInfo.level+1;
-            info.pos=curInfo.pos+(screenWidth>>info.level);
-            if(info.level>preInfo.level)
-            {
-                info.enter=true;
-                info.spaceNum=info.pos;
-            }
-            else
-            {
-                info.enter=false;
-                info.spaceNum=info.pos-preInfo.pos;
-            }
-            info.spaceNum-=dataWidth;
-            QI.push_back(info);
-            preInfo=info;
+            info.enter=false;
+            info.spaceNum=info.pos-preInfo.pos;
         }
+        info.spaceNum-=dataWidth;
+        QI.push_back(info);
+        preInfo=info;
 
     }
-    printf("\n");
+    if(curNode->right)
+    {
+        Q.push_back(curNode->right);
+        info.level=curInfo.level+1;
+        info.pos=curInfo.pos+(screenWidth>>info.level);
+        if(info.level>preInfo.level)
+        {
+            info.enter=true;
+            info.spaceNum=info.pos;
+        }
+        else
+        {
+            info.enter=false;
+            info.spaceNum=info.pos-preInfo.pos;
+        }
+        info.spaceNum-=dataWidth;
+        QI.push_back(info);
+        preInfo=info;
+    }
+
+}
+printf("\n");
 }
 
 void RBT::print()
 {
-    print(root);
+print(root);
 }
 
 void RBT::print(Node *x)
 {
-    if (x)
-    {
-        print(x->left);
-        cout<<x->key<<endl;
-        print(x->right);
-    }
+if (x)
+{
+    print(x->left);
+    cout<<x->key<<endl;
+    print(x->right);
+}
 }
 
 void RBT::put(Node *&x, int key)
 {
-    Node *p;
-    if (x == NULL)
-    {
-       x = new Node(key, RED);
-       return;
-    }
-    if (key < x->key)
-       put(x->left, key);
-    else if (key > x->key)
-       put(x->right, key);
-    else
-       cout<<"duplicate key, can't insert to tree"<<endl;
+Node *p;
+if (x == NULL)
+{
+   x = new Node(key, RED);
+   return;
+}
+if (key < x->key)
+   put(x->left, key);
+else if (key > x->key)
+   put(x->right, key);
+else
+   cout<<"duplicate key, can't insert to tree"<<endl;
 
-    if (is_red(x->right) && !is_red(x->left))
-        rotate_left(x);
-    if (is_red(x->left) && is_red(x->left->left))
-        rotate_right(x);
-    if (is_red(x->left) && is_red(x->right))
-        flip_color(x);
+if (is_red(x->right) && !is_red(x->left))
+    rotate_left(x);
+if (is_red(x->left) && is_red(x->left->left))
+    rotate_right(x);
+if (is_red(x->left) && is_red(x->right))
+    flip_color(x);
 }
 
 void RBT::put(int key)
 {
-    put(root, key);
-    if (root)
-        root->color = BLACK;
+put(root, key);
+if (root)
+    root->color = BLACK;
 }
 
 void RBT::rotate_left(Node *&x)
 {
-   Node * t = x->right;
-   x->right = t->left;
-   t->left = x;
-   t->color = x->color;
-   x->color = RED;
-   x = t;
+Node * t = x->right;
+x->right = t->left;
+t->left = x;
+t->color = x->color;
+x->color = RED;
+x = t;
 }
 
 void RBT::rotate_right(Node *&x)
 {
-   Node * t = x->left;
-   x->left = t->right;
-   t->right = x;
-   t->color = x->color;
-   x->color = RED;
-   x = t;
+Node * t = x->left;
+x->left = t->right;
+t->right = x;
+t->color = x->color;
+x->color = RED;
+x = t;
 }
 
 void RBT::flip_color(Node *x)
 {
-    x->color = RED;
-    x->left->color = BLACK;
-    x->right->color = BLACK;
+x->color = RED;
+x->left->color = BLACK;
+x->right->color = BLACK;
 }
 
 bool RBT::is_red(Node *x)
 {
-    if (x == NULL)
-        return false;
-    return (x->color == RED);
+if (x == NULL)
+    return false;
+return (x->color == RED);
 }
 
 int main(int argc, char **argv)
 {
-    RBT t;
-    int num = 0;
-    int a = 0;
-    // test the insert operation
-    cout<<"please input the number you want to play: "<<endl;
-    do {
-        cin>>num;
-    } while (num <= 0);
-    
-    while (num--)
-    {
-        //t.put(rand()%100);
-        t.put(num);
-    }
-    t.print();
-    t.NatureDisplayTree();
+RBT t;
+int num = 0;
+int a = 0;
+// test the insert operation
+cout<<"please input the number you want to play: "<<endl;
+do {
+    cin>>num;
+} while (num <= 0);
+
+while (num--)
+{
+    //t.put(rand()%100);
+    t.put(num);
+}
+t.print();
+t.NatureDisplayTree();
 #if 0 
-    // test the delete operation
-    cout<<"plese input the key you want to delete: "<<endl;
-    if (cin>>a)
-    {
-        if (!t.get(a))
-            t.del(a);
-        else
-            cout<<"the key you input doesn't exist"<<endl;
-    }
-    
-    t.print();
-    t.NatureDisplayTree();
+// test the delete operation
+cout<<"plese input the key you want to delete: "<<endl;
+if (cin>>a)
+{
+    if (!t.get(a))
+        t.del(a);
+    else
+        cout<<"the key you input doesn't exist"<<endl;
+}
+
+t.print();
+t.NatureDisplayTree();
 #endif
-    return 0;
+return 0;
 }
 #endif
 
@@ -402,262 +422,262 @@ using std::list;
 class DisplayInfo  
 {  
 public:  
-    int level;  
-    int pos;        //结点在屏幕中的绝对位置  
-    bool enter;  
-    int spaceNum;  
+int level;  
+int pos;        //结点在屏幕中的绝对位置  
+bool enter;  
+int spaceNum;  
 }; 
 
 class Node
 {
 public:
-    Node *left;
-    Node *right;
-    int key;
-    //int num; /\num of nodes of the tree which use this node as the root.
-    Node(int key, Node *left, Node *right): 
-         key(key), left(left), right(right) {}
+Node *left;
+Node *right;
+int key;
+//int num; /\num of nodes of the tree which use this node as the root.
+Node(int key, Node *left, Node *right): 
+     key(key), left(left), right(right) {}
 };
 
 class BST 
 {
-    Node *root;
-    //how to present the node(not root node)
+Node *root;
+//how to present the node(not root node)
 public:
-    BST(): root(NULL) {}
-    int get(int key); // how to insert a new node and make the tree ordered and balance.
-    void put(int key);   
-    void del(int key);
-    void del_min();
-    void del_min(Node *&x);
-    void print();
-    void NatureDisplayTree();  
+BST(): root(NULL) {}
+int get(int key); // how to insert a new node and make the tree ordered and balance.
+void put(int key);   
+void del(int key);
+void del_min();
+void del_min(Node *&x);
+void print();
+void NatureDisplayTree();  
 private:
-    int get(Node *x, int key);
-    void put(Node *&n, int key);
-    void del(Node *&x, int key);
-    Node *min(Node *x);
-    void print(Node *n);
+int get(Node *x, int key);
+void put(Node *&n, int key);
+void del(Node *&x, int key);
+Node *min(Node *x);
+void print(Node *n);
 };
 
 int BST::get(Node *x, int key)
 {
-    if (x == 0)
-        return -1;
-    if (key < x->key)
-        get(x->left, key);
-    else if (key > x->key)
-        get(x->right, key);
-    else
-        return 0;
+if (x == 0)
+    return -1;
+if (key < x->key)
+    get(x->left, key);
+else if (key > x->key)
+    get(x->right, key);
+else
+    return 0;
 }
 
 int BST::get(int key)
 {
-    return get(root, key);
+return get(root, key);
 }
 
 void BST::put(Node *&x, int key)
 {
-   if (x == NULL)
-   {
-       x = new Node(key, NULL, NULL);
-       return;
-   }
-   if (key < x->key)
-       put(x->left, key);
-   else if (key > x->key)
-       put(x->right, key);
-   else
-       cout<<"duplicate key, can't insert to tree"<<endl;
+if (x == NULL)
+{
+   x = new Node(key, NULL, NULL);
+   return;
+}
+if (key < x->key)
+   put(x->left, key);
+else if (key > x->key)
+   put(x->right, key);
+else
+   cout<<"duplicate key, can't insert to tree"<<endl;
 }
 
 void BST::put(int key)
 {
-    return put(root, key);
+return put(root, key);
 }
 
 Node *BST::min(Node *x)
 {
-    if (x == NULL)
-        return NULL;
-    else if (x->left == NULL)
-        return x;
-    else 
-        return min(x->left);
+if (x == NULL)
+    return NULL;
+else if (x->left == NULL)
+    return x;
+else 
+    return min(x->left);
 }
 void BST::del(int key)
 {
-    del(root, key);
+del(root, key);
 }
 
 void BST::del(Node *&x, int key)
 {
-    if (x->key == key)
+if (x->key == key)
+{
+    if (x->left == NULL)
+        x = x->right;
+    else
     {
-        if (x->left == NULL)
-            x = x->right;
-        else
+        if (x->right)
         {
-            if (x->right)
-            {
-                Node *p = min(x->right);
-                del_min(x->right);
-                p->left = x->left;
-                p->right = x->right;
-                x  = p;
-            }
-            else
-                x = x->left;
+            Node *p = min(x->right);
+            del_min(x->right);
+            p->left = x->left;
+            p->right = x->right;
+            x  = p;
         }
+        else
+            x = x->left;
     }
-    else if (key < x->key)
-        del(x->left, key);
-    else if (key > x->key)
-        del(x->right, key);
+}
+else if (key < x->key)
+    del(x->left, key);
+else if (key > x->key)
+    del(x->right, key);
 }
 
 void BST::del_min()
 {
-    del_min(root);
+del_min(root);
 }
 
 void BST::del_min(Node *&x)
 {
-    if (x->left == NULL)
-        //delete this node
-        if (x->right == NULL)
-            x = NULL;
-        else
-            x = x->right;
+if (x->left == NULL)
+    //delete this node
+    if (x->right == NULL)
+        x = NULL;
     else
-        del_min(x->left);
+        x = x->right;
+else
+    del_min(x->left);
 }
 
 void BST::print()
 {
-    cout<<"trees: "<<endl;
-    print(root); 
+cout<<"trees: "<<endl;
+print(root); 
 }
 
 void BST::print(Node *x)
 {
-    if (x)
-    {
-        print(x->left);
-        cout<<x->key<<endl;
-        print(x->right);
-    }
+if (x)
+{
+    print(x->left);
+    cout<<x->key<<endl;
+    print(x->right);
+}
 }
 
 void BST::NatureDisplayTree()
 {
-    int i;
-    list<Node *>Q;
-    list<DisplayInfo>QI;
-    int screenWidth=64;
-    int dataWidth=2;
-    DisplayInfo info;    //将插入队列的结点的打印信息
-    DisplayInfo preInfo; //队尾的结点的打印信息
-    Node *curNode;       //队列当前取出的结点
-    DisplayInfo curInfo; //队列当前取出的结点的打印信息
-    if(!root)
-    {
-        printf("Tree is empty !\n");
-        return;
-    }
+int i;
+list<Node *>Q;
+list<DisplayInfo>QI;
+int screenWidth=64;
+int dataWidth=2;
+DisplayInfo info;    //将插入队列的结点的打印信息
+DisplayInfo preInfo; //队尾的结点的打印信息
+Node *curNode;       //队列当前取出的结点
+DisplayInfo curInfo; //队列当前取出的结点的打印信息
+if(!root)
+{
+    printf("Tree is empty !\n");
+    return;
+}
 
-    printf("Nature Display Tree:\n");
-    Q.push_back(root);
-    info.level=1;
-    info.enter=true;
-    info.spaceNum=screenWidth>>info.level;
-    info.pos=info.spaceNum;
-    QI.push_back(info);
-    preInfo=info;
-    while(Q.size())
+printf("Nature Display Tree:\n");
+Q.push_back(root);
+info.level=1;
+info.enter=true;
+info.spaceNum=screenWidth>>info.level;
+info.pos=info.spaceNum;
+QI.push_back(info);
+preInfo=info;
+while(Q.size())
+{
+    curNode=Q.front();
+    Q.pop_front();
+    curInfo=QI.front();
+    if(curInfo.enter) 
+        printf("\n\n");
+    for (i=0;i<curInfo.spaceNum;i++)
+        printf(" ");
+    printf("%2d",curNode->key);
+    QI.pop_front();
+    if(curNode->left)
     {
-        curNode=Q.front();
-        Q.pop_front();
-        curInfo=QI.front();
-        if(curInfo.enter) 
-            printf("\n\n");
-        for (i=0;i<curInfo.spaceNum;i++)
-            printf(" ");
-        printf("%2d",curNode->key);
-        QI.pop_front();
-        if(curNode->left)
+        Q.push_back(curNode->left);
+        info.level=curInfo.level+1;
+        info.pos=curInfo.pos-(screenWidth>>info.level);
+        if(info.level>preInfo.level)
         {
-            Q.push_back(curNode->left);
-            info.level=curInfo.level+1;
-            info.pos=curInfo.pos-(screenWidth>>info.level);
-            if(info.level>preInfo.level)
-            {
-                info.enter=true;
-                info.spaceNum=info.pos;
-            }
-            else
-            {
-                info.enter=false;
-                info.spaceNum=info.pos-preInfo.pos;
-            }
-            info.spaceNum-=dataWidth;
-            QI.push_back(info);
-            preInfo=info;
-
+            info.enter=true;
+            info.spaceNum=info.pos;
         }
-        if(curNode->right)
+        else
         {
-            Q.push_back(curNode->right);
-            info.level=curInfo.level+1;
-            info.pos=curInfo.pos+(screenWidth>>info.level);
-            if(info.level>preInfo.level)
-            {
-                info.enter=true;
-                info.spaceNum=info.pos;
-            }
-            else
-            {
-                info.enter=false;
-                info.spaceNum=info.pos-preInfo.pos;
-            }
-            info.spaceNum-=dataWidth;
-            QI.push_back(info);
-            preInfo=info;
+            info.enter=false;
+            info.spaceNum=info.pos-preInfo.pos;
         }
+        info.spaceNum-=dataWidth;
+        QI.push_back(info);
+        preInfo=info;
 
     }
-    printf("\n");
+    if(curNode->right)
+    {
+        Q.push_back(curNode->right);
+        info.level=curInfo.level+1;
+        info.pos=curInfo.pos+(screenWidth>>info.level);
+        if(info.level>preInfo.level)
+        {
+            info.enter=true;
+            info.spaceNum=info.pos;
+        }
+        else
+        {
+            info.enter=false;
+            info.spaceNum=info.pos-preInfo.pos;
+        }
+        info.spaceNum-=dataWidth;
+        QI.push_back(info);
+        preInfo=info;
+    }
+
+}
+printf("\n");
 }
 
 int main(int argc, char **argv)
 {
-    BST t;
-    int num = 0;
-    int a = 0;
-    cout<<"please input the number you want to play: "<<endl;
-    cin>>num;
-    while (num--)
-    {
-        t.put(rand()%100);
-    }
-    t.print();
-    t.NatureDisplayTree();
-    cout<<"delete the min node."<<endl;
-    t.del_min();
-    t.print();
-    t.NatureDisplayTree();
-    cout<<"plese input the key you want to delete: "<<endl;
-    if (cin>>a)
-    {
-        if (!t.get(a))
-            t.del(a);
-        else
-            cout<<"the number you input is not existed"<<endl;
-    }
-    t.print();
-    t.NatureDisplayTree();
-    return 0;
+BST t;
+int num = 0;
+int a = 0;
+cout<<"please input the number you want to play: "<<endl;
+cin>>num;
+while (num--)
+{
+    t.put(rand()%100);
+}
+t.print();
+t.NatureDisplayTree();
+cout<<"delete the min node."<<endl;
+t.del_min();
+t.print();
+t.NatureDisplayTree();
+cout<<"plese input the key you want to delete: "<<endl;
+if (cin>>a)
+{
+    if (!t.get(a))
+        t.del(a);
+    else
+        cout<<"the number you input is not existed"<<endl;
+}
+t.print();
+t.NatureDisplayTree();
+return 0;
 }
 #endif
 
@@ -669,29 +689,29 @@ void GreedyChoose(int len,int *s,int *f,bool *flag);
 
 int main(int argc, char* argv[])  
 {  
-    int s[11] ={1,3,0,5,3,5,6, 8, 8, 2, 12};  
-    int f[11] ={4,5,6,7,8,9,10,11,12,13,14};  
+int s[11] ={1,3,0,5,3,5,6, 8, 8, 2, 12};  
+int f[11] ={4,5,6,7,8,9,10,11,12,13,14};  
 
-    bool mark[11] = {0};  
+bool mark[11] = {0};  
 
-    GreedyChoose(11,s,f,mark);  
-    for(int i=0;i<11;i++)  
-        if(mark[i])  
-            cout<<i<<" ";  
-    //system("pause");  
-    return 0;  
+GreedyChoose(11,s,f,mark);  
+for(int i=0;i<11;i++)  
+    if(mark[i])  
+        cout<<i<<" ";  
+//system("pause");  
+return 0;  
 }  
 
 void GreedyChoose(int len,int *s,int *f,bool *flag)  
 {  
-    flag[0] = true;  
-    int j = 0;  
-    for(int i=1;i<len;++i)  
-        if(s[i] >= f[j])  
-        {  
-            flag[i] = true;  
-            j = i;  
-        }  
+flag[0] = true;  
+int j = 0;  
+for(int i=1;i<len;++i)  
+    if(s[i] >= f[j])  
+    {  
+        flag[i] = true;  
+        j = i;  
+    }  
 }  
 #endif
 
@@ -711,117 +731,117 @@ struct timeval tvstart, tvend;
 
 void show(vector<string> &a)
 {
-    long timespend = 0;
-    for (int i = 0; i < a.size(); i++)
-    {
-        cout<<a[i]<<endl;
-    }
-    timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
-    cout<<"time spend: "<<timespend<<endl;
+long timespend = 0;
+for (int i = 0; i < a.size(); i++)
+{
+    cout<<a[i]<<endl;
+}
+timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
+cout<<"time spend: "<<timespend<<endl;
 }
 
 int R = 256;         // radix 
 int M = 5;          // cutoff for small subarrays 
 int charAt(string s, int d) 
 {  
-    if (d < s.length()) 
-        return s.at(d); 
-    else 
-        return -1;               
+if (d < s.length()) 
+    return s.at(d); 
+else 
+    return -1;               
 } 
 
 void sort(vector<string> a, int lo, int hi, int d) 
 {    
-    vector<string> aux;  // auxiliary array for distribution 
+vector<string> aux;  // auxiliary array for distribution 
 
-    if (hi <= lo + M) 
-    {  Insertion.sort(a, lo, hi, d); return;  } 
+if (hi <= lo + M) 
+{  Insertion.sort(a, lo, hi, d); return;  } 
 
-    int[] count = new int[R+2];               // Compute frequency counts. 
-    for (int i = lo; i <= hi; i++) 
-        count[charAt(a[i], d) + 2]++; 
+int[] count = new int[R+2];               // Compute frequency counts. 
+for (int i = lo; i <= hi; i++) 
+    count[charAt(a[i], d) + 2]++; 
 
-    for (int r = 0; r < R+1; r++)             // Transform counts to indices. 
-        count[r+1] += count[r]; 
+for (int r = 0; r < R+1; r++)             // Transform counts to indices. 
+    count[r+1] += count[r]; 
 
-    for (int i = lo; i <= hi; i++)            // Distribute. 
-        aux[count[charAt(a[i], d) + 1]++] = a[i]; 
+for (int i = lo; i <= hi; i++)            // Distribute. 
+    aux[count[charAt(a[i], d) + 1]++] = a[i]; 
 
-    for (int i = lo; i <= hi; i++)            // Copy back. 
-        a[i] = aux[i - lo]; 
+for (int i = lo; i <= hi; i++)            // Copy back. 
+    a[i] = aux[i - lo]; 
 
-    // Recursively sort for each character value. 
-    for (int r = 0; r < R; r++) 
-        sort(a, lo + count[r], lo + count[r+1] - 1, d+1); 
+// Recursively sort for each character value. 
+for (int r = 0; r < R; r++) 
+    sort(a, lo + count[r], lo + count[r+1] - 1, d+1); 
 
 } 
 
 void sort_msd(vector<string> &a)
 {
-    int N = a.size(); 
-    sort(a, 0, N-1, 0); 
+int N = a.size(); 
+sort(a, 0, N-1, 0); 
 }
 
 void sort_lsd(vector<string> &a, int W) 
 {   // Sort a[] on leading W characters. 
-    int N = a.size(); 
-    int R = 256; 
-    vector<string> aux(a);
+int N = a.size(); 
+int R = 256; 
+vector<string> aux(a);
 
-    for (int d = W-1; d >= 0; d--) 
-    { // Sort by key-indexed counting on dth char. 
+for (int d = W-1; d >= 0; d--) 
+{ // Sort by key-indexed counting on dth char. 
 
-        vector<int> count(R+1, 0);                // Compute frequency counts.
-        cout<<"count"<<endl;
-        for (int i = 0; i < N; i++)
-        {
-            count[a[i].at(d) + 1]++;
-            cout<<"index "<<a[i].at(d)+1<<" "<<count[a[i].at(d) + 1]<<endl;
-        }
-        cout<<"step2"<<endl;
-        for (int r = 0; r < R; r++)               // Transform counts to indices.
-        {
-            count[r+1] += count[r];
-            cout<<"index "<<r<<"==> "<<count[r]<<endl;
+    vector<int> count(R+1, 0);                // Compute frequency counts.
+    cout<<"count"<<endl;
+    for (int i = 0; i < N; i++)
+    {
+        count[a[i].at(d) + 1]++;
+        cout<<"index "<<a[i].at(d)+1<<" "<<count[a[i].at(d) + 1]<<endl;
+    }
+    cout<<"step2"<<endl;
+    for (int r = 0; r < R; r++)               // Transform counts to indices.
+    {
+        count[r+1] += count[r];
+        cout<<"index "<<r<<"==> "<<count[r]<<endl;
 
-        }
-        for (int i = 0; i < N; i++)               // Distribute. 
-            aux[count[a[i].at(d)]++] = a[i]; 
+    }
+    for (int i = 0; i < N; i++)               // Distribute. 
+        aux[count[a[i].at(d)]++] = a[i]; 
 
-        for (int i = 0; i < N; i++)               // Copy back. 
-            a[i] = aux[i]; 
-    } 
+    for (int i = 0; i < N; i++)               // Copy back. 
+        a[i] = aux[i]; 
+} 
 } 
 
 int main()
 {
-    vector<string> a;
-    string b;
-    int num, len;
-    cout<<"Please input the length and the number of the string you want to sort: "<<endl;
-    cin>>len;
-    cin>>num;
+vector<string> a;
+string b;
+int num, len;
+cout<<"Please input the length and the number of the string you want to sort: "<<endl;
+cin>>len;
+cin>>num;
 
-    //construct the array
-    for (int i = 0; i < num; i++)
+//construct the array
+for (int i = 0; i < num; i++)
+{
+    b.clear();
+    for (int j = 0; j < len; j++)
     {
-        b.clear();
-        for (int j = 0; j < len; j++)
-        {
-            b.push_back('a'+rand()%26);
-        }
-        a.push_back(b);
+        b.push_back('a'+rand()%26);
     }
-    //do the string sort
-    cout<<"before sort: "<<endl;
-    show(a);
-    cout<<"after sort: "<<endl;
-    gettimeofday(&tvstart, NULL);
-    sort_lsd(a, len);
-    gettimeofday(&tvend, NULL);
-    show(a);
+    a.push_back(b);
+}
+//do the string sort
+cout<<"before sort: "<<endl;
+show(a);
+cout<<"after sort: "<<endl;
+gettimeofday(&tvstart, NULL);
+sort_lsd(a, len);
+gettimeofday(&tvend, NULL);
+show(a);
 
-    return 0;
+return 0;
 }
 
 #endif
@@ -834,101 +854,101 @@ typedef struct treenode *BinTree;
 
 struct treenode
 {
-    DataType element;
-    TreeNode llink;
-    TreeNode rlink;
+DataType element;
+TreeNode llink;
+TreeNode rlink;
 };
 
 BinTree createBinTree(DataType x)
 {
-    BinTree tree = NULL;
-    tree = malloc(sizeof(struct treenode));
-    tree->element = x;
-    return tree;
+BinTree tree = NULL;
+tree = malloc(sizeof(struct treenode));
+tree->element = x;
+return tree;
 }
 
 BinTree addToLeft(BinTree t, DataType x)
 {
-    TreeNode node = NULL;
-    node = malloc(sizeof(struct treenode));
-    if (node != NULL)
-        node->element = x;
-    t -> llink = node;
-    return node;
+TreeNode node = NULL;
+node = malloc(sizeof(struct treenode));
+if (node != NULL)
+    node->element = x;
+t -> llink = node;
+return node;
 }
 
 BinTree addToRight(BinTree t, DataType x)
 {
-    TreeNode node = NULL;
-    node = malloc(sizeof(struct treenode));
-    if (node != NULL)
-        node->element = x;
-    t-> rlink = node;
-    return node;
+TreeNode node = NULL;
+node = malloc(sizeof(struct treenode));
+if (node != NULL)
+    node->element = x;
+t-> rlink = node;
+return node;
 }
 
 void visitRoot(BinTree tree)
 {
-    printf("%d ", tree->element);
+printf("%d ", tree->element);
 }
 
 BinTree leftChild(BinTree tree)
 {
-    return tree->llink;
+return tree->llink;
 }
 
 BinTree rightChild(BinTree tree)
 {
-    return tree->rlink;
+return tree->rlink;
 }
 
 void preOrder(BinTree tree)
 {
-    if(tree == NULL)
-        return;
-    visitRoot(tree);
-    preOrder(leftChild(tree));
-    preOrder(rightChild(tree));
+if(tree == NULL)
+    return;
+visitRoot(tree);
+preOrder(leftChild(tree));
+preOrder(rightChild(tree));
 }
 
 void inOrder(BinTree tree)
 {
-    if(NULL == tree)
-        return;
-    inOrder(leftChild(tree));
-    visitRoot(tree);
-    inOrder(rightChild(tree));
+if(NULL == tree)
+    return;
+inOrder(leftChild(tree));
+visitRoot(tree);
+inOrder(rightChild(tree));
 }
 
 void postOrder(BinTree tree)
 {
-    if(NULL == tree)
-        return;
-    postOrder(leftChild(tree));
-    postOrder(rightChild(tree));
-    visitRoot(tree);
+if(NULL == tree)
+    return;
+postOrder(leftChild(tree));
+postOrder(rightChild(tree));
+visitRoot(tree);
 }
 
 int main()
 {
-    BinTree left, right;
-    BinTree tree = createBinTree(5);
-    left = addToLeft(tree, 4);
-    right = addToRight(tree, 3);
-    addToLeft(left, 8);
-    addToRight(left, 7);
-    addToLeft(right, 6);
+BinTree left, right;
+BinTree tree = createBinTree(5);
+left = addToLeft(tree, 4);
+right = addToRight(tree, 3);
+addToLeft(left, 8);
+addToRight(left, 7);
+addToLeft(right, 6);
 
-    printf("先根周游次序：");
-    preOrder(tree);
-    printf("\n");
-    printf("中根周游次序：");
-    inOrder(tree);
-    printf("\n");
-    printf("后根周游算法：");
-    postOrder(tree);
-    printf("\n");
-    return 1;
+printf("先根周游次序：");
+preOrder(tree);
+printf("\n");
+printf("中根周游次序：");
+inOrder(tree);
+printf("\n");
+printf("后根周游算法：");
+postOrder(tree);
+printf("\n");
+return 1;
 }
 
 
@@ -945,102 +965,102 @@ using std::endl;
 
 char *strstr_wt(const char *src, const char *target)
 {
-    char *p1 = (char *)src;
+char *p1 = (char *)src;
 
-    if (!*target)
-        return p1;
-    while (*p1)
+if (!*target)
+    return p1;
+while (*p1)
+{
+    char *p1begin = p1;
+    char *p2 = (char *)target;
+    while (*p1 && *p2 && *p1 == *p2)
     {
-        char *p1begin = p1;
-        char *p2 = (char *)target;
-        while (*p1 && *p2 && *p1 == *p2)
-        {
-            p1++;
-            p2++;
-        }
-        if (!*p2)
-            return p1begin;
-        p1 = p1begin + 1;
+        p1++;
+        p2++;
     }
-    return NULL;
+    if (!*p2)
+        return p1begin;
+    p1 = p1begin + 1;
+}
+return NULL;
 }
 
 bool findchar(char *str, char c)
 {
-    int i = 0;
-    while (!*str)
+int i = 0;
+while (!*str)
+{
+    if (*str == c)
     {
-        if (*str == c)
-        {
-            return i;
-        }
-        str++;
-        i++;
+        return i;
     }
-    return -1;
+    str++;
+    i++;
+}
+return -1;
 }
 
 char *strstr_bm(const char *src, const char *target)
 {
-    char *p1 = (char *)src;
-    char *p2 = (char *)target;
-    int len = 0, shift = 0, ret = 0;
+char *p1 = (char *)src;
+char *p2 = (char *)target;
+int len = 0, shift = 0, ret = 0;
 
-    if (!*target)
-        return p1;
+if (!*target)
+    return p1;
 
-    len = strlen(target);
-    while ()
+len = strlen(target);
+while ()
+{
+    char *p1 = src+len;
+    char *p2 = target+len;
+    while (*p1-- == *p2--){}
+    
+    int bad_pos = target - p2;
+    ret = findchar(p2, p1[len-1]);
+    if (ret == -1) 
     {
-        char *p1 = src+len;
-        char *p2 = target+len;
-        while (*p1-- == *p2--){}
-        
-        int bad_pos = target - p2;
-        ret = findchar(p2, p1[len-1]);
-        if (ret == -1) 
-        {
-            shift = len;
-        }
-        else
-        {
-            shift = ret;
-        }
-            
-        shift = bad_pos - last_pos;
-        p1+=shift;
+        shift = len;
     }
+    else
+    {
+        shift = ret;
+    }
+        
+    shift = bad_pos - last_pos;
+    p1+=shift;
+}
 }
 
 
 int main(int argc, char **argv)
 {
-    char src[4096] = {0};
-    char target[128] = {0};
-    char *result = NULL;
-    struct timeval tvstart = {0}, tvend = {0};
-    long timespend = 0;
-    if (argc != 3)
-    {
-        cout<<"wrong paras: usage: strstr src-string dst-string"<<endl;
-        return 0;
-    }
-    strcpy(src, argv[1]);
-    strcpy(target, argv[2]);
-    cout<<src<<endl;
-    cout<<target<<endl;
-    
-    gettimeofday( &tvstart, NULL);
-    result = strstr_wt(src, target);
-    gettimeofday( &tvend, NULL);
-    if (result != NULL)
-    {
-        printf("find the target string: %p/%p\n", src, result);
-    }
-    timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
-    cout<<"time spend: "<<timespend<<" us"<<endl;
-    
+char src[4096] = {0};
+char target[128] = {0};
+char *result = NULL;
+struct timeval tvstart = {0}, tvend = {0};
+long timespend = 0;
+if (argc != 3)
+{
+    cout<<"wrong paras: usage: strstr src-string dst-string"<<endl;
     return 0;
+}
+strcpy(src, argv[1]);
+strcpy(target, argv[2]);
+cout<<src<<endl;
+cout<<target<<endl;
+
+gettimeofday( &tvstart, NULL);
+result = strstr_wt(src, target);
+gettimeofday( &tvend, NULL);
+if (result != NULL)
+{
+    printf("find the target string: %p/%p\n", src, result);
+}
+timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
+cout<<"time spend: "<<timespend<<" us"<<endl;
+
+return 0;
 }
 #endif
 
@@ -1054,79 +1074,79 @@ using std::endl;
 
 void str_copy(char *src, char *dst, int size)
 {
-    while (size > 0)
-    {
-            *dst = *src;
-            dst++;
-            src++;
-            size--;
-    }
+while (size > 0)
+{
+        *dst = *src;
+        dst++;
+        src++;
+        size--;
+}
 }
 
 void str_move(char *src, char *dst, int size)
 {
-    char *shmem = NULL;
-    if ((src + size > dst) && (src < dst))
-    {
-        cout<<"dst and src hava some overlapping area."<<endl;
-        shmem = new char[size];
-        memset(shmem, 0, size);
-        memcpy((void *)shmem, src, size);
-        str_copy(shmem, dst, size);
-    }
-    else
-    {
-        str_copy(src, dst, size);
-    }
-    if (shmem)
-        delete shmem;
+char *shmem = NULL;
+if ((src + size > dst) && (src < dst))
+{
+    cout<<"dst and src hava some overlapping area."<<endl;
+    shmem = new char[size];
+    memset(shmem, 0, size);
+    memcpy((void *)shmem, src, size);
+    str_copy(shmem, dst, size);
+}
+else
+{
+    str_copy(src, dst, size);
+}
+if (shmem)
+    delete shmem;
 }
 
 int main()
 {
-    char src[128] = {0};
-    char *dst = src + 5;
-    char tmp[] = "hello world";
+char src[128] = {0};
+char *dst = src + 5;
+char tmp[] = "hello world";
 
-    strncpy(src, tmp, strlen(tmp));
-    str_move(src, dst, strlen(src));
-    cout<<"move successfully: "<<dst<<endl;
+strncpy(src, tmp, strlen(tmp));
+str_move(src, dst, strlen(src));
+cout<<"move successfully: "<<dst<<endl;
 
-    return 0;
+return 0;
 }
 #endif
 
 #if 0
 int* twoSum(int* nums, int numsSize, int target) 
 {
-    int *sumindex;
-    int n=2*numsSize+1;
-    int hash[2][n];
-    for(int i=0;i<n;i++)
-        hash[1][i]=-1;
-    hash[0][nums[0]%n]=nums[0];
-    hash[1][nums[0]%n]=0;
-    for(int i=1;i<numsSize;i++)
+int *sumindex;
+int n=2*numsSize+1;
+int hash[2][n];
+for(int i=0;i<n;i++)
+    hash[1][i]=-1;
+hash[0][nums[0]%n]=nums[0];
+hash[1][nums[0]%n]=0;
+for(int i=1;i<numsSize;i++)
+{
+    int k=target-nums[i];
+    for(int r=k%n;hash[1][r]!=-1;r=(r+1)%n)
     {
-        int k=target-nums[i];
-        for(int r=k%n;hash[1][r]!=-1;r=(r+1)%n)
+        if(hash[0][r]==k)
         {
-            if(hash[0][r]==k)
-            {
-                sumindex=(int*)malloc(sizeof(int)*2);
-                if(sumindex==NULL)return NULL;
-                sumindex[0]=hash[1][r]+1;
-                sumindex[1]=i+1;
-                return sumindex;
-            }
+            sumindex=(int*)malloc(sizeof(int)*2);
+            if(sumindex==NULL)return NULL;
+            sumindex[0]=hash[1][r]+1;
+            sumindex[1]=i+1;
+            return sumindex;
         }
-        for(int j=nums[i]%n;;j=(j+1)%n)
-            if(hash[1][j]==-1)
-            {
-                hash[0][j]=nums[i];
-                hash[1][j]=i;
-                break;
-            }
+    }
+    for(int j=nums[i]%n;;j=(j+1)%n)
+        if(hash[1][j]==-1)
+        {
+            hash[0][j]=nums[i];
+            hash[1][j]=i;
+            break;
+        }
 }
 #endif
 
@@ -1153,87 +1173,87 @@ template <typename Type> void show(vector<Type> &);
 
 map<int, int> twosum(vector<int> &a, int target)
 {
-    int i = 0; 
-    int j = 0; 
-    int value = 0; 
-    for (i = 0; i < a.size(); i++)
+int i = 0; 
+int j = 0; 
+int value = 0; 
+for (i = 0; i < a.size(); i++)
+{
+    if (a[i] > target) continue;
+    value = target - a[i];
+    for (j = i + 1; j < a.size(); j++)
     {
-        if (a[i] > target) continue;
-        value = target - a[i];
-        for (j = i + 1; j < a.size(); j++)
+        if (a[j] == value)
         {
-            if (a[j] == value)
-            {
-                return {{i, a[i]}, {j, a[j]}};
-            }
+            return {{i, a[i]}, {j, a[j]}};
         }
     }
-    return map<int, int>();
+}
+return map<int, int>();
 }
 
 map<int, int> twosum_map(multimap<int, int> &a, int target)
 {
-    int value = 0;
-    for (auto iter = a.begin(); iter != a.end(); iter++)
+int value = 0;
+for (auto iter = a.begin(); iter != a.end(); iter++)
+{
+    if (iter->first > target) 
+        break;
+    value = target - iter->first;
+    auto iter2 = a.find(value);
+    while (iter2 != a.end())
     {
-        if (iter->first > target) 
-            break;
-        value = target - iter->first;
-        auto iter2 = a.find(value);
-        while (iter2 != a.end())
+        if (iter->second != iter2->second)
         {
-            if (iter->second != iter2->second)
-            {
-                return {{iter->second, iter->first}, {iter2->second, iter2->first}};
-            }
-            iter2++;
+            return {{iter->second, iter->first}, {iter2->second, iter2->first}};
         }
+        iter2++;
     }
-    return map<int, int>();
+}
+return map<int, int>();
 }
 
 void print_sum(map<int, int> &a, struct timeval tvstart, struct timeval tvend)
 {
-    long timespend;
+long timespend;
 
-    cout<<"---------------------------------------------"<<endl;
-    for (auto iter = a.begin(); iter != a.end(); iter++)
-    {
-        cout<<iter->first<<": "<<iter->second<<endl; 
-    }
-    timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
-    cout<<"time spend: "<<timespend<<" us"<<endl;
+cout<<"---------------------------------------------"<<endl;
+for (auto iter = a.begin(); iter != a.end(); iter++)
+{
+    cout<<iter->first<<": "<<iter->second<<endl; 
+}
+timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
+cout<<"time spend: "<<timespend<<" us"<<endl;
 }
 
 int main()
 {
-    int num = 0, target = 0, i = 0;
-    vector<int> array;
-    multimap<int, int> imap;
-    struct timeval tvstart, tvend;
+int num = 0, target = 0, i = 0;
+vector<int> array;
+multimap<int, int> imap;
+struct timeval tvstart, tvend;
 
-    cout<<"please input the number you want to process: "<<endl;
-    cin>>num;
-    while (array.size() < num)
-    {
-        array.push_back(rand()%10000);
-        imap.insert(std::make_pair(array[i], i));
-        cout<<array[i++]<<" ";
-    }
-    cout<<endl;
-    cout<<"please input the target: "<<endl;
-    cin>>target;
+cout<<"please input the number you want to process: "<<endl;
+cin>>num;
+while (array.size() < num)
+{
+    array.push_back(rand()%10000);
+    imap.insert(std::make_pair(array[i], i));
+    cout<<array[i++]<<" ";
+}
+cout<<endl;
+cout<<"please input the target: "<<endl;
+cin>>target;
 
-    gettimeofday( &tvstart, NULL);
-    auto ret = twosum(array, target);
-    gettimeofday( &tvend, NULL);
-    print_sum(ret, tvstart, tvend);
-    
-    gettimeofday( &tvstart, NULL);
-    ret = twosum_map(imap, target);
-    gettimeofday( &tvend, NULL);
-    print_sum(ret, tvstart, tvend);
-    return 0;
+gettimeofday( &tvstart, NULL);
+auto ret = twosum(array, target);
+gettimeofday( &tvend, NULL);
+print_sum(ret, tvstart, tvend);
+
+gettimeofday( &tvstart, NULL);
+ret = twosum_map(imap, target);
+gettimeofday( &tvend, NULL);
+print_sum(ret, tvstart, tvend);
+return 0;
 }
 #endif
 
@@ -1241,83 +1261,83 @@ int main()
 template <typename Type>
 void printx(vector<Type> &a)
 {
-    typename vector<Type>::iterator index = a.begin();
-    while (index != a.end())
-    {
-        cout<<*index<<endl;
-        index++;
-    }
+typename vector<Type>::iterator index = a.begin();
+while (index != a.end())
+{
+    cout<<*index<<endl;
+    index++;
+}
 }
 
 int duplen(string &a, string &b)
 {
-    int index = 0;
-    while (a[index] == b[index])
-    {
-        index++;
-    }
+int index = 0;
+while (a[index] == b[index])
+{
+    index++;
+}
 
-    return index;
+return index;
 }
 
 int findhuge(vector<int> &a)
 {
-    int index = 0;
-    int max = index;
-    while (++index < a.size())
-    {
-        if (a[index] > a[max])
-            max = index;
-    }
-    return max;
+int index = 0;
+int max = index;
+while (++index < a.size())
+{
+    if (a[index] > a[max])
+        max = index;
+}
+return max;
 }
 
 string dup(string &a)
 {
-    vector<string> s;
-    vector<int> r;
-    //vector<string>::iterator vindex;
-    string dupstr;
-    int index = 0;
-    int i = 0;
-    int max = 0;
+vector<string> s;
+vector<int> r;
+//vector<string>::iterator vindex;
+string dupstr;
+int index = 0;
+int i = 0;
+int max = 0;
 
-    while (index < a.size())
-    {
-        s.push_back(a.substr(index));
-        index++;
-    }
-    cout<<"before sort:"<<endl;
-    printx(s);
-    sort_quick(s, 0, s.size()-1);
-    cout<<"after sort:"<<endl;
-    printx(s);
+while (index < a.size())
+{
+    s.push_back(a.substr(index));
+    index++;
+}
+cout<<"before sort:"<<endl;
+printx(s);
+sort_quick(s, 0, s.size()-1);
+cout<<"after sort:"<<endl;
+printx(s);
 
-    cout<<"s size: "<<s.size()<<endl;
+cout<<"s size: "<<s.size()<<endl;
 
-    //find the longest duplicate substring
-    for (i = 0; i < s.size()-1; i++)
-    {
-        r.push_back(duplen(s[i], s[i+1]));
-    }
-    printx(r);
-    max = findhuge(r);
-    cout<<"max index: "<<max<<" value: "<<r[max]<<endl;
-    cout<<"max duplicate str: "<<s[max].substr(0,r[max])<<endl;
-     
-    return dupstr;
+//find the longest duplicate substring
+for (i = 0; i < s.size()-1; i++)
+{
+    r.push_back(duplen(s[i], s[i+1]));
+}
+printx(r);
+max = findhuge(r);
+cout<<"max index: "<<max<<" value: "<<r[max]<<endl;
+cout<<"max duplicate str: "<<s[max].substr(0,r[max])<<endl;
+ 
+return dupstr;
 }
 
 int main(int argc, char **argv)
 {
-    string a;
+string a;
 
-    cout<<"please input string: "<<endl;
-    cin>>a;
-    cout<<a<<" size: "<<a.size()<<endl;
+cout<<"please input string: "<<endl;
+cin>>a;
+cout<<a<<" size: "<<a.size()<<endl;
 
-    dup(a);
-    return 0;
+dup(a);
+return 0;
 }
 #endif
 
@@ -1338,116 +1358,116 @@ static int count = 0;
 template <class Type> 
 int less(Type &a, Type &b)
 {
-    if (a > b)
-        return 1;
-    else if (a < b)
-        return -1;
-    else
-        return 0;
+if (a > b)
+    return 1;
+else if (a < b)
+    return -1;
+else
+    return 0;
 }
 
 template <class Type> 
 void exch(Type &a, Type &b)
 {
-    Type tmp = a;
-    a = b;
-    b = tmp;
-    count++;
+Type tmp = a;
+a = b;
+b = tmp;
+count++;
 }
 
 template <class Type> 
 void sort_bubble(vector<Type> &a)
 {
-    int i = 0, j = 0;
-    
-    for (i = 0; i < a.size() - 1; i++)
+int i = 0, j = 0;
+
+for (i = 0; i < a.size() - 1; i++)
+{
+    for (j = 0; j < a.size() - i - 1; j++)
     {
-        for (j = 0; j < a.size() - i - 1; j++)
+        if (a[j] > a[j+1])
         {
-            if (a[j] > a[j+1])
-            {
-                exch(a[j], a[j+1]);
-            }
+            exch(a[j], a[j+1]);
         }
     }
+}
 }
 
 template <class Type> 
 void sort_select(vector<Type> &a)
 {
-    int i = 0, j = 0;
-    int min = 0;
-    
-    for (i = 0; i < a.size(); i++)
+int i = 0, j = 0;
+int min = 0;
+
+for (i = 0; i < a.size(); i++)
+{
+    min = i;
+    for (j = i+1; j < a.size(); j++)
     {
-        min = i;
-        for (j = i+1; j < a.size(); j++)
+        if (a[j] < a[min])
         {
-            if (a[j] < a[min])
-            {
-                min = j;
-            }
-        }
-        if (min != i)
-        {
-            exch(a[min], a[i]);
+            min = j;
         }
     }
+    if (min != i)
+    {
+        exch(a[min], a[i]);
+    }
+}
 }
 
 template <class Type> 
 void sort_insert(vector<Type> &a)
 {
-    int i = 0, j = 0, m = 0;
-    int temp = 0;
-   
-    for (i = 1; i < a.size(); i++)
+int i = 0, j = 0, m = 0;
+int temp = 0;
+
+for (i = 1; i < a.size(); i++)
+{
+    for (j = 0; j < i; j++)
     {
-        for (j = 0; j < i; j++)
+        if (a[i] < a[j])
         {
-            if (a[i] < a[j])
+            temp = a[i];
+            for (m = i; m > j; m--)
             {
-                temp = a[i];
-                for (m = i; m > j; m--)
-                {
-                    a[m] = a[m-1];
-                }
-                a[j] = temp;
+                a[m] = a[m-1];
             }
+            a[j] = temp;
         }
     }
+}
 }
 
 template <typename Type>
 int partition(vector<Type> &a, int index, int left, int right)
 {
-    int restore = left;
-    Type piovt = a[index];
-    int i = 0;
+int restore = left;
+Type piovt = a[index];
+int i = 0;
 
-    exch(a[index], a[right]);
-    for (i = left; i < right; i++)
+exch(a[index], a[right]);
+for (i = left; i < right; i++)
+{
+    if (a[i] < piovt)
+    //if (less(a[i], piovt) < 0)
     {
-        if (a[i] < piovt)
-        //if (less(a[i], piovt) < 0)
+        if (i != restore)
         {
-            if (i != restore)
-            {
-                exch(a[i], a[restore]);
-            }
-            restore++;
+            exch(a[i], a[restore]);
         }
+        restore++;
     }
-    exch(a[restore], a[right]);
-    return restore;
+}
+exch(a[restore], a[right]);
+return restore;
 }
 
 template <typename Type>
 void sort_quick(vector<Type> &a, int left, int right)
 {
-    int index = 0;
-    if (right > left)
-    {
+int index = 0;
+if (right > left)
+{
        index = (right-left+1)/2;
        index = partition(a, left+index, left, right);
        sort_quick(a, left, index - 1);
