@@ -1,5 +1,109 @@
+#if 1
+#include <iostream>
+#include <string>
+#include <vector>
+using std::cout;
+using std::cin;
+using std::endl;
+using std::string;
+using std::vector;
 
-#if 1 //find the longest duplicate substring => suffix array
+template <class Type> 
+int less(Type &a, Type &b)
+{
+    if (a > b)
+        return 1;
+    else if (a < b)
+        return -1;
+    else
+        return 0;
+}       
+
+template <class Type> 
+void exch(Type &a, Type &b)
+{
+    Type tmp = a;
+    a = b;
+    b = tmp;
+}
+
+template <typename Type>
+int partition(vector<Type> &a, int index, int left, int right)
+{
+    int restore = left;
+    Type piovt = a[index];
+    int i = 0;
+
+    exch(a[index], a[right]);
+    for (i = left; i < right; i++)
+    {
+        if (less(a[i], piovt) < 0)
+        {
+            if (i != restore)
+            {
+                exch(a[i], a[restore]);
+            }
+            restore++;
+        }
+    }
+    exch(a[restore], a[right]);
+    return restore;
+}
+
+template <typename Type>
+void sort_quick(vector<Type> &a, int left, int right)
+{
+    int index = 0;
+    if (right > left)
+    {
+        index = (right-left+1)/2;
+        index = partition(a, left+index, left, right);
+        sort_quick(a, left, index - 1);
+        sort_quick(a, index + 1, right);
+    }
+}
+
+class SuffixArray
+{
+    //string *suffixes;
+    vector<string> suffixes;
+    unsigned int len;
+public:
+    SuffixArray(string str)
+    {
+       len = str.size();
+       //suffixes = new string[len];
+       for (int i = 0; i < len; i++)
+       {
+           //suffixes[i] = str.substr(i);
+           suffixes.push_back(str.substr(i));
+           //cout<<suffixes[i]<<endl;
+       }
+       sort_quick(suffixes, 0, len-1);
+    }
+    void print();
+};
+
+void SuffixArray::print()
+{
+    //string *p = suffixes;
+    for (int i = 0; i < len; ++i)
+    {
+        cout<<suffixes[i]<<endl;
+    }
+}
+
+int main()
+{
+    string str;
+    cout<<"please input the string: "<<endl;
+    cin>>str;
+    SuffixArray sa(str);
+    sa.print();
+    return 0;
+}
+#endif
+#if 0 //find the longest same substring => suffix array
 #include <iostream>
 #include <stdlib.h>
 #include <time.h>
@@ -29,6 +133,7 @@ char *rand_str(unsigned int len)
     return szStr;
 }
 
+/* find the longest same prefix of s1 and s2 */
 unsigned int lsd_prefix(string &s1, string &s2)
 {
     unsigned int len = s1.size();
@@ -46,6 +151,7 @@ unsigned int lsd_prefix(string &s1, string &s2)
     return len;
 }
 
+/* find the longest same substring of s1 and s2 */
 void lsd(string &s1, string &s2)
 {
     unsigned int len = 0;
@@ -1441,37 +1547,37 @@ for (i = 1; i < a.size(); i++)
 template <typename Type>
 int partition(vector<Type> &a, int index, int left, int right)
 {
-int restore = left;
-Type piovt = a[index];
-int i = 0;
+    int restore = left;
+    Type piovt = a[index];
+    int i = 0;
 
-exch(a[index], a[right]);
-for (i = left; i < right; i++)
-{
-    if (a[i] < piovt)
-    //if (less(a[i], piovt) < 0)
+    exch(a[index], a[right]);
+    for (i = left; i < right; i++)
     {
-        if (i != restore)
+        if (a[i] < piovt)
+        //if (less(a[i], piovt) < 0)
         {
-            exch(a[i], a[restore]);
+            if (i != restore)
+            {
+                exch(a[i], a[restore]);
+            }
+            restore++;
         }
-        restore++;
     }
-}
-exch(a[restore], a[right]);
-return restore;
+    exch(a[restore], a[right]);
+    return restore;
 }
 
 template <typename Type>
 void sort_quick(vector<Type> &a, int left, int right)
 {
-int index = 0;
-if (right > left)
-{
-       index = (right-left+1)/2;
-       index = partition(a, left+index, left, right);
-       sort_quick(a, left, index - 1);
-       sort_quick(a, index + 1, right);
+    int index = 0;
+    if (right > left)
+    {
+        index = (right-left+1)/2;
+        index = partition(a, left+index, left, right);
+        sort_quick(a, left, index - 1);
+        sort_quick(a, index + 1, right);
     }
 }
 

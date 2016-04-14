@@ -1,3 +1,36 @@
+#if 0 // new/delete
+#include <iostream>
+#include <string>
+#include <vector>
+using std::cout;
+using std::endl;
+using std::string;
+using std::vector;
+
+int main()
+{
+    auto p = new int[3]{0,2,3};
+    cout<<*p<<*(p+1)<<*(p+2)<<endl;
+
+    auto p1 = new string[3]{"helloxx", "world", "good"};
+    cout<<*p1<<*(p1+1)<<*(p1+2)<<endl;
+
+    string *p2 = p1;
+    cout<<p2->size()<<endl;
+    cout<<(p2+1)->size()<<endl;
+    cout<<(p2+2)->size()<<endl;
+
+    vector<string> s;
+    s[0] = "hello";
+    s[1] = "world";
+
+    cout<<s[0]<<s[1]<<endl;
+    delete [] p;
+    delete [] p1;
+    return 0;
+}
+#endif
+
 #if 0 // IO API
 #include <iostream>
 #include <string>
@@ -20,7 +53,8 @@ int main()
    return 0;
 }
 #endif
-#if 1 //string operations
+
+#if 0 //string operations
 #include <iostream>
 #include <string>
 #include <string.h>
@@ -1975,7 +2009,7 @@ int main()
 }
 #endif
 
-#if 0 //vector size and capacity
+#if 1 //vector size and capacity
 #include <iostream>
 #include <vector>
 #include <string>
@@ -1998,6 +2032,7 @@ int main()
     }
     cout<<str.size()<<endl;
     cout<<str.capacity()<<endl;
+    cout<<&str<<endl;
     
     str.reserve(33); //set the capacity to the specified
     cout<<str.size()<<endl;
@@ -2007,14 +2042,18 @@ int main()
     {
         str.push_back(0);
     }
-    str.push_back(0);
-    cout<<str.size()<<endl;
-    cout<<str.capacity()<<endl;
-
-    str.shrink_to_fit();
     cout<<str.size()<<endl;
     cout<<str.capacity()<<endl;
     
+    str.push_back(0);
+    cout<<&str<<endl; //alloc memory again
+    cout<<str.size()<<endl;
+    cout<<str.capacity()<<endl;
+
+    str.shrink_to_fit(); //reduce capacity() to equal size()
+    cout<<str.size()<<endl;
+    cout<<str.capacity()<<endl;
+
     return 0;
 }
 #endif
