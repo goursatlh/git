@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+
 using std::cout;
 using std::endl;
 using std::string;
@@ -9,6 +10,12 @@ using std::vector;
 
 int main()
 {
+    auto pi = new int; // return a int* pointer.
+    cout<<*pi<<endl;
+    
+    auto pi1 = new int();
+    cout<<*pi1<<endl;
+    
     auto p = new int[3]{0,2,3};
     cout<<*p<<*(p+1)<<*(p+2)<<endl;
 
@@ -19,12 +26,9 @@ int main()
     cout<<p2->size()<<endl;
     cout<<(p2+1)->size()<<endl;
     cout<<(p2+2)->size()<<endl;
-
-    vector<string> s;
-    s[0] = "hello";
-    s[1] = "world";
-
-    cout<<s[0]<<s[1]<<endl;
+   
+    delete pi;
+    delete pi1;
     delete [] p;
     delete [] p1;
     return 0;
@@ -851,53 +855,31 @@ int main()
 #endif
 #endif
 
-#if 0 //allocator
+#if 1 //allocator => memory pool
 #include <iostream>
 #include <memory>
-#include <string>
-#include <vector>
 
 using std::cout;
 using std::endl;
 using std::allocator;
-using std::string;
-using std::vector;
 using std::uninitialized_fill_n;
 
 int main()
 {
-    int *p = new int[100]{1,2,3,4};
-    delete [] p;
-
     allocator<int> al;
-    auto p1 = al.allocate(10); //only alloc memory, not construct
-    auto p2 = p1;
-    al.construct(p1, 1234);
-    cout<<p1<<" "<<*p1<<endl;
-    al.construct(++p1, 5678);
-    cout<<p1<<" "<<*p1<<endl;
+    auto p1 = al.allocate(2); //only alloc memory, not construct
+    auto p2 = p1; // save the pointer to the first element
+    al.construct(p2++, 1234);
+    cout<<p2<<" "<<*p2<<endl;
+    al.construct(p2++, 5678);
+    cout<<p2<<" "<<*p2<<endl;
 
-    al.destroy(p1);
-    al.deallocate(p2, 1); //first para must be the return of allocate()
-
-    allocator<string> stral;
-    auto q = stral.allocate(1); //how to get the size of the alloced memory;
-    auto q1 = q;
-    stral.construct(q, 10, 'h');
-    cout<<*q<<endl;
-    stral.construct(++q, 10, 's');
-    cout<<*q<<endl;
-
-    stral.deallocate(q1, 1);
-
-    vector<int> vi = {1, 2, 3, 4};
-    allocator<int> ali;
-    auto ri = ali.allocate(vi.size()*2);
-    auto ri2 = uninitialized_copy(vi.begin(), vi.end(), ri);
-    auto ri3 = uninitialized_fill_n(ri2, vi.size(), 38);
-    cout<<*ri<<endl;
-    cout<<*ri2<<endl;
-
+    while (p2 != p1)
+    {
+        cout<<"destory p3 "<<p3<<endl;
+        al.destroy(p3++);
+    }
+    al.deallocate(p1, 2); //first para must be the return of allocate()
 
     return 0;
 }
@@ -1941,6 +1923,66 @@ int main()
 }
 #endif
 
+#if 0 // when will the compiler create the default constructor ?
+#include <iostream>
+#include <string>
+#include <vector>
+using std::cout;
+using std::endl;
+using std::string;
+using std::vector;
+
+class A 
+{
+public:
+    int a;
+    string s;
+    string s1;
+    //string s1 = "hello world";
+
+    void show()
+    {
+        cout<<a<<endl;
+        cout<<s<<endl;
+        cout<<s1<<endl;
+    }
+};
+
+int main()
+{
+    A tmp;
+    tmp.show();
+
+    A tmp1 = {1, "fuck"};
+    tmp1.show();
+
+    // 4 forms to initalize 
+    int i = 0;
+    int j(1);
+    int k{2};
+    int l = {3};
+    cout<<i<<" "<<j<<" "<<k<<" "<<l<<endl;
+
+    vector<int> vi(10, 1); 
+    for (auto iter = vi.begin(); iter != vi.end(); iter++)
+    {
+        cout<<*iter<<" ";
+    }
+    cout<<endl;
+
+    int i1;
+    int i2();
+    cout<<i1<<" "<<i2<<endl;
+
+    int *pi1 = new int;
+    cout<<*pi1<<endl;
+    int *pi2 = new int();
+    cout<<*pi2<<endl;
+
+    vector<string> v2{10,"hello"};
+    vector<string> v3(10,"hello");
+}
+#endif
 #if 0
 #include <iostream>
 #include <string>
@@ -2009,7 +2051,7 @@ int main()
 }
 #endif
 
-#if 1 //vector size and capacity
+#if 0 //vector size and capacity
 #include <iostream>
 #include <vector>
 #include <string>
@@ -2034,7 +2076,7 @@ int main()
     cout<<str.capacity()<<endl;
     cout<<&str<<endl;
     
-    str.reserve(33); //set the capacity to the specified
+    str.reserve(33); //set the capacity to the specified value
     cout<<str.size()<<endl;
     cout<<str.capacity()<<endl;
 
@@ -2054,6 +2096,81 @@ int main()
     cout<<str.size()<<endl;
     cout<<str.capacity()<<endl;
 
+    str.clear();
+    cout<<str.size()<<endl;
+    cout<<str.capacity()<<endl;
+    return 0;
+}
+#endif
+
+#if 0 // vector operations => push_back, insert, pop
+#include <iostream>
+#include <vector>
+using std::cout;
+using std::endl;
+using std::vector;
+
+template<typename type>
+void show(vector<type> &vt)
+{
+    if (!vt.empty())
+    {
+        for (auto i = vt.begin(); i != vt.end(); i++)
+        {
+            //cout<<vt[i]<<" ";
+            //cout<<vt.at(i)<<" ";
+            cout<<*i<<" ";
+        }
+    }
+    else
+        cout<<"empty vector.";
+    cout<<endl;
+}
+
+int main()
+{
+    vector<int> vi;
+    vi.push_back(1);
+    //show<int>(vi);
+    show(vi);
+    // prototype: iterator insert(__position, __value)
+    // prototype: void insert(__position, __initalize_list)
+    // prototype: void insert(__position, __size, __value)
+    auto iter = vi.begin();
+    cout<<"iter: "<<*iter<<endl;
+    iter = vi.insert(iter, 3);
+    cout<<"iter: "<<*iter<<endl;
+    show(vi);
+    iter = vi.begin();
+    vi.insert(iter, {7,7,7});
+    cout<<"iter: "<<*iter<<endl;
+    show(vi);
+    iter = vi.begin(); // why need to get this iterator again?
+    vi.insert(iter, 3, 8);
+    cout<<"iter after insert: "<<*iter<<endl;
+    show(vi);
+    vi.pop_back();
+    show(vi);
+    iter = vi.begin(); // why need to get this iterator again?
+    vi.erase(iter);
+    show(vi);
+    cout<<"before clear(): "<<vi.size()<<" "<<vi.capacity()<<endl;
+    vi.clear();
+    show(vi);
+
+    //prealloc space for vector
+    vector<int> v;
+    cout<<v.size()<<" "<<v.capacity()<<endl;
+    vector<int> v1(33,1);
+    cout<<v1.size()<<" "<<v1.capacity()<<endl;
+    vector<int> v2;
+    v2.resize(33);  //append space and alloc new elements
+    cout<<v2.size()<<" "<<v2.capacity()<<endl;
+    v2.resize(24);
+    cout<<v2.size()<<" "<<v2.capacity()<<endl;
+    vector<int> v3;
+    v3.reserve(33); //just append space
+    cout<<v3.size()<<" "<<v3.capacity()<<endl;
     return 0;
 }
 #endif
