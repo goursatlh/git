@@ -1,3 +1,15 @@
+#if 1 // variable function parameters
+#include <iostream>
+using std::cout;
+using std::endl;
+
+int main()
+{
+    return 0;
+}
+
+#endif
+
 #if 0 // new/delete
 #include <iostream>
 #include <string>
@@ -855,7 +867,7 @@ int main()
 #endif
 #endif
 
-#if 1 //allocator => memory pool
+#if 0 //allocator => memory pool
 #include <iostream>
 #include <memory>
 
@@ -983,6 +995,24 @@ int main()
 
 #endif
 
+#if 0 //smart pointer 2
+#include <iostream>
+#include <memory>
+using std::cout;
+using std::endl;
+using std::shared_ptr;
+using std::make_shared;
+
+int main()
+{
+    shared_ptr<int> spi(new int(1));
+
+    shared_ptr<int> spi2 = make_shared<int>(222);
+    cout<<*spi2<<endl;
+    return 0;
+}
+#endif
+
 #if 0 //smart pointer
 #include <iostream>
 #include <string>
@@ -992,11 +1022,11 @@ int main()
 using std::cout;
 using std::endl;
 using std::string;
+using std::vector;
 using std::shared_ptr;
 using std::unique_ptr;
 using std::weak_ptr;
 using std::make_shared;
-using std::vector;
 
 shared_ptr<int> factory(int a)
 {
