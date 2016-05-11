@@ -1,10 +1,28 @@
-#if 1 // variable function parameters
+#if 0 // variable function parameters
 #include <iostream>
+#include <vector>
+
 using std::cout;
 using std::endl;
 
+template <typename T>
+void printv(const T &arg1)
+{
+    cout<<" "<<arg1<<endl;
+}
+
+template <typename T, typename ... Args>
+void printv(const T &arg1, const Args& ... rest)
+{
+    cout<<" "<<arg1<<" ";
+    printv(rest...);
+}
+
 int main()
 {
+    printv("hello");
+    printv("hello", 1);
+    printv("hello", 1, 2.0);
     return 0;
 }
 
