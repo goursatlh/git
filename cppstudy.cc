@@ -1271,29 +1271,87 @@ int main()
 }
 #endif
 
-#if 0 //file input and output //ifstream ofstream fstream
+#if 1 //file input and output //ifstream ofstream fstream
       // istream ifstream istringstream
       // ostream ofstream ostringstream
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <string>
+#include <vector>
+#include <unistd.h>
 
 using std::ifstream;
+using std::istringstream;
+using std::ostringstream;
+using std::istream;
 using std::ofstream;
 using std::string;
 using std::cout;
+using std::cin;
 using std::endl;
+using std::vector;
+
+struct PeopleInfo 
+{
+    string name;
+    vector<string> phones;
+};
+
+void input(istream &i) // must be reference
+{
+    int a;
+    while(i>>a)
+        cout<<"input is "<<a<<endl;
+}
+
+void printv(const vector<PeopleInfo> &t)
+{
+    for (auto i = t.begin(); i != t.end(); i++)
+    {
+        cout<<i->name<<endl;
+        for (auto j = i->phones.begin(); j != i->phones.end(); j++)
+        {
+            cout<<*j<<" ";
+        }
+        cout<<endl;
+    }
+
+    for (auto &entry: t)
+    {
+        ostringstream info;
+        info<<entry.name<<" ";
+        for (auto &p: entry.phones)
+        {
+            info<<p<<" ";
+        }
+        cout<<info.str(); // don't display right now until meeting the fresh 
+        sleep(3);
+        cout<<endl; // invoke endl to fresh the output buff
+    }
+}
 
 int main()
 {
+    vector<PeopleInfo> people;
     ifstream in("test");
-    ofstream out("output");
-    string s;
-    while (getline(in, s))
+    //ofstream out("output");
+    string word, line;
+    
+    while (getline(in, line))
     {
-        cout<<s<<endl;
-        out<<s<<endl;
+        PeopleInfo peopleinfo;
+        istringstream istr(line);
+        istr>>peopleinfo.name;
+        while (istr>>word)
+        {
+            peopleinfo.phones.push_back(word);
+        }
+        people.push_back(peopleinfo);
     }
+    printv(people);
+
+    input(cin);
     return 0;
 }
 #endif
