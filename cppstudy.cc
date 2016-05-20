@@ -1,3 +1,83 @@
+#if 0 // conference and const member cann't be assigned.
+#include <string>
+using std::string;
+template <typename T>
+class NameObject {
+    public:
+        NameObject(string &name, const T &object): nameValue(name), objectValue(object) {}
+    private:
+        string &nameValue; //error 1
+        const T objectValue;//error 2
+};
+int main()
+{
+   string newDog("walter"); 
+   string oldDog("carl");
+   NameObject<int> p(newDog, 22);
+   NameObject<int> s(oldDog, 2);
+   p = s;
+   return 0;
+}
+#endif
+
+#if 0 // copy constructor vs initalize list
+#include <iostream>
+using std::cout;
+using std::endl;
+
+class B
+{
+public:
+    B(int &a)
+    {
+        a = a;
+        cout<<"B construct a "<<a<<endl;
+    }
+    B(B &a)
+    {
+        a = a.a;
+        cout<<"B construct a from copy "<<this->a<<endl;
+    }
+    B()
+    {
+        a = 0;
+        cout<<"B default construct"<<endl;
+    }
+private:
+    int a;
+};
+
+class A 
+{
+public:
+    A(B &tmpb)  //before going to the function body, b has been initalized by invoked the default constructor.
+    {
+        b = tmpb; // this is assignment
+    }
+    A() = default;
+    B b;    
+};
+
+class C 
+{
+public:
+    C(B &tmpb): b(tmpb) //
+    {
+    }
+    C() = default;
+    B b;    
+};
+
+int main()
+{
+    B b;
+    //A a(b);
+    C c(b);
+    return 0;
+}
+
+
+#endif
 #if 0 // variable function parameters
 #include <iostream>
 #include <vector>
@@ -1271,7 +1351,7 @@ int main()
 }
 #endif
 
-#if 1 //file input and output //ifstream ofstream fstream
+#if 0 //file input and output //ifstream ofstream fstream
       // istream ifstream istringstream
       // ostream ofstream ostringstream
 #include <iostream>
@@ -1291,6 +1371,8 @@ using std::cout;
 using std::cin;
 using std::endl;
 using std::vector;
+using std::flush;
+using std::ends;
 
 struct PeopleInfo 
 {
@@ -1325,9 +1407,11 @@ void printv(const vector<PeopleInfo> &t)
         {
             info<<p<<" ";
         }
-        cout<<info.str(); // don't display right now until meeting the fresh 
+        cout<<info.str(); // don't display right now until meeting the buff flush 
         sleep(3);
-        cout<<endl; // invoke endl to fresh the output buff
+        //cout<<endl; // invoke endl to flush the output buff
+        //cout<<flush;
+        cout<<ends;
     }
 }
 
