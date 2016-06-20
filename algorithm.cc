@@ -1,7 +1,8 @@
-#if 1
+#if 1 //suffix array
 #include <iostream>
 #include <string>
 #include <vector>
+
 using std::cout;
 using std::cin;
 using std::endl;
@@ -69,7 +70,7 @@ class SuffixArray
     vector<string> suffixes;
     unsigned int len;
 public:
-    SuffixArray(string str)
+    SuffixArray(string &str)
     {
        len = str.size();
        //suffixes = new string[len];

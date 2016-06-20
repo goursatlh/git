@@ -1,4 +1,4 @@
-#if 1
+#if 0
 #include <iostream>       // std::cout
 #include <atomic>         // std::atomic, std::atomic_flag, ATOMIC_FLAG_INIT
 #include <thread>         // std::thread, std::this_thread::yield
@@ -242,6 +242,7 @@ int main()
 }
 
 #endif
+
 #if 0 // mutex for bit filed:  we should lock whole of the int, not bit field part
 #include <iostream>
 #include <thread>
@@ -296,6 +297,7 @@ int main()
        return 0;
 }
 #endif
+
 #if 0 // mutex
 #include <pthread.h>
 #include <stdlib.h>
@@ -421,6 +423,55 @@ void *thread2(void *junk)
         ++i;
         pthread_mutex_unlock(&mutex);
         //sleep(1);
+    }
+}
+#endif
+
+#if 1 // no lock
+#include <stdio.h>
+#include <pthread.h>
+
+#define MAX 10
+void *thread1(void *);
+void *thread2(void *);
+
+int i = 1;
+int main(void)
+{
+    pthread_t t_a;
+    pthread_t t_b;
+
+    pthread_create(&t_a, NULL, thread2, (void *)NULL);
+    pthread_create(&t_b, NULL, thread1, (void *)NULL);
+    pthread_join(t_b, NULL);
+    printf("i %d\n", i);
+    return 0;
+}
+
+
+void *thread1(void *junk)
+{       
+    while (i < MAX)
+    {       
+        printf(" thread1 before:%d ", i);
+        if (i % 3 != 0)
+        {       
+            printf(" thead1:%d ", i);
+            ++i;
+        }
+    }
+}
+
+void *thread2(void *junk)
+{
+    while (i < MAX)
+    {
+        printf(" thread2 before:%d ", i);
+        if (i % 3 == 0)
+        {
+            printf(" thread2:%d ", i);
+            ++i;
+        }
     }
 }
 #endif

@@ -1,3 +1,29 @@
+#if 1 // pure virtual function and abstract class.
+#include <iostream>
+using std::cout;
+using std::endl;
+class A 
+{
+    virtual void print() = 0;
+};
+
+class B: public A
+{
+    void print()
+    {
+        cout<<"B: print"<<endl;
+    }
+
+};
+
+int main()
+{
+    //A oa;
+    B ob;
+    return 0;
+}
+#endif
+
 #if 0 // conference and const member cann't be assigned.
 #include <string>
 using std::string;
@@ -2094,7 +2120,8 @@ class B: public A{
 public:
     void print()
     {
-        cout<<b<<endl;
+        cout<<b<<endl; //can assess the protected member directly.
+        //cout<<e<<endl;
     }
 };
 
@@ -2103,6 +2130,7 @@ int main()
     A oa(33,44);
     B ob;
     cout<<ob.a<<endl;
+    
     oa.printx();
     oa.printy();
     ob.printy(); // why this is no compile error;
@@ -2470,7 +2498,11 @@ int main()
 }
 #endif
 
-#if 0 // virtual function 
+#if 0 // override vs hide
+#include <iostream>
+using std::cout;
+using std::endl;
+
 class A
 {
     public:
@@ -2478,41 +2510,39 @@ class A
         {
             cout<<"A: virtual function 1"<<endl;
         }
-        virtual void printx()
+        void printx()
         {
-            cout<<"A: virtual function 2"<<endl;
+            cout<<"A: function 2"<<endl;
         }
 };
 
 class B: public A
 {
     public:
-        //void print() override
-        //using A::print;
-        void print()
+        void print() //override 
         {
             cout<<"B: virtual function 1"<<endl;
         }
-        void printx()
+        void printx() //hide
         {
-            cout<<"B: virtual function 2"<<endl;
+            cout<<"B: function 2"<<endl;
         }
 };
-#endif
-#if 0
+
 int main()
 {
     A a;
     B b;
 
     a.print();
+    a.printx();
+    
     b.print();
-    A *p = &a;
+    b.printx();
+ 
     A *q = &b;
-
-    p->print();
     q->print();
-    //n->print();  // pointer must be initialized before accessed.
+    q->printx();
     return 0;
 }
 #endif
