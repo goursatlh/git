@@ -1,4 +1,61 @@
-#if 1 // pure virtual function and abstract class.
+#if 1 //friend 
+#include <iostream>
+using std::cout;
+using std::endl;
+
+void print();
+class A {
+    friend class B;
+    friend int add(A &x);
+    friend void print()
+    {
+        cout<<"this is a friend function"<<endl;
+    }
+private:
+    int a;
+    int b;
+public:
+    A():a(1), b(2) 
+    { 
+        print(); 
+    }
+    
+    void show()
+    {
+        cout<<a<<" "<<b<<endl;
+    }
+};
+
+class B {
+private:
+    int c;
+    int d;
+public:
+    B():c(3), d(4) {}
+    void clear(A &x)
+    {
+        x.a = 0;
+        x.b = 0;
+    }
+};
+
+int add(A &x)
+{
+    return x.a + x.b;
+}
+
+int main()
+{
+    A a;
+    cout<<add(a)<<endl;
+    B b;
+    b.clear(a);
+    a.show();
+    return 0;
+}
+#endif
+
+#if 0 // pure virtual function and abstract class.
 #include <iostream>
 using std::cout;
 using std::endl;
@@ -1934,12 +1991,15 @@ int main()
  * */
 #include <iostream>
 #include <string>
+
 using std::cout;
 using std::endl;
 using std::string;
-class Base {
+
+class Base 
+{
     public:
-        void print() {
+        virtual void print() {
             cout << "print() in Base." << endl;
         }
         void print(int a) {
@@ -1960,6 +2020,14 @@ class Derived : public Base
         }
 };
 
+class DerivedSon : public Derived 
+{
+    public:
+        void print() {
+            cout << "print() in DerivedSon." << endl;
+        }
+};
+
 int main() {
     Derived d;
     d.print();
@@ -1967,11 +2035,17 @@ int main() {
     d.print("");
     //d.Base::print(10);
     //d.Base::print("");
-    //d.Base::print();
+    d.Base::print();
 
     Base &pBase = d;
     pBase.print();
+    pBase.Base::print();
     //pBase.Derived::print();
+
+    DerivedSon s;
+    s.print();
+    Derived &pDerived = s;
+    pDerived.print();
     return 0;
 }
 #endif
