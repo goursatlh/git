@@ -1,4 +1,4 @@
-#if 1 //suffix array
+#if 0 //suffix array
 #include <iostream>
 #include <string>
 #include <vector>
@@ -104,10 +104,12 @@ int main()
     return 0;
 }
 #endif
-#if 0 //find the longest same substring => suffix array
+
+#if 1 //find the longest same substring => suffix array
 #include <iostream>
 #include <stdlib.h>
 #include <time.h>
+#include <sys/time.h>
 
 using std::cout;
 using std::cin;
@@ -116,11 +118,13 @@ using std::string;
 
 char *rand_str(unsigned int len)
 {
-    const int LEN = 62; // 26 + 26 + 10
-    char g_arrCharElem[LEN] = {'0', '1', '2', '3','4', '5', '6', '7', '8', '9', 
+#if 0
+    char g_arrCharElem[] = {'0', '1', '2', '3','4', '5', '6', '7', '8', '9', 
         'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
         'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
-    
+#endif 
+    char g_arrCharElem[] = {'a','b','c','d','e','f','g','h','i','j','k','l','m'}; 
+    const int LEN = sizeof(g_arrCharElem); // 26 + 26 + 10 + 2
     char* szStr = new char[len + 1];
     szStr[len] = '\0';
     //srand((unsigned)time(0));
@@ -130,6 +134,7 @@ char *rand_str(unsigned int len)
         iRand = rand() % LEN;            // iRand = 0 - 61
         szStr[i] = g_arrCharElem[iRand];
     }
+    cout<<"----------------------------------------------------------------"<<endl;
     cout << szStr << endl;
     return szStr;
 }
@@ -177,7 +182,9 @@ void lsd(string &s1, string &s2)
 
 int main(int argc, char **argv)
 {
-#if 0
+    struct timeval tvstart, tvend;
+    long timespend = 0;
+#if 1
     if (argc != 3)
     {
         cout<<"please input right paras: xx len1 len2"<<endl;
@@ -186,11 +193,24 @@ int main(int argc, char **argv)
     srand((unsigned)time(0));
     char *s1 = rand_str(atoi(argv[1]));
     char *s2 = rand_str(atoi(argv[2]));
+    string str1(s1);
+    string str2(s2);
+    if (s1)
+        delete [] s1;
+    if (s2)
+        delete [] s2;
 #endif
+
+#if 0
     string str1;
     string str2;
     cin>>str1>>str2;
+#endif
+    gettimeofday(&tvstart, NULL);
     lsd(str1, str2);
+    gettimeofday(&tvend, NULL);
+    timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
+    cout<<"time spend: "<<timespend<<" usec"<<endl; 
     return 0;
 }
 #endif

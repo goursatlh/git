@@ -1,4 +1,4 @@
-#if 1 //friend 
+#if 0 //friend 
 #include <iostream>
 using std::cout;
 using std::endl;
@@ -1986,7 +1986,7 @@ int main()
 }
 #endif
 
-#if 0
+#if 1
 /* function override and overload 
  * */
 #include <iostream>
@@ -2023,7 +2023,8 @@ class Derived : public Base
 class DerivedSon : public Derived 
 {
     public:
-        void print() {
+        //void print(){
+        void print() const {   // const overload
             cout << "print() in DerivedSon." << endl;
         }
 };
