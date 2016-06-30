@@ -308,7 +308,7 @@ int main()
     string sa1(a); //not including the terminating '\0' character
     cout<<sa1.size()<<" "<<sa1<<endl;
     
-    char b[] = {'f', 'u', 'c', 'k'};
+    char b[] = {'b', 'l', 'u', 'e'};
     cout<<sizeof(b)<<" "<<strlen(b)<<endl;
     string sa4(b);
     cout<<sa4.size()<<" "<<sa4<<endl;
@@ -1986,7 +1986,7 @@ int main()
 }
 #endif
 
-#if 1
+#if 0
 /* function override and overload 
  * */
 #include <iostream>

@@ -1,3 +1,64 @@
+#if 0
+#include <iostream>
+#include <vector>
+using std::vector;
+
+template <class Type> 
+int less(Type &a, Type &b)
+{
+    if (a > b)
+        return 1;
+    else if (a < b)
+        return -1;
+    else
+        return 0;
+}       
+
+template <class Type> 
+void exch(Type &a, Type &b)
+{
+    Type tmp = a;
+    a = b;
+    b = tmp;
+}
+
+template <typename Type>
+int partition(vector<Type> &a, int index, int left, int right)
+{
+    int restore = left;
+    Type piovt = a[index];
+    int i = 0;
+
+    exch(a[index], a[right]);
+    for (i = left; i < right; i++)
+    {
+        if (less(a[i], piovt) < 0)
+        {
+            if (i != restore)
+            {
+                exch(a[i], a[restore]);
+            }
+            restore++;
+        }
+    }
+    exch(a[restore], a[right]);
+    return restore;
+}
+
+template <typename Type>
+void sort_quick(vector<Type> &a, int left, int right)
+{
+    int index = 0;
+    if (right > left)
+    {
+        index = (right-left+1)/2;
+        index = partition(a, left+index, left, right);
+        sort_quick(a, left, index - 1);
+        sort_quick(a, index + 1, right);
+    }
+}
+#endif
+
 #if 0 //suffix array
 #include <iostream>
 #include <string>
@@ -110,12 +171,70 @@ int main()
 #include <stdlib.h>
 #include <time.h>
 #include <sys/time.h>
+#include <vector>
+#include <string>
 
 using std::cout;
 using std::cin;
 using std::endl;
 using std::string;
+using std::vector;
 
+template <class Type> 
+int less(Type &a, Type &b)
+{
+    if (a > b)
+        return 1;
+    else if (a < b)
+        return -1;
+    else
+        return 0;
+}       
+
+template <class Type> 
+void exch(Type &a, Type &b)
+{
+    Type tmp = a;
+    a = b;
+    b = tmp;
+}
+
+template <typename Type>
+int partition(vector<Type> &a, int index, int left, int right)
+{
+    int restore = left;
+    Type piovt = a[index];
+    int i = 0;
+
+    exch(a[index], a[right]);
+    for (i = left; i < right; i++)
+    {
+        if (less(a[i], piovt) < 0)
+        {
+            if (i != restore)
+            {
+                exch(a[i], a[restore]);
+            }
+            restore++;
+        }
+    }
+    exch(a[restore], a[right]);
+    return restore;
+}
+
+template <typename Type>
+void sort_quick(vector<Type> &a, int left, int right)
+{
+    int index = 0;
+    //cout<<"sort quick enter "<<left<<" "<<right<<endl;
+    if (right > left)
+    {
+        index = (right-left+1)/2;
+        index = partition(a, left+index, left, right);
+        sort_quick(a, left, index - 1);
+        sort_quick(a, index + 1, right);
+    }
+}
 char *rand_str(unsigned int len)
 {
 #if 0
@@ -123,7 +242,7 @@ char *rand_str(unsigned int len)
         'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
         'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
 #endif 
-    char g_arrCharElem[] = {'a','b','c','d','e','f','g','h','i','j','k','l','m'}; 
+    char g_arrCharElem[] = {'a','b','c','d','e','f'}; 
     const int LEN = sizeof(g_arrCharElem); // 26 + 26 + 10 + 2
     char* szStr = new char[len + 1];
     szStr[len] = '\0';
@@ -161,7 +280,7 @@ unsigned int lsd_prefix(string &s1, string &s2)
 void lsd(string &s1, string &s2)
 {
     unsigned int len = 0;
-    unsigned int index = 0;
+    vector<unsigned int> index;
     unsigned int max_len = len;
     for (int i = 0; i < s1.size(); i++)
     {
@@ -172,14 +291,66 @@ void lsd(string &s1, string &s2)
            len = lsd_prefix(ss1, ss2);
            if (len > max_len)
            {
-               index = i;
+               index.clear();
+               index.push_back(i);
                max_len = len;
+           }
+           else if ((len == max_len) && (len > 0))
+           {
+               index.push_back(i);
            }
         }
     }
-    cout<<"lsd: "<<s1.substr(index, max_len)<<endl;
+
+    for (auto iter = index.begin(); iter != index.end(); iter++)
+    {
+        cout<<"lsd: "<<s1.substr(*iter, max_len)<<endl;
+    }
 }
 
+void ldss(string &s1)
+{
+    unsigned int len = 0;
+    unsigned int max_len = len;
+    vector<unsigned int> index;
+    vector<string> suffix;
+
+    for (int i = 0; i < s1.size(); i++)
+    {
+        suffix.push_back(s1.substr(i));
+    }
+    
+    sort_quick<string>(suffix, 0, (suffix.size()-1));
+   
+#if 0
+    for (auto iter = suffix.begin(); iter != suffix.end(); iter++)
+    {
+        cout<<*iter<<endl;
+    }
+#endif
+    for (int j = 0; j < suffix.size()-1; j++)
+    {
+       len = lsd_prefix(suffix[j], suffix[j+1]);
+       if (len > max_len)
+       {
+           index.clear();
+           index.push_back(j);
+           max_len = len;
+       }
+       else if ((len == max_len) && (len > 0))
+       {
+           index.push_back(j);
+       }
+    }
+
+    for (auto iter1 = index.begin(); iter1 != index.end(); iter1++)
+    {
+        //cout<<"lsd: index "<<*iter1<<" "<<suffix[*iter1].substr(0, max_len)<<endl;
+        cout<<"ldss: "<<suffix[*iter1].substr(0, max_len)<<endl;
+    }
+}
+
+#if 0 // lsd for two strings
 int main(int argc, char **argv)
 {
     struct timeval tvstart, tvend;
@@ -213,6 +384,39 @@ int main(int argc, char **argv)
     cout<<"time spend: "<<timespend<<" usec"<<endl; 
     return 0;
 }
+#endif
+
+#if 1
+int main(int argc, char **argv)
+{
+    struct timeval tvstart, tvend;
+    long timespend = 0;
+#if 0
+    if (argc != 2)
+    {
+        cout<<"please input right paras: xx len1 len2"<<endl;
+        return -1;
+    }
+    srand((unsigned)time(0));
+    char *s1 = rand_str(atoi(argv[1]));
+    string str1(s1);
+    if (s1)
+        delete [] s1;
+#endif
+
+#if 1
+    string str1;
+    //cin>>str1;
+    getline(cin, str1);
+#endif
+    gettimeofday(&tvstart, NULL);
+    ldss(str1);
+    gettimeofday(&tvend, NULL);
+    timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
+    cout<<"time spend: "<<timespend<<" usec"<<endl; 
+    return 0;
+}
+#endif
 #endif
 
 #if 0 // hash_map
