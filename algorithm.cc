@@ -1,3 +1,122 @@
+#if 1 //find the kst number from N numbers
+#include <iostream>
+#include <vector>
+
+using std::cout;
+using std::cin;
+using std::endl;
+using std::vector;
+
+template <typename T>
+void exchange(T &a, T &b)
+{
+    T tmp = a;
+    a = b;
+    b =tmp;
+}
+
+template <typename T>
+void sort_bubble(vector<T> &vec, int left, int right)
+{
+    for (int i = left; i < right; i++)
+    {
+        for (int j = left; j < right - i; j++)
+        {
+            if (vec[j] < vec[j+1])
+            {
+                //cout<<"exchange "<<vec[j]<<" "<<vec[j+1]<<endl;
+                exchange(vec[j], vec[j+1]);
+            }
+        }
+#if 0
+        cout<<i<<" iterlate"<<endl;
+        for (auto iter = vec.begin(); iter != vec.end(); iter++)
+            cout<<" "<<*iter;
+        cout<<endl;
+#endif
+    }
+    cout<<"after sort: "<<endl;
+    for (auto iter = vec.begin(); iter != vec.end(); iter++)
+        cout<<" "<<*iter;
+    cout<<endl;
+}
+
+template <typename T>
+vector<T> sort_insert(vector<T> &vec, int left, int right, const int index)
+{
+    vector<T> vectmp;
+    for (int i = 0; i < index; i++)
+    {
+        vectmp.push_back(vec[i]);
+    }
+    sort_bubble(vectmp, 0, index-1);
+
+    for (int i = index; i <= right; i++)
+    {
+        if (vec[i] <= vectmp[index-1])
+            continue;
+        else
+        {
+            cout<<"this key"<<vec[i]<<" should insert to vector"<<endl;
+            for (int j = index-2; j >= 0; j-- )
+            {
+                if (vec[i] > vectmp[j])
+                    continue;
+                else
+                {
+                    //cout<<vec[i]<<" should insert behind index "<<j<<endl;
+                    for (int k = index-1; k > j-1; k--)
+                    {
+                        vectmp[k] = vectmp[k-1];
+                    }
+                    vectmp[j+1] = vec[i];
+                    break;
+                }
+            }
+            if (j < 0)
+            {
+                for (int k = index-1; k > 0; k--)
+                {
+                    vectmp[k] = vectmp[k-1];
+                }
+                vectmp[0] = vec[i];
+            }
+        }
+        for (auto iter = vectmp.begin(); iter != vectmp.end(); iter++)
+            cout<<" "<<*iter;
+        cout<<endl;
+    }
+    return vectmp;
+}
+
+int main()
+{
+    unsigned int total = 0;
+    unsigned int find = 0;
+    vector<int> vecInt;
+    cout<<"Please input the total number and which number you want to find: "<<endl;
+    cin>>total>>find;
+    cout<<"total num: "<<total<<" "<<find<<endl;
+    for (int i = 0; i < total; i++)
+    {
+        vecInt.push_back(rand()%100);   
+    }
+    for (auto iter = vecInt.begin(); iter != vecInt.end(); iter++)
+        cout<<" "<<*iter;
+    cout<<endl;
+
+    vector<int> vecInt2(vecInt);
+
+    sort_bubble(vecInt, 0, vecInt.size()-1);
+    cout<<"result is "<<vecInt[find-1]<<endl;
+
+    vector<int> vecret = sort_insert(vecInt2, 0, vecInt2.size()-1, find);
+    cout<<"result is "<<vecret[find-1]<<endl;
+
+    return 0;
+}
+#endif
+
 #if 0
 #include <iostream>
 #include <vector>
@@ -166,7 +285,7 @@ int main()
 }
 #endif
 
-#if 1 //find the longest same substring => suffix array
+#if 0 //find the longest same substring => suffix array
 #include <iostream>
 #include <stdlib.h>
 #include <time.h>
