@@ -1,6 +1,7 @@
-#if 1 //find the kst number from N numbers
+#if 1 //find the kst number from N numbers and for quick sort research
 #include <iostream>
 #include <vector>
+#include <sys/time.h>
 
 using std::cout;
 using std::cin;
@@ -13,6 +14,17 @@ void exchange(T &a, T &b)
     T tmp = a;
     a = b;
     b =tmp;
+}
+
+template <typename T>
+int less(const T &a, const T &b)
+{
+    if (a > b)
+        return 1;
+    else if (a < b)
+        return -1;
+    else
+        return 0;
 }
 
 template <typename T>
@@ -35,10 +47,12 @@ void sort_bubble(vector<T> &vec, int left, int right)
         cout<<endl;
 #endif
     }
+#if 0
     cout<<"after sort: "<<endl;
     for (auto iter = vec.begin(); iter != vec.end(); iter++)
         cout<<" "<<*iter;
     cout<<endl;
+#endif
 }
 
 template <typename T>
@@ -57,15 +71,16 @@ vector<T> sort_insert(vector<T> &vec, int left, int right, const int index)
             continue;
         else
         {
-            cout<<"this key"<<vec[i]<<" should insert to vector"<<endl;
-            for (int j = index-2; j >= 0; j-- )
+            int j;
+            //cout<<"this key"<<vec[i]<<" should insert to vector"<<endl;
+            for (j = index-2; j >= 0; j-- )
             {
                 if (vec[i] > vectmp[j])
                     continue;
                 else
                 {
                     //cout<<vec[i]<<" should insert behind index "<<j<<endl;
-                    for (int k = index-1; k > j-1; k--)
+                    for (int k = index-1; k > j+1; k--)
                     {
                         vectmp[k] = vectmp[k-1];
                     }
@@ -82,15 +97,35 @@ vector<T> sort_insert(vector<T> &vec, int left, int right, const int index)
                 vectmp[0] = vec[i];
             }
         }
+#if 0
         for (auto iter = vectmp.begin(); iter != vectmp.end(); iter++)
             cout<<" "<<*iter;
         cout<<endl;
+#endif
     }
     return vectmp;
 }
 
+template <typename T>
+int partition(vector<T> &vec,  int left, int right)
+{
+
+}
+
+template <typename T>
+void sort_quick(vector<T> &vec, int left, int right)
+{
+    int index = left;
+    index = partition(vec, left+index, right);
+    sort_quick(vec, left, left+index);
+    sort_quick(vec, left+index, right);
+    return;
+}
+
 int main()
 {
+    struct timeval tvstart, tvend;
+    long timespend = 0;
     unsigned int total = 0;
     unsigned int find = 0;
     vector<int> vecInt;
@@ -107,11 +142,17 @@ int main()
 
     vector<int> vecInt2(vecInt);
 
+    gettimeofday(&tvstart, NULL);
     sort_bubble(vecInt, 0, vecInt.size()-1);
-    cout<<"result is "<<vecInt[find-1]<<endl;
+    gettimeofday(&tvend, NULL);
+    timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
+    cout<<"bubble sort result is "<<vecInt[find-1]<<" time spend: "<<timespend<<" us"<<endl;
 
+    gettimeofday(&tvstart, NULL);
     vector<int> vecret = sort_insert(vecInt2, 0, vecInt2.size()-1, find);
-    cout<<"result is "<<vecret[find-1]<<endl;
+    gettimeofday(&tvend, NULL);
+    timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
+    cout<<"insert sort result is "<<vecret[find-1]<<" time spend: "<<timespend<<" us"<<endl;
 
     return 0;
 }
