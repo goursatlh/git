@@ -427,7 +427,7 @@ void *thread2(void *junk)
 }
 #endif
 
-#if 1 // no lock
+#if 0// no lock
 #include <stdio.h>
 #include <pthread.h>
 
@@ -473,5 +473,33 @@ void *thread2(void *junk)
             ++i;
         }
     }
+}
+#endif
+
+#if 1 // how to put the reference to a thread parameter
+#include <iostream>
+#include <vector>
+#include <thread>
+#include <unistd.h>
+using std::cout;
+using std::endl;
+using std::thread;
+using std::vector;
+
+template <typename T>
+void func(vector<T> &vec, int a, int b, int c)
+{
+    cout<<a<<" "<<b<<" "<<c<<endl;
+    sleep(10);
+}
+
+
+int main()
+{
+    vector<int> vec;
+    thread th1(func<int>, std::ref(vec), 1, 2, 3);
+    th1.join();
+    cout<<"end"<<endl;
+    return 0;
 }
 #endif
