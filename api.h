@@ -112,10 +112,12 @@ int partition(vector<T> &vec, int left, int right)
    while(1)
    {
        for (; i <= right; i++)
-           if (vec[i] < guard)
+           //if (vec[i] < guard)
+           if (less(vec[i], guard) < 0)
                break;
        for (; j > left; j--)
-           if (vec[j] > guard)
+           //if (vec[j] > guard)
+           if (less(vec[j], guard) > 0)
                break;
        if (i >= j)
            break;
