@@ -12,6 +12,11 @@ int main()
     vector<thread> threads;
     cout<<"Please input the total number and which number you want to find: "<<endl;
     cin>>total>>find;
+    if (find > total)
+    {
+        cout<<"bad input: find can't be great than total"<<endl;
+        return 0;
+    }
     cout<<"total num: "<<total<<" "<<find<<endl;
     for (int i = 0; i < total; i++)
     {
@@ -19,10 +24,16 @@ int main()
     }
     vector<int> vecInt2(vecInt);
     vector<int> vecInt3(vecInt);
+    vector<int> vecInt4(vecInt);
+    vector<int> vecInt5(vecInt);
+    vector<int> vecInt6(vecInt);
 
     threads.push_back(thread(sort_bubble<int>, std::ref(vecInt),  0, (vecInt.size()-1), find));
     threads.push_back(thread(sort_insert<int>, std::ref(vecInt2), 0, (vecInt2.size()-1), find));
-    threads.push_back(thread(sort_quick<int>,  std::ref(vecInt3), 0, (vecInt3.size()-1), find));
+    //threads.push_back(thread(sort_insert_ex<int>, std::ref(vecInt3), 0, (vecInt3.size()-1), find));
+    threads.push_back(thread(sort_quick<int>,  std::ref(vecInt4), 0, (vecInt4.size()-1), find));
+    threads.push_back(thread(sort_choose<int>,  std::ref(vecInt5), 0, (vecInt5.size()-1), find));
+    threads.push_back(thread(sort_shell<int>,  std::ref(vecInt6), 0, (vecInt6.size()-1), find));
    
     for (auto& t: threads) 
     {
