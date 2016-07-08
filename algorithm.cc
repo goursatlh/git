@@ -21,19 +21,23 @@ int main()
     for (int i = 0; i < total; i++)
     {
         vecInt.push_back(rand()%100);   
+        //vecInt.push_back(rand()%1000000);   
     }
     vector<int> vecInt2(vecInt);
     vector<int> vecInt3(vecInt);
     vector<int> vecInt4(vecInt);
     vector<int> vecInt5(vecInt);
     vector<int> vecInt6(vecInt);
-
+    vector<int> vecInt7(vecInt);
+#if 0
     threads.push_back(thread(sort_bubble<int>, std::ref(vecInt),  0, (vecInt.size()-1), find));
     threads.push_back(thread(sort_insert<int>, std::ref(vecInt2), 0, (vecInt2.size()-1), find));
     //threads.push_back(thread(sort_insert_ex<int>, std::ref(vecInt3), 0, (vecInt3.size()-1), find));
     threads.push_back(thread(sort_quick<int>,  std::ref(vecInt4), 0, (vecInt4.size()-1), find));
     threads.push_back(thread(sort_choose<int>,  std::ref(vecInt5), 0, (vecInt5.size()-1), find));
     threads.push_back(thread(sort_shell<int>,  std::ref(vecInt6), 0, (vecInt6.size()-1), find));
+#endif
+    threads.push_back(thread(sort_merge<int>,  std::ref(vecInt7), 0, (vecInt7.size()-1), find));
    
     for (auto& t: threads) 
     {

@@ -8,6 +8,9 @@ using std::cin;
 using std::endl;
 using std::vector;
 using std::string;
+/* partition function pointer for quick sort */
+//template <typename T>
+int (*pf_partition)(vector<int> &vec, int left, int right);
 
 template <typename T>
 void exchange(T &a, T &b)
@@ -78,7 +81,7 @@ void __sort_shell(vector<T> &vec, int left, int right)
     {
         for (int i = left+h; i <= right; i++)
         {
-            for (int j = i; j >=h && (less(vec[j], vec[j-h]) > 0); j -= h)
+            for (int j = i; j >=left+h && (less(vec[j], vec[j-h]) > 0); j -= h)
             {
                 exchange(vec[j], vec[j-h]);
             }
@@ -147,7 +150,7 @@ void sort_insert_ex(vector<T> &vec, int left, int right, const int index)
 // 0 1 2 3 4 5
 // 5 9 2 7 3 4
 template <typename T>
-int partition(vector<T> &vec, int left, int right)
+int partition1(vector<T> &vec, int left, int right)
 {
    int guard = vec[left];
    int i = left+1;
@@ -171,12 +174,37 @@ int partition(vector<T> &vec, int left, int right)
    return j;
 }
 
+template <typename Type>
+int partition2(vector<Type> &a, int left, int right)
+{
+    int restore = left;
+    int index = left + (right-left+1)/2;
+    Type piovt = a[index];
+    int i = 0;
+
+    exchange(a[index], a[right]);
+    for (i = left; i < right; i++)
+    {
+        //if (a[i] > piovt)
+        if (less(a[i], piovt) > 0)
+        {
+            if (i != restore)
+            {
+                exchange(a[i], a[restore]);
+            }
+            restore++;
+        }
+    }
+    exchange(a[restore], a[right]);
+    return restore;
+}
+
 template <typename T>
 void __sort_quick(vector<T> &vec, int left, int right)
 {
     if (right > left)
     {
-        int index = partition(vec, left, right);
+        int index = pf_partition(vec, left, right);
         __sort_quick(vec, left, index-1);
         __sort_quick(vec, index+1, right);
     }
@@ -188,12 +216,20 @@ void sort_quick(vector<T> &vec, int left, int right, int find)
 {
     struct timeval tvstart, tvend;
     long timespend = 0;
+
+    pf_partition = partition1;
     gettimeofday(&tvstart, NULL);
     __sort_quick(vec, left, right);
     gettimeofday(&tvend, NULL);
     timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
-    cout<<"sort result is "<<vec[find-1]<<" time spend: "<<timespend<<" us by quick sort"<<endl;
+    cout<<"sort result is "<<vec[find-1]<<" time spend: "<<timespend<<" us by quick sort 1"<<endl;
 
+    pf_partition = partition2;
+    gettimeofday(&tvstart, NULL);
+    __sort_quick(vec, left, right);
+    gettimeofday(&tvend, NULL);
+    timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
+    cout<<"sort result is "<<vec[find-1]<<" time spend: "<<timespend<<" us by quick sort 2"<<endl;
 }
 
 template <typename T>
@@ -214,12 +250,12 @@ void sort_shell(vector<T> &vec, int left, int right, int find)
 {
     struct timeval tvstart, tvend;
     long timespend = 0;
+
     gettimeofday(&tvstart, NULL);
     __sort_shell(vec, left, right);
     gettimeofday(&tvend, NULL);
     timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
     cout<<"sort result is "<<vec[find-1]<<" time spend: "<<timespend<<" us by shell sort"<<endl;
-
 }
 
 template <typename T>
@@ -253,3 +289,71 @@ void sort_choose(vector<T> &vec, int left, int right, int find)
     timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
     cout<<"sort result is "<<vec[find-1]<<" time spend: "<<timespend<<" us by choose sort"<<endl;
 }
+
+//template <typename T>
+vector<int> aux;
+
+template <typename T>
+void merge(vector<T> &vec, int left, int mid, int right)
+{
+#ifdef DEBUG
+    cout<<"before merge: "<<left<<" "<<mid<<" "<<right<<endl;
+    for (int k = left; k <= right; k++)
+    {
+        cout<<vec[k]<<" ";
+    }
+    cout<<endl;
+#endif
+
+    int i = left, j = mid+1;
+    for (int k = left; k <= right; k++)
+        aux[k] = vec[k];
+
+    for (int k = left; k <= right; k++)
+    {
+        if (i > mid)
+            vec[k] = aux[j++];
+        else if (j > right)
+            vec[k] = aux[i++];
+        else if (less(aux[i], aux[j]) < 0)
+            vec[k] = aux[j++];
+        else
+            vec[k] = aux[i++];
+
+    }
+
+#ifdef DEBUG
+    //cout<<"after merge: "<<left<<" "<<mid<<" "<<right<<endl;
+    cout<<"after merge: "<<endl;
+    for (int k = left; k <= right; k++)
+    {
+        cout<<vec[k]<<" ";
+    }
+    cout<<endl;
+#endif
+}
+
+template <typename T>
+void __sort_merge(vector<T> &vec, int left, int right)
+{
+    if (left >= right)
+        return;
+    int mid = left + (right-left)/2;
+    __sort_merge(vec, left, mid);
+    __sort_merge(vec, mid+1, right);
+    merge(vec, left, mid, right);
+}
+
+template <typename T>
+void sort_merge(vector<T> &vec, int left, int right, int find)
+{
+    struct timeval tvstart, tvend;
+    long timespend = 0;
+    aux.resize(right-left+1);
+    gettimeofday(&tvstart, NULL);
+    __sort_merge(vec, left, right);
+    gettimeofday(&tvend, NULL);
+    timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
+    cout<<"sort result is "<<vec[find-1]<<" time spend: "<<timespend<<" us by merge sort"<<endl;
+}
+
