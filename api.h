@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <sys/time.h>
+#include <unistd.h>
 
 using std::cout;
 using std::cin;
@@ -357,3 +358,141 @@ void sort_merge(vector<T> &vec, int left, int right, int find)
     cout<<"sort result is "<<vec[find-1]<<" time spend: "<<timespend<<" us by merge sort"<<endl;
 }
 
+/* pq */
+template <typename T>
+class MaxPQ {
+public:
+    MaxPQ(): N(0) 
+    { 
+        pq.resize(1);
+    }
+    MaxPQ(int n)
+    {
+        N = n;
+        pq.resize(n+1);
+    }
+    void insert(T &key);
+    T del_max();
+    void swim(int k);
+    void sink(int k);
+    void show();
+
+private:
+    vector<T> pq;
+    int N;
+};
+
+template <typename T>
+void MaxPQ<T>::insert(T &key)
+{
+    pq.push_back(key);
+    N += 1;
+    swim(N);
+}
+
+template <typename T>
+T MaxPQ<T>::del_max()
+{
+    T max = pq[1];
+    pq[1] = pq[N];
+    N -= 1;
+    sink(1);
+    return max;
+}
+
+template <typename T>
+void MaxPQ<T>::swim(int k)
+{
+    while ((k > 1) && (pq[k] > pq[k/2]))
+    {
+        exchange(pq[k], pq[k/2]);
+        k = k/2;
+    }
+}
+
+/* algov4 code */
+template <typename T>
+void MaxPQ<T>::sink(int k)
+{
+    while (2*k <= N)
+    {
+        int j = 2*k;
+        if (j<N && (less(pq[j], pq[j+1]) < 0))
+            j++;
+        if (less(pq[k], pq[j]) >= 0)
+            break;
+        exchange(pq[k], pq[j]);
+        k = j;
+    }
+
+}
+
+/* my own code */
+#if 0
+template <typename T>
+void MaxPQ<T>::sink(int k)
+{
+    while (k <= N/2)
+    {
+        if (2*k+1 <=N)
+        {
+            if (pq[2*k] > pq[2*k+1])
+            {
+                if (pq[k] < pq[2*k])
+                    exchange(pq[k], pq[2*k]);
+                else
+                    break;
+            }
+            else
+            {
+                if (pq[k] < pq[2*k+1])
+                    exchange(pq[k], pq[2*k+1]);
+                else
+                    break;
+            }
+        }
+        else
+        {
+            if (pq[k] < pq[2*k])
+                exchange(pq[k], pq[2*k]);
+            else
+                break;
+        }
+        k = 2*k;
+    }
+}
+#endif
+
+template <typename T>
+void MaxPQ<T>::show()
+{
+    for (int i = 1; i <= N; i++)
+        cout<<pq[i]<<" ";
+    cout<<endl;
+}
+
+template <typename T>
+void __sort_heap(vector<T> &vec, int left, int right)
+{
+    MaxPQ<T> iPQ;
+    for (int i = left; i <= right; i++)
+    {
+        iPQ.insert(vec[i]);
+    }
+    for (int i = left; i <= right; i++)
+    {
+        vec[i] = iPQ.del_max();
+    }
+}
+
+template <typename T>
+void sort_heap(vector<T> &vec, int left, int right, int find)
+{
+    struct timeval tvstart, tvend;
+    long timespend = 0;
+    gettimeofday(&tvstart, NULL);
+    __sort_heap(vec, left, right);
+    gettimeofday(&tvend, NULL);
+    timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
+    cout<<"sort result is "<<vec[find-1]<<" time spend: "<<timespend<<" us by heap sort"<<endl;
+}

@@ -1,6 +1,24 @@
+#if 0
+#include "api.h"
+
+int main()
+{
+    char a[] = {'A', 'E', 'I', 'O', 'P', 'R', 'S', 'T'};
+    MaxPQ<char> cPQ;
+    for (int i = 0; i < sizeof(a); i++)
+        cPQ.insert(a[i]);
+    cPQ.show();
+    cPQ.del_max();
+    cPQ.show();
+    return 0;
+}
+#endif
+
 #if 1 //find the kst number from N numbers and for quick sort research
 #include "api.h"
 #include <thread>
+#include <time.h>
+#include <sys/time.h>
 
 using std::thread;
 
@@ -18,10 +36,11 @@ int main()
         return 0;
     }
     cout<<"total num: "<<total<<" "<<find<<endl;
+    srand((unsigned)time(0));
     for (int i = 0; i < total; i++)
     {
-        vecInt.push_back(rand()%100);   
-        //vecInt.push_back(rand()%1000000);   
+        //vecInt.push_back(rand()%100);   
+        vecInt.push_back(rand()%1000000);   
     }
     vector<int> vecInt2(vecInt);
     vector<int> vecInt3(vecInt);
@@ -29,15 +48,16 @@ int main()
     vector<int> vecInt5(vecInt);
     vector<int> vecInt6(vecInt);
     vector<int> vecInt7(vecInt);
-#if 0
+    vector<int> vecInt8(vecInt);
+
     threads.push_back(thread(sort_bubble<int>, std::ref(vecInt),  0, (vecInt.size()-1), find));
     threads.push_back(thread(sort_insert<int>, std::ref(vecInt2), 0, (vecInt2.size()-1), find));
     //threads.push_back(thread(sort_insert_ex<int>, std::ref(vecInt3), 0, (vecInt3.size()-1), find));
     threads.push_back(thread(sort_quick<int>,  std::ref(vecInt4), 0, (vecInt4.size()-1), find));
     threads.push_back(thread(sort_choose<int>,  std::ref(vecInt5), 0, (vecInt5.size()-1), find));
     threads.push_back(thread(sort_shell<int>,  std::ref(vecInt6), 0, (vecInt6.size()-1), find));
-#endif
     threads.push_back(thread(sort_merge<int>,  std::ref(vecInt7), 0, (vecInt7.size()-1), find));
+    threads.push_back(thread(sort_heap<int>,  std::ref(vecInt8), 0, (vecInt8.size()-1), find));
    
     for (auto& t: threads) 
     {
