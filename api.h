@@ -217,6 +217,7 @@ void sort_quick(vector<T> &vec, int left, int right, int find)
 {
     struct timeval tvstart, tvend;
     long timespend = 0;
+    vector<T> vectmp(vec);
 
     pf_partition = partition1;
     gettimeofday(&tvstart, NULL);
@@ -227,10 +228,10 @@ void sort_quick(vector<T> &vec, int left, int right, int find)
 
     pf_partition = partition2;
     gettimeofday(&tvstart, NULL);
-    __sort_quick(vec, left, right);
+    __sort_quick(vectmp, left, right);
     gettimeofday(&tvend, NULL);
     timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
-    cout<<"sort result is "<<vec[find-1]<<" time spend: "<<timespend<<" us by quick sort 2"<<endl;
+    cout<<"sort result is "<<vectmp[find-1]<<" time spend: "<<timespend<<" us by quick sort 2"<<endl;
 }
 
 template <typename T>
@@ -427,6 +428,21 @@ void MaxPQ<T>::sink(int k)
 
 }
 
+template <typename T>
+void __sink(vector<T> &pq, int k, int N)
+{
+    while (2*k <= N)
+    {
+        int j = 2*k;
+        if (j<N && (less(pq[j], pq[j+1]) > 0))
+            j++;
+        if (less(pq[k], pq[j]) <= 0)
+            break;
+        exchange(pq[k], pq[j]);
+        k = j;
+    }
+}
+
 /* my own code */
 #if 0
 template <typename T>
@@ -486,13 +502,37 @@ void __sort_heap(vector<T> &vec, int left, int right)
 }
 
 template <typename T>
+void __sort_heap_1(vector<T> &vec)
+{
+    int n = vec.size();
+    vec.push_back(vec[0]); // 1 ..... n
+    for (int i = n/2; i >= 1; i--)
+    {
+        __sink(vec, i, n); 
+    }
+    while (n>1)
+    {
+        exchange(vec[1], vec[n--]);
+        __sink(vec, 1, n);
+    }
+}
+
+template <typename T>
 void sort_heap(vector<T> &vec, int left, int right, int find)
 {
     struct timeval tvstart, tvend;
     long timespend = 0;
+    vector<T> vectmp(vec);
+
     gettimeofday(&tvstart, NULL);
     __sort_heap(vec, left, right);
     gettimeofday(&tvend, NULL);
     timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
-    cout<<"sort result is "<<vec[find-1]<<" time spend: "<<timespend<<" us by heap sort"<<endl;
+    cout<<"sort result is "<<vec[find-1]<<" time spend: "<<timespend<<" us by heap sort 1"<<endl;
+
+    gettimeofday(&tvstart, NULL);
+    __sort_heap_1(vectmp);
+    gettimeofday(&tvend, NULL);
+    timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
+    cout<<"sort result is "<<vectmp[find]<<" time spend: "<<timespend<<" us by heap sort 2"<<endl;
 }
