@@ -11,6 +11,31 @@ using std::vector;
 using std::string;
 /* partition function pointer for quick sort */
 //template <typename T>
+
+char *rand_str(unsigned int len)
+{
+#if 0
+    char g_arrCharElem[] = {'0', '1', '2', '3','4', '5', '6', '7', '8', '9', 
+        'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
+        'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
+#endif 
+    char g_arrCharElem[] = {'a','b','c','d','e','f'}; 
+    const int LEN = sizeof(g_arrCharElem); // 26 + 26 + 10 + 2
+    char* szStr = new char[len + 1];
+    szStr[len] = '\0';
+    //srand((unsigned)time(0));
+    int iRand = 0;
+    for (int i = 0; i < len; ++i)
+    {
+        iRand = rand() % LEN;            // iRand = 0 - 61
+        cout<<"iRand "<<iRand<<endl;
+        szStr[i] = g_arrCharElem[iRand];
+    }
+    cout<<"----------------------------------------------------------------"<<endl;
+    cout << szStr << endl;
+    return szStr;
+}
+
 int (*pf_partition)(vector<int> &vec, int left, int right);
 
 template <typename T>
@@ -33,12 +58,9 @@ int less(const T &a, const T &b)
 }
 
 template <typename T>
-void sort_bubble(vector<T> &vec, int left, int right, const int find)
+void __sort_bubble(vector<T> &vec, int left, int right)
 {
-    struct timeval tvstart, tvend;
-    long timespend = 0;
     
-    gettimeofday(&tvstart, NULL);
     for (int i = left; i < right; i++)
     {
         for (int j = left; j < right - i; j++)
@@ -49,6 +71,16 @@ void sort_bubble(vector<T> &vec, int left, int right, const int find)
             }
         }
     }
+}
+
+template <typename T>
+void sort_bubble(vector<T> &vec, int left, int right, const int find)
+{
+    struct timeval tvstart, tvend;
+    long timespend = 0;
+    
+    gettimeofday(&tvstart, NULL);
+    __sort_bubble(vec, left, right);
     gettimeofday(&tvend, NULL);
     timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
     cout<<"sort result is "<<vec[find-1]<<" time spend: "<<timespend<<" us by bubble sort"<<endl;
@@ -159,11 +191,9 @@ int partition1(vector<T> &vec, int left, int right)
    while(1)
    {
        for (; i <= right; i++)
-           //if (vec[i] < guard)
            if (less(vec[i], guard) < 0)
                break;
        for (; j > left; j--)
-           //if (vec[j] > guard)
            if (less(vec[j], guard) > 0)
                break;
        if (i >= j)
@@ -186,7 +216,6 @@ int partition2(vector<Type> &a, int left, int right)
     exchange(a[index], a[right]);
     for (i = left; i < right; i++)
     {
-        //if (a[i] > piovt)
         if (less(a[i], piovt) > 0)
         {
             if (i != restore)
@@ -265,7 +294,7 @@ void __sort_choose(vector<T> &vec, int left, int right)
 {
     for (int i = left; i <= right; i++)
     {
-        int max = vec[i];
+        T max = vec[i];
         int index = i;
         for (int j = i+1; j <= right; j++)
         {

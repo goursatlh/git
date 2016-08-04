@@ -1,3 +1,75 @@
+#if 0 // stability for sort algorithum
+#include "api.h"
+
+class Student 
+{
+private:
+    int no;
+    int score;
+public:
+    Student(const int no, int score): no(no), score(score) {}
+    Student() = default;
+    bool operator>(const Student &a) const {return score > a.score;}
+    bool operator<(const Student &a) const {return score < a.score;}
+    bool operator==(const Student &a) const {return score > a.score;}
+    void show()
+    {
+        cout<<no<<":"<<score<<" ";
+    }
+};
+
+int main()
+{
+    vector<Student> vecstu;
+    int num = 0;
+    cout<<"Input number you want to process: "<<endl;
+    cin>>num;
+    for (int i = 0; i < num; i++)
+    {
+        vecstu.push_back(Student(rand()%100, rand()%10));
+    }
+    vector<Student> vecstu2(vecstu);
+    vector<Student> vecstu3(vecstu);
+    vector<Student> vecstu4(vecstu);
+
+    cout<<"before sort:"<<endl;
+    for (auto iter = vecstu.begin(); iter != vecstu.end(); iter++)
+    {
+        iter->show();
+    }
+    cout<<endl;
+    __sort_insert<Student>(vecstu, 0, vecstu.size()-1);
+    for (auto iter = vecstu.begin(); iter != vecstu.end(); iter++)
+    {
+        iter->show();
+    }
+    cout<<" insert sort"<<endl;
+
+    __sort_bubble<Student>(vecstu3, 0, vecstu3.size()-1);
+    for (auto iter = vecstu3.begin(); iter != vecstu3.end(); iter++)
+    {
+        iter->show();
+    }
+    cout<<" bubble sort"<<endl;
+
+    __sort_choose<Student>(vecstu2, 0, vecstu2.size()-1);
+    for (auto iter = vecstu2.begin(); iter != vecstu2.end(); iter++)
+    {
+        iter->show();
+    }
+    cout<<" choose sort"<<endl;
+
+    __sort_heap<Student>(vecstu4, 0, vecstu4.size()-1);
+    for (auto iter = vecstu4.begin(); iter != vecstu4.end(); iter++)
+    {
+        iter->show();
+    }
+    cout<<" heap sort"<<endl;
+
+    return 0;
+}
+#endif
+
 #if 0
 #include "api.h"
 
@@ -42,6 +114,7 @@ int main()
         //vecInt.push_back(rand()%100);   
         vecInt.push_back(rand()%1000000);   
     }
+
     vector<int> vecInt2(vecInt);
     vector<int> vecInt3(vecInt);
     vector<int> vecInt4(vecInt);
