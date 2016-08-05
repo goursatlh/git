@@ -86,7 +86,7 @@ int main()
 }
 #endif
 
-#if 1 //find the kst number from N numbers and for quick sort research
+#if 0 //find the kst number from N numbers and for quick sort research
 #include "api.h"
 #include <thread>
 #include <time.h>
@@ -308,97 +308,20 @@ int main()
 }
 #endif
 
-#if 0 //find the longest same substring => suffix array
+#if 1 //find the longest same substring => suffix array
 #include <iostream>
 #include <stdlib.h>
 #include <time.h>
 #include <sys/time.h>
 #include <vector>
 #include <string>
+#include "api.h"
 
 using std::cout;
 using std::cin;
 using std::endl;
 using std::string;
 using std::vector;
-
-template <class Type> 
-int less(Type &a, Type &b)
-{
-    if (a > b)
-        return 1;
-    else if (a < b)
-        return -1;
-    else
-        return 0;
-}       
-
-template <class Type> 
-void exch(Type &a, Type &b)
-{
-    Type tmp = a;
-    a = b;
-    b = tmp;
-}
-
-template <typename Type>
-int partition(vector<Type> &a, int index, int left, int right)
-{
-    int restore = left;
-    Type piovt = a[index];
-    int i = 0;
-
-    exch(a[index], a[right]);
-    for (i = left; i < right; i++)
-    {
-        if (less(a[i], piovt) < 0)
-        {
-            if (i != restore)
-            {
-                exch(a[i], a[restore]);
-            }
-            restore++;
-        }
-    }
-    exch(a[restore], a[right]);
-    return restore;
-}
-
-template <typename Type>
-void sort_quick(vector<Type> &a, int left, int right)
-{
-    int index = 0;
-    //cout<<"sort quick enter "<<left<<" "<<right<<endl;
-    if (right > left)
-    {
-        index = (right-left+1)/2;
-        index = partition(a, left+index, left, right);
-        sort_quick(a, left, index - 1);
-        sort_quick(a, index + 1, right);
-    }
-}
-char *rand_str(unsigned int len)
-{
-#if 0
-    char g_arrCharElem[] = {'0', '1', '2', '3','4', '5', '6', '7', '8', '9', 
-        'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
-        'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
-#endif 
-    char g_arrCharElem[] = {'a','b','c','d','e','f'}; 
-    const int LEN = sizeof(g_arrCharElem); // 26 + 26 + 10 + 2
-    char* szStr = new char[len + 1];
-    szStr[len] = '\0';
-    //srand((unsigned)time(0));
-    int iRand = 0;
-    for (int i = 0; i < len; ++i)
-    {
-        iRand = rand() % LEN;            // iRand = 0 - 61
-        szStr[i] = g_arrCharElem[iRand];
-    }
-    cout<<"----------------------------------------------------------------"<<endl;
-    cout << szStr << endl;
-    return szStr;
-}
 
 /* find the longest same prefix of s1 and s2 */
 unsigned int lsd_prefix(string &s1, string &s2)
@@ -450,6 +373,7 @@ void lsd(string &s1, string &s2)
     }
 }
 
+/* find the longest dupulicat substring in on string */
 void ldss(string &s1)
 {
     unsigned int len = 0;
@@ -462,9 +386,9 @@ void ldss(string &s1)
         suffix.push_back(s1.substr(i));
     }
     
-    sort_quick<string>(suffix, 0, (suffix.size()-1));
+    __sort_quick<string>(suffix, 0, (suffix.size()-1));
    
-#if 0
+#if 1
     for (auto iter = suffix.begin(); iter != suffix.end(); iter++)
     {
         cout<<*iter<<endl;

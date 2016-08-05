@@ -36,7 +36,16 @@ char *rand_str(unsigned int len)
     return szStr;
 }
 
-int (*pf_partition)(vector<int> &vec, int left, int right);
+//how to define a global variable in c++ template
+template <typename T>
+class global_pf {
+public:
+    typedef int (*pf_func)(vector<T> &vec, int left, int right);
+    static pf_func pf_partition;
+};
+
+template <typename T>
+typename global_pf<T>::pf_func global_pf<T>::pf_partition = NULL; // static variable define
 
 template <typename T>
 void exchange(T &a, T &b)
@@ -232,9 +241,13 @@ int partition2(vector<Type> &a, int left, int right)
 template <typename T>
 void __sort_quick(vector<T> &vec, int left, int right)
 {
+    if (!global_pf<T>::pf_partition)
+    {
+        global_pf<T>::pf_partition = partition2;
+    }
     if (right > left)
     {
-        int index = pf_partition(vec, left, right);
+        int index = global_pf<T>::pf_partition(vec, left, right);
         __sort_quick(vec, left, index-1);
         __sort_quick(vec, index+1, right);
     }
@@ -248,14 +261,14 @@ void sort_quick(vector<T> &vec, int left, int right, int find)
     long timespend = 0;
     vector<T> vectmp(vec);
 
-    pf_partition = partition1;
+    global_pf<T>::pf_partition = partition1;
     gettimeofday(&tvstart, NULL);
     __sort_quick(vec, left, right);
     gettimeofday(&tvend, NULL);
     timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
     cout<<"sort result is "<<vec[find-1]<<" time spend: "<<timespend<<" us by quick sort 1"<<endl;
 
-    pf_partition = partition2;
+    global_pf<T>::pf_partition = partition2;
     gettimeofday(&tvstart, NULL);
     __sort_quick(vectmp, left, right);
     gettimeofday(&tvend, NULL);
