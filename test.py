@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-'''
+#print
 print("hello world.","fuck you then")
 name = input("please input your name: ")
 print("hello", name)
@@ -15,6 +15,7 @@ print("name %s: age %d"%("walter", 33))
 for i, j in enumerate(s):
     print(i,j)
 
+'''
 #class
 class Student(object):
     def __init__(self, name, score):
@@ -391,6 +392,7 @@ r.printc()
 #print(r.__x)
 print(r._Student__score) #not recommend
 '''
+'''
 #inherit
 class animal():
     def printx(self):
@@ -463,4 +465,5 @@ s = Student()
 #s.score = "walter"
 s.score = 1000
 
+'''
 

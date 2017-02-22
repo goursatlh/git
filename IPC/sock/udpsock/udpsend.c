@@ -25,34 +25,35 @@ int main(int argc, char **argv)
    
     memset(&addr, 0, sizeof(addr));
     addr.sin_family = AF_INET;
-    addr.sin_addr.s_addr = inet_addr("10.88.23.144");
+    addr.sin_addr.s_addr = inet_addr("239.255.255.250");
     addr.sin_port = htons(port);
 
     memset(&addr1, 0, sizeof(addr));
     addr1.sin_family = AF_INET;
-    addr1.sin_addr.s_addr = inet_addr("10.88.23.139");
+    addr1.sin_addr.s_addr = inet_addr("10.88.21.132");
     addr1.sin_port = htons(port);
-    
+#if 0 
     n = sendto(fd, buff, sizeof(buff), 0, (struct sockaddr *)(&addr), sizeof(addr));
     if (n > 0)
     {
-        printf("sendto %d bytes to (10.88.23.144/%d)\n", n, port);
+        printf("sendto %d bytes to (239.255.255.250/%d)\n", n, port);
     }
     else
     {
         printf("sendto return %s\n", strerror(errno));
     }
-
+#endif
+#if 1
     n = sendto(fd, buff, sizeof(buff), 0, (struct sockaddr *)(&addr1), sizeof(addr1));
     if (n > 0)
     {
-        printf("sendto %d bytes to (10.88.23.139/%d)\n", n, port);
+        printf("sendto %d bytes to (10.88.21.132/%d)\n", n, port);
     }
     else
     {
         printf("sendto return %s\n", strerror(errno));
     }
-
+#endif
 EXIT:
     if (fd > 0)
     {

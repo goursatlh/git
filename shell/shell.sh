@@ -1,17 +1,21 @@
 #!/bin/bash
 function xyz()
 {
+    echo 'inside func $0: ' $0
     echo 'inside func $1: ' $1
     echo 'inside func $2: ' $2
     echo 'inside func $3: ' $3
     echo '$10 value is :' ${10}
     echo '$# vaule is :' $#
+    echo '$@ vaule is :' "$@"
+    echo '$* vaule is :' "$*"
+    echo '$$ vaule is :' $$
     shift 2
     echo 'inside func $1 after shift : ' $1
     echo '$# vaule is after shift:' $#
 }
 
-xyz fuck you then fuck you then fuck you then fuck
+xyz fuck you then fuck you then "fuck you then" fuck
 
 CMD="\033[1;32mUsage for: \033[0m"  
 
@@ -81,8 +85,9 @@ echo
 echo -e ${CMD}"loop"
 for var in one two three four five
 do
-    echo '$var is '$var
+    echo -n $var" "
 done
+echo
 
 for var1
 do
@@ -92,12 +97,13 @@ done
 i=0
 while [ $i -le 10 ]
 do
-    echo -n "$i "
+    echo -n "$i " 
     #i=$(($i + 1)) #why add two ()
     ((i = i + 1))
 done
 echo
 
+no_exec1() {
 echo
 echo -e ${CMD}"add opt"
 n=1;echo -n "$n "
@@ -217,10 +223,14 @@ echo -e "\e[1;42m Green Background \e[0m"
 echo -e ${CMD}'regex'
 echo "abc" |grep -E "ab." # www.regexper.com perfect url
 echo
+}
 
-echo -e ${CMD}'sed'
+echo;echo -e ${CMD}'sed'
 echo thisthisthis | sed 's/this/THIS/3g'
+tmpfile=test$$
+touch $tmpfile;echo thisthisthis>$tmpfile;echo
+sed s/this/This/g $tmpfile;cat $tmpfile
+sed -i s/this/This/g $tmpfile;cat $tmpfile
+rm -f $tmpfile 
 echo
-
-
 

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <errno.h>
 #include <sys/socket.h>
+#include <sys/types.h> 
 #include <netinet/in.h>
 #include <arpa/inet.h> // this must add, otherwise the inet_ntoa can't work in 64 system
 
@@ -13,6 +14,7 @@ int main(int argc, char **argv)
     struct sockaddr_in server;
     struct sockaddr_in client;
     int clientlen = sizeof(client);
+    struct ip_mreq imr; 
 
     fd = socket(PF_INET, SOCK_DGRAM, 0);
     if (fd <= 0)
@@ -34,7 +36,17 @@ int main(int argc, char **argv)
         goto EXIT;
     }
     printf("bind port: %d\n", port);
-
+   
+    memset(&imr, 0, sizeof(imr));
+    imr.imr_multiaddr.s_addr = inet_addr("239.255.255.250");
+    imr.imr_interface.s_addr = inet_addr("10.88.21.132");
+    if ((ret = setsockopt(fd, IPPROTO_IP, IP_ADD_MEMBERSHIP, (void *)&imr, sizeof(struct ip_mreq))) < 0)
+    {
+        printf("setsockopt(udp, IP_ADD_MEMBERSHIP): failed %d\n", ret);
+        return -1;
+    }
+    printf("bind fd %d to multicast 239.255.255.250\n", fd);
+    
     memset(&client, 0, sizeof(client));
     ret = recvfrom(fd, buff, sizeof(buff), 0, (struct sockaddr *)(&client), &clientlen);
     if (ret < 0)
