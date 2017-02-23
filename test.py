@@ -95,13 +95,21 @@ S = "hello, world"
 print(S[:5])
 print(S[-5:])
 print(S[-5:-1])
-
+'''
 #dict
 D = {"a":1, "b":2, "c":3, "d":4, "e":5}
 print(D)
 print(D["a"])
 D.pop("a")
 print(D)
+
+#dict: add/modify/del entry 
+D["a"] = 22
+D[77] = 99
+del D["b"]
+print(D)
+print(len(D))
+
 
 for i in D:
     print("key:", i)
@@ -112,6 +120,7 @@ for i in D.values():
 for i,j in D.items():
     print("key:", i, "value:", j)
 
+'''
 #list comprehension
 l = [i*i for i in range(1,30) if i % 2 == 0]
 print(l)
