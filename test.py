@@ -1,4 +1,23 @@
 #!/usr/bin/env python3
+def my_abs(a):
+    if not isinstance(a, (int, float)):
+        raise TypeError("bad operand para")
+    if a >= 0:
+        print(a)
+    else:
+        print(-a)
+    print("come here")
+my_abs(-1)
+my_abs("a")
+
+'''
+# input parameters
+import sys
+print("input paras list:")
+for i in range(0, len(sys.argv)):
+    print(" ", sys.argv[i], end="")
+print()
+
 #print
 print("hello world.","fuck you then")
 name = input("please input your name: ")
@@ -15,7 +34,6 @@ print("name %s: age %d"%("walter", 33))
 for i, j in enumerate(s):
     print(i,j)
 
-'''
 #class
 class Student(object):
     def __init__(self, name, score):
@@ -95,7 +113,6 @@ S = "hello, world"
 print(S[:5])
 print(S[-5:])
 print(S[-5:-1])
-'''
 #dict
 D = {"a":1, "b":2, "c":3, "d":4, "e":5}
 print(D)
@@ -120,7 +137,6 @@ for i in D.values():
 for i,j in D.items():
     print("key:", i, "value:", j)
 
-'''
 #list comprehension
 l = [i*i for i in range(1,30) if i % 2 == 0]
 print(l)
