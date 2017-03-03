@@ -1,4 +1,21 @@
 #!/usr/bin/env python3
+
+# file input paras
+import sys
+print(type(sys.argv[1]))    # warnning: type is str, not int
+def my_abs(a):
+    if not isinstance(a, (int, float)):
+        raise TypeError("bad input parameter")
+    if a >= 0:
+        return a
+    else:
+        return -a
+
+for i in range(1, len(sys.argv)):
+    sys.argv[i] = int(sys.argv[i])
+    print(" ", my_abs(sys.argv[i]))
+
+'''
 def my_abs(a):
     if not isinstance(a, (int, float)):
         raise TypeError("bad operand para")
@@ -10,7 +27,6 @@ def my_abs(a):
 my_abs(-1)
 my_abs("a")
 
-'''
 # input parameters
 import sys
 print("input paras list:")
