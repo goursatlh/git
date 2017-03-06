@@ -15,6 +15,8 @@ for i in range(1, len(sys.argv)):
     sys.argv[i] = int(sys.argv[i])
     print(" ", my_abs(sys.argv[i]))
 
+if __name__ == "__main__":
+    print(my_abs(-222))
 '''
 def my_abs(a):
     if not isinstance(a, (int, float)):
@@ -93,7 +95,7 @@ b = list(range(100))
 print(b)
 
 #how to confirm an obj is an iterable obj
-from collections import Iterable
+from collections import Iterable #only import Iterable, not all items in collections
 i = isinstance("abc", Iterable)
 print(i)
 i = isinstance(123, Iterable)
