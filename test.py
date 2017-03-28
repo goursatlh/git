@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
+# join()
+str = "-"
+#seq = [1", "2", "3", "4"]
+seq = [b"1", b"2"]
+print(b" ".join(seq))
 
+
+'''
 # file input paras
 import sys
 print(type(sys.argv[1]))    # warnning: type is str, not int
@@ -17,7 +24,6 @@ for i in range(1, len(sys.argv)):
 
 if __name__ == "__main__":
     print(my_abs(-222))
-'''
 def my_abs(a):
     if not isinstance(a, (int, float)):
         raise TypeError("bad operand para")
