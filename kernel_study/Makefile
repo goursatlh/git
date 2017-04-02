@@ -4,7 +4,8 @@ CURRENT_PATH := $(shell pwd)
 
 VERSION_NUM :=$(shell uname -r)
 
-LINUX_PATH :=/usr/src/linux-headers-3.16.0-30-generic
+#LINUX_PATH :=/usr/src/linux-headers-3.13.0-34-generic
+LINUX_PATH :=/usr/src/linux-headers-$(VERSION_NUM)
 all:
 	make -C $(LINUX_PATH) M=$(CURRENT_PATH) modules
 clean:
