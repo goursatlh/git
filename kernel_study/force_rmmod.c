@@ -4,6 +4,9 @@
 #include <linux/cpu.h>     
 #include <linux/percpu.h>     
 
+static unsigned long addr = 0;
+module_param(addr, ulong, S_IRUGO);
+
 int force(void *data)
 {
     return 0;
@@ -12,8 +15,9 @@ int force(void *data)
 static int __init rm_init(void)
 {
     int i = 0, cpu;
-    printk(KERN_ALERT "Hello Linux kernel\n");
-    struct module *mod = (struct module *)0xffffffffc09f9040;
+    printk(KERN_ALERT "Hello Linux kernel, input para: %x\n", addr);
+    //struct module *mod = (struct module *)0xffffffffc09f9040;
+    struct module *mod = (struct module *)addr;
     printk(KERN_ALERT "force rm module %s, module state %d, reference %d\n", 
                        mod->name, mod->state, module_refcount(mod));
     mod->state = MODULE_STATE_LIVE;
@@ -43,3 +47,7 @@ static void __exit rm_exit(void)
 
 module_init(rm_init);
 module_exit(rm_exit);
+
+MODULE_AUTHOR("Walter Wang");
+MODULE_DESCRIPTION("force rm kernel module");
+MODULE_LICENSE("GPL");
