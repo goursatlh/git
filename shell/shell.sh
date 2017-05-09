@@ -1,4 +1,13 @@
 #!/bin/bash
+CMD="\033[1;32mUsage for: \033[0m"
+
+echo -e ${CMD}"read"
+read str       
+echo "you input: " $str 
+if [[ $str == *[!0-9]* ]]; then
+    echo "Not a number!"
+fi
+
 function xyz()
 {
     echo 'inside func $0: ' $0
@@ -17,7 +26,6 @@ function xyz()
 
 xyz fuck you then fuck you then "fuck you then" fuck
 
-CMD="\033[1;32mUsage for: \033[0m"  
 
 echo
 echo -e ${CMD}'$# $@ $*'
