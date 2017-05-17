@@ -1,6 +1,26 @@
 #!/bin/bash
 CMD="\033[1;32mUsage for: \033[0m"
 
+echo -e ${CMD}"array opt"
+array=(1 2 3 4)
+for var in ${array[@]}
+do
+    echo $var
+done
+echo ${#array[@]} 
+echo ${array[@]} 
+echo ${array[0]} 
+
+echo "array_b"
+array_b=()
+i=0
+while [ $i -lt 10 ]
+do
+    array_b+=($i)
+    let i++
+done
+echo "num: "${#array_b[@]} vaule: ${array_b[@]} 
+
 echo -e ${CMD}"read"
 read str       
 echo "you input: " $str 
