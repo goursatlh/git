@@ -87,6 +87,7 @@ int main(int argc, char** argv)
 }
 #endif
 
+#if 0
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -142,5 +143,24 @@ int main(int argc, char** argv)
         print_info();
         return 1;
 }
+#endif
 
+#include <stdio.h>
+#include <string.h>           
+
+int main()                    
+{
+    //unsigned char aa[] = "hello:world:fuck you then";
+    unsigned char *aa = "hello:world:fuck you then"; 
+    unsigned char *pc1 = NULL;     
+    unsigned char *pc2 = NULL;     
+    pc1 = strtok_r(aa, ": ",&pc2); 
+    while (pc1)
+    {
+        printf("aa(len %d) %s, pc1 %s, pc2 %s\n", strlen(aa), aa, pc1, pc2);
+        printf("addr: aa %p, pc1 %p, pc2 %p\n", aa, pc1, pc2);
+        pc1 = strtok_r(NULL, ": ", &pc2);
+    }
+    return 0;
+}
 

@@ -4,13 +4,13 @@
 #include <linux/kthread.h>
 #include <linux/delay.h>
 #include <linux/mutex.h>
+#include <linux/slab.h>
 /*
  * test lock in kernel:
  * 1, mutex
  * 2, spin lock
  * 3, rcu
  * */
-
 struct task_struct *pthread1;
 struct task_struct *pthread2;
 int myglobal = 0;
@@ -22,7 +22,7 @@ static DEFINE_MUTEX(my_mutex);
 spinlock_t my_spinlock;
 //spin_lock_init(my_spinlock);
 
-#define MAX_LOOP 10000
+#define MAX_LOOP 1000
 static int thread_func(void *data)
 {
     printk(KERN_ALERT "thread start: %d\n", pthread1->pid);
@@ -57,8 +57,10 @@ static int __init hello_init(void)
 {
     int i;
     spin_lock_init(&my_spinlock);
+    u8 *pc = (char *)kmalloc(100,GFP_KERNEL );
+    printk(KERN_ALERT "Kernel address %p\n", pc);
     printk(KERN_ALERT "Hello Linux kernel\n");
-    pthread1 = kthread_run(thread_func, NULL, "hello");
+    //pthread1 = kthread_run(thread_func, NULL, "hello");
     for (i = 0; i < MAX_LOOP; i++)
     {
         //mutex_lock(&my_mutex);

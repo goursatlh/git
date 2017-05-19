@@ -56,7 +56,7 @@ void func_updater(void *data)
             kfree(gp_ptr);
         }
         gp_ptr = NULL;
-        //schedule();
+        schedule();
         //msleep(1);
         ptmp = kmalloc(sizeof(iterm_t), GFP_KERNEL);
         ptmp->a = ++i;
