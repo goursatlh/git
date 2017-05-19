@@ -1,4 +1,10 @@
 #!/bin/bash
+str="hello world"
+ACTION=$(netstat -tan|awk )
+echo $ACTION
+
+
+no_exec1() {
 CMD="\033[1;32mUsage for: \033[0m"
 
 echo -e ${CMD}"array opt"
@@ -131,7 +137,6 @@ do
 done
 echo
 
-no_exec1() {
 echo
 echo -e ${CMD}"add opt"
 n=1;echo -n "$n "
@@ -251,7 +256,6 @@ echo -e "\e[1;42m Green Background \e[0m"
 echo -e ${CMD}'regex'
 echo "abc" |grep -E "ab." # www.regexper.com perfect url
 echo
-}
 
 echo;echo -e ${CMD}'sed'
 echo thisthisthis | sed 's/this/THIS/3g'
@@ -262,3 +266,4 @@ sed -i s/this/This/g $tmpfile;cat $tmpfile
 rm -f $tmpfile 
 echo
 
+}
