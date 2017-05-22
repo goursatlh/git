@@ -1,12 +1,43 @@
 #!/bin/bash
-str="hello world"
-ACTION=$(netstat -tan|awk )
-echo $ACTION
-
-
-no_exec1() {
 CMD="\033[1;32mUsage for: \033[0m"
 
+echo -e ${CMD}"process opt"
+echo "PID: " "$$"
+if [ ! -e test ];then         
+    dd if=/dev/zero of=test bs=1MB count=1000
+fi
+
+if [ ! -e test1 ];then
+    dd if=/dev/zero of=test1 bs=1MB count=1000
+fi
+
+start=$(date +%s) 
+a=()
+for var in test test1
+do
+    md5sum $var &
+    a+=($!)
+done
+wait ${a[@]}
+end=$(date +%s)
+timespend=$(( end - start ))
+echo total time spends parallel $timespend
+
+start=$(date +%s) 
+md5sum test test1
+end=$(date +%s) 
+timespend=$(( end - start ))
+echo total time spends $timespend
+
+if [ -e test ];then
+    rm -f test
+fi
+
+if [ -e test1 ];then
+    rm -f test1
+fi
+
+no_exec1() {
 echo -e ${CMD}"array opt"
 array=(1 2 3 4)
 for var in ${array[@]}
@@ -26,6 +57,12 @@ do
     let i++
 done
 echo "num: "${#array_b[@]} vaule: ${array_b[@]} 
+
+while [ $(( i-- )) -gt 0 ]
+do
+    array_b+=($i)
+done
+echo "num: "${#array_b[@]} "value: "${array_b[@]}
 
 echo -e ${CMD}"read"
 read str       
