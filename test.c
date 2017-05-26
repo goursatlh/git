@@ -151,15 +151,16 @@ int main(int argc, char** argv)
 int main()                    
 {
     //unsigned char aa[] = "hello:world:fuck you then";
-    unsigned char *aa = "hello:world:fuck you then"; 
+    unsigned char aa[] = "1.1.1.1;;;;2.2.2.2";
+    //unsigned char *aa = "hello:::world:fuck you then"; 
     unsigned char *pc1 = NULL;     
     unsigned char *pc2 = NULL;     
-    pc1 = strtok_r(aa, ": ",&pc2); 
+    pc1 = strtok_r(aa, ";",&pc2); 
     while (pc1)
     {
         printf("aa(len %d) %s, pc1 %s, pc2 %s\n", strlen(aa), aa, pc1, pc2);
-        printf("addr: aa %p, pc1 %p, pc2 %p\n", aa, pc1, pc2);
-        pc1 = strtok_r(NULL, ": ", &pc2);
+        //printf("addr: aa %p, pc1 %p, pc2 %p\n", aa, pc1, pc2);
+        pc1 = strtok_r(NULL, ";", &pc2);
     }
     return 0;
 }
