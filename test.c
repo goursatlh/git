@@ -188,12 +188,21 @@ struct BB
     int c;
 }__attribute__ ((packed));
 
+struct CC
+{
+    char a;
+    short b;
+    long d;
+    int c;
+};
+
 int main()
 {
     struct AA a;
     struct BB b;
+    struct CC c;
     int *p;
-    printf("size: %d %d\n", sizeof(a), sizeof(b));
+    printf("size: %d %d %d\n", sizeof(a), sizeof(b), sizeof(c));
     printf("long %d, short %d, int %d, pointer %d\n", sizeof(long), sizeof(short), sizeof(int), sizeof(p));
     return 0;
 }
