@@ -86,7 +86,7 @@ int main()
 }
 #endif
 
-#if 0 //find the kst number from N numbers and for quick sort research
+#if 0//find the kst number from N numbers and for quick sort research
 #include "api.h"
 #include <thread>
 #include <time.h>
@@ -308,7 +308,7 @@ int main()
 }
 #endif
 
-#if 1 //find the longest same substring => suffix array
+#if 0 //find the longest same substring => suffix array
 #include <iostream>
 #include <stdlib.h>
 #include <time.h>
@@ -1738,11 +1738,12 @@ return 0;
 }
 #endif
 
-#if 0 // sort
+#if 0 // sort algorithum
 #include <iostream>
 #include <vector>
 #include <string>
 #include <sys/time.h>
+#include <algorithm>
 
 using std::cin;
 using std::cout;
@@ -1877,16 +1878,32 @@ void show(vector<Type> &a, string b, long time)
 {
     int index = 0;
     cout<<"After "<<b<<" sort "<<count<<" changes "<<"time spend: "<<time<<endl;
+#if 0
     while (index < a.size())
     {
         cout<<a[index++]<<"  ";
     }
     cout<<endl;
+#endif
+}
+
+template <class Type> 
+void check_sort_result(vector<Type> &a, vector<Type> &b, struct timeval tvstart, struct timeval tvend, string type)
+{
+    long timespend = 0;
+    if (a == b)
+    {
+        timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
+        show(a, type, timespend);
+    }
+    else
+        cout<<type<<" sort failed."<<endl;
 }
 
 int main(int argc, char **argv)
 {
     vector<int> num;
+    vector<int> num_sorted;
     vector<int> num1;
     vector<int> num2;
     vector<int> num3;
@@ -1900,27 +1917,31 @@ int main(int argc, char **argv)
     cin>>numinput;
     while (num.size() < numinput)
     {
-        num.push_back(rand()%100);
-        cout<<num[index++]<<endl;
+        num.push_back(rand() % 100000);
     }
-
-    show(num, "none", timespend);
+    show(num, "origin", timespend);
+    
+    num_sorted = num;
+    gettimeofday( &tvstart, NULL);
+    sort(num_sorted.begin(), num_sorted.end());
+    gettimeofday( &tvend, NULL);
+    timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
+    show(num_sorted, "built-in sort", timespend);
     
     num1 = num;
     count = 0;
     gettimeofday( &tvstart, NULL);
     sort_bubble(num1);
     gettimeofday( &tvend, NULL);
-    timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
-    show(num1, "bubble", timespend);
-   
+    check_sort_result(num1, num_sorted, tvstart, tvend, "bubble");
+
     num2 = num;
     count = 0;
     gettimeofday( &tvstart, NULL);
     sort_select(num2);
     gettimeofday( &tvend, NULL);
     timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
-    show(num2, "select", timespend);
+    check_sort_result(num2, num_sorted, tvstart, tvend, "select");
     
     num3 = num;
     count = 0;
@@ -1928,7 +1949,7 @@ int main(int argc, char **argv)
     sort_insert(num3);
     gettimeofday( &tvend, NULL);
     timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
-    show(num3, "insert", timespend);
+    check_sort_result(num3, num_sorted, tvstart, tvend, "insert");
   
     num4 = num;
     count = 0;
@@ -1936,7 +1957,7 @@ int main(int argc, char **argv)
     sort_quick(num4, 0, num4.size()-1);
     gettimeofday( &tvend, NULL);
     timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
-    show(num4, "quick", timespend);
+    check_sort_result(num4, num_sorted, tvstart, tvend, "quick");
     return 0;
 }
 #endif
