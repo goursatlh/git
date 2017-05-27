@@ -145,6 +145,7 @@ int main(int argc, char** argv)
 }
 #endif
 
+#if 0
 #include <stdio.h>
 #include <string.h>           
 
@@ -164,4 +165,36 @@ int main()
     }
     return 0;
 }
+#endif
 
+// byte align
+#if 1
+#include <stdio.h>
+#pragma pack (1)
+struct AA
+{
+    char a;
+    short b;
+    long d;
+    int c;
+}__attribute__ ((aligned (1)));
+#pragma pack ()
+
+struct BB
+{
+    char a;
+    short b;
+    long d;
+    int c;
+}__attribute__ ((packed));
+
+int main()
+{
+    struct AA a;
+    struct BB b;
+    int *p;
+    printf("size: %d %d\n", sizeof(a), sizeof(b));
+    printf("long %d, short %d, int %d, pointer %d\n", sizeof(long), sizeof(short), sizeof(int), sizeof(p));
+    return 0;
+}
+#endif
