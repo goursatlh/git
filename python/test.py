@@ -1,4 +1,24 @@
 #!/usr/bin/env python3
+# file io
+f = open("txt", "r+")         
+print("read1: ", f.read().strip())
+print("read2: ", f.read().strip())
+f.write("fuck you then\n")
+f.seek(0)
+print("write: ", f.read().strip())
+f.seek(0)
+for i in f.readlines():
+    print(i.strip())
+
+f.seek(0)
+print("readline1: ", f.readline().strip())
+print("readline2: ", f.readline().strip())
+
+f.seek(0)
+for i in f:
+    print(i.strip())
+f.close()
+
 '''
 # join()
 str = "-"
@@ -419,7 +439,6 @@ while True:
     except StopIteration as e:
         print("catch an error: ", e.value)
         break
-'''
 #class type
 class Student(object):
     "decribe class Student"
@@ -434,7 +453,6 @@ r.printc()
 #r.__x = 22 #equal to add a new public element for object r
 #print(r.__x)
 print(r._Student__score) #not recommend
-'''
 #inherit
 class animal():
     def printx(self):

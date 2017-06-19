@@ -19,7 +19,7 @@ def exchange(l, i, j):
 #public apis end
 
 Ls = L.copy();
-Ls.sort() #use build-in sort function to verity the sorted result is right
+Ls.sort() #use build-in sort function to verify the sorted result is right
 
 def bubble(l):
     lens = len(l)
