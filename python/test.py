@@ -1,4 +1,60 @@
 #!/usr/bin/env python3
+# namespace and scope
+def scope_test():
+    def do_local():
+        #print("do_local", spam)
+        spam = "local spam"
+
+    def do_nonlocal():
+        nonlocal spam
+        spam = "nonlocal spam"
+
+    def do_global():
+        global spam
+        spam = "global spam"
+
+    spam = "test spam"
+    do_local()
+    print("After local assignment:", spam)
+    do_nonlocal()
+    print("After nonlocal assignment:", spam)
+    do_global()
+    print("After global assignment:", spam)
+
+scope_test()
+print("In global scope:", spam)
+
+def test():
+    def do_nonlocal():
+        #spam = "fuck"
+        nonlocal spam
+        def do_nonlocal2():
+            nonlocal spam
+            spam = "nonlocal2 spam"
+        do_nonlocal2()
+    spam = "test spam"
+    do_nonlocal()
+    print("after nonlocal2 asssignment:", spam)
+test()
+
+'''
+#strip(),rstrip(),lstrip()
+str = " hello  \n";
+print(str)
+print(str.strip())
+print(str.rstrip())
+print(str.lstrip())
+print("strip end")
+# rex in python
+import re
+import os # execute shell command in .py
+
+fs = os.popen("who", "r")
+for eachline in fs:
+    print(eachline.rstrip())
+    print(re.split(r"\s\s+", eachline.rstrip()))
+fs.close()
+
 # file io
 f = open("txt", "r+")         
 print("read1: ", f.read().strip())
@@ -19,7 +75,6 @@ for i in f:
     print(i.strip())
 f.close()
 
-'''
 # join()
 str = "-"
 #seq = [1", "2", "3", "4"]
