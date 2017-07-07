@@ -170,40 +170,71 @@ int main()
 // byte align
 #if 1
 #include <stdio.h>
-#pragma pack (1)
-struct AA
-{
-    char a;
-    short b;
-    long d;
-    int c;
-}__attribute__ ((aligned (1)));
-#pragma pack ()
 
-struct BB
-{
-    char a;
-    short b;
-    long d;
-    int c;
-}__attribute__ ((packed));
-
-struct CC
-{
-    char a;
-    short b;
-    long d;
-    int c;
+struct A{
+  char a;
+  int b;
+  unsigned short c;
+  long d;
+  unsigned long long e;
+  char f;
 };
 
-int main()
+struct B{
+  char a;
+  int b;
+  unsigned short c;
+  long d;
+  unsigned long long e;
+  char f;
+}__attribute__((aligned));
+
+struct C{
+  char a;
+  int b;
+  unsigned short c;
+  long d;
+  unsigned long long e;
+  char f;
+}__attribute__((aligned(1)));
+
+struct D{
+  char a;
+  int b;
+  unsigned short c;
+  long d;
+  unsigned long long e;
+  char f;
+}__attribute__((aligned(4)));
+
+struct E{
+  char a;
+  int b;
+  unsigned short c;
+  long d;
+  unsigned long long e;
+  char f;
+}__attribute__((aligned(8)));
+
+struct F{
+  char a;
+  int b;
+  unsigned short c;
+  long d;
+  unsigned long long e;
+  char f;
+}__attribute__((packed));
+
+int main(int argc, char **argv)
 {
-    struct AA a;
-    struct BB b;
-    struct CC c;
-    int *p;
-    printf("size: %d %d %d\n", sizeof(a), sizeof(b), sizeof(c));
-    printf("long %d, short %d, int %d, pointer %d\n", sizeof(long), sizeof(short), sizeof(int), sizeof(p));
-    return 0;
+  printf("long %d, longlong %d, short %d, int %d\n", sizeof(long), sizeof(unsigned long long), sizeof(short), sizeof(int));
+  printf("A = %d, B = %d, C = %d, D = %d, E = %d, F = %d\n",
+  sizeof(struct A), sizeof(struct B), sizeof(struct C), sizeof(struct D), sizeof(struct E), sizeof(struct F));
+  printf("%x %x %x %x %x %x\n", &(((struct A *)0)->a), &(((struct A *)0)->b), &(((struct A *)0)->c), 
+                                &(((struct A *)0)->d), &(((struct A *)0)->e), &(((struct A *)0)->f));
+  printf("%x %x %x %x %x %x\n", &(((struct B *)0)->a), &(((struct B *)0)->b), &(((struct B *)0)->c), 
+                                &(((struct B *)0)->d), &(((struct B *)0)->e), &(((struct B *)0)->f));
+  return 0;
 }
+
 #endif

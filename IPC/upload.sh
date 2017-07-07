@@ -1,4 +1,5 @@
 #! /usr/bin/expect -f
+set timeout 300
 if {$argc != 2} {
         send_user "Wrong input, Useage: ./upload.sh load_name server_name\n"
         exit 0
