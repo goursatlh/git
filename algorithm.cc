@@ -1,3 +1,86 @@
+#if 1 // SPF algo
+#include <iostream>
+#include <string>
+#include <vector>
+
+using std::cout;
+using std::endl;
+using std::string;
+using std::vector;
+
+class DirectedEdge
+{
+private:
+    int v = 0;
+    int w = 0;
+    double weight = 0.0;
+
+public:
+    DirectedEdge(int v, int w, double weight)
+    {
+        this->v = v;
+        this->w = w;
+        this->weight = weight;
+    }
+    DirectedEdge() = default;
+
+    double getWeight()
+    {
+        return weight;
+    }
+    int from()
+    {
+        return v;
+    }
+    int to()
+    {
+        return w;
+    }
+    string toString()
+    {
+        string str;
+        char a[32];
+        sprintf(a, "%d->%d %.2f", v, w, weight);
+        str = a;
+        return str;
+    }
+};
+
+class EdgeDirectedDigraph
+{
+    int V;
+    int E;
+    vector<DirectedEdge> adj; 
+   
+public:
+    EdgeDirectedDigraph(int V)
+    {
+        V = V;
+        E = 0;
+        
+    }
+    void addEdge(V)
+    {
+        E++;
+    }
+    double weight();
+    int from();
+    int to();
+    string toString;
+};
+
+int main()
+{
+    cout<<"hello world"<<endl;
+    DirectedEdge e1(1, 2, 3);
+    DirectedEdge e2;
+    cout<<e1.toString()<<endl;
+    cout<<e2.toString()<<endl;
+    return 0;
+}
+
+
+#endif
 #if 0 // stability for sort algorithum
 #include "api.h"
 
