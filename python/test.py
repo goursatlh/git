@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+'''
 # namespace and scope
 def scope_test():
     def do_local():
@@ -10,7 +11,7 @@ def scope_test():
         spam = "nonlocal spam"
 
     def do_global():
-        global spam
+        global spam   #create a variable in global namespace 
         spam = "global spam"
 
     spam = "test spam"
@@ -24,9 +25,16 @@ def scope_test():
 scope_test()
 print("In global scope:", spam)
 
+saw = "hello"
+def testxx():
+    nonlocal saw
+    saw = "world"
+    print("testxx saw ", saw)
+testxx()
+
 def test():
     def do_nonlocal():
-        #spam = "fuck"
+        spam = "fuck"
         nonlocal spam
         def do_nonlocal2():
             nonlocal spam
@@ -37,7 +45,6 @@ def test():
     print("after nonlocal2 asssignment:", spam)
 test()
 
-'''
 #strip(),rstrip(),lstrip()
 str = " hello  \n";
 print(str)
@@ -45,6 +52,7 @@ print(str.strip())
 print(str.rstrip())
 print(str.lstrip())
 print("strip end")
+
 # rex in python
 import re
 import os # execute shell command in .py
@@ -62,6 +70,8 @@ print("read2: ", f.read().strip())
 f.write("fuck you then\n")
 f.seek(0)
 print("write: ", f.read().strip())
+
+print("readlines: ")
 f.seek(0)
 for i in f.readlines():
     print(i.strip())
@@ -70,6 +80,7 @@ f.seek(0)
 print("readline1: ", f.readline().strip())
 print("readline2: ", f.readline().strip())
 
+print("dump the whole file")
 f.seek(0)
 for i in f:
     print(i.strip())
