@@ -1,4 +1,27 @@
 #!/usr/bin/env python3
+# process and thread
+import os
+import threading
+
+#process apis
+print("Proces(%d) start..." % os.getpid())
+pid = os.fork()
+if pid == 0:
+    print("Son process(%d), parent process(%d)" % (os.getpid(), os.getppid()))
+    exit()
+else:
+    print("Parent process(%d)" % os.getpid())
+
+#thread apis
+def loop():
+    print("Thread(%s) start..." % threading.current_thread().name)
+    
+print("Thread(%s) is running..." % threading.current_thread().name)
+t = threading.Thread(target=loop, name="loop thread" )
+t.start()
+t.join() #wait t to end up
+print("Thread(%s) end..." % threading.current_thread().name)
+
 '''
 # namespace and scope
 def scope_test():
