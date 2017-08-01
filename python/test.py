@@ -1,4 +1,30 @@
 #!/usr/bin/env python3
+#subprocess
+import subprocess
+print("$ nslookup www.python.org")
+cmd = ["ps", "-aux"]
+#r = subprocess.call(["nslookup", "www.python.org"])
+r = subprocess.call(cmd)
+print("Exit code: ", r)
+
+'''
+#process api cross-platform. There are two ways to start processes, os.fork() or multiprocess.Process(). The previous one only works 
+#for Unix-like system, the one in the back is used for cross-platform.
+
+import os
+from multiprocessing import Process
+
+def run_proc(name):
+    print("Child process %s/%d run" % (name, os.getpid()))
+
+if __name__  == "__main__" :
+    print("Parent process %d" % os.getpid())
+    p = Process(target=run_proc, args=("test",))
+    p.start()
+    p.join()
+    print("process %d end" % os.getpid())
+    
+
 # process and thread
 import os
 import threading
@@ -22,7 +48,6 @@ t.start()
 t.join() #wait t to end up
 print("Thread(%s) end..." % threading.current_thread().name)
 
-'''
 # namespace and scope
 def scope_test():
     def do_local():
