@@ -1,4 +1,68 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-  
+'''
+print("usage for ftp")
+
+import sys 
+if len(sys.argv) != 3:
+    print("Bad input: usage: ./network.py src_file dst_file")
+    exit(0)
+src = sys.argv[1]
+dst = sys.argv[2]
+print("ftp 10.88.21.228, to get %s to %s" % (src, dst))
+
+from ftplib import FTP
+f = FTP("10.88.21.228")
+f.login("wt", "wt")
+print(f.dir())
+
+f.retrlines('RETR %s' % src, open(dst, 'w').write)
+
+f.quit()
+'''
+
+#try...except...finally...
+try: 
+    print('try...')
+    #r = 10 / 0
+    #r = 10 / int("a") # it will get the first exception
+    r = 10 / a
+    print('result:', r)
+except ZeroDivisionError as e:
+    print('except1:', e)
+except ValueError as e:
+    print('except2:', e)
+except BaseException as e: # BaseException is the base class for all exceptions
+    print('except3:', e)
+finally:
+    print('finally...')
+print('END')
+
+#define an exception to catch
+def func(a):
+    if a < 0:
+        raise ValueError("Error value %s" % a)
+    return
+
+def func2(a):
+    func(a)
+    return
+
+try:
+    func2(-1) # we can catch the exception here, not need to add the try.. in every function
+except BaseException as e:
+    print("except: ", e)
+    #raise #don't process the exception here, raise to outside
+finally:
+    print("finally")
+
+'''
+note:
+1, 如果错误没有被捕获，它就会一直往上抛，最后被Python解释器捕获，打印一个错误信息，然后程序退出
+2, 如果当前函数没有处理exception，只是想记录下，可以print后再raise，让外层有能力的函数来处理
+'''
+
+'''
 #subprocess
 import subprocess
 print("$ nslookup www.python.org")
@@ -7,7 +71,6 @@ cmd = ["ps", "-aux"]
 r = subprocess.call(cmd)
 print("Exit code: ", r)
 
-'''
 #process api cross-platform. There are two ways to start processes, os.fork() or multiprocess.Process(). The previous one only works 
 #for Unix-like system, the one in the back is used for cross-platform.
 
@@ -553,20 +616,25 @@ while True:
     except StopIteration as e:
         print("catch an error: ", e.value)
         break
+
 #class type
 class Student(object):
     "decribe class Student"
     __x = 2
     def __init__(self, name, score):
         self.name = name
-        self.__score = score
+        self.__score = score 
     def printc(self):
-        print(self.name, self.__score)
+        print(self.name, self.__score, self.__x)
+
 r = Student("walter", 20)
+print(dir(r))
 r.printc()
+#print(r.__score) #error, private element, can't be accessed outside of the class
 #r.__x = 22 #equal to add a new public element for object r
 #print(r.__x)
 print(r._Student__score) #not recommend
+
 #inherit
 class animal():
     def printx(self):
@@ -620,24 +688,56 @@ class AA:
         self.name = name
         self.score = score
 a = AA("walter", 90)
+
 print(a.name, a.score)
+print(a.__slots__)
 
 # @property change attribute to functions
 class Student():
     @property
     def score(self): #get_score()
-        return self.score
+        print("get")
+        return self._score
     @score.setter
     def score(self, score): #set_score()
         if not isinstance(score, int):
             raise ValueError("score must be an int")
         if score < 0 or score > 100:
             raise ValueError("score must be in (0,100)")
-        self.score = score
+        print("set")
+        self._score = score
 s = Student()
+#s.score = 99
+s._score = 98
+print(s._score)
+print(type(s.score))
+#print(s.score) # you can only to use s.score/get, s.score = /set, you can't use s.score()/s.score(value)
+#print(help(property))
+#print(dir(s))
 #s.score("walter")
 #s.score = "walter"
-s.score = 1000
+#s.score = 99
 
+#classmethod
+class Kls(object):
+    no_inst = 0
+    def __init__(self):
+        Kls.no_inst = Kls.no_inst + 1
+        self.no_inst = 22
+    @classmethod
+    def get_no_of_instance(self): #input para is class, not instance
+        return self.no_inst
+
+ik1 = Kls()
+print(ik1.get_no_of_instance())
+ik2 = Kls()
+print(ik1.get_no_of_instance())
+print(ik2.get_no_of_instance())
+print(ik2.get_no_of_instance.__name__)
+
+def printx():
+    print("hello world")
+f = printx
+f()
+print(printx.__name__, f.__name__)
 '''
-
