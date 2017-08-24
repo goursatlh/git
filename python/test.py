@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-  
+
 '''
 print("usage for ftp")
 
@@ -21,7 +22,9 @@ f.retrlines('RETR %s' % src, open(dst, 'w').write)
 f.quit()
 '''
 
+'''
 #try...except...finally...
+import logging
 try: 
     print('try...')
     #r = 10 / 0
@@ -30,10 +33,13 @@ try:
     print('result:', r)
 except ZeroDivisionError as e:
     print('except1:', e)
+    #logging.exception(e)
 except ValueError as e:
     print('except2:', e)
+    #logging.exception(e)
 except BaseException as e: # BaseException is the base class for all exceptions
     print('except3:', e)
+    logging.exception(e)
 finally:
     print('finally...')
 print('END')
@@ -56,27 +62,26 @@ except BaseException as e:
 finally:
     print("finally")
 
-'''
-note:
-1, 如果错误没有被捕获，它就会一直往上抛，最后被Python解释器捕获，打印一个错误信息，然后程序退出
-2, 如果当前函数没有处理exception，只是想记录下，可以print后再raise，让外层有能力的函数来处理
+# note:
+# 1, If the exception has not been catched, it will be throwen to the outside until the python interpreter, then the program will be ended. 
+# 2, If the function has not handled the exception, it can only record the exception then throw to outside function to process using raise. 
 '''
 
+## process begin
 '''
-#subprocess
-import subprocess
-print("$ nslookup www.python.org")
-cmd = ["ps", "-aux"]
-#r = subprocess.call(["nslookup", "www.python.org"])
-r = subprocess.call(cmd)
-print("Exit code: ", r)
+#process apis
+import os
+print("Proces(%d) start..." % os.getpid())
+pid = os.fork()
+if pid == 0:
+    print("Son process(%d), parent process(%d)" % (os.getpid(), os.getppid()))
+    exit()
+else:
+    print("Parent process(%d)" % os.getpid())
 
 #process api cross-platform. There are two ways to start processes, os.fork() or multiprocess.Process(). The previous one only works 
 #for Unix-like system, the one in the back is used for cross-platform.
-
-import os
 from multiprocessing import Process
-
 def run_proc(name):
     print("Child process %s/%d run" % (name, os.getpid()))
 
@@ -86,22 +91,9 @@ if __name__  == "__main__" :
     p.start()
     p.join()
     print("process %d end" % os.getpid())
-    
-
-# process and thread
-import os
-import threading
-
-#process apis
-print("Proces(%d) start..." % os.getpid())
-pid = os.fork()
-if pid == 0:
-    print("Son process(%d), parent process(%d)" % (os.getpid(), os.getppid()))
-    exit()
-else:
-    print("Parent process(%d)" % os.getpid())
 
 #thread apis
+import threading
 def loop():
     print("Thread(%s) start..." % threading.current_thread().name)
     
@@ -111,6 +103,44 @@ t.start()
 t.join() #wait t to end up
 print("Thread(%s) end..." % threading.current_thread().name)
 
+#subprocess
+import subprocess
+print("$ nslookup www.python.org")
+cmd = ["ps", "-aux"]
+#r = subprocess.call(["nslookup", "www.python.org"])
+r = subprocess.call(cmd)
+print("Exit code: ", r)
+'''
+
+#comm between processes
+from multiprocessing import Process,Queue
+import os,time,random
+def reader(q):
+    print("Process to read, PID %s" % os.getpid())
+    while True:
+        value = q.get(True)
+        print("Get %s from queue" % value)
+
+def writer(q):
+    print("Process to write, PID %s" % os.getpid())
+    for value in ["A", "B", "C"]:
+        print("Put %s to queue" % value)
+        q.put(value)
+        time.sleep(random.random())
+
+if __name__ == '__main__':
+    print("Process start, PID %s" % os.getpid())
+    q = Queue()
+    pr = Process(target=reader, args=(q,))
+    pw = Process(target=writer, args=(q,))
+    pr.start()
+    pw.start()
+    pw.join()
+    pr.terminate()
+
+## process end
+
+'''
 # namespace and scope
 def scope_test():
     def do_local():
