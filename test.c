@@ -1,4 +1,87 @@
-#if 1
+
+#if 1 // buff for file io 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <errno.h>
+
+int main()
+{
+    int i;
+    int ret = 0;
+    FILE *fp;
+    char msg1[] = "hello,world\n";
+    char msg2[] = "hello\nworld";
+    char msg[128] = {0};
+    char buf[128];
+    
+    if((fp = fopen("no_buf1.txt","w")) == NULL)
+    {
+        perror("file open fail");
+        exit(-1);
+    }
+    setbuf(fp, NULL);
+    fwrite(msg1, 7, 1, fp);
+    //fseek(fp, 0, SEEK_SET);
+    //ret = fgets(msg, 128, fp);
+    //printf("str %s\n", strerror(errno));
+    //printf("get %d %s\n", ret, msg);
+    printf("test setbuf(no buf)!check no_buf1.txt\n");//查看 buf 情况
+    printf("press enter to continue!\n");
+    getchar();
+    fclose(fp);//关闭流，因此将回写 buf（如果有 buf 的话）
+
+    /* 打开（或者创建）一个文件，然后使用 setvbuf 设置为 nobuf 情况，并检查关闭前流的情况 */
+    if((fp = fopen("no_buf2.txt","w")) == NULL)
+    {
+        perror("file open failure!");
+        exit(-1);
+    }
+    setvbuf(fp,NULL,_IONBF,0);         //设置为无 buf
+    fwrite(msg1,7,1,fp);
+    printf("test setbuf(no buf)!check no_buf2.txt\n");        //查看 buf 情况
+    printf("press enter to continue!\n");
+    getchar();
+    fclose(fp);//关闭流，因此将回写 buf( 如果有 buf 的话)
+
+    if((fp = fopen("1_buf.txt","w")) == NULL)
+    {
+        perror("fail open file");
+        exit(-1);
+    }
+    setvbuf(fp,buf,_IOLBF,sizeof(buf));        //设置为行 buf
+    fwrite(msg2,sizeof(msg2),1,fp);        //写内容
+    printf("test setvbuf(line buf)!check 1_buf.txt,because line buf,only data before enter send to file\n");        //查看 buf 情况
+    printf("press enter to continue!\n");
+    getchar();
+    fclose(fp);        //关闭流，因此将回写 buf
+
+    //打开（或者创建）一个文件，然后使用 setvbuf 设置为全 buf情况，并检查关闭前流的情况
+    if((fp = fopen("f_buf.txt","w")) == NULL)
+    {
+        perror("file open failure!");
+        exit(-1);
+    }
+    setvbuf(fp,buf,_IOFBF,sizeof(buf));
+    for(i = 0;i < 2;i++)
+    {
+        fputs(msg1,fp);
+    }
+    printf("test setbuf(full buf)! check f_buf.txt\n");
+    printf("press enter to continue!\n");
+    getchar();
+    fclose(fp);//关闭流，因此将回写 buf
+    return 0;
+}
+#endif
+
+#if 0
+/* 
+ * use fopen in w+/r+: 
+ * r+     Open for reading and writing.  The stream is positioned at the beginning of the file.
+ * w+     Open for reading and writing.  The  file is created if it does not exist, otherwise it is truncated.  
+ *        The stream is positioned at the  beginning of the file.
+ */
 #include <stdio.h>
 int main()
 {
@@ -6,6 +89,7 @@ int main()
     FILE *fp2 = NULL;
     char cmd[128] = {0};
 
+    
     fp = fopen("txt", "w+");
     if (fp != NULL)
     {
@@ -24,6 +108,10 @@ int main()
             printf("%s\n", cmd);
         }
         fclose(fp2);
+    }
+    else
+    {
+        printf("file doesn't exist\n");
     }
         
     return 0;
