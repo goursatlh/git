@@ -1,6 +1,8 @@
 #!/bin/bash
 CMD="\033[1;32mUsage for: \033[0m"
 
+echo "hello world"
+no_exec1() {
 echo -e ${CMD}"process opt"
 echo "PID: " "$$"
 if [ ! -e test ];then         
@@ -37,7 +39,6 @@ if [ -e test1 ];then
     rm -f test1
 fi
 
-no_exec1() {
 echo -e ${CMD}"array opt"
 array=(1 2 3 4)
 for var in ${array[@]}
