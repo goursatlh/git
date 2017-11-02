@@ -111,7 +111,7 @@ cmd = ["ps", "-aux"]
 r = subprocess.call(cmd)
 print("Exit code: ", r)
 '''
-
+'''
 #comm between processes
 from multiprocessing import Process,Queue
 import os,time,random
@@ -137,6 +137,7 @@ if __name__ == '__main__':
     pw.start()
     pw.join()
     pr.terminate()
+'''
 
 ## process end
 
@@ -397,42 +398,37 @@ print(l)
 L = ["Hello", "WORLD", "AppLE", "THINKpad"]
 l = [i.lower() for i in L ]
 print(l)
+'''
 
 #generator
 L = [x * x for x in range(1, 10)]
 print(L)
 
 g = (x * x for x in range(1, 10))
-print(g)
-for i in range(1, 10):
-    print(next(g))
-print(g)
-
-#g = (x * x for x in range(1, 10))
+print("next ", next(g))
 for i in g:
     print(i)
+#print("next ", next(g))
 
 def fib(max):
     n,a,b = 0,0,1
+    print("come here enter ", n)
     while n < max:
+        print("come here 1 ", n)
         yield b
+        print("come here 2 ", n)
         a, b=b, a+b
         n = n + 1
+        if b > 20:
+            print("greate than 20")
+            return
     return "done"
-fib(20)
+g = fib(20)
+print(type(g))
+print(next(g))
+print(next(g))
 
-def odd():
-    print('step 1')
-    yield 1
-    print('step 2')
-    yield(3)
-    print('step 3')
-    yield(5)
-o = odd()
-for i in range(1,4):
-    print(next(o))
-
-
+'''
 def circle(x):
     return 3.14 *x *x
 print(circle(2))
@@ -635,6 +631,7 @@ def odd():
     print('step 1')
     yield 1
     print('step 2')
+    return
     yield(3)
     print('step 3')
     yield(5)
