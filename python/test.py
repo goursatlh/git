@@ -1,5 +1,44 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-  
+'''
+def consumer():
+    r = ''
+    while True:
+        n = yield r
+        if not n:
+            return
+        print('[CONSUMER] Consuming %s...' % n)
+        r = '200 OK'
+
+def produce(c):
+    c.send(None)
+    n = 0
+    while n < 5:
+        n = n + 1
+        print('[PRODUCER] Producing %s...' % n)
+        r = c.send(n)
+        print('[PRODUCER] Consumer return: %s' % r)
+    c.close()
+
+c = consumer()
+produce(c)
+'''
+
+'''
+print("usage for asyncio")
+import asyncio
+
+@asyncio.coroutine
+def hello():
+    print("Hello world!")
+    r = yield from asyncio.sleep(10)
+    print("Hello again!")
+
+loop = asyncio.get_event_loop()
+loop.run_until_complete(hello())
+print("close")
+loop.close()
+'''
 
 '''
 print("usage for ftp")
@@ -405,9 +444,44 @@ L = [x * x for x in range(1, 10)]
 print(L)
 
 g = (x * x for x in range(1, 10))
-print("next ", next(g))
+print("first cycle ")
 for i in g:
-    print(i)
+    print(i, end=' ')
+print()
+for i in g:
+    print(i, end=' ')
+
+def h():
+        print("hello ")
+        m = yield 5
+        print("m: ", m)
+        d = yield 12
+        print("d: ",d)
+        print("world")
+c = h()
+c.__next__()
+c.send(None)
+#c.__next__()
+
+# a = yield b
+def countdown(n):
+        print("Counting down from", n)
+        while n >= 0:
+                newvalue = (yield n)
+                print("newvalue ", newvalue)
+                # If a new value got sent in, reset n with it
+                if newvalue is not None:
+                        n = newvalue
+                else:
+                        n -= 1
+
+c = countdown(10)
+for x in c:
+        print(x)
+        if x == 10:
+                c.send(3)
+
+
 #print("next ", next(g))
 
 def fib(max):
@@ -425,6 +499,9 @@ def fib(max):
     return "done"
 g = fib(20)
 print(type(g))
+print(next(g))
+print(next(g))
+print(next(g))
 print(next(g))
 print(next(g))
 
