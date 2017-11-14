@@ -1,10 +1,91 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-  
+
+#import logging
+def inner():
+    coef = 1
+    total = 0
+    while True:
+        #try:
+            input_val = yield total         # a = yield b     => b is return vaule, a is input parameter
+            total = total + coef * input_val
+        #except SwitchSign:
+        #    coef = -(coef)
+        #except BreakOut:
+        #    return total
+
+def outer():
+    print("Before inner(), I do this.")
+    total = 0
+    a = inner()
+    total = a.send(None)
+    while True:
+        input = yield total
+        total = a.send(input)
+    print("After inner(), I do that.")
+
+def outer2():
+    print("Before inner(), I do this.")
+    yield from inner()
+    print("After inner(), I do that.")
+    return 0
+
+#g = inner()
+#g = outer()
+g = outer2()
+print(type(g))
+g.send(None)
+for i in range(1,10):
+    print(g.send(i))
+
+
+
+'''
+import threading
+import asyncio
+
+@asyncio.coroutine
+def hello():
+    print('Hello world! (%s)' % threading.currentThread())
+    yield from asyncio.sleep(1)
+    print('Hello again! (%s)' % threading.currentThread())
+
+loop = asyncio.get_event_loop()
+tasks = [hello(), hello()]
+loop.run_until_complete(asyncio.wait(tasks))
+loop.close()
+'''
+
+
+'''
+import asyncio
+@asyncio.coroutine
+def wget(host):
+    print('wget %s...' % host)
+    connect = asyncio.open_connection(host, 80)
+    reader, writer = yield from connect
+    header = 'GET / HTTP/1.0\r\nHost: %s\r\n\r\n' % host
+    writer.write(header.encode('utf-8'))
+    yield from writer.drain()
+    while True:
+        line = yield from reader.readline()
+        if line == b'\r\n':
+            break
+        print('%s header > %s' % (host, line.decode('utf-8').rstrip()))
+    # Ignore the body, close the socket
+    writer.close()
+
+loop = asyncio.get_event_loop()
+tasks = [wget(host) for host in ['www.sina.com.cn', 'www.sohu.com', 'www.163.com']]
+loop.run_until_complete(asyncio.wait(tasks))
+loop.close()
+'''
+
 '''
 def consumer():
     r = ''
     while True:
-        n = yield r
+        n = yield r # if raise by send(args), n = args, if send(None)/next(), n = None.
         if not n:
             return
         print('[CONSUMER] Consuming %s...' % n)
@@ -439,6 +520,7 @@ l = [i.lower() for i in L ]
 print(l)
 '''
 
+'''
 #generator
 L = [x * x for x in range(1, 10)]
 print(L)
@@ -505,6 +587,7 @@ print(next(g))
 print(next(g))
 print(next(g))
 
+'''
 '''
 def circle(x):
     return 3.14 *x *x
