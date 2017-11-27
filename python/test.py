@@ -1,7 +1,133 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.5
 # -*- coding: utf-8 -*-  
 
-#import logging
+
+def document_it(func):
+    def new_function(*args, **kwargs):
+        print('Running function:', func.__name__)
+        print('Positional arguments:', args)
+        print('Keyword arguments:', kwargs)
+        result = func(*args, **kwargs)
+        print('document_it Result:', result)
+        return result
+    return new_function
+
+def add_ints(a, b):
+    return a + b
+
+cooler_add_ints = document_it(add_ints)
+cooler_add_ints(3, 5)
+
+
+
+#decorator
+
+def log(func):
+    print('call %s():' % func.__name__)
+    return func
+
+def log1(func):
+    def wrapper(*args, **kw):
+        print('call %s():' % func.__name__)
+        return func(*args, **kw)
+    return wrapper
+
+def now(name):
+    print('2017-11-27 ', name)
+
+#now('jerry') # why we use log1 not log to do the decorator ;   
+             # I want to use now() function at last, I don't want to use log(now()), because this changes logic and makes the code un-easily to understand
+#log(now)('jerry')
+now = log(now)
+now('carl')
+
+@log
+def now1():
+    print('2017-12-27')
+
+#log(now)()
+#now1()
+
+#how to process the input parameters if you want to use func as the func parameters
+
+#variable parameters
+def lazy_sum(*args):
+    def sumx():
+        ax = 0
+        for para in args:
+            ax = ax + para
+        return ax
+    return sumx
+
+f = lazy_sum(2,1,3,5)
+print(f)
+
+
+def count():
+    fs = []
+    for i in range(1, 4):
+        def f():
+             return i*i
+        fs.append(f)
+    return fs
+
+f1, f2, f3 = count()
+print(f1(), f2(), f3())
+
+def count1():
+    def f(j):
+        def g():
+            return j*j
+        return g
+    fs = []
+    for i in range(1, 4):
+        fs.append(f(i))
+    return fs
+
+f11, f22, f33 = count1()
+print(f11(), f22(), f33())
+
+'''
+#socket
+import socket
+import sys
+
+if len(sys.argv) != 3:
+    print("Bad input: usage: ./test.py type port")
+    exit(0)
+
+type = int(sys.argv[1])
+port = int(sys.argv[2])
+
+print("input: ", type, port)
+
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+if type == 1:   # server
+    print("create socket: udp fd %s" % s )
+    r = s.bind(('0.0.0.0', port))
+    print("bind to: 127.0.0.1:87, ret ", r)
+
+    while True:
+        data, addr = s.recvfrom(1024)
+        print("received from %s:%s." % (addr.host, addr.port))
+        s.sendto(b'Hello, %s!' % data, addr)
+else:           # client
+    print("create socket: udp fd %s" % s )
+    #r = s.bind(('127.0.0.1', port))
+    #print("bind to: 127.0.0.1:87, ret ", r)
+
+    for data in [b'walter', b'sam', b'carl']:
+        s.sendto(data, ('127.0.0.1', port))
+        print(s.recv(1024).decode('utf-8'))
+
+s.close()
+'''
+
+
+
+'''
+#yield from
 def inner():
     coef = 1
     total = 0
@@ -37,7 +163,7 @@ print(type(g))
 g.send(None)
 for i in range(1,10):
     print(g.send(i))
-
+'''
 
 
 '''
@@ -50,11 +176,19 @@ def hello():
     yield from asyncio.sleep(1)
     print('Hello again! (%s)' % threading.currentThread())
 
+async def hello2():
+    print('Hello world 3.5! (%s)' % threading.currentThread())
+    await asyncio.sleep(1)
+    print('Hello again 3.5! (%s)' % threading.currentThread())
+
 loop = asyncio.get_event_loop()
 tasks = [hello(), hello()]
+tasks2 = [hello2(), hello2()]
 loop.run_until_complete(asyncio.wait(tasks))
+loop.run_until_complete(asyncio.wait(tasks2))
 loop.close()
 '''
+
 
 
 '''
@@ -353,7 +487,6 @@ str = "-"
 #seq = [1", "2", "3", "4"]
 seq = [b"1", b"2"]
 print(b" ".join(seq))
-
 
 # file input paras
 import sys
@@ -739,12 +872,20 @@ def printx():
         print(L1[::i])
         i+=1
 printx()
+'''
 
-#map reduce 
+
+'''
+#map reduce
+from collections import Iterable
+from collections import Iterator
 def f(x):
     return x *x
 r = map(f, [1, 2, 3, 4, 5, 6, 7, 8, 9])
+print(isinstance(r, Iterable))
+print(isinstance(r, Iterator))
 print(list(r))
+
 from functools import reduce
 def add(x, y):
     return x + y
@@ -752,19 +893,23 @@ print(reduce(add, [1, 3, 5, 7, 9]))
 
 r = map(str, [1, 2, 3, 4, 5])
 print(list(r))
-#str2int
 
 #"123" => 123
 print("str2int")
 def f1(x):
-    return {'0':0, '1':1, '2':2, '3':3}[x]
+    return {'0':0, '1':1, '2':2, '3':3, '4':4, '5':5}[x] # map can be indexed?
+
 def f2(x1, x2):
     return x1 * 10 + x2
-r1 = map(f1, "123")
+
+r1 = map(f1, "212345")
 r2 = reduce(f2, r1)
 print(r2)
-#list and iterator and iteratorable
+'''
 
+
+'''
+#list and iterator and iteratorable
 r = [x * x for x in range(10)]
 print(r)
 
