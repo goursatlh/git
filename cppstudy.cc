@@ -2396,9 +2396,10 @@ int main()
 }
 #endif
 
-#if 0 // vector operations => push_back, insert, pop
+#if 1 // vector operations => push_back, insert, pop
 #include <iostream>
 #include <vector>
+
 using std::cout;
 using std::endl;
 using std::vector;
@@ -2429,19 +2430,23 @@ int main()
     // prototype: iterator insert(__position, __value)
     // prototype: void insert(__position, __initalize_list)
     // prototype: void insert(__position, __size, __value)
+
     auto iter = vi.begin();
     cout<<"iter: "<<*iter<<endl;
     iter = vi.insert(iter, 3);
     cout<<"iter: "<<*iter<<endl;
     show(vi);
+   
     iter = vi.begin();
     vi.insert(iter, {7,7,7});
     cout<<"iter: "<<*iter<<endl;
     show(vi);
+   
     iter = vi.begin(); // why need to get this iterator again?
     vi.insert(iter, 3, 8);
     cout<<"iter after insert: "<<*iter<<endl;
     show(vi);
+   
     vi.pop_back();
     show(vi);
     iter = vi.begin(); // why need to get this iterator again?
@@ -2649,7 +2654,9 @@ int main()
 
 #if 0
 //direct initialize and copy initialize
+
 #include <iostream>
+#include <string.h>
 
 using std::cin;
 using std::cout;
@@ -2695,7 +2702,7 @@ int main()
     cout<<"ct2: ";
     ClassTest ct2 = "ab"; //converting constructor
     cout<<"ct3: ";
-    ClassTest ct3 = ct1;
+    ClassTest ct3 = ct1; //  why not use = constructor
     cout<<"ct4: ";
     ClassTest ct4(ct1);
     //cout<<"ct5: ";
@@ -2719,14 +2726,14 @@ class CExample
         CExample(int b)
         { 
             a = b;
-            cout<<"creat: "<<a<<endl;
+            cout<<"creat constructor: "<<a<<endl;
         }
 
 
-        CExample(const CExample& C)
+        CExample(const CExample& C) // why add const
         {
             a = C.a;
-            cout<<"copy"<<endl;
+            cout<<"copy constructor: "<<a<<endl;
         }
 
         ~CExample()
@@ -2759,6 +2766,7 @@ int main()
 #include <iostream>
 using std::cout;
 using std::endl;
+
 class Rect
 {
     public:
@@ -2766,7 +2774,7 @@ class Rect
         {
             count++;
             p = new int(1);
-            cout<<"add default"<<endl;
+            cout<<"add default"<<endl; // default constructor 
         }
 #if 1
         Rect(const Rect & rec)   //why add const   
@@ -2775,7 +2783,7 @@ class Rect
             height = rec.height;
             p = new int(1);
             count++;
-            cout<<"add copy"<<endl;
+            cout<<"add copy"<<endl; // copy constructor 
         }
 #endif
         ~Rect()     
@@ -2785,14 +2793,17 @@ class Rect
                 delete p;
             cout<<"del"<<endl;
         }
+
         static int getCount()       
         {
             return count;
         }
+
         void show()
         {
             cout<<p<<endl;
         }
+
     private:
         int width;
         int height;

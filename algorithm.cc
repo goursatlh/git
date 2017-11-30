@@ -1,4 +1,46 @@
-#if 1 // SPF algo
+#if 1 /* priority queue */ 
+
+#include <vector>
+#include <iostream>
+
+class MaxPQ
+{
+public:
+    MaxPQ(vector<int> a)
+    {
+    }
+
+    void insert(int key)
+    {}
+
+    int max()
+    {}
+
+    int delMax()
+    {}
+
+    int size()
+    {}
+
+    int isEmpty()
+    {}
+
+    ~MaxPQ(vector<int> a)
+    {}
+
+
+};
+
+
+
+
+
+
+
+#endif /* priority queue */
+
+
+#if 0 // SPF algo
 #include <iostream>
 #include <string>
 #include <vector>
