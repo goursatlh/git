@@ -3,35 +3,163 @@
 #include <vector>
 #include <iostream>
 
+using std::cout;
+using std::cin;
+using std::endl;
+using std::vector;
+
 class MaxPQ
 {
 public:
-    MaxPQ(vector<int> a)
+    MaxPQ(vector<int> &a)
     {
+        pq.push_back(0); // not use index 0
+        N = 0;
+        for (auto iter = a.begin(); iter != a.end(); iter++)
+        {
+            insert(*iter);
+        }
     }
 
     void insert(int key)
-    {}
+    {
+        //cout<<"insert key "<<key<<endl;
+        pq.push_back(key);
+        ++N; 
+        swim(N);
+    }
 
     int max()
-    {}
+    {
+        cout<<"Max vaule "<<pq[1]<<endl;
+        return pq[1];
+    }
 
     int delMax()
-    {}
+    {
+        if (N > 1)
+        {
+            vector<int> pqtmp;
+            pqtmp = pq;
+           
+            cout<<"del max number "<<pq[1]<<endl;
+            vector<int>::iterator iter = pqtmp.begin();
+            iter++; // thift the index 0
+            iter++; // thift max value
+
+            // rebuild the heap array
+            N = 0; 
+            pq.clear();
+            pq.push_back(0);
+            for (; iter != pqtmp.end(); iter++)
+            {
+                insert(*iter);
+            }
+        }
+        else
+            cout<<"del max number "<<pq[1]<<endl;
+    }
 
     int size()
-    {}
+    {
+        return N;        
+    }
 
-    int isEmpty()
-    {}
+    void show()
+    {
+        cout<<"Total number "<<N<<endl;
+        vector<int>::iterator iter = pq.begin();
+        for (++iter; iter != pq.end(); iter++)
+        {
+            cout<<*iter<<" ";
+        }
+        cout<<endl;
+    }
 
-    ~MaxPQ(vector<int> a)
-    {}
+private:
+    vector<int> pq; // vector to store the elements of the priority queue.
+    int N;          // number of elements in the priority queue. 
+    
+    void swim(int k)
+    {
+        //cout<<"swim "<<k<<endl;
+        while ((k >1) && less(k/2, k)) 
+        {
+            exch(k/2, k);
+            k = k/2;
+        }
+    }
+    
+    void sink(int k)
+    {
+        cout<<"sink "<<k<<endl;
+        while (2*k < N)
+        {
+            if (less(k, 2*k) && !less(k, 2*k+1))
+            {
+                exch(k, 2*k);
+            }
+            else if (less(k, 2*k+1) && !less(k, 2*k))
+            {
+                exch(k, 2*k+1);
+            }
+            else if (less(k, 2*k+1) && less(k, 2*k))
+            {
+                if (less(2*k, 2*k+1))
+                    exch(k, 2*k+1);
+                else
+                    exch(k, 2*k);
+            }
+            k = 2*k;
+        }
+    }
 
+    bool less(int i, int j)
+    {
+        if (pq[i] < pq[j])
+            return 1;
+        else
+            return 0;
+    }
 
+    void exch(int i, int j)
+    {
+        //cout<<"exch "<<i<<" and "<<j<<endl;
+        int tmp = pq[i];
+        pq[i] = pq[j];
+        pq[j] = tmp;
+    }
 };
 
+int main()
+{
+    vector<int> a;
+    int num = 0;
+    cout<<"Input number you want to process: "<<endl;
+    cin>>num;
+    for (int i = 0; i < num; i++)
+    {
+        a.push_back(rand()%100);
+    }
 
+    for (auto iter = a.begin(); iter != a.end(); iter++)
+    {
+        cout<<*iter<<" "; 
+    }
+    cout<<endl;
+
+    MaxPQ pq(a);
+    pq.show();
+    pq.max();
+
+    cout<<"max number "<<pq.size()<<endl;
+    num = pq.size();
+    for (int i = 0; i < num; i++)
+    {
+        pq.delMax();
+    }
+    return 0;
+}
 
 
 
