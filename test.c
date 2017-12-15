@@ -1,5 +1,48 @@
+#if 1
+#include <stdio.h>
+#include <signal.h>
 
-#if 1 // buff for file io 
+void segment_handle(int signum, siginfo_t* siginfo, void* context)
+{
+    char *signame;
+    ucontext_t* ucontext;
+    struct sigcontext* usigcontext;
+
+    switch (signum)
+    {
+      case SIGSEGV:
+          signame = "SIGSEGV";
+          break;
+      default:
+          break;
+    }
+    
+    ucontext = (ucontext_t*) context;
+    usigcontext = (struct sigcontext*) &(ucontext->uc_mcontext);
+    if (signum == SIGSEGV)
+    {
+        printf( "sig %s: segment fault addr=%016lx, pc=%016lx\n", 
+                signame, (long)(siginfo->si_addr), usigcontext->rip); 
+    }
+    
+    exit(0); // why can't use return
+}
+
+int main()
+{
+    //int *p = NULL;
+    char a[3] = {0};
+    int ret = 0;
+    struct sigaction sigact;
+    sigact.sa_sigaction = segment_handle;
+    sigact.sa_flags = SA_SIGINFO;
+    ret = sigaction(SIGSEGV, &sigact, NULL);
+    a[8000] = 1; // why 8000 seg, 7000 works well
+    return 0;
+}
+
+#endif
+#if 0 // buff for file io 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
