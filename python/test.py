@@ -1,7 +1,44 @@
 #!/usr/bin/env python3.5
 # -*- coding: utf-8 -*-  
 
+'''
+import asyncio
 
+async def compute(x, y):
+    print("Compute %s + %s ..." % (x, y))
+    await asyncio.sleep(1.0)
+    return x + y
+
+async def print_sum(x, y):
+    result = await compute(x, y)
+    print("%s + %s = %s" % (x, y, result))
+
+loop = asyncio.get_event_loop()
+loop.run_until_complete(print_sum(1, 2))
+loop.close()
+'''
+
+'''
+# asterisks in function parameters
+def function_with_one_star(*t):
+    print(t, type(t))
+
+def function_with_two_stars(**d):
+    print(d, type(d))
+
+function_with_one_star(1, 2, 3)
+function_with_two_stars(a = 1, b = 2, c = 3)
+
+def func(a=1, b=2, c=3):
+    print(a+b+c)
+func()
+func(4,5,6)
+func(2,3)
+func(100)
+'''
+
+'''
+#decorator
 def document_it(func):
     def new_function(*args, **kwargs):
         print('Running function:', func.__name__)
@@ -17,10 +54,6 @@ def add_ints(a, b):
 
 cooler_add_ints = document_it(add_ints)
 cooler_add_ints(3, 5)
-
-
-
-#decorator
 
 def log(func):
     print('call %s():' % func.__name__)
@@ -44,6 +77,7 @@ now('carl')
 @log
 def now1():
     print('2017-12-27')
+
 
 #log(now)()
 #now1()
@@ -86,6 +120,8 @@ def count1():
 
 f11, f22, f33 = count1()
 print(f11(), f22(), f33())
+#decorator end
+'''
 
 '''
 #socket
@@ -125,7 +161,6 @@ s.close()
 '''
 
 
-
 '''
 #yield from
 def inner():
@@ -163,8 +198,8 @@ print(type(g))
 g.send(None)
 for i in range(1,10):
     print(g.send(i))
-'''
 
+'''
 
 '''
 import threading
@@ -189,9 +224,6 @@ loop.run_until_complete(asyncio.wait(tasks2))
 loop.close()
 '''
 
-
-
-'''
 import asyncio
 @asyncio.coroutine
 def wget(host):
@@ -213,7 +245,6 @@ loop = asyncio.get_event_loop()
 tasks = [wget(host) for host in ['www.sina.com.cn', 'www.sohu.com', 'www.163.com']]
 loop.run_until_complete(asyncio.wait(tasks))
 loop.close()
-'''
 
 '''
 def consumer():
