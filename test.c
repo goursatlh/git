@@ -2,6 +2,23 @@
 #include <stdio.h>
 #include <signal.h>
 
+//char log[1024];
+#if 0
+void printReg()
+{
+    unsigned int spReg, lrReg, pcReg;
+    __asm
+    {
+        MOV spReg, __current_sp()
+        MOV pcReg, __current_pc()
+        MOV lrReg, __return_address()
+    }
+    printf("SP = 0x%X\n",spReg);
+    printf("PC = 0x%X\n",pcReg);
+    printf("LR = 0x%X\n",lrReg);
+}
+#endif
+
 void segment_handle(int signum, siginfo_t* siginfo, void* context)
 {
     char *signame;
@@ -13,19 +30,23 @@ void segment_handle(int signum, siginfo_t* siginfo, void* context)
       case SIGSEGV:
           signame = "SIGSEGV";
           break;
+      case SIGFPE:
+          signame = "SIGFPE";
+          break;
       default:
           break;
     }
     
     ucontext = (ucontext_t*) context;
     usigcontext = (struct sigcontext*) &(ucontext->uc_mcontext);
-    if (signum == SIGSEGV)
+    if ((signum == SIGSEGV) || (signum == SIGFPE))
     {
-        printf( "sig %s: segment fault addr=%016lx, pc=%016lx\n", 
-                signame, (long)(siginfo->si_addr), usigcontext->rip); 
+        printf( "sig %s: segment fault addr=%016lx, cs=%016lx, pc=%016lx, lr/r14=%016lx, r13=%016lx\n", 
+                signame, (long)(siginfo->si_addr), usigcontext->cs, usigcontext->rip, usigcontext->r14, usigcontext->r13 ); 
     }
+    //printReg();
     
-    exit(0); // why can't use return
+    exit(0); // why can't use return: exit() end of process;
 }
 
 int main()
@@ -37,7 +58,10 @@ int main()
     sigact.sa_sigaction = segment_handle;
     sigact.sa_flags = SA_SIGINFO;
     ret = sigaction(SIGSEGV, &sigact, NULL);
-    a[8000] = 1; // why 8000 seg, 7000 works well
+    ret = sigaction(SIGFPE, &sigact, NULL);
+    //a[8000] = 1; // why 8000 seg, 7000 works well
+    //printf("log %d\n", log);
+    ret = a[1]/0;
     return 0;
 }
 
