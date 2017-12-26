@@ -17,6 +17,17 @@ def get(path):
         return wrapper
     return decorator
 
+@asyncio.coroutine
+def response_factory(app, handler):
+    @asyncio.coroutine
+    def response(request):
+        r = yield from handler(request)
+        if isinstance(r, str):
+            resp = web.Response(body=r.encode('utf-8'))
+            resp.content_type = 'text/html;charset=utf-8'
+            return resp
+    return response
+
 class RequestHandler(object):
     def __init__(self, app, fn):
         self._app = app

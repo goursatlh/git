@@ -3,7 +3,7 @@ import logging; logging.basicConfig(level=logging.INFO)
 import asyncio,os,json,time
 from aiohttp import web
 from datetime import datetime
-from coroweb import add_routes
+from coroweb import add_routes,response_factory
 
 '''
 def index(request):
@@ -12,7 +12,7 @@ def index(request):
 
 @asyncio.coroutine
 def init(loop):
-    app = web.Application(loop=loop)
+    app = web.Application(loop=loop, middlewares=[response_factory])
     #app.router.add_route('GET', '/', index)
     add_routes(app, 'handlers')
     srv = yield from loop.create_server(app.make_handler(), '10.88.39.145', 9000)
