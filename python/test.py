@@ -2,6 +2,100 @@
 # -*- coding: utf-8 -*-  
 
 '''
+#@functools.warps()
+import functools
+
+def logged(func):
+    @functools.wraps(func)
+    def with_logging(*args, **kwargs):
+        print(func.__name__, " was called")
+        return func(*args, **kwargs)
+    return with_logging
+
+@logged
+def f(x):
+   """does some math"""
+   #print('call func 1')
+   return x + x * x
+
+print(f.__name__, f.__doc__)
+f(2)
+'''
+
+'''
+str = 'hello worldworld'
+ret = str.rfind('w')
+print(ret)
+str1 = str[ret+1:]
+print(str1)
+str2 = str[:ret]
+print(str2)
+'''
+
+'''
+# __call_ for class
+class App():
+    def __init__(self, a, b):
+        self.a = a
+        self.b = b
+    
+    def __call__(self, a, b):
+        self.a = a
+        self.b = b
+
+a = App(1,2)
+print(a.a, a.b)
+a(2,3)
+print(a.a, a.b)
+'''
+
+'''
+# variable namespace
+x = 'hello world'
+print(locals())
+
+def func():
+    print(locals())
+func()
+
+def func1(x):
+    print(locals())
+func1(x)
+
+
+def funcx(x, y):
+    print(x-y)
+funcx(5, 2)
+funcx(y=2, x=5)
+'''
+
+
+'''
+# getattr()/setattr()/hasattr()
+a = [1, 3, 0]
+f = getattr(a, '__len__')
+print(f)
+print(f())
+
+try:
+    setattr(a, 'name', 'test')
+except BaseException as e:
+    print("except: ", e)
+
+class a:
+    c = 1
+A = a()
+print(hasattr(A, 'c'))
+setattr(A, 'name', "test")
+setattr(a, 'name', "test")
+print(hasattr(A, 'name'))
+print(A.name)
+print(hasattr(a, 'name'))
+
+# so you can't use 'setattr()' to add attr to a build-in type, such as 'list', right?
+'''
+
+'''
 import asyncio
 
 async def compute(x, y):
@@ -68,23 +162,46 @@ def log1(func):
 def now(name):
     print('2017-11-27 ', name)
 
-#now('jerry') # why we use log1 not log to do the decorator ;   
-             # I want to use now() function at last, I don't want to use log(now()), because this changes logic and makes the code un-easily to understand
-#log(now)('jerry')
 now = log(now)
 now('carl')
+#log(now)('carl')
+#now('carl')
 
-@log
-def now1():
-    print('2017-12-27')
+@log1
+def now1(name):
+    print('2017-12-27', name)
+#now1('carl')
 
+#issues
+#1, why define a new function in log1. 
+#decorator end
+'''
 
-#log(now)()
-#now1()
-
-#how to process the input parameters if you want to use func as the func parameters
-
+'''
 #variable parameters
+
+def func_with_one_start(*t):
+    print(t, type(t))
+    for i in t:
+        print(i, end=' ')
+    print()
+
+def func_with_two_start(**t):
+    print(t, type(t))
+    for i,j in t.items():
+        print(i, ':', j, end=' ')
+    print()
+
+func_with_one_start(1, 2, 3)
+func_with_two_start(a=1, b=2, c=3)
+
+def func_1(a, *b):
+    print(a, b)
+    for i in b:
+        print(i)
+
+func_1(1, 20, 3)
+
 def lazy_sum(*args):
     def sumx():
         ax = 0
@@ -120,8 +237,10 @@ def count1():
 
 f11, f22, f33 = count1()
 print(f11(), f22(), f33())
-#decorator end
+
 '''
+
+#decorator end
 
 '''
 #socket
@@ -201,11 +320,61 @@ for i in range(1,10):
 
 '''
 
+
+##########################################################################
 '''
-import threading
+print("usage for coroutine and asyncio")
+
+#part1 
+def consumer():
+    r = ''
+    print('[CONSUMER] first in ')
+    while True:
+        n = yield r # if raise by send(args), n = args, if send(None)/next(), n = None.
+        print('[CONSUMER] get n ', n)
+        if not n:
+            print('return ', n)
+            return
+        print('[CONSUMER] Consuming %s...' % n)
+        r = '200 OK'
+
+def produce(c):
+    print('[PRODUCER] first in', type(c))
+    c.send(None)
+    print('[PRODUCER] come here')
+    n = 0
+    while n < 5:
+        n = n + 1
+        print('[PRODUCER] Producing %s...' % n)
+        r = c.send(n)
+        print('[PRODUCER] Consumer return: %s' % r)
+    c.close()
+
+c = consumer()
+#produce(c)
+'''
+
+'''
+#part2 
 import asyncio
 
 @asyncio.coroutine
+def hello():
+    print("Hello world!")
+    r = yield from asyncio.sleep(3)
+    print("Hello again!")
+print("Is coroutine ?", asyncio.iscoroutinefunction(hello))
+
+loop = asyncio.get_event_loop()
+print(type(loop))
+loop.run_until_complete(hello())
+loop.close()
+'''
+
+#part3
+'''
+import threading
+#@asyncio.coroutine
 def hello():
     print('Hello world! (%s)' % threading.currentThread())
     yield from asyncio.sleep(1)
@@ -216,6 +385,8 @@ async def hello2():
     await asyncio.sleep(1)
     print('Hello again 3.5! (%s)' % threading.currentThread())
 
+
+print(type(hello))
 loop = asyncio.get_event_loop()
 tasks = [hello(), hello()]
 tasks2 = [hello2(), hello2()]
@@ -223,8 +394,8 @@ loop.run_until_complete(asyncio.wait(tasks))
 loop.run_until_complete(asyncio.wait(tasks2))
 loop.close()
 '''
-
-import asyncio
+#part4
+'''
 @asyncio.coroutine
 def wget(host):
     print('wget %s...' % host)
@@ -245,46 +416,10 @@ loop = asyncio.get_event_loop()
 tasks = [wget(host) for host in ['www.sina.com.cn', 'www.sohu.com', 'www.163.com']]
 loop.run_until_complete(asyncio.wait(tasks))
 loop.close()
-
 '''
-def consumer():
-    r = ''
-    while True:
-        n = yield r # if raise by send(args), n = args, if send(None)/next(), n = None.
-        if not n:
-            return
-        print('[CONSUMER] Consuming %s...' % n)
-        r = '200 OK'
+#####################################################################################
 
-def produce(c):
-    c.send(None)
-    n = 0
-    while n < 5:
-        n = n + 1
-        print('[PRODUCER] Producing %s...' % n)
-        r = c.send(n)
-        print('[PRODUCER] Consumer return: %s' % r)
-    c.close()
 
-c = consumer()
-produce(c)
-'''
-
-'''
-print("usage for asyncio")
-import asyncio
-
-@asyncio.coroutine
-def hello():
-    print("Hello world!")
-    r = yield from asyncio.sleep(10)
-    print("Hello again!")
-
-loop = asyncio.get_event_loop()
-loop.run_until_complete(hello())
-print("close")
-loop.close()
-'''
 
 '''
 print("usage for ftp")
