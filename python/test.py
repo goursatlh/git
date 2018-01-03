@@ -1,9 +1,22 @@
 #!/usr/bin/env python3.5
 # -*- coding: utf-8 -*-  
 
+import sys 
+import tkinter
+import matplotlib.pyplot as plt
+
+x = range(1000)
+y = [sys.getrefcount(i) for i in x]
+fig, ax = plt.subplots()
+plt.plot(x, y, '.')
+ax.set_xlabel('number')
+ax.set_ylabel('sys.getrefcount(number)')
+plt.show()
+
 '''
 #@functools.warps()
 import functools
+
 
 def logged(func):
     @functools.wraps(func)
