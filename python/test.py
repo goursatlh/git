@@ -1,7 +1,37 @@
 #!/usr/bin/env python3.5
 # -*- coding: utf-8 -*-  
+'''
+def extendList(val, list=[]):
+    list.append(val)
+    return list
 
-import sys 
+list1 = extendList(10)
+list2 = extendList(123,[])
+list3 = extendList('a')
+
+print("list1 = %s" % list1)
+print("list2 = %s" % list2)
+print("list3 = %s" % list3)
+'''
+
+f = lambda  x: x * x 
+print(f(2))
+
+l = [f(x) for x in range(4)]
+print(l)
+
+def multipliers():
+  return [lambda x : i * x for i in range(4)]
+
+print([m(2) for m in multipliers()])
+
+l = [i for i in range(10) if i % 2 == 0]
+print(l)
+
+
+'''
+# matplotlib
+import sys
 import tkinter
 import matplotlib.pyplot as plt
 
@@ -12,6 +42,7 @@ plt.plot(x, y, '.')
 ax.set_xlabel('number')
 ax.set_ylabel('sys.getrefcount(number)')
 plt.show()
+'''
 
 '''
 #@functools.warps()
