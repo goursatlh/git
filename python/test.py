@@ -1,6 +1,23 @@
 #!/usr/bin/env python3.5
 # -*- coding: utf-8 -*-  
 '''
+def greeting_conf(prefix):
+    def greeting(name):
+        print(prefix, name)
+    return greeting
+
+mGreeting = greeting_conf("Good Morning")
+mGreeting("Wilber")
+mGreeting("Will")
+
+aGreeting = greeting_conf("Good Afternoon")
+aGreeting("Wilber")
+aGreeting("Will")
+
+print(type(mGreeting.__closure__[0]))
+print(mGreeting.__closure__[0].cell_contents)
+'''
+'''
 def extendList(val, list=[]):
     list.append(val)
     return list
@@ -14,6 +31,16 @@ print("list2 = %s" % list2)
 print("list3 = %s" % list3)
 '''
 
+'''
+import random
+
+l = [ random.randint(1, 100) for i in range(10)]
+print(l)
+print(l[::2])
+print([ i for i in l[::2] if i % 2 == 0])
+
+
+
 f = lambda  x: x * x 
 print(f(2))
 
@@ -21,13 +48,14 @@ l = [f(x) for x in range(4)]
 print(l)
 
 def multipliers():
-  return [lambda x : i * x for i in range(4)]
+  #return [lambda x : i * x for i in range(4)]
+  return [lambda x,i=i : i * x for i in range(4)] 
 
 print([m(2) for m in multipliers()])
 
 l = [i for i in range(10) if i % 2 == 0]
 print(l)
-
+'''
 
 '''
 # matplotlib
