@@ -1,6 +1,7 @@
 #!/usr/bin/env python3.5
 # -*- coding: utf-8 -*-  
-'''
+
+#closure
 def greeting_conf(prefix):
     def greeting(name):
         print(prefix, name)
@@ -14,9 +15,39 @@ aGreeting = greeting_conf("Good Afternoon")
 aGreeting("Wilber")
 aGreeting("Will")
 
+print(type(mGreeting))
 print(type(mGreeting.__closure__[0]))
 print(mGreeting.__closure__[0].cell_contents)
-'''
+
+def multipliers():
+  return [lambda x : i * x for i in range(4)]
+
+def multipliers():
+    l = []
+    j = 2
+    for i in range(4):
+        print('id for i ', id(i))
+        def func(x):
+            return x*i*j
+        l.append(func)
+    return l
+
+#print([m(2) for m in multipliers()])
+
+l1 = multipliers()
+print(type(l1), type(l1[0]))
+f = l1[0]
+print(dir(f))
+print(id(f.__closure__[0].cell_contents))
+print(f.__closure__[0].cell_contents)
+print(f.__closure__[1].cell_contents)
+
+f2 = l1[1]
+print(id(f2.__closure__[0].cell_contents))
+print(f2.__closure__[0].cell_contents)
+
+
+
 '''
 def extendList(val, list=[]):
     list.append(val)
