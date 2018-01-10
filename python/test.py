@@ -1,6 +1,18 @@
 #!/usr/bin/env python3.5
 # -*- coding: utf-8 -*-  
 
+'''
+list = [ [ ] ] * 5
+print(list, len(list))
+list[0].append(10)
+print(list)
+list[1].append(20)
+print(list)
+list.append(30)
+print(list)
+'''
+
+'''
 #closure
 def greeting_conf(prefix):
     def greeting(name):
@@ -24,15 +36,16 @@ def multipliers():
 
 def multipliers():
     l = []
-    j = 2
+    j = 238
     for i in range(4):
         print('id for i ', id(i))
-        def func(x):
+        #def func(x, i=i):
+        def func(x, i=i): # i is nolong a closure element
             return x*i*j
         l.append(func)
     return l
 
-#print([m(2) for m in multipliers()])
+print([m(2) for m in multipliers()])
 
 l1 = multipliers()
 print(type(l1), type(l1[0]))
@@ -40,13 +53,12 @@ f = l1[0]
 print(dir(f))
 print(id(f.__closure__[0].cell_contents))
 print(f.__closure__[0].cell_contents)
-print(f.__closure__[1].cell_contents)
+#print(f.__closure__[1].cell_contents)
 
 f2 = l1[1]
 print(id(f2.__closure__[0].cell_contents))
 print(f2.__closure__[0].cell_contents)
-
-
+'''
 
 '''
 def extendList(val, list=[]):
