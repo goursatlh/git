@@ -147,22 +147,138 @@ str2 = str[:ret]
 print(str2)
 '''
 
-'''
-# __call_ for class
+# class
 class App():
+    c = 200
     def __init__(self, a, b):
         self.a = a
         self.b = b
+        c = 5
+    def app1(self, val):
+        App.c = val
     
+# __call_ for class
     def __call__(self, a, b):
         self.a = a
         self.b = b
 
 a = App(1,2)
-print(a.a, a.b)
+print(a.a, a.b, a.c, App.c)
 a(2,3)
 print(a.a, a.b)
-'''
+
+a.app1(22)
+
+b = App(10,20)
+print(b.a, b.b, b.c, App.c)
+
+#class attribute and instance attribute
+class A():
+    name = "this is A"
+class B(A):
+    pass
+b = B()
+b.name = "this is B" #instance attribute will override the class attribute which has the same name
+print("B.name", B.name)
+print("b.name", b.name)
+c = B()
+print("c.name", c.name)
+
+
+
+
+# classmathod
+class Kls(object):
+    no_inst = 0
+    def __init__(self):
+        Kls.no_inst = Kls.no_inst + 1
+        self.no_inst = 22
+    @classmethod
+    def get_no_of_instance(self): #input para is class, not instance
+        return self.no_inst
+
+ik1 = Kls()
+print(ik1.get_no_of_instance())
+ik2 = Kls()
+print(ik1.get_no_of_instance())
+print(ik2.get_no_of_instance())
+print(ik2.get_no_of_instance.__name__)
+
+#class type
+class Student(object):
+    "decribe class Student"
+    __x = 2
+    def __init__(self, name, score):
+        self.name = name
+        self.__score = score 
+    def printc(self):
+        print(self.name, self.__score, self.__x)
+
+r = Student("walter", 20)
+#print(r.__x)
+print(dir(r))
+r.printc()
+#print(r.__score) #error, private element, can't be accessed outside of the class
+#r.__x = 22 #equal to add a new public element for object r
+#print(r.__x)
+print(r._Student__score) #not recommend
+
+#inherit
+class animal():
+    def printx(self):
+        print("this is animal...")
+class cat(animal):
+    def printx(self):
+        print("this is cat...")
+class people():
+    def printx(self):
+        print("this is people...")
+a = animal()
+a.printx()
+c = cat()
+c.printx()
+print(isinstance(c, animal))
+p = people()
+print(isinstance(p, animal))
+
+#polymorphic
+def run(animal):  #file-like object
+    animal.printx()
+run(a)
+run(c)
+run(p)
+
+#advanced 
+# __slots__ list the attributes of the class, you can't add a new member that isn't in slots
+class AA:
+    __slots__ = ("name", "score")
+    def __init__(self, name ,score):
+        self.name = name
+        self.score = score
+a = AA("walter", 90) 
+#a.age = 18 # this element is not in the __slots__
+print(a.name, a.score)
+print(a.__slots__)
+
+# @property change attribute to functions
+class Student():
+    #@property
+    def score(self): #equire to get_score()
+        print("get") 
+        return self._score
+    #@score.setter
+    def score(self, score): #equire to set_score()
+        if not isinstance(score, int):
+            raise ValueError("score must be an int")
+        if score < 0 or score > 100:
+            raise ValueError("score must be in (0,100)")
+        print("set", score)
+        self._score = score
+s = Student()
+print(type(s.score))
+s.score = 99
+print(s.score)
+#print(s.score) # you can only to use s.score, s.score = xx, you can't use s.score()/s.score(value)
 
 '''
 # variable namespace
@@ -704,24 +820,34 @@ print("In global scope:", spam)
 
 saw = "hello"
 def testxx():
-    nonlocal saw
+    #nonlocal saw
     saw = "world"
     print("testxx saw ", saw)
 testxx()
 
 def test():
     def do_nonlocal():
-        spam = "fuck"
-        nonlocal spam
+        nonlocal spam2
+        spam2 = "fuck"
         def do_nonlocal2():
-            nonlocal spam
-            spam = "nonlocal2 spam"
+            nonlocal spam2
+            spam2 = "nonlocal2 spam"
         do_nonlocal2()
-    spam = "test spam"
+    
+    spam2 = "test spam"
     do_nonlocal()
-    print("after nonlocal2 asssignment:", spam)
+    print("after nonlocal2 asssignment:", spam2)
 test()
 
+
+sam = 'fuck'
+def func12():
+    #print(sam) # error, sam in this function hides sam in the global namespace
+    sam = 'you'
+func12()
+'''
+
+'''
 #strip(),rstrip(),lstrip()
 str = " hello  \n";
 print(str)
@@ -1230,48 +1356,8 @@ while True:
         print("catch an error: ", e.value)
         break
 
-#class type
-class Student(object):
-    "decribe class Student"
-    __x = 2
-    def __init__(self, name, score):
-        self.name = name
-        self.__score = score 
-    def printc(self):
-        print(self.name, self.__score, self.__x)
 
-r = Student("walter", 20)
-print(dir(r))
-r.printc()
-#print(r.__score) #error, private element, can't be accessed outside of the class
-#r.__x = 22 #equal to add a new public element for object r
-#print(r.__x)
-print(r._Student__score) #not recommend
 
-#inherit
-class animal():
-    def printx(self):
-        print("this is animal...")
-class cat(animal):
-    def printx(self):
-        print("this is cat...")
-class people():
-    def printx(self):
-        print("this is people...")
-a = animal()
-a.printx()
-c = cat()
-c.printx()
-print(isinstance(c, animal))
-p = people()
-print(isinstance(p, animal))
-
-#polymorphic
-def run(animal):  #file-like object
-    animal.printx()
-run(a)
-run(c)
-run(p)
 
 #type()/isinstance()/dir()
 print("a is ", type(a))
@@ -1280,18 +1366,6 @@ print("p is ", type(a))
 print(dir(a))
 print(a.__sizeof__())
 print(dir("hello"))
-
-#class attribute and instance attribute
-class A():
-    name = "this is A"
-class B(A):
-    pass
-b = B()
-b.name = "this is B" #instance attribute will override the class attribute which has the same name
-print(B.name)
-print(b.name)
-c = B()
-print(c.name)
 
 #advanced 
 # __slots__
@@ -1330,27 +1404,4 @@ print(type(s.score))
 #s.score("walter")
 #s.score = "walter"
 #s.score = 99
-
-#classmethod
-class Kls(object):
-    no_inst = 0
-    def __init__(self):
-        Kls.no_inst = Kls.no_inst + 1
-        self.no_inst = 22
-    @classmethod
-    def get_no_of_instance(self): #input para is class, not instance
-        return self.no_inst
-
-ik1 = Kls()
-print(ik1.get_no_of_instance())
-ik2 = Kls()
-print(ik1.get_no_of_instance())
-print(ik2.get_no_of_instance())
-print(ik2.get_no_of_instance.__name__)
-
-def printx():
-    print("hello world")
-f = printx
-f()
-print(printx.__name__, f.__name__)
 '''
