@@ -1,4 +1,24 @@
-#if 1
+#if 1 // get/set system time
+
+#include <time.h>
+#include <stdio.h>
+
+int main()
+{
+    struct timespec res;
+
+    clock_gettime(CLOCK_MONOTONIC, &res);
+    printf("time %u %u\n", res.tv_sec, res.tv_nsec);
+
+    return 0;
+}
+
+
+
+#endif
+
+
+#if 0
 #include <stdio.h>
 #include <signal.h>
 
