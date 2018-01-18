@@ -1,3 +1,18 @@
+#if 1 // minimum spanning tree
+class EdgeWeightedGraph
+{
+public:
+    EdgeWeightedGraph(int v) {}
+private:
+
+};
+
+int main()
+{
+    return 0;
+}
+#endif
+
 #if 1 /* priority queue */ 
 
 #include <vector>
