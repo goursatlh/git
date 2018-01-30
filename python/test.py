@@ -2,6 +2,56 @@
 # -*- coding: utf-8 -*-  
 
 '''
+# copy(shallow and deep) and assignment
+L = [1, 12] 
+L1 = L
+L2 = L.copy()
+L3 = list(L)
+
+print('L ', id(L), L)
+print('L1', id(L1), L1)
+print('L2', id(L2), L2)
+print('L3', id(L2), L2)
+
+L1[1] = 39
+print('L', L)
+print('L1', L1)
+print('L2', L2)
+
+
+will = ["Will", 28, ["Python", "C#", "JavaScript"]]
+wilber = will
+print("id", id(will), will, "id ele", [id(ele) for ele in will])
+print("id", id(wilber), wilber, "id ele", [id(ele) for ele in wilber])
+ 
+will[0] = "Wilber"
+will[2].append("CSS")
+print("id", id(will), will, "id ele", [id(ele) for ele in will])
+print("id", id(wilber), wilber, "id ele", [id(ele) for ele in wilber])
+
+print("shallow copy")
+wilber2 = list(will)
+print("id", id(wilber2), wilber2, "id ele", [id(ele) for ele in wilber2])
+will[0] = "Hello"
+will[2].append("CPP")
+print("id", id(will), will, "id ele", [id(ele) for ele in will])
+print("id", id(wilber2), wilber2, "id ele", [id(ele) for ele in wilber2])
+
+will2 = will[:]
+print("id", id(will), will, "id ele", [id(ele) for ele in will])
+print("id", id(will2), will2, "id ele", [id(ele) for ele in will2])
+
+print("deep copy")
+import copy
+wilber3 = copy.deepcopy(will)
+print("id", id(will), will, "id ele", [id(ele) for ele in will])
+print("id", id(wilber2), wilber3, "id ele", [id(ele) for ele in wilber3])
+will[2].append("Shell")
+print("id", id(will), will, "id ele", [id(ele) for ele in will])
+print("id", id(wilber2), wilber3, "id ele", [id(ele) for ele in wilber3])
+'''
+
+'''
 list = [ [ ] ] * 5
 print(list, len(list))
 list[0].append(10)
@@ -147,6 +197,7 @@ str2 = str[:ret]
 print(str2)
 '''
 
+'''
 # class
 class App():
     c = 200
@@ -185,8 +236,6 @@ c = B()
 print("c.name", c.name)
 
 
-
-
 # classmathod
 class Kls(object):
     no_inst = 0
@@ -201,10 +250,9 @@ ik1 = Kls()
 print(ik1.get_no_of_instance())
 ik2 = Kls()
 print(ik1.get_no_of_instance())
-print(ik2.get_no_of_instance())
-print(ik2.get_no_of_instance.__name__)
+print(ik1.no_inst, ik2.no_inst)
 
-#class type
+# class type
 class Student(object):
     "decribe class Student"
     __x = 2
@@ -223,7 +271,7 @@ r.printc()
 #print(r.__x)
 print(r._Student__score) #not recommend
 
-#inherit
+# inherit
 class animal():
     def printx(self):
         print("this is animal...")
@@ -248,7 +296,7 @@ run(a)
 run(c)
 run(p)
 
-#advanced 
+#advanced features 
 # __slots__ list the attributes of the class, you can't add a new member that isn't in slots
 class AA:
     __slots__ = ("name", "score")
@@ -279,6 +327,8 @@ print(type(s.score))
 s.score = 99
 print(s.score)
 #print(s.score) # you can only to use s.score, s.score = xx, you can't use s.score()/s.score(value)
+'''
+
 
 '''
 # variable namespace
