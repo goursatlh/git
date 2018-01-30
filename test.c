@@ -1,14 +1,24 @@
-#if 1 // get/set system time
+#if 1 // get/set system time and mtrace
 
 #include <time.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 int main()
 {
     struct timespec res;
-
+    int ret = 0;
+    setenv("MALLOC_TRACE", "memory-leak.log", "1");  
+    mtrace(); 
     clock_gettime(CLOCK_MONOTONIC, &res);
     printf("time %u %u\n", res.tv_sec, res.tv_nsec);
+
+    char *p = malloc(2000);
+
+    char *p2 = p;
+
+    if (ret)
+        free(p2);
 
     return 0;
 }
