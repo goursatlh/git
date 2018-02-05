@@ -905,6 +905,7 @@ print(str.strip())
 print(str.rstrip())
 print(str.lstrip())
 print("strip end")
+'''
 
 # rex in python
 import re
@@ -912,10 +913,18 @@ import os # execute shell command in .py
 
 fs = os.popen("who", "r")
 for eachline in fs:
-    print(eachline.rstrip())
-    print(re.split(r"\s\s+", eachline.rstrip()))
+    #print(eachline.rstrip())
+    print(re.split(r"\s+", eachline.rstrip()))
+    #print(re.match(r"\d+", eachline.rstrip()))
+    print(re.match(r"[0-9a-zA-Z\-]+", eachline.rstrip()))
 fs.close()
 
+m = re.match(r"^(\d{3})-(\d{8})$", "010-12345678")
+print(m.group(0))
+print(m.group(1))
+print(m.group(2))
+
+'''
 # file io
 f = open("txt", "r+")         
 print("read1: ", f.read().strip())
