@@ -1,4 +1,39 @@
-#if 1 // get/set system time and mtrace
+
+
+
+#if 0 // endian
+#include <stdio.h>
+#include <arpa/inet.h>
+
+int check1()  
+{  
+    int i = 1; //1在内存中的表示： 0x00000001  
+    char *pi = (char *)&i; //将int型的地址强制转换为char型  
+    return *pi == 0; //如果读取到的第一个字节为1，则为小端法，为0，则为大端法  
+}  
+
+
+int main()
+{
+    printf("int size %d\n", sizeof(int));
+    if (check1())
+        printf("Your system is big endian.\n");
+    else
+        printf("Your system is little endian.\n");
+    
+    int a = 0x12345678;
+    // little endian
+    printf("%x %x %x %x\n", *((char *)(&a)), *((char *)(&a)+1), *((char *)(&a)+2), *((char *)(&a)+3));
+    a = htonl(a);
+    // big endian
+    printf("%x %x %x %x\n", *((char *)(&a)), *((char *)(&a)+1), *((char *)(&a)+2), *((char *)(&a)+3));
+    return 0;
+}
+
+#endif
+
+
+#if 0 // get/set system time and mtrace
 
 #include <time.h>
 #include <stdio.h>
