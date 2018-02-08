@@ -1,4 +1,85 @@
+#if 1 //flock
+#include <stdio.h>
+#include <pthread.h>
+#include <sys/file.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <string.h>
 
+
+void readfile_thread(char *filepath)
+{
+    int fd = open(filepath, O_RDONLY);
+    if (fd == -1)
+    {
+        printf("read file error, %s.\n", strerror(errno));
+        return;
+    }
+    flock(fd, LOCK_EX);
+    printf("lock the file for read.\n");
+    sleep(100);
+    printf("sub process end.\n");
+    close(fd);
+    return;
+}
+
+int main()
+{
+    char filepath[] = "/home/wt/code/git/tmp.txt";
+    pthread_t thread_id;
+
+    pthread_create(&thread_id, NULL, readfile_thread, filepath);
+
+    sleep(2);
+    int fd = open(filepath, O_RDONLY);
+    if (fd == -1)
+    {
+        printf("read file error, %s.\n", strerror(errno));
+        return;
+    }
+    flock(fd, LOCK_EX);
+    printf("main process end.\n");
+    return 0;
+}
+
+
+#endif
+
+
+#if 0 // system() issue
+#include <stdio.h>
+#include <signal.h>
+#include <string.h>
+#include <errno.h>
+
+typedef void (*sighandler_t)(int);
+int pox_system(const char *cmd_line)
+{
+   int ret = 0;
+   sighandler_t old_handler;
+
+   //old_handler = signal(SIGCHLD, SIG_DFL);
+   old_handler = signal(SIGCHLD, SIG_IGN);
+   ret = system(cmd_line);
+   printf("system return %d\n", ret);
+   signal(SIGCHLD, old_handler);
+
+   return ret;
+}
+
+
+int main()
+{
+    int err = 0;
+    err = pox_system("who");
+    if (err != 0)
+        printf("execute who failed, %s.\n", strerror(errno)); 
+    return 0;
+}
+
+#endif
 
 
 #if 0 // endian
