@@ -1,9 +1,37 @@
 #!/usr/bin/env python3.5
 # -*- coding: utf-8 -*-  
+'''
+import fcntl
+import os, time
+
+FILE = "/home/wt/code/git/tmp.txt"
+if not os.path.exists(FILE): # create the counter file if it doesn't exist 
+  file = open(FILE, "w")
+  file.write("0")
+  file.close()
+
+for i in range(20):
+  file = open(FILE, "r+")
+  print("\ntry acquire lock...")
+  fcntl.flock(file.fileno(), fcntl.LOCK_EX)
+  print('acquire lock success')
+
+  counter = int(file.readline()) + 1
+
+  file.seek(0)
+  file.write(str(counter))
+  print(os.getpid(), "=>", counter)
+
+  time.sleep(2)
+  file.close() # unlocks the file 
+
+  print('release lock')
+'''
+
 
 '''
 # copy(shallow and deep) and assignment
-L = [1, 12] 
+L = [1, 12]
 L1 = L
 L2 = L.copy()
 L3 = list(L)
@@ -899,14 +927,21 @@ func12()
 
 '''
 #strip(),rstrip(),lstrip()
-str = " hello  \n";
+#Return a copy of the string S with leading whitespace removed.
+str = "   hello world    \n";
 print(str)
 print(str.strip())
 print(str.rstrip())
 print(str.lstrip())
-print("strip end")
+
+str1 = "***hello world    ***";
+print(str1)
+print(str1.strip('*'))  # * can't be identified if lines end with \n
+print(str1.rstrip('*'))
+print(str1.lstrip('*'))
 '''
 
+'''
 # rex in python
 import re
 import os # execute shell command in .py
@@ -923,11 +958,12 @@ m = re.match(r"^(\d{3})-(\d{8})$", "010-12345678")
 print(m.group(0))
 print(m.group(1))
 print(m.group(2))
+'''
 
 '''
 # file io
 f = open("txt", "r+")         
-print("read1: ", f.read().strip())
+print("read1: ", f.read().strip()) # read all data from this file
 print("read2: ", f.read().strip())
 f.write("fuck you then\n")
 f.seek(0)
@@ -947,7 +983,9 @@ f.seek(0)
 for i in f:
     print(i.strip())
 f.close()
+'''
 
+'''
 # join()
 str = "-"
 #seq = [1", "2", "3", "4"]
