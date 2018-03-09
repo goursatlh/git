@@ -4,14 +4,13 @@ int flag = 0;
 
 void *send_func(void *arg)
 {
-    	char send_msg[MAX_LEN] = {0};
-    	char *psend = NULL;
+	char send_msg[MAX_LEN] = { 0 };
+	char *psend = NULL;
 	int iRet = 0;
-	thread_s *threads = (thread_s *)arg;
+	thread_s *threads = (thread_s *) arg;
 	int iFd = threads->fd;
-	
-	LOG("send thread start")
-	while (1)
+
+	LOG("send thread start") while (1)
 	{
 		printf("$: ");
 		psend = gets(send_msg);
@@ -19,17 +18,19 @@ void *send_func(void *arg)
 		{
 			if (!strcmp(psend, "quit"))
 			{
-			    	flag = 1;
-			    	LOG("Goodbye, send exit.");
+				flag = 1;
+				LOG("Goodbye, send exit.");
 				return;
 			}
 		}
 
-		iRet = sendto(iFd, send_msg, sizeof(send_msg), 0, 
-			     (struct sockaddr *)(threads->addr), sizeof(struct sockaddr));
+		iRet = sendto(iFd, send_msg, sizeof(send_msg), 0,
+			      (struct sockaddr *)(threads->addr),
+			      sizeof(struct sockaddr));
 		if (iRet <= 0)
 		{
-			LOG("send msg failed, msg: %s, err reason: %s", send_msg, strerror(errno));
+			LOG("send msg failed, msg: %s, err reason: %s",
+			    send_msg, strerror(errno));
 		}
 	}
 	return;
@@ -37,27 +38,28 @@ void *send_func(void *arg)
 
 void *recv_func(void *arg)
 {
-    	char recv_msg[MAX_LEN] = {0};
+	char recv_msg[MAX_LEN] = { 0 };
 	int iRet = 0;
 	fd_set rset;
-	struct timeval time = {0};
-	thread_s *thread = (thread_s *)arg;
+	struct timeval time = { 0 };
+	thread_s *thread = (thread_s *) arg;
 	int iFd = thread->fd;
 
-	LOG("recv thread start")
-	while(1)
+	LOG("recv thread start") while (1)
 	{
-	//	FD_ZERO(&rset);
-	    	FD_SET(iFd, &rset);
+		//      FD_ZERO(&rset);
+		FD_SET(iFd, &rset);
 		time.tv_sec = 5;
-	    	
-		iRet = select(iFd+1, &rset, NULL, NULL, &time);
+
+		iRet = select(iFd + 1, &rset, NULL, NULL, &time);
 		if (iRet > 0)
 		{
-		    	LOG("fd is readable, %d", iRet);
-		    	if (FD_ISSET(iFd, &rset))
+			LOG("fd is readable, %d", iRet);
+			if (FD_ISSET(iFd, &rset))
 			{
-				iRet = recvfrom(iFd, recv_msg, sizeof(recv_msg), 0, NULL, NULL);
+				iRet =
+				    recvfrom(iFd, recv_msg, sizeof(recv_msg), 0,
+					     NULL, NULL);
 				if (iRet > 0)
 				{
 					recv_msg[iRet] = '\0';

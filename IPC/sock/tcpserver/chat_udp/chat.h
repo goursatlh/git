@@ -15,11 +15,10 @@ extern int flag;
 
 typedef struct threads
 {
-    	int fd;
+	int fd;
 	struct sockaddr_in *addr;
-}thread_s;
+} thread_s;
 
 void *send_func(void *arg);
 
 void *recv_func(void *arg);
-

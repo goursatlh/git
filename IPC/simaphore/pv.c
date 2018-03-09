@@ -9,9 +9,7 @@ int mutexid;
 void getsema(int semid, char *str)
 {
 	union semun arg;
-
 	int semval = 0xffffffff;
-
 	semval = semctl(semid, 0, GETVAL);
 	printf("%s: value %d\n", str, semval);
 }
@@ -19,9 +17,7 @@ void getsema(int semid, char *str)
 int main()
 {
 	int chld, i, j;
-
 	struct sembuf p, v;
-
 	union semun arg;
 
 	mutexid = semget(IPC_PRIVATE, 1, 0666 | IPC_CREAT);

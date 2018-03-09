@@ -15,13 +15,12 @@ int flag = 0;
 
 void *send_func(void *arg)
 {
-    	char send_msg[MAX_LEN] = {0};
-    	char *psend = NULL;
+	char send_msg[MAX_LEN] = { 0 };
+	char *psend = NULL;
 	int iRet = 0;
 	int iFd = *((int *)arg);
-	
-	LOG("send thread start")
-	while (1)
+
+	LOG("send thread start") while (1)
 	{
 		printf("$: ");
 		psend = gets(send_msg);
@@ -29,8 +28,8 @@ void *send_func(void *arg)
 		{
 			if (!strcmp(psend, "quit"))
 			{
-			    	flag = 1;
-			    	LOG("Goodbye, send exit.");
+				flag = 1;
+				LOG("Goodbye, send exit.");
 				return;
 			}
 		}
@@ -51,21 +50,20 @@ void *send_func(void *arg)
 
 void *recv_func(void *arg)
 {
-    	char recv_msg[MAX_LEN] = {0};
+	char recv_msg[MAX_LEN] = { 0 };
 	int iRet = 0;
 	int iFd = *((int *)arg);
 	fd_set rset;
-	struct timeval time = {0};
+	struct timeval time = { 0 };
 
-	LOG("recv thread start")
-	while(1)
+	LOG("recv thread start") while (1)
 	{
 		FD_SET(iFd, &rset);
 		time.tv_sec = 5;
-	    	iRet = select(iFd+1, &rset, NULL, NULL, &time);
+		iRet = select(iFd + 1, &rset, NULL, NULL, &time);
 		if (iRet > 0)
 		{
-		    	if (FD_ISSET(iFd, &rset))
+			if (FD_ISSET(iFd, &rset))
 			{
 				iRet = recv(iFd, recv_msg, sizeof(recv_msg), 0);
 				if (iRet > 0)

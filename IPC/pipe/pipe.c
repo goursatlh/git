@@ -9,14 +9,14 @@ int main(void)
 	char line[256];
 
 	if (pipe(fd) < 0)
-        {
+	{
 		printf("pipe error");
-                goto EXIT;
-        }
+		goto EXIT;
+	}
 	if ((pid = fork()) < 0)
 	{
 		printf("fork error");
-                goto EXIT;
+		goto EXIT;
 	}
 	else if (pid > 0)
 	{			/* parent */
@@ -24,7 +24,7 @@ int main(void)
 		close(fd[0]);
 		write(fd[1], "hello world\n", 12);
 		//close(fd[1]); //if close here, the read2 in son_process will return 0; if no close, the read2 will block;
-                sleep(1000);
+		sleep(1000);
 	}
 	else
 	{			/* child */
@@ -33,11 +33,11 @@ int main(void)
 		n = read(fd[0], line, 256);
 		if (n > 0)
 			printf("read: %s\n", line);
-                
-		n = read(fd[0], line, 256); //read2 
+
+		n = read(fd[0], line, 256);	//read2 
 		printf("read %d\n", n);
 	}
-EXIT:
+      EXIT:
 	return 0;
 }
 

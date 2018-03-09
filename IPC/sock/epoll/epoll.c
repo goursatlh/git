@@ -44,26 +44,26 @@ int main()
 	ssize_t n;
 	char line[MAXLINE];
 	socklen_t clilen;
-	struct epoll_event ev, events[20];	
+	struct epoll_event ev, events[20];
 	struct sockaddr_in clientaddr;
 	struct sockaddr_in serveraddr;
 
-	epfd = epoll_create(256);	
+	epfd = epoll_create(256);
 
 	listenfd = socket(AF_INET, SOCK_STREAM, 0);
 
-	setnonblocking(listenfd);	
+	setnonblocking(listenfd);
 
-	ev.data.fd = listenfd;	
-	ev.events = EPOLLIN | EPOLLET;	
-	epoll_ctl(epfd, EPOLL_CTL_ADD, listenfd, &ev);	
+	ev.data.fd = listenfd;
+	ev.events = EPOLLIN | EPOLLET;
+	epoll_ctl(epfd, EPOLL_CTL_ADD, listenfd, &ev);
 
 	bzero(&serveraddr, sizeof(serveraddr));
 	serveraddr.sin_family = AF_INET;
 	char *local_addr = "200.200.200.204";
 
 	inet_aton(local_addr, &(serveraddr.sin_addr));
-	serveraddr.sin_port = htons(SERV_PORT);	
+	serveraddr.sin_port = htons(SERV_PORT);
 
 	bind(listenfd, (sockaddr *) & serveraddr, sizeof(serveraddr));
 
@@ -73,30 +73,33 @@ int main()
 
 	for (;;)
 	{
-		nfds = epoll_wait(epfd, events, 20, 500);	
-		for (i = 0; i < nfds; ++i)//only notify the little fd sets.	
+		nfds = epoll_wait(epfd, events, 20, 500);
+		for (i = 0; i < nfds; ++i)	//only notify the little fd sets.     
 		{
 			if (events[i].data.fd == listenfd)
 			{
-				connfd = accept(listenfd, (sockaddr *) & clientaddr, &clilen);
+				connfd =
+				    accept(listenfd, (sockaddr *) & clientaddr,
+					   &clilen);
 				if (connfd < 0)
 				{
 					perror("connfd<0");
 					exit(1);
 				}
 
-				setnonblocking(connfd);	
+				setnonblocking(connfd);
 
 				char *str = inet_ntoa(clientaddr.sin_addr);
 
-				std::cout << "connect from " << str << std::endl;
+				std::cout << "connect from " << str << std::
+				    endl;
 
-				ev.data.fd = connfd;	
-				ev.events = EPOLLIN | EPOLLET;	
-				epoll_ctl(epfd, EPOLL_CTL_ADD, connfd, &ev);	
+				ev.data.fd = connfd;
+				ev.events = EPOLLIN | EPOLLET;
+				epoll_ctl(epfd, EPOLL_CTL_ADD, connfd, &ev);
 			}
 			else if (events[i].events & EPOLLIN)
-					     
+
 			{
 				if ((sockfd = events[i].data.fd) < 0)
 					continue;
@@ -109,7 +112,9 @@ int main()
 					}
 					else
 					{
-						std::cout << "readline error" <<std::endl;
+						std::
+						    cout << "readline error" <<
+						    std::endl;
 					}
 				}
 				else if (n == 0)
@@ -118,19 +123,19 @@ int main()
 					events[i].data.fd = -1;
 				}
 
-				ev.data.fd = sockfd;	
-				ev.events = EPOLLOUT | EPOLLET;	
-				epoll_ctl(epfd, EPOLL_CTL_MOD, sockfd, &ev);	
+				ev.data.fd = sockfd;
+				ev.events = EPOLLOUT | EPOLLET;
+				epoll_ctl(epfd, EPOLL_CTL_MOD, sockfd, &ev);
 			}
 			else if (events[i].events & EPOLLOUT)
-					      
+
 			{
 				sockfd = events[i].data.fd;
 				write(sockfd, line, n);
 
-				ev.data.fd = sockfd;	
-				ev.events = EPOLLIN | EPOLLET;	
-				epoll_ctl(epfd, EPOLL_CTL_MOD, sockfd, &ev);	
+				ev.data.fd = sockfd;
+				ev.events = EPOLLIN | EPOLLET;
+				epoll_ctl(epfd, EPOLL_CTL_MOD, sockfd, &ev);
 			}
 		}
 	}

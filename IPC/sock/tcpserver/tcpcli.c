@@ -8,11 +8,11 @@
 
 int main()
 {
-    	int iFd = 0;
+	int iFd = 0;
 	int iRet = 0;
 	char cReq[] = "Request: give me some data";
-	char cResp[128] = {0};
-	struct sockaddr_in stSevAddr = {0};
+	char cResp[128] = { 0 };
+	struct sockaddr_in stSevAddr = { 0 };
 	int iAddrLen = 0;
 
 	/* to create a socket to connect to the server */
@@ -23,15 +23,17 @@ int main()
 		return -1;
 	}
 
-    	/* send requests to server */
+	/* send requests to server */
 	inet_aton(SEV_IP, &stSevAddr.sin_addr);
 	stSevAddr.sin_family = AF_INET;
 	stSevAddr.sin_port = htons(SEV_PORT);
 	iAddrLen = sizeof(stSevAddr);
-	while(1)
+	while (1)
 	{
-	    	LOG("Connect to server %s......", SEV_IP);
-		iRet = connect(iFd, (struct sockaddr *)(&stSevAddr), sizeof(stSevAddr));
+		LOG("Connect to server %s......", SEV_IP);
+		iRet =
+		    connect(iFd, (struct sockaddr *)(&stSevAddr),
+			    sizeof(stSevAddr));
 		if (iRet == 0)
 		{
 			LOG("Connect to %s successfully.", SEV_IP);
@@ -53,7 +55,7 @@ int main()
 
 	}
 
-    	/* recv the data from server, and print the data to terminal */
+	/* recv the data from server, and print the data to terminal */
 
 	close(iFd);
 	return 0;

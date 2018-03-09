@@ -122,16 +122,16 @@ int main(int argc, char **argv)
 						printf("%-15s",
 						       inet_ntoa(*
 								 (struct in_addr
-								  *)&(ip->
-								      ip_src.
-								      s_addr)));
+								  *)
+								 &
+								 (ip->ip_src.s_addr)));
 
 						gettimeofday(&tv,
-							     (struct timezone *)
-							     0);
+							     (struct timezone
+							      *)0);
 						tvsub(&tv,
-						      (struct timeval *)(icmp->
-									 icmp_data));
+						      (struct timeval
+						       *)(icmp->icmp_data));
 
 						printf(":RTT = %8.4d ms\n",
 						       tv.tv_sec * 1000.0 +

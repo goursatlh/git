@@ -2,10 +2,10 @@
 
 int main(int argc, char **argv)
 {
-    	int fd = 0;
+	int fd = 0;
 	int ret = 0;
-	struct sockaddr_in l_addr = {0};
-	struct sockaddr_in r_addr = {0};
+	struct sockaddr_in l_addr = { 0 };
+	struct sockaddr_in r_addr = { 0 };
 	int addr_len = 0;
 	unsigned short lport = 0;
 	unsigned short rport = 0;
@@ -38,11 +38,12 @@ int main(int argc, char **argv)
 	l_addr.sin_addr.s_addr = htonl(INADDR_ANY);
 	l_addr.sin_port = htons(lport);
 	addr_len = sizeof(struct sockaddr_in);
-	
+
 	ret = bind(fd, (struct sockaddr *)(&l_addr), addr_len);
 	if (ret != 0)
 	{
-		LOG("Bind socket(%d) failed, errcode %d, errreason %s", fd, ret, strerror(errno));
+		LOG("Bind socket(%d) failed, errcode %d, errreason %s", fd, ret,
+		    strerror(errno));
 		goto EXIT;
 	}
 
@@ -51,16 +52,17 @@ int main(int argc, char **argv)
 	inet_aton(argv[1], &r_addr.sin_addr);
 	r_addr.sin_port = htons(rport);
 
-	while(1)
-	    sleep(5);
+	while (1)
+		sleep(5);
 
 #if 0
 	threads.fd = fd;
-	threads.addr = &r_addr; 
+	threads.addr = &r_addr;
 	//start two threads for send and recv.
 	if (pthread_create(&tid_s, NULL, send_func, (void *)(&threads)))
 	{
-		LOG("create thread for send failed, reason %s", strerror(errno));
+		LOG("create thread for send failed, reason %s",
+		    strerror(errno));
 		goto EXIT;
 	}
 
@@ -73,7 +75,7 @@ int main(int argc, char **argv)
 	pthread_join(tid_r, NULL);
 	pthread_join(tid_s, NULL);
 #endif
-EXIT:
+      EXIT:
 	close(fd);
 	return 0;
 }

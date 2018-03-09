@@ -16,4 +16,3 @@ extern int flag;
 void *send_func(void *arg);
 
 void *recv_func(void *arg);
-

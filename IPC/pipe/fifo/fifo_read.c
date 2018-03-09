@@ -33,5 +33,3 @@ int main(int argc, char **argv)
 	pause();
 	unlink(FIFO_SERVER);
 }
-
-
