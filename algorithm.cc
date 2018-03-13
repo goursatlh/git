@@ -1,4 +1,37 @@
-#if 1 // minimum spanning tree
+
+#if 1  // max sum for the sub-list
+
+
+#endif
+// bad example for recursion
+#if 0
+#include <iostream>
+using std::endl;
+using std::cout;
+using std::cin;
+
+int fib(int n)
+{
+    if (n <= 1)
+        return 1;
+    else
+        return fib(n-1)+fib(n-2);
+}
+
+int main()
+{
+    int ret = 0;
+    int num = 0;
+    cout<<"please input the number: "<<endl;
+    cin>>num;
+
+    ret = fib(num);
+    cout<<"result is "<<ret<<endl;
+    return 0;
+}
+#endif
+
+#if 0 // minimum spanning tree
 class EdgeWeightedGraph
 {
 public:
@@ -13,7 +46,7 @@ int main()
 }
 #endif
 
-#if 1 /* priority queue */ 
+#if 0 /* priority queue */ 
 
 #include <vector>
 #include <iostream>
@@ -2024,38 +2057,38 @@ static int count = 0;
 template <class Type> 
 int less(Type &a, Type &b)
 {
-if (a > b)
-    return 1;
-else if (a < b)
-    return -1;
-else
-    return 0;
+    if (a > b)
+        return 1;
+    else if (a < b)
+        return -1;
+    else
+        return 0;
 }
 
 template <class Type> 
 void exch(Type &a, Type &b)
 {
-Type tmp = a;
-a = b;
-b = tmp;
-count++;
+    Type tmp = a;
+    a = b;
+    b = tmp;
+    count++;
 }
 
 template <class Type> 
 void sort_bubble(vector<Type> &a)
 {
-int i = 0, j = 0;
+    int i = 0, j = 0;
 
-for (i = 0; i < a.size() - 1; i++)
-{
-    for (j = 0; j < a.size() - i - 1; j++)
+    for (i = 0; i < a.size() - 1; i++)
     {
-        if (a[j] > a[j+1])
+        for (j = 0; j < a.size() - i - 1; j++)
         {
-            exch(a[j], a[j+1]);
+            if (a[j] > a[j+1])
+            {
+                exch(a[j], a[j+1]);
+            }
         }
     }
-}
 }
 
 template <class Type> 
