@@ -1,5 +1,16 @@
 
-#if 1
+#if 0 // Reading from an invaild address will make the process crash.
+#include <string.h>
+int main()
+{
+    int *p = NULL;
+    int array[6];
+    p-=0xc;
+    memcpy(array, p, 6);
+    return 0;
+}
+#endif
+#if 0
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/types.h>
