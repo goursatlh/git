@@ -1,8 +1,151 @@
 
-#if 1  // max sum for the sub-list
+#if 1  // max sum for the sub-list, if the result is -xx, return 0
+#include <iostream>
+#include <vector>
+#include <stdlib.h>
+#include <thread>
+#include <time.h>
+#include <sys/time.h>
 
+using std::cin;
+using std::cout;
+using std::endl;
+using std::vector;
+using std::thread;
 
+typedef struct {
+    int index;
+    int len;
+    int value;
+} MAX_SUBLIST;
+
+void show(vector<int> list)
+{
+    for (auto iter = list.begin(); iter != list.end(); iter++)
+    {
+        cout<<*iter<<" ";
+    }
+    cout<<endl;
+}
+
+MAX_SUBLIST max_sublist(vector<int> list)
+{
+    struct timeval tvstart = {0}, tvend = {0};
+    long timespend = 0;
+    MAX_SUBLIST result;
+    result.index = 0;
+    result.len = 1;
+    result.value = list[0];
+    long sum = 0;
+    
+    gettimeofday( &tvstart, NULL);
+    for (int i = 1; i <= list.size(); i++)
+    {
+        for (int j = 0; j <= list.size()-i; j++)
+        {
+            sum = 0;
+            for (int k = j; k < j+i; k++)
+            {
+                sum += list[k];
+            }
+
+            if (sum > result.value)
+            {
+                result.index = j;
+                result.len = i;
+                result.value = sum;
+            }
+        }
+    }
+    gettimeofday( &tvend, NULL);
+    timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
+    cout<<"max_sublist spend "<<timespend<<" ms"<<endl;
+    cout<<"max_sublist "<<result.index<<" "<<result.len<<" "<<result.value<<endl;
+    return result;
+}
+
+MAX_SUBLIST max_sublist_2(vector<int> list)
+{
+    struct timeval tvstart = {0}, tvend = {0};
+    long timespend = 0;
+    MAX_SUBLIST result = {0};
+    long sum = 0;
+    result.index = 0;
+    result.len = 1;
+    result.value = list[0];
+    gettimeofday( &tvstart, NULL);
+    for (int i = 0; i < list.size(); i++)
+    {
+        sum = 0;
+        for (int j = i; j < list.size(); j++)
+        {
+            sum += list[j];
+            if (sum > result.value)
+            {
+                result.index = i;
+                result.len = j-i+1;
+                result.value = sum;
+            }
+        }
+    }
+    gettimeofday( &tvend, NULL);
+    timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
+    cout<<"max_sublist_2 spend "<<timespend<<" ms"<<endl;
+    cout<<"max_sublist_2 "<<result.index<<" "<<result.len<<" "<<result.value<<endl;
+    return result;
+}
+
+MAX_SUBLIST max_sublist_3(vector<int> list)
+{
+    struct timeval tvstart = {0}, tvend = {0};
+    long timespend = 0;
+    MAX_SUBLIST result = {0};
+    long sum = 0;
+    result.value = 0;
+    gettimeofday( &tvstart, NULL);
+    for (int i = 0; i < list.size(); i++)
+    {
+        sum += list[i];
+        if (sum > result.value)
+        {
+            result.value = sum;
+        }
+        else if (sum < 0)
+            sum = 0;
+    }
+    gettimeofday( &tvend, NULL);
+    timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
+    cout<<"max_sublist_3 spend "<<timespend<<" ms"<<endl;
+    cout<<"max_sublist_3 "<<result.index<<" "<<result.len<<" "<<result.value<<endl;
+    return result;
+}
+int main()
+{
+    //int array[] = {-2, 11, -4, 13, -5, -2};
+    vector<int> list;
+    MAX_SUBLIST result; 
+    int num = 0;
+    vector<thread> threads;
+    
+    cout<<"plese inpout number you want to play: ";
+    cin>>num;
+    for (int i = 0; i < num; i++)
+        list.push_back(rand()%(num*20+1)-num*10);
+    //show(list);
+    threads.push_back(thread(max_sublist, list));
+    threads.push_back(thread(max_sublist_2, list));
+    threads.push_back(thread(max_sublist_3, list));
+    
+    for (auto& t: threads) 
+    {
+        t.join();
+    }
+    cout<<"main thread exit"<<endl;
+    return 0;
+}
 #endif
+
+
 // bad example for recursion
 #if 0
 #include <iostream>
