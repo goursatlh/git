@@ -6,6 +6,7 @@
 #include <thread>
 #include <time.h>
 #include <sys/time.h>
+#include <unistd.h>
 
 using std::cin;
 using std::cout;
@@ -135,11 +136,16 @@ int main()
     threads.push_back(thread(max_sublist, list));
     threads.push_back(thread(max_sublist_2, list));
     threads.push_back(thread(max_sublist_3, list));
-    
+   
+#if 0
     for (auto& t: threads) 
     {
-        t.join();
+        //t.join();
+        t.detach();
     }
+#endif
+    //pthread_exit(NULL);
+    //sleep(100);
     cout<<"main thread exit"<<endl;
     return 0;
 }
