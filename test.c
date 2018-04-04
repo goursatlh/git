@@ -1,3 +1,216 @@
+#if 1
+#include <stdio.h>
+#include <arpa/inet.h>
+
+#define OFFSET_MASK 0X1FFF
+int main()
+{
+    unsigned short offset = 0;
+    unsigned short n_offset = 0xb920;
+    offset = (ntohs(n_offset) & OFFSET_MASK) << 3;
+    printf("offset %d\n", offset);
+    return 0;
+}
+#endif
+
+#if 0  //calculate the tcp checksum
+#include <stdio.h>
+#include <stdlib.h>
+#include <arpa/inet.h>
+
+#define PSEUDOHDR_TCP_LEN 12 
+typedef unsigned char uchar;
+typedef unsigned short ushort;
+typedef unsigned int uint;
+
+uchar *gen_pseudo_header(uchar *p_tcpcontext, uint len, uchar *p_ipheader)
+{
+    int i = 0;
+    uchar *p_full_tcpcontext = (uchar *)malloc(sizeof(uchar)*(len+PSEUDOHDR_TCP_LEN));
+
+    memcpy(p_full_tcpcontext+PSEUDOHDR_TCP_LEN, p_tcpcontext, len);
+    // src ip(4) 
+    // dst ip(4)
+    // zero(1)+protocol(1)+tcp-total-len(2)
+    memcpy(p_full_tcpcontext,  p_ipheader+12, 4);
+    memcpy(p_full_tcpcontext+4,  p_ipheader+16, 4);
+    *(p_full_tcpcontext+8) = 0;
+    *(p_full_tcpcontext+9) = 6;
+    *((ushort *)(p_full_tcpcontext+10)) = htons(len); //  should use ntohs() ?
+
+    printf("pseudo_header: \n");
+    for (i = 0; i < 12; i++)
+    {
+        printf("%02x ", *(p_full_tcpcontext+i) );
+    }
+    printf("\n");
+    return p_full_tcpcontext ;
+}
+
+uint calculate_checksum(uchar *ptext, uint len)
+{
+    uint checksum = 0;
+    ushort last_checksum = 0;
+    uchar *p_new_context = NULL;
+    if ((len % 2) != 0)
+    {
+        // regen the total context, let its len to be even.
+        uchar *p_new_context = (uchar *)malloc(sizeof(uchar)*(len+1));
+        memcpy(p_new_context, ptext, len);
+        *(p_new_context+len-1) = 0;
+        free(ptext);
+        ptext = p_new_context;
+        len += 1;
+
+    }
+    while (len > 0)
+    {
+        checksum += (htons(*((ushort *)ptext)));
+        len -= 2;
+        ptext+=2;
+    }
+
+    if ((checksum >> 16) != 0)
+    {
+        last_checksum = checksum & 0xffff;
+        last_checksum += ((checksum>>16)&0xffff);
+        checksum = last_checksum; 
+    }
+    checksum = ~checksum;
+    free(p_new_context);
+    return checksum;
+}
+
+int doChecksum(unsigned char *buff, int len)
+{    
+    int count = len;    
+    unsigned int sum = 0;   
+    unsigned int sum2 = 0;  
+    unsigned short checksum = 0;    
+    char *input = buff;            
+
+    while(count > 1)    
+    {       
+        sum2 = *buff++ & 0xff;      
+        sum2 = ((sum2<<8)&0xff00) + (*buff++ & 0xff);       
+        sum += sum2;        
+        count -= 2;    
+    }    
+
+    if(count > 0)    
+    {        
+        sum += (*buff<<8);    
+    }    
+
+    while(sum >> 16)    
+    {        
+        sum = (sum & 0xffff) + (sum >> 16)&0xffff;    
+    }   
+
+    checksum = ~sum;    
+    return checksum;    
+}
+
+int main()
+{
+    uchar ipheader[] = {0x45,0x00,0x00,0xa2,0x1d,0x8d,0x40,0x00,0x80,0x06,0x00,0x00,0x0a,0x58,0x46,0x40,0x0a,0x58,0x46,0x1e};
+    uchar tcpcontext[] = {0xe1,0x21,0x00,0x8b,0x43,0x72,0x30,0xa0,0xdd,0x18,0x5f,0x09,0x50,0x18,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x76,0xff,0x53,0x4d,0x42,0x25,0x00,0x00,0x00,0x00,0x18,0x07,0xc8,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x08,0x28,0x04,0x00,0x08,0x40,0x01,0x0e,0x1a,0x00,0x00,0x00,0x08,0x00,0x16,0x11,0x00,0x00,0x00,0x00,0x88,0x13,0x00,0x00,0x00,0x00,0x1a,0x00,0x5c,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x37,0x00,0x00,0x5c,0x00,0x50,0x00,0x49,0x00,0x50,0x00,0x45,0x00,0x5c,0x00,0x4c,0x00,0x41,0x00,0x4e,0x00,0x4d,0x00,0x41,0x00,0x4e,0x00,0x00,0x00,0x00,0x00,0x68,0x00,0x57,0x72,0x4c,0x65,0x68,0x44,0x4f,0x00,0x42,0x31,0x36,0x42,0x42,0x44,0x7a,0x00,0x01,0x00,0x16,0x11,0x00,0x00,0x00,0x80};
+
+    uchar *p_full_tcpcontext;
+    ushort checksum = 0;
+    p_full_tcpcontext = gen_pseudo_header(tcpcontext, sizeof(tcpcontext), ipheader);
+    checksum = calculate_checksum(p_full_tcpcontext, sizeof(tcpcontext)+12);
+    printf("tcp checksum is 0x%x\n", checksum);
+    checksum = doChecksum(p_full_tcpcontext, sizeof(tcpcontext)+12);
+    printf("tcp checksum is 0x%x\n", checksum);
+    checksum = calculate_checksum(ipheader, 20);
+    printf("ip checksum is 0x%x\n", checksum);
+    checksum = doChecksum(ipheader, 20);
+    printf("ip checksum is 0x%x\n", checksum);
+    return 0;
+}
+
+#endif
+
+
+#if 0
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/prctl.h>
+#include <signal.h>
+
+static int do_abort = 0;
+
+void handle_signal(int signo)
+{
+    if (signo == SIGHUP)
+    {
+        printf("child recv SIGHUP..\n");
+        do_abort = 1;
+    }
+}
+
+int main(void)
+{
+    pid_t pid;
+    pid = fork();
+    char *p = NULL;
+
+    if (pid == 0) // child
+    {
+        signal(SIGHUP, handle_signal);
+        //prctl(PR_SET_PDEATHSIG, SIGHUP);
+        while(!do_abort) {
+            sleep(1);
+            printf("in child...\n");
+        }
+        printf("child exit...\n");
+        return 0;
+    }
+    else // parent
+    {
+        int times = 5;
+        while(times-- > 0)
+        {
+            sleep(1);
+            if (times == 3)
+            {
+                printf("memcpy ...\n");
+                memcpy(p, "Hello", 5);
+            }
+            printf("in parent.\n");
+        }
+
+        printf("parent exit..\n");
+        return 0;
+    }
+
+    return 0;
+}
+
+#endif
+
+#if 0 // ~0U
+#include <stdio.h>
+int main(void)
+{
+    printf("\n~0U = %x",~0U);
+    printf("\n~0U = %u",(unsigned short)~0U);
+    printf("\n~0 = %x",~0);
+    printf("\n~0U>>1 = %d",~0U>>1);
+    printf("\n~0>>1 = %d\n",~0>>1);
+
+    unsigned short a = 0;
+
+    if (a != (unsigned short)~0U)
+        printf("no 0\n");
+    else
+        printf("0\n");
+    return 0;
+}
+
+#endif
 
 #if 0 // Reading from an invaild address will make the process crash.
 #include <string.h>
@@ -946,7 +1159,7 @@ int main()
 }
 #endif
 
-#if 0				//vfork
+#if 0			//vfork
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -968,9 +1181,16 @@ int main(void)
 	{
 		glob++;
 		var++;
-		return 0;
+		//return 0;
+        //sleep(10);
 		//exit(0);
 	}
+    else
+    {
+        glob--;
+        var--;
+    }
+    //sleep(10);
 	printf("pid=%d, glob=%d, var=%d\n", getpid(), glob, var);
 	return 0;
 }

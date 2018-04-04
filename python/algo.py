@@ -34,7 +34,7 @@ def bubble(l):
 # bubble sort
 Lb = L.copy()
 begin = datetime.datetime.now()
-bubble(Lb)
+#bubble(Lb)
 end = datetime.datetime.now()
 if  Lb != Ls:
     print("sort failed.")

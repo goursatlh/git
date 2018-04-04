@@ -1,6 +1,37 @@
 #!/usr/bin/env python3.5
 # -*- coding: utf-8 -*-       
 import socket
+import time
+
+connected = False
+trynum = 0
+sock_list = []
+while not connected:
+    try:
+        trynum += 1
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        print(sock)
+        sock_list.append(sock)
+        print("fd %d create" % sock.fileno())
+        sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+        sock.connect(('127.0.0.1', 55555))
+        print(sock)
+        connected = True
+    except socket.error as message:
+        print(sock)
+        print(message)
+
+    if not connected:
+        print("reconnect")
+
+print("tcp self connection occurs, ", trynum)
+print("try to run the following command: ")
+print("netstat -an|grep 55555")
+time.sleep(1800)
+for sk in sock_list:
+    sk.close()
+'''
+import socket
 import sys
 
 if len(sys.argv) != 3:
@@ -35,3 +66,4 @@ else:           # client
         print(s.recv(1024).decode('utf-8'))
 
 s.close()
+'''
