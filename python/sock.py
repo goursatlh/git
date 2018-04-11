@@ -1,5 +1,84 @@
 #!/usr/bin/env python3.5
 # -*- coding: utf-8 -*-       
+import socket 
+import select 
+import sys
+
+if len(sys.argv) < 3:
+    print("bad para, Usage:  tpye port [client: ip] [client: filename]")
+    exit(0)
+
+type = int(sys.argv[1])
+port = int(sys.argv[2])
+
+if type == 1:
+    # server
+    sk = socket.socket(socket.AF_INET, sock.SOCK_STREAM)
+    sk.bind(("0.0.0.0", port))
+    sk.listen()
+    s_list = [sk.fileno()]
+    s_dict = {} 
+    while 1:
+        rlist, wlist, elist = sk.select(s_list, [], [])
+        for fd in rlist:
+            if fd == sk.fileno():
+                # new connection
+                sk2 = sk.accept()
+                s_list.append(sk2.fileno())
+                s_dict[sk2.fileno()] = sk2
+            else:
+                sk3 = s_dict[fd]
+                len = 0
+                while 1:
+                    data = sk3.recv()
+                    if len(data) > 0:
+                        len += len(data) 
+                    else:
+                        print("peer closes this connection.")
+                        s_list.remove(sk3.fileno())
+                        break;
+                 print("recv total %d bytes" % len)
+else:
+    # client
+
+
+
+
+'''
+# epoll 
+from socket import *
+from select import *
+
+sk = socket(AF_INET, SOCK_STREAM)
+sk.bind(('0.0.0.0', 8888))
+sk.listen()
+ep = epoll()
+ep.register(sk.fileno(), EPOLLIN)
+
+s_dir = {}
+while 1:
+    events = ep.poll(1, 4)
+    for fd,event in events:
+        if fd == sk.fileno():
+            sk2,addr_info = sk.accept()
+            ep.register(sk2.fileno(), EPOLLIN)
+            print("recv connection from ", addr_info)
+            print("add socke to epoll, fd ", sk2.fileno())
+            s_dir[sk2.fileno()] = sk2
+        elif event == EPOLLIN:
+            sk3 = s_dir[fd]
+            data = sk3.recv(1024)
+            if len(data) > 0:
+                print("recv data: ", data)
+            else:
+                print("peer close this connection, fd ", sk3.fileno())
+                ep.unregister(sk3.fileno())
+                sk3.close()
+
+ep.close()
+'''
+
+'''
 import socket
 import time
 
@@ -30,6 +109,8 @@ print("netstat -an|grep 55555")
 time.sleep(1800)
 for sk in sock_list:
     sk.close()
+'''
+
 '''
 import socket
 import sys
