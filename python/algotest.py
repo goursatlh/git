@@ -1,5 +1,4 @@
 #!/usr/bin/env python3.5
-
 import random
 import datetime
 
@@ -29,21 +28,20 @@ def bubble_sort(l):
     return 
 
 
-def partation(l, left, right):
-    index = (right-left+1)//2
-    restore = left
-    l[left+index], l[right] = l[right],l[left+index]
-    for i in range(left, right):
-        if l[i] < l[right]:
-            if i != restore:
-                l[i], l[restore] = l[restore], l[i]
-            restore=restore+1
-    l[restore], l[right] = l[right], l[restore]
-    return restore
-
 def quick_sort(l, left, right):
+    def partation(left, right):
+        index = (right-left+1)//2
+        restore = left
+        l[left+index], l[right] = l[right],l[left+index]
+        for i in range(left, right):
+            if l[i] < l[right]:
+                if i != restore:
+                    l[i], l[restore] = l[restore], l[i]
+                restore=restore+1
+        l[restore], l[right] = l[right], l[restore]
+        return restore
     if left < right:
-        index = partation(l, left, right)
+        index = partation(left, right)
         quick_sort(l, left, index-1)
         quick_sort(l, index+1, right)
     return

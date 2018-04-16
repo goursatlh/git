@@ -1,4 +1,158 @@
-#if 1
+#if 0 // zero copy for sendfile
+// sev.c
+#include <sys/socket.h>  
+#include <netinet/in.h>  
+#include <arpa/inet.h>  
+#include <assert.h>  
+#include <stdio.h>  
+#include <unistd.h>  
+#include <stdlib.h>  
+#include <errno.h>  
+#include <string.h>  
+#include <sys/types.h>  
+#include <sys/stat.h>  
+#include <fcntl.h>  
+#include <sys/sendfile.h>  
+  
+int main( int argc, char* argv[] )  
+{  
+    if( argc <= 4 )  
+    {  
+        //printf( "usage: %s ip_address port_number filename sendtype\n", basename( argv[0] ) );  
+        printf( "usage: ip_address port_number filename sendtype\n");  
+        return 0;  
+    } 
+
+    int longnum=0,sum=0;  
+    static char buf[2048];  
+    memset(buf,'\0',sizeof(buf));  
+    const char* ip = argv[1];  
+    int port = atoi( argv[2] );  
+    const char* file_name = argv[3];
+    int sendtype = atoi(argv[4]);
+  
+    int filefd = open( file_name, O_RDONLY ); 
+    assert( filefd > 0 ); 
+    struct stat stat_buf; 
+    fstat( filefd, &stat_buf ); 
+    printf("file size %d\n", stat_buf.st_size); 
+    FILE *fp=fdopen(filefd,"r");  
+          
+    struct sockaddr_in address;  
+    bzero( &address, sizeof( address ) );  
+    address.sin_family = AF_INET;  
+    inet_pton( AF_INET, ip, &address.sin_addr );  
+    address.sin_port = htons( port );  
+  
+    int sock = socket( PF_INET, SOCK_STREAM, 0 );  
+    assert( sock >= 0 );  
+  
+    int ret = bind( sock, ( struct sockaddr* )&address, sizeof( address ) );  
+    assert( ret != -1 );  
+  
+    ret = listen( sock, 5 );  
+    assert( ret != -1 );  
+  
+    struct sockaddr_in client;  
+    socklen_t client_addrlength = sizeof( client );  
+    int connfd = accept( sock, ( struct sockaddr* )&client, &client_addrlength );  
+    if ( connfd < 0 )  
+    {  
+        printf( "errno is: %d\n", errno );  
+    }  
+    else  
+    {  
+        struct timeval tvstart, tvend;
+        long timespend = 0;
+        gettimeofday( &tvstart, NULL); 
+        if (sendtype == 1)
+        {
+            while((fgets(buf,2048,fp))!=NULL)
+            {  
+                int num=send(connfd,buf,sizeof(buf),0);  
+                sum+=num;  
+                //memset(buf,'\0',sizeof(buf));  
+            }
+        }
+        else
+            sum = sendfile( connfd, filefd, NULL, stat_buf.st_size );  
+        gettimeofday( &tvend, NULL);
+        timespend = (tvend.tv_sec-tvstart.tv_sec)*1000000+(tvend.tv_usec-tvstart.tv_usec);
+        printf("sum:%ld, time spend %ld\n",sum, timespend);  
+        close( connfd );  
+    }  
+  
+    close( sock );  
+    return 0;  
+}  
+
+//cli
+#include <sys/socket.h>  
+#include <netinet/in.h>  
+#include <arpa/inet.h>  
+#include <assert.h>  
+#include <stdio.h>  
+#include <unistd.h>  
+#include <stdlib.h>  
+#include <errno.h>  
+#include <string.h>  
+#include <sys/types.h>  
+#include <sys/stat.h>  
+#include <fcntl.h>  
+#include <sys/sendfile.h>  
+  
+int main( int argc, char* argv[] )  
+{  
+    if( argc <= 3 )  
+    {  
+        printf( "usage: %s ip_address port_number filename\n", basename( argv[0] ) );  
+        return 1;  
+    }  
+    static char buf[1024];  
+    memset(buf,'\0',sizeof(buf));  
+    const char* ip = argv[1];  
+    int port = atoi( argv[2] );  
+    const char* file_name = argv[3];  
+  
+    int filefd = open( file_name, O_WRONLY );  
+    if(filefd<=0)  
+        printf("open error:%s",strerror(errno));  
+    assert( filefd > 0 );  
+          
+    FILE *fp=fdopen(filefd,"w");  
+          
+    struct sockaddr_in address;  
+    socklen_t len=sizeof(address);  
+    bzero( &address, sizeof( address ) );  
+    address.sin_family = AF_INET;  
+    inet_pton( AF_INET, ip, &address.sin_addr );  
+    address.sin_port = htons( port );  
+  
+    int sock = socket( PF_INET, SOCK_STREAM, 0 );  
+    assert( sock >= 0 );  
+    int num;  
+    int ret=connect(sock,(struct sockaddr*)&address,len);  
+    
+    if ( ret < 0 )  
+    {  
+        printf( "connect errno: %s\n", strerror(errno) );  
+    }  
+    else  
+    {  
+        while( (num=recv(sock,buf,sizeof(buf),0))>0 )
+        {  
+            fprintf(fp,"%s",buf);  
+            memset(buf,'\0',sizeof(buf));  
+        }  
+          
+        close( sock );  
+    }  
+  
+    close( sock );  
+    return 0;  
+}  
+#endif
+#if 0
 #include <stdio.h>
 #include <arpa/inet.h>
 

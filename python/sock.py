@@ -1,8 +1,13 @@
 #!/usr/bin/env python3.5
-# -*- coding: utf-8 -*-       
+# -*- coding: utf-8 -*-      
+
+# zero copy 
 import socket 
 import select 
 import sys
+import time
+import datetime
+import os
 
 if len(sys.argv) < 3:
     print("bad para, Usage:  tpye port [client: ip] [client: filename]")
@@ -13,35 +18,69 @@ port = int(sys.argv[2])
 
 if type == 1:
     # server
-    sk = socket.socket(socket.AF_INET, sock.SOCK_STREAM)
+    sk = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sk.setsockopt(1,2,1)
     sk.bind(("0.0.0.0", port))
     sk.listen()
     s_list = [sk.fileno()]
     s_dict = {} 
     while 1:
-        rlist, wlist, elist = sk.select(s_list, [], [])
+        #s_list_x = s_list # do we need to reinit the fd-set ?
+        rlist, wlist, elist = select.select(s_list, [], [])
         for fd in rlist:
             if fd == sk.fileno():
                 # new connection
-                sk2 = sk.accept()
+                sk2, addr_info = sk.accept()
+                print("new connection from ", addr_info, sk2.fileno())
                 s_list.append(sk2.fileno())
                 s_dict[sk2.fileno()] = sk2
             else:
                 sk3 = s_dict[fd]
-                len = 0
+                print("data coming.. ", sk3.fileno())
+                total_len = 0
+                #start = time.time() #only record in seconds
+                start1 = datetime.datetime.now()
                 while 1:
-                    data = sk3.recv()
+                    data = sk3.recv(1024)
                     if len(data) > 0:
-                        len += len(data) 
+                        total_len += len(data) 
                     else:
                         print("peer closes this connection.")
                         s_list.remove(sk3.fileno())
-                        break;
-                 print("recv total %d bytes" % len)
+                        break
+                end = time.time()
+                end1 = datetime.datetime.now()
+                print("recv total %d bytes, spend %s s" % (total_len, end1-start1))
 else:
     # client
+    serip = sys.argv[3]
+    filename = sys.argv[4]
+    sk = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sk.connect((serip, port))
+
+    #start = datetime.datetime.now()
+    f = open(filename, 'rb')
+    #message = f.read()
+    #print("connect to %s to transfer file %s total len %d bytes" % (serip, filename, len(message)))
+    #sk.sendall(message)
+    #end = datetime.datetime.now()
+    #print("send all data to server, spend %s s" % (end-start))
 
 
+    print("use zero-copy function to send the data")
+    start1 = datetime.datetime.now()
+    lenx = os.path.getsize(filename)
+    print("file size ", lenx)
+    ret = 0
+    offset = 0
+    while 1:
+        ret = os.sendfile(sk.fileno(), f.fileno(), offset, lenx)
+        offset += ret
+        if ret == 0:
+            break
+    end1 = datetime.datetime.now()
+    print("send all data to server using zero-copy, spend %s s" % (end1-start1))
+    sk.close()
 
 
 '''
