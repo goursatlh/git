@@ -1,3 +1,36 @@
+
+#if 0 // time funcs
+#include <stdio.h>
+#include <time.h>
+#include <sys/time.h>
+
+int main(void)
+{
+    struct timeval timeval_1;
+    struct timespec timeval_2;
+    struct timespec timeval_3;
+    struct timespec timeval_4;
+    time_t timeval;
+
+    timeval = time(NULL); // seconds from 19700101
+    printf("time() %ld\n", timeval);
+
+    gettimeofday(&timeval_1, NULL); // same with time(), but can get us
+    printf("gettimeofday() %ld: %ld\n", timeval_1.tv_sec, timeval_1.tv_usec);
+
+    clock_gettime(CLOCK_REALTIME, &timeval_2); // from 19700101
+    printf("clock_gettime() %ld: %ld\n", timeval_2.tv_sec, timeval_2.tv_nsec);
+
+    clock_gettime(CLOCK_MONOTONIC, &timeval_3); // /proc/uptime 
+    printf("clock_gettime() %ld: %ld\n", timeval_3.tv_sec, timeval_3.tv_nsec);
+    
+    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &timeval_4);  
+    printf("clock_gettime() %ld: %ld\n", timeval_4.tv_sec, timeval_4.tv_nsec);
+    return 0;
+}
+
+#endif
+
 #if 0 // zero copy for sendfile
 // sev.c
 #include <sys/socket.h>  
