@@ -1,9 +1,43 @@
 #!/usr/bin/env python3.5
 # -*- coding: utf-8 -*-  
 
+# parameters for python functions
+
+def power(x, n=2):
+    sum = 1
+    while n > 0:
+        sum = sum*x
+        n -= 1
+    return sum
+
+print(power(5))
+print(power(5,3))
 
 
+def stu_info(name, age, city='ShenZhen', male='man'):
+    print("------------------")
+    print("name:", name)
+    print("age:", age)
+    print("sity:", city)
+    print("male:", male)
 
+stu_info("carl", 7)
+stu_info(age=7, name="carl")
+
+def extendList(val, list=[]):
+    print("id for list: ", id(list))
+    list.append(val)
+    return list
+
+list1 = extendList(10)
+print(list1)
+list2 = extendList(123,[])
+list3 = extendList('a')
+print(list1)
+
+print(list1)
+print(list2)
+print(list3)
 
 '''
 import fcntl
@@ -33,7 +67,6 @@ for i in range(20):
   print('release lock')
 '''
 
-
 '''
 # copy(shallow and deep) and assignment
 L = [1, 12]
@@ -44,12 +77,13 @@ L3 = list(L)
 print('L ', id(L), L)
 print('L1', id(L1), L1)
 print('L2', id(L2), L2)
-print('L3', id(L2), L2)
+print('L3', id(L3), L3)
 
 L1[1] = 39
 print('L', L)
 print('L1', L1)
 print('L2', L2)
+print('L3', L3)
 
 
 will = ["Will", 28, ["Python", "C#", "JavaScript"]]
@@ -64,6 +98,7 @@ print("id", id(wilber), wilber, "id ele", [id(ele) for ele in wilber])
 
 print("shallow copy")
 wilber2 = list(will)
+print("id", id(will), will, "id ele", [id(ele) for ele in will])
 print("id", id(wilber2), wilber2, "id ele", [id(ele) for ele in wilber2])
 will[0] = "Hello"
 will[2].append("CPP")
@@ -83,6 +118,7 @@ will[2].append("Shell")
 print("id", id(will), will, "id ele", [id(ele) for ele in will])
 print("id", id(wilber2), wilber3, "id ele", [id(ele) for ele in wilber3])
 '''
+
 
 '''
 list = [ [ ] ] * 5
@@ -113,49 +149,46 @@ aGreeting("Will")
 print(type(mGreeting))
 print(type(mGreeting.__closure__[0]))
 print(mGreeting.__closure__[0].cell_contents)
+print(aGreeting.__closure__[0].cell_contents)
 
-def multipliers():
+def multipliers_lambda():
   return [lambda x : i * x for i in range(4)]
 
 def multipliers():
     l = []
     j = 238
+    m = "hello world"
     for i in range(4):
-        print('id for i ', id(i))
-        #def func(x, i=i):
-        def func(x, i=i): # i is nolong a closure element
+        #print('id for i ', id(i))
+        #def func(x, i=i):# i is no longer a closure element
+        def func(x):   # i and j are all elements of closure, all outside parameters which will be used in inter func will be stored in __closure__[]
+            #print("m: ", m) # m must be used, otherwise it will not be included in __closure__[]
             return x*i*j
         l.append(func)
     return l
 
+print([m(2) for m in multipliers_lambda()])
 print([m(2) for m in multipliers()])
 
 l1 = multipliers()
 print(type(l1), type(l1[0]))
+
 f = l1[0]
-print(dir(f))
-print(id(f.__closure__[0].cell_contents))
+#print(id(f.__closure__[0].cell_contents))
 print(f.__closure__[0].cell_contents)
 #print(f.__closure__[1].cell_contents)
+#print(f.__closure__[2].cell_contents)
+print(f(2))
 
 f2 = l1[1]
-print(id(f2.__closure__[0].cell_contents))
+#print(id(f2.__closure__[0].cell_contents))
 print(f2.__closure__[0].cell_contents)
+#print(f2.__closure__[1].cell_contents)
+#print(f2.__closure__[2].cell_contents)
+print(f2(2))
 '''
 
-'''
-def extendList(val, list=[]):
-    list.append(val)
-    return list
 
-list1 = extendList(10)
-list2 = extendList(123,[])
-list3 = extendList('a')
-
-print("list1 = %s" % list1)
-print("list2 = %s" % list2)
-print("list3 = %s" % list3)
-'''
 
 '''
 import random
