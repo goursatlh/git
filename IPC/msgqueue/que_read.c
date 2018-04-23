@@ -7,8 +7,6 @@ int msgread(key_t key);
 int main()
 {
 	key_t key;
-
-
 	key = ftok("file", 'a');
 	msgread(key);
 }
@@ -24,12 +22,17 @@ int msgread(key_t key)		/*成功返回0失败返回-1 */
 	int msggid;
 
 	msggid = msgget(key, IPC_CREAT);
-	msgrcv(msggid, &msgbuff, 60, 2, IPC_NOWAIT);
-	printf("\t%s", msgbuff.mtext);
-	msgrcv(msggid, &msgbuff, 60, 1, IPC_NOWAIT);
-	printf("\t%s", msgbuff.mtext);
+    printf("read msg id %d, key %d\n", msggid, key);
 	msgctl(msggid, IPC_STAT, &msgds);
-	printf("\t%d\n", msgds.msg_ctime);	/*检测msggid函数有没有成功里 */
+	printf("msg queue info: \n");	
+	printf("msg num %d\n", msgds.msg_qnum);	
+	msgrcv(msggid, &msgbuff, 60, 2, IPC_NOWAIT);
+	printf("%s", msgbuff.mtext);
+	msgrcv(msggid, &msgbuff, 60, 1, IPC_NOWAIT);
+	printf("%s", msgbuff.mtext);
+	msgctl(msggid, IPC_STAT, &msgds);
+	printf("msg queue info: \n");	
+	printf("msg num %d\n", msgds.msg_qnum);	
 
 	return 0;
 }

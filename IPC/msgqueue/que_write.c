@@ -10,7 +10,7 @@ int main()
 	key_t key;
 	char content[60];
 
-	printf("\t请输入要传送到消息队列的内容\n");
+	printf("\tplease input the context: \n");
 	fgets(content, 60, stdin);
 	key = ftok("file", 'a');
 	if (key != -1)
@@ -20,7 +20,6 @@ int main()
 
 int msgwrite(key_t key, char *content)	/*成功返回0失败返回-1 */
 {
-
 	struct msgbuf
 	{
 		int mtype;
@@ -28,12 +27,12 @@ int msgwrite(key_t key, char *content)	/*成功返回0失败返回-1 */
 	} msgbuff, msgbuff2;
 	int msggid;
 
-
 	if ((msggid = msgget(key, IPC_CREAT)) == -1)
 	{
 		printf("%s", (char *)strerror(errno));
 		return -1;
 	}
+    printf("write msg id %d, key %d\n", msggid, key);
 	msgbuff.mtype = 1;
 	strcpy(msgbuff.mtext, content);
 	if (msgsnd(msggid, &msgbuff, 51, IPC_NOWAIT) == -1)
