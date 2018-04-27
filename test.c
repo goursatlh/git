@@ -1,4 +1,101 @@
 
+#if 0 //sigsuspend
+#include <stdio.h>
+#include <unistd.h>
+#include <signal.h>
+#include <string.h>
+#include <errno.h>
+
+void oops(void *msg){  
+    perror(msg);  
+    exit(1);  
+}  
+
+void deal()
+{
+   pr_mask("signal processing....");
+}
+
+void pr_mask( const char *str )
+{  
+    sigset_t set;  
+    int errno_save;         //get the pre errno  
+    errno_save = errno;  
+  
+    if( sigprocmask( 0, NULL , &set ) == -1 )  
+        oops( " sigmask" );  
+    else{  
+        printf( "%s: " , str );  
+        if( sigismember( &set , SIGQUIT ) == 1 )  
+            printf( " SIGQUIT" );  
+        if( sigismember( &set , SIGINT ) == 1)  
+            printf( " SIGINT" );  
+        if( sigismember( &set , SIGUSR1 ) == 1)  
+            printf( " SIGUSR1" );  
+        if( sigismember( &set , SIGALRM ) == 1)  
+            printf( " SIGALRM" ); 
+        printf("\n"); 
+    }  
+    errno = errno_save ;  
+}  
+
+int main()
+{
+    sigset_t  sigs,sigmask;
+    int  i, ret = 0;
+    signal(SIGINT, deal);
+    sigemptyset(&sigs);
+    sigemptyset(&sigmask);
+    ret = sigaddset(&sigs, SIGINT);
+    printf("add SIGINT to sigset, ret %d, err: %s\n", ret, strerror(errno));
+    ret = sigprocmask(SIG_BLOCK, &sigs, 0);
+    printf("block int signal, ret %d\n", ret);
+    pr_mask("current block mask");
+    for(i=0 ; i<3 ; i++)
+    {
+       printf("task begin:\n");    //模拟业务处理
+       sleep(3);
+       printf("task end:\n"); 
+       sigsuspend(&sigmask);       //处理正在排队的信号，处理信号完毕后，
+                                   //sigsuspend函数才返回，并执行下个业务处理
+       printf("task begin xx:\n");    //模拟业务处理
+       sleep(3);
+       printf("task end xx:\n");    //模拟业务处理
+    }   
+
+    return 0; 
+}   
+#endif
+
+#if 0 // signal
+#include <stdio.h>
+#include <signal.h>
+
+void handler(int sig)
+{
+    printf("SIGINT sig\n");
+}
+
+int main()
+{
+    sigset_t new, old;
+    struct sigaction act;
+    act.sa_flags = 0;
+    act.sa_handler = handler;
+    sigemptyset(&act.sa_mask);
+    sigaction(SIGINT, &act, 0);
+    
+    sigemptyset(&new);
+    sigaddset(&new, SIGINT);
+    sigprocmask(SIG_BLOCK, &new, &old);
+    printf("Blocked\n");
+    sigprocmask(SIG_SETMASK, &old, NULL);
+    pause();
+   
+    return 0;
+}
+
+#endif
 #if 0 // time funcs
 #include <stdio.h>
 #include <time.h>
