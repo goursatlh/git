@@ -1,6 +1,86 @@
 #!/usr/bin/env python3.5
 # -*- coding: utf-8 -*-  
 
+# sum
+pagesize = 4*1024
+l = [16,41,18,8,7,2,1,0,2,2,10]
+f = lambda i, l: l[i] * pow(2, i)
+print(f(3,l))
+
+sum = 0
+for i in range(11):
+    sum += f(i, l)
+    print("set ", f(i,l))
+print("sum is ", sum*pagesize//1024)
+'''
+#scrapy: web crawler backbone
+from queue import Queue
+init_page = "www.ifeng.com"
+
+print("hello web crawler")
+url_queue = Queue()
+seen = set()
+seen.insert(init_page)
+url_queue.put(init_page)
+
+while True:
+    if url_queue.size():
+        current_url = url_queue.get()
+        store(current_url)
+        for next_url in extract_urls(current_url):
+            if next_url not in seen:
+                seen.put(next_url)
+                url_queue.put(next_url)
+    else:
+        break
+'''
+
+'''
+# mmap
+import mmap
+import contextlib
+import time
+
+with open("txt", "w") as f:
+    f.write("\x00"*1024)
+
+with open("txt", "r+b") as f:
+    with contextlib.closing(mmap.mmap(f.fileno(), 1024, access=mmap.ACCESS_WRITE)) as m:
+        for i in range(1, 10001):
+            m.seek(0)
+            s = "msg" + str(i)
+            s.rjust(1024, "\x00")
+            m.write(s.encode())
+            m.flush()
+            time.sleep(1)
+'''
+
+
+'''
+# with ... as ...
+
+with open("txt") as file:
+    data = file.read()
+    print(data)
+
+class Sample():
+    def __enter__(self):
+        print("enter")
+        return self
+    def __exit__(self, type, value, trace):
+        print("type: ", type)
+        print("vaule: ", value)
+        print("trace: ", trace)
+    def do_something(self):
+        bar = 1/0
+        return bar+10
+
+with Sample() as sample:
+    sample.do_something()
+'''
+
+
+'''
 # parameters for python functions
 
 def power(x, n=2):
@@ -38,6 +118,9 @@ print(list1)
 print(list1)
 print(list2)
 print(list3)
+'''
+
+
 
 '''
 import fcntl
@@ -634,7 +717,7 @@ def inner():
     total = 0
     while True:
         #try:
-            input_val = yield total         # a = yield b     => b is return vaule, a is input parameter
+            input_val = yield total         # a = yield b     => b is return value, a is input parameter
             total = total + coef * input_val
         #except SwitchSign:
         #    coef = -(coef)
@@ -657,21 +740,18 @@ def outer2():
     print("After inner(), I do that.")
     return 0
 
+g = outer()
+#g = outer2()
+print(type(g), g)
+
+
 #g = inner()
-#g = outer()
-g = outer2()
-print(type(g))
-g.send(None)
-for i in range(1,10):
-    print(g.send(i))
-
+#g.send(None)
+#for i in range(1,5):
+#    print("outside gen: ", g.send(i))
 '''
 
-
-##########################################################################
 '''
-print("usage for coroutine and asyncio")
-
 #part1 
 def consumer():
     r = ''
@@ -698,8 +778,10 @@ def produce(c):
     c.close()
 
 c = consumer()
-#produce(c)
+produce(c)
 '''
+
+
 
 '''
 #part2 

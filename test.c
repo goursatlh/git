@@ -1,3 +1,83 @@
+
+#if 1
+#include <stdio.h>
+#include <unistd.h>
+
+int main()
+{
+    int size = 0, i = 0;
+    char *p = malloc(1024);
+
+    *((int *)p) = 0x38383838;
+    *((int *)p+1) = 0x39393939;
+    printf("%x\n", *(int *)p);
+    printf("%x\n", *((int *)p+1));
+
+    for (i=0; i < 9; i++)
+    {
+        printf("%x\n", *p);
+        p++;
+    }
+    size = getpagesize();
+    printf("page size is %d\n", size);
+    return 0;
+}
+#endif
+
+#if 0 // high performance for udp socket
+
+#include <stdio.h>
+#include <sys/types.h>
+#define __USE_GNU
+#include <sys/socket.h>
+#include <netinet/in.h>
+
+#define VLAN 10
+#define BUFSIZE 200
+
+int main()
+{
+    int fd = 0, i = 0;
+    int ret = 0;
+    struct sockaddr_in addr = {0};
+    struct mmsghdr msgs[VLAN];
+    struct iovec iovecs[VLAN];
+    char bufs[VLAN][BUFSIZE+1];
+
+    fd = socket(AF_INET, SOCK_DGRAM, 0);
+    if (fd <= 0)
+    {
+        printf("socket failed, erron: %d\n", fd);
+        return 0;
+    }
+
+    addr.sin_family = AF_INET;
+    addr.sin_addr.s_addr = 0;
+    addr.sin_port = htons(4501);
+    ret = bind(fd, (struct sockaddr *)&addr, sizeof(addr));
+    if (ret != 0)
+    {
+        printf("bind failed, erron: %d\n", ret);
+        return 0;
+    }
+   
+    for (i = 0; i < VLAN; i++)
+    {
+        iovecs[i].iov_base = bufs[i];
+        iovecs[i].iov_len = BUFSIZE;
+        msgs[i].msg_hdr.msg_iov = &iovecs[i];
+        msgs[i].msg_hdr.msg_iovlen = 1;
+    }
+    while (1)
+    {
+        ret = recvmmsg(fd, &msgs, VLAN, 0, 0);
+        printf("recv msg %d\n", ret);
+    }
+    close(fd);
+    return 0;
+}
+#endif
+
 #if 0 // mem
 #include <unistd.h>
 #include <stdio.h>
