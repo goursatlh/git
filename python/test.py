@@ -1,6 +1,45 @@
 #!/usr/bin/env python3.5
 # -*- coding: utf-8 -*-  
 
+# deque
+# deque vs list: 1, faster(350+ faster than list) 2, thread safety
+import time
+import sys
+from collections import deque
+t0 = time.clock()
+l = []
+for i in range(100000):
+    l.append(i)
+for i in range(100000):
+    l.insert(0,i)
+t1 = time.clock()
+print("list ", t1-t0)
+print(len(l), l.__sizeof__(), sys.getsizeof(l))
+
+t0 = time.clock()
+d = deque() 
+for i in range(100000):
+    d.append(i)
+for i in range(100000):
+    d.appendleft(i)
+t1 = time.clock()
+print("deque ", t1-t0)
+print(len(d), d.__sizeof__(), sys.getsizeof(d))
+
+# indexed access for reque is mush slower than list
+t0 = time.clock()
+for i in range(len(d)):
+    d[i] = 0
+t1 = time.clock()
+print("deque indexed access ", t1-t0)
+
+t0 = time.clock()
+for i in range(len(l)):
+    l[i] = 0
+t1 = time.clock()
+print("list indexed access ", t1-t0)
+
+'''
 # sum
 pagesize = 4*1024
 l = [16,41,18,8,7,2,1,0,2,2,10]
@@ -12,6 +51,9 @@ for i in range(11):
     sum += f(i, l)
     print("set ", f(i,l))
 print("sum is ", sum*pagesize//1024)
+'''
+
+
 '''
 #scrapy: web crawler backbone
 from queue import Queue
