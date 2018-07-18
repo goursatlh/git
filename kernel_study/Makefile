@@ -1,4 +1,4 @@
-obj-m := module_test.o force_rmmod.o killd.o rcu_test.o memory_test.o meltdown_mod.o
+obj-m := module_test.o force_rmmod.o killd.o rcu_test.o memory_test.o meltdown_mod.o systimer.o
 
 CURRENT_PATH := $(shell pwd)
 
