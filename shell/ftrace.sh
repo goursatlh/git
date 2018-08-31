@@ -12,7 +12,7 @@ if [ $1 = "on" ];then
     if [ -n $2 ];then
         echo $2 > set_ftrace_filter
     fi
-    echo "start ftrace: "
+    echo "ftrace start: "
     echo >trace;echo 1 >tracing_on
     exit
 fi
@@ -26,7 +26,8 @@ if [ $1 = "off" ];then
     cat trace >$path/$txt
     echo 0 > tracing_on
     echo >trace
-    cd -
+    #cd -
+    echo "ftrace end"
 fi
 
 #tmp=TMP
