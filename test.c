@@ -1,5 +1,18 @@
 
-#if 1
+
+#if 1 // redirect stdout to file
+#include <stdio.h>
+int main()
+{
+    freopen("test1.txt", "w+", stdout); 
+    printf("test printf redirect\n");
+    freopen("/dev/tty", "w+", stdout); 
+    printf("printf back to stdou: test printf redirect\n");
+    return 0;
+}
+#endif
+
+#if 0
 #include <stdio.h>
 #include <unistd.h>
 

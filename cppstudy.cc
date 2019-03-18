@@ -1,5 +1,136 @@
 
-#if 1
+
+#if 1 // set/map operatons -- base in red-black tree
+#include <iostream>
+#include <string>
+#include <map>
+#include <set>
+
+using std::cout;
+using std::endl;
+using std::string;
+using std::map;
+using std::multimap;
+using std::set;
+
+void printx(multimap<string, int> &iset)
+{
+    for (auto iter = iset.begin(); iter != iset.end(); iter++)
+    {
+        cout<<iter->first<<" "<<iter->second<<" ";
+    }
+    cout<<endl;
+    return;
+}
+
+int main()
+{
+    multimap<string, int> imap = {{"waler",98}, {"carl", 99}, {"sam", 98}, {"boost",100}, {"waler",100}, {"carl", 66}};
+   
+    printx(imap);
+    int count = imap.count("waler");
+    auto iter5 = imap.find("waler");
+    while (iter5!=imap.end())
+    {
+        cout<<"find "<<count<<" "<<iter5->first<<" "<<iter5->second;
+        iter5++;
+    }
+    cout<<endl;
+    
+    for (auto beg = imap.lower_bound("waler"), end = imap.upper_bound("waler"); beg != end; ++beg)
+    {
+        cout<<"bound: "<<beg->first<<" "<<beg->second;
+    }
+    cout<<endl;
+
+    set<int> iset = {1,4,0,99,8,2,3,10};
+    iset.insert(999);
+    auto iter1 = iset.lower_bound(8); // >=
+    while (iter1 != iset.end())
+    {
+        cout<<*iter1++<<" ";
+    }
+    cout<<endl;
+
+    auto iter2 = iset.upper_bound(8); // >
+    while (iter2 != iset.end())
+    {
+        cout<<*iter2++<<" ";
+    }
+    cout<<endl;
+    return 0;
+}
+#endif
+
+#if 0
+#include <iostream>
+#include <memory>
+#include <map>
+#include <string>
+using std::cout;
+using std::cin;
+using std::endl;
+using std::shared_ptr;
+using std::make_shared;
+using std::map;
+using std::string;
+
+void process(shared_ptr<int> p)
+{
+    *p = 3839;
+    cout<<"func-in: "<<*p<<endl;
+    return;
+}
+
+void printx(map<string, int> &m)
+{
+    cout<<"begin: "<<endl;
+    for (auto iter = m.begin(); iter != m.end(); iter++)
+    {
+        cout<<iter->first<<" "<<iter->second<<endl;
+    }
+    return;
+}
+
+int main()
+{
+    int a = 0;
+    int b(0);
+    int c{0}; // only support in C++11
+    int d = {0};
+
+    shared_ptr<int> pi = make_shared<int>(1024);
+    cout<<*pi<<endl;
+    process(pi);
+    cout<<*pi<<endl;
+    
+    shared_ptr<int> pi2(new int(3838));
+    cout<<*pi2<<endl;
+
+    int *x = new int(22);
+    cout<<*x<<endl; 
+    process(shared_ptr<int>(x));
+    //memory of x has been freed after the invoke
+    cout<<*x<<endl; // can't access pointer x
+
+    map<string, int> imap;
+    imap.insert({"hello", 11});
+    printx(imap);
+    imap.insert({"hellox", 2});
+    printx(imap);
+    imap.insert({"hello", 1});
+    printx(imap);
+    imap["hello"] = 1;
+    printx(imap);
+
+    auto iter = imap.find("hellox");
+    cout<<"find result: "<<iter->first<<" "<<iter->second<<endl;
+    return 0;
+}
+#endif
+
+
+#if 0
 #include <iostream>
 #include <map>
 #include <vector>
@@ -52,6 +183,11 @@ int main()
     cout<<s1.size()<<" "<<s1<<endl;
     string s = s1+'a';
     cout<<s<<endl;
+
+    string s4 = "hello";
+    auto iter = s4.begin();
+    s4.erase(++iter);
+    cout<<s4<<endl;
     return 0;
 }
 #endif
