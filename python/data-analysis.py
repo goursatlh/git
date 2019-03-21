@@ -5,7 +5,7 @@ from pandas import Series
 from pandas import DataFrame
 
 format_begin = "\033[1;32;43m"
-format_begin_2 = "\033[1;35m"
+format_begin_2 = "\033[1;39m"
 format_begin_3 = "\033[5;32m"
 format_end  = "\033[0m"
 def printx(para):
@@ -14,6 +14,7 @@ def printy(para):
     print(format_begin_2, para, format_end, sep='') # sepatator: sep="", end=""
 def print_flash(para):
     print(format_begin_3, para, format_end, sep='') # sepatator: sep="", end=""
+'''
 # Series
 obj = Series([1,2,"walter"])
 print(obj)
@@ -34,7 +35,7 @@ print(data)
 df = DataFrame(data)
 print(type(data))
 print(df)
-print("\033[5;32mcolumns: \033[0m!", df.columns)
+print(df.columns)
 print(df["state"])
 print(df.state)
 
@@ -57,6 +58,24 @@ print(df)
 printy("del a column")
 del df["eastern"]
 print(df)
+print()
+'''
+
+printx("Request:                                                                                   ")
+
+import requests
+url = 'https://api.github.com/repos/pandas-dev/pandas/issues'
+reps = requests.get(url)
+print(reps)
+data = reps.json()
+print(data[0]['number'])
+print(data[0]['title'])
+print(data[0]['created_at'])
+
+issues = DataFrame(data, columns = ['number', 'title'])
+print(issues)
+
+
 
 
 
