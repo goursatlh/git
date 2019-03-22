@@ -64,6 +64,8 @@ print()
 printx("Request:                                                                                   ")
 
 import requests
+import sqlite3
+'''
 url = 'https://api.github.com/repos/pandas-dev/pandas/issues'
 reps = requests.get(url)
 print(reps)
@@ -75,7 +77,42 @@ print(data[0]['created_at'])
 issues = DataFrame(data, columns = ['number', 'title'])
 print(issues)
 
+# save the data to sql database
+printy("sqlite3")
+conn = sqlite3.connect('test.db')
+cursor = conn.cursor()
+cursor.execute('create table user (id varchar(20) primary key, name varchar(20))')
+cursor.execute('insert into user (id, name) values (\'1\', \'Michael\')')
+print(cursor.rowcount)
+cursor.close()
+conn.commit()
+conn.close()
 
+conn = sqlite3.connect('test.db')
+cursor = conn.cursor()
+print(cursor.rowcount)
+cursor.execute('select * from user where id=?', ('1',))
+values = cursor.fetchall()
+print(values)
+cursor.close()
+conn.close()
+'''
 
+printy("\nmatplotlib")
+import matplotlib.pyplot as plt
+import numpy as np
+'''
+data = np.arange(10)
+print(data)
+plt.plot(data)
+#plt.show()
+'''
 
-
+x = np.array([1,2,3,4,5,6])
+y = np.array([3,5,7,6,2,6])
+# plot 
+plt.plot(x,y,'r', lw=20)
+plt.plot(x,y,'g',lw=10)
+# bar plot
+plt.bar(x,y,0.2,alpha=0.1,color='b') # 3: width 4: alpha: toumingdu
+plt.show()
