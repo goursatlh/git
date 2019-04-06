@@ -3,6 +3,7 @@
 
 # deque
 # deque vs list: 1, faster(350+ faster than list) 2, thread safety
+'''
 import time
 import sys
 from collections import deque
@@ -38,6 +39,7 @@ for i in range(len(l)):
     l[i] = 0
 t1 = time.clock()
 print("list indexed access ", t1-t0)
+'''
 
 '''
 # sum
@@ -98,13 +100,14 @@ with open("txt", "r+b") as f:
 '''
 
 
-'''
 # with ... as ...
-
+'''
 with open("txt") as file:
     data = file.read()
     print(data)
+'''
 
+'''
 class Sample():
     def __enter__(self):
         print("enter")
@@ -114,13 +117,14 @@ class Sample():
         print("vaule: ", value)
         print("trace: ", trace)
     def do_something(self):
+        print("do something")
         bar = 1/0
         return bar+10
 
 with Sample() as sample:
     sample.do_something()
+print("come here")
 '''
-
 
 '''
 # parameters for python functions
