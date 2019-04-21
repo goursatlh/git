@@ -1,11 +1,36 @@
 #!/usr/bin/env python3.5
 # -*- coding: utf-8 -*-  
+# pass vs return
+
+
+from wxpy import *
+bot = Bot()
+friend = bot.friends().search('goursatlh', sex=MALE)[0]
+friend.send("Hello, this is your little dog.")
+
+'''
+def func():
+    for i in range(10):
+        if i%2 == 0:
+            #continue
+            pass
+        print(i)
+
+func()
+
+def func1():
+    #pass
+
+func1
+'''
 
 # deque
 # deque vs list: 1, faster(350+ faster than list) 2, thread safety
+'''
 import time
 import sys
 from collections import deque
+
 t0 = time.clock()
 l = []
 for i in range(100000):
@@ -39,7 +64,6 @@ for i in range(len(l)):
 t1 = time.clock()
 print("list indexed access ", t1-t0)
 
-'''
 # sum
 pagesize = 4*1024
 l = [16,41,18,8,7,2,1,0,2,2,10]
@@ -340,7 +364,6 @@ print([m(2) for m in multipliers()])
 l = [i for i in range(10) if i % 2 == 0]
 print(l)
 '''
-
 '''
 # matplotlib
 import sys
