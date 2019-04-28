@@ -4,6 +4,7 @@ import json
 from scrapy.selector import Selector
 import re
 import textwrap
+from weibo.items import WeiboItem
 
 format_begin = "\033[1;32;43m"
 format_begin_2 = "\033[1;39m"
@@ -36,22 +37,26 @@ class WbSpider(scrapy.Spider):
                   'https://m.weibo.cn/profile/info?uid=1549255637'
                  ]
     #start_urls = ['https://m.weibo.cn/api/container/getIndex?jumpfrom=wapv4&tip=1&type=uid&value=5829543885&containerid=1076035829543885']
-    #start_urls = ['https://m.weibo.cn/profile/info?uid=1792673805']
+    #start_urls = ['https://m.weibo.cn/profile/info?uid=1748699555']
 
     def parse(self, response):
         sites = json.loads(response.body_as_unicode())
         data = sites['data']
         user_agent = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Mobile Safari/537.36'
+        '''
+        cookie = 'ALF=1558920577; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9W5YBsDvTBpnc.Wzy.URbl3d5JpX5K-hUgL.Fo2ceKBceo-fehe2dJLoI7LrdNHEMc8Xdsnt; MLOGIN=1; _T_WM=30689352240; SCF=Ao2y-itoCdlv6WiaobQC2b1eHkXH-4xrE5e-xvAIFRklozOvO6Mw5paYvg7svhBkCTYHhWk61SytRYZzYYx1RaU.; SUB=_2A25xx8rNDeRhGedI6lYX8ivJyz-IHXVTS9aFrDV6PUJbktAKLRnhkW1NV_5BqYzVOlkKWNcaJXFGho3EISrcT2Rp; SUHB=0U14es-oQF-YuM; SSOLoginState=1556331165; WEIBOCN_FROM=1110005030; XSRF-TOKEN=6b3239; M_WEIBOCN_PARAMS=oid%3D4362170832123773%26luicode%3D20000061%26lfid%3D4362170080831131%26uicode%3D20000061%26fid%3D4362170832123773'
         header = {
-                    'User-Agent': user_agent
+                    'User-Agent': user_agent,
+                    'Cookie': cookie
              }
-        user_info = data['user']
-        printx(user_info['screen_name'])
-        print("Followers: ", user_info['followers_count'])
-        card = data['statuses']
+        '''
         # display in short mode
         mode = getattr(self, 'mode', None)
         if mode == 'latest':
+            user_info = data['user']
+            printx(user_info['screen_name'])
+            print("Followers: ", user_info['followers_count'])
+            card = data['statuses']
             if 'isTop' in card[0]:
                 if card[0]['isTop'] == 1 and card[1]['id'] > card[0]['id']:
                     index = 1
@@ -72,19 +77,35 @@ class WbSpider(scrapy.Spider):
             print("Full context: ") 
             print_nohtml(data['longTextContent'])
         else:
+            user_info = data['user']
+            print()
+            printx(user_info['screen_name'])
+            print("Followers: ", user_info['followers_count'])
+            card = data['statuses']
             num = len(card)
             for i in range(num):
+                    item = WeiboItem()
                     print('------------------------------------------------------------------------------------------------------------------------------------------')
                     #print(card[i]['user']['screen_name'])
                     if card[i]['source'] != '':
                         print(card[i]['created_at'], " from ", card[i]['source'])
                     else:
                         print(card[i]['created_at'])
-
+                    item['wb_name'] = user_info['screen_name']+'-'+card[i]['created_at']
                     # process the text: delete the html elements
                     text_str = card[i]['text']
                     print_nohtml(text_str)
 
+                    # process pictures
+                    if 'pics' in card[i]:
+                        pics = card[i]['pics']
+                        pic_num = len(pics)
+                        #item['pic_urls'] = []
+                        for j in range(pic_num):
+                            print('pic url: ', pics[j]['large']['url'])
+                            item['pic_urls'].append(pics[j]['large']['url'])
+                    #print(item['wb_name'], item['pic_urls'])
+                    print(item['wb_name'], type(item['pic_urls']))
                     # process the long text, and there are some errors . comment it tentatively.
                     seletext = Selector(text=text_str)
                     if card[i]['isLongText'] == 1:
@@ -94,7 +115,8 @@ class WbSpider(scrapy.Spider):
                             id = longtext_url.split('/')[2]
                             lurl = "https://m.weibo.cn/statuses/extend?id="+id
                             print("Will display the full tent later..., url: ", lurl)
-                            yield response.follow(lurl, self.parse, headers=header, dont_filter=True)
+                            #yield response.follow(lurl, self.parse, headers=header, dont_filter=True)
+                            yield response.follow(lurl, self.parse, dont_filter=True)
 '''
             print()
             card = data['cards']
