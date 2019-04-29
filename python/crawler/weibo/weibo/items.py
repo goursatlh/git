@@ -7,8 +7,8 @@
 
 import scrapy
 
-
 class WeiboItem(scrapy.Item):
     # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+    wb_name = scrapy.Field()
+    pic_urls = scrapy.Field()
+    pic_paths = scrapy.Field()
