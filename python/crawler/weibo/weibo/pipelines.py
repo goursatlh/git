@@ -7,9 +7,10 @@
 
 import scrapy
 from scrapy.pipelines.images import ImagesPipeline
+from scrapy.pipelines.files import FilesPipeline
 from scrapy.exceptions import DropItem
 
-class WeiboPipeline(ImagesPipeline):
+class WeiboPicPipeline(ImagesPipeline):
     def get_media_requests(self, item, info):
         if len(item['pic_urls']) != 0:
             i = 0
@@ -29,3 +30,26 @@ class WeiboPipeline(ImagesPipeline):
         index = request.meta['index']
         filename = name+'-'+index+'.jpg'
         return filename
+
+class WeiboVideoPipeline(FilesPipeline):
+    def get_media_requests(self, item, info):
+        if len(item['video_urls']) != 0:
+            i = 0
+            print('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
+            for video_url in item['video_urls']:
+                i = i+1
+                yield scrapy.Request(video_url, meta={'name': item['wb_name'], 'index': str(i)}, dont_filter=True)
+
+    def item_completed(self, results, item, info):
+        image_paths = [ x['path'] for ok, x in results if ok ]
+        if not image_paths:
+            raise DropItem("Video contains no videos")
+        item['video_paths'] = image_paths
+        return item
+'''
+    def file_path(self, request, response=None, info=None):
+        name = request.meta['name']
+        index = request.meta['index']
+        filename = name+'x'+index+'.mp4'
+        return filename
+'''

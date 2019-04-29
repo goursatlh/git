@@ -13,9 +13,12 @@ BOT_NAME = 'weibo'
 
 SPIDER_MODULES = ['weibo.spiders']
 NEWSPIDER_MODULE = 'weibo.spiders'
-ITEM_PIPELINES = {'weibo.pipelines.WeiboPipeline': 1}
+ITEM_PIPELINES = {'weibo.pipelines.WeiboPicPipeline': 100,
+                  'weibo.pipelines.WeiboVideoPipeline': 300
+                 }
 
-IMAGES_STORE = './download'
+IMAGES_STORE = './pic_download'
+FILES_STORE = './video_download'
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'weibo (+http://www.yourdomain.com)'
 

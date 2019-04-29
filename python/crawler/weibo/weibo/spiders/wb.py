@@ -36,6 +36,7 @@ def time_format(time_str):
 class WbSpider(scrapy.Spider):
     name = 'wb'
     allowed_domains = ['m.weibo.cn']
+    '''
     start_urls = [#'https://m.weibo.cn/api/container/getIndex?jumpfrom=wapv4&tip=1&type=uid&value=1549255637&containerid=1076031549255637', # dashijie
                   #'https://m.weibo.cn/api/container/getIndex?jumpfrom=wapv4&tip=1&type=uid&value=5829543885&containerid=1076035829543885', # chenyuqi
                   #'https://m.weibo.cn/api/container/getIndex?jumpfrom=wapv4&tip=1&type=uid&value=2219969573&containerid=1076032219969573', # zhuzhu
@@ -45,8 +46,8 @@ class WbSpider(scrapy.Spider):
                   'https://m.weibo.cn/profile/info?uid=2219969573',
                   'https://m.weibo.cn/profile/info?uid=1549255637'
                  ]
-    #start_urls = ['https://m.weibo.cn/api/container/getIndex?jumpfrom=wapv4&tip=1&type=uid&value=5829543885&containerid=1076035829543885']
-    #start_urls = ['https://m.weibo.cn/profile/info?uid=5829543885']
+    '''
+    start_urls = ['https://m.weibo.cn/profile/info?uid=2219969573']
 
     def parse(self, response):
         sites = json.loads(response.body_as_unicode())
@@ -106,16 +107,30 @@ class WbSpider(scrapy.Spider):
                     # init the item
                     item['wb_name'] = user_info['screen_name']+'-'+time_created
                     item['pic_urls'] = []
+                    item['video_urls'] = []
                     # process the text: delete the html elements
                     text_str = card[i]['text']
                     print_nohtml(text_str)
 
-                    # process pictures
-                    if 'pics' in card[i]:
-                        pics = card[i]['pics']
-                        pic_num = len(pics)
-                        for j in range(pic_num):
-                            item['pic_urls'].append(pics[j]['large']['url'])
+                    ispic = getattr(self, 'pic', None)
+                    if ispic == '1':
+                        # process pictures
+                        if 'pics' in card[i]:
+                            pics = card[i]['pics']
+                            pic_num = len(pics)
+                            for j in range(pic_num):
+                                item['pic_urls'].append(pics[j]['large']['url']) 
+                    isvideo = getattr(self, 'video', None)
+                    if isvideo == '1':
+                        # process videos
+                        if 'page_info' in card[i]:
+                            if 'media_info' in card[i]['page_info']:
+                                media_info = card[i]['page_info']['media_info']
+                                if len(media_info['stream_url_hd']) != 0:
+                                    video_url = media_info['stream_url_hd']
+                                elif len(media_info['stream_url']) != 0:
+                                    video_url = media_info['stream_url']
+                                item['video_urls'].append(video_url)
                     yield item
                     # process the long text, and there are some errors . comment it tentatively.
 '''
