@@ -34,11 +34,8 @@ class WeiboPicPipeline(ImagesPipeline):
 class WeiboVideoPipeline(FilesPipeline):
     def get_media_requests(self, item, info):
         if len(item['video_urls']) != 0:
-            i = 0
-            print('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
             for video_url in item['video_urls']:
-                i = i+1
-                yield scrapy.Request(video_url, meta={'name': item['wb_name'], 'index': str(i)}, dont_filter=True)
+                yield scrapy.Request(video_url, meta={'name': item['wb_name'], 'video_name': item['video_name']}, dont_filter=True)
 
     def item_completed(self, results, item, info):
         image_paths = [ x['path'] for ok, x in results if ok ]
@@ -46,10 +43,9 @@ class WeiboVideoPipeline(FilesPipeline):
             raise DropItem("Video contains no videos")
         item['video_paths'] = image_paths
         return item
-'''
+
     def file_path(self, request, response=None, info=None):
         name = request.meta['name']
-        index = request.meta['index']
-        filename = name+'x'+index+'.mp4'
+        video_name = request.meta['video_name']
+        filename = name+'-'+video_name
         return filename
-'''

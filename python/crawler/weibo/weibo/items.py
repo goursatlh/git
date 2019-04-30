@@ -12,5 +12,7 @@ class WeiboItem(scrapy.Item):
     wb_name = scrapy.Field()
     pic_urls = scrapy.Field()
     video_urls = scrapy.Field()
+    video_name = scrapy.Field()
     pic_paths = scrapy.Field()
     video_paths = scrapy.Field()
+    follower  = scrapy.Field()

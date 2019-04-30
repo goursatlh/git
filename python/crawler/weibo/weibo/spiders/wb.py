@@ -48,18 +48,13 @@ class WbSpider(scrapy.Spider):
                  ]
     '''
     start_urls = ['https://m.weibo.cn/profile/info?uid=2219969573']
+    #nextpage_url = 'https://m.weibo.cn/api/container/getIndex?uid=2219969573&containerid=1076032219969573&since_id=4359984190199182'
 
     def parse(self, response):
+        nextpage_url_header = 'https://m.weibo.cn/profile/info?uid=2219969573&containerid=1076032219969573&since_id='
         sites = json.loads(response.body_as_unicode())
         data = sites['data']
-        user_agent = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Mobile Safari/537.36'
-        '''
-        cookie = 'ALF=1558920577; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9W5YBsDvTBpnc.Wzy.URbl3d5JpX5K-hUgL.Fo2ceKBceo-fehe2dJLoI7LrdNHEMc8Xdsnt; MLOGIN=1; _T_WM=30689352240; SCF=Ao2y-itoCdlv6WiaobQC2b1eHkXH-4xrE5e-xvAIFRklozOvO6Mw5paYvg7svhBkCTYHhWk61SytRYZzYYx1RaU.; SUB=_2A25xx8rNDeRhGedI6lYX8ivJyz-IHXVTS9aFrDV6PUJbktAKLRnhkW1NV_5BqYzVOlkKWNcaJXFGho3EISrcT2Rp; SUHB=0U14es-oQF-YuM; SSOLoginState=1556331165; WEIBOCN_FROM=1110005030; XSRF-TOKEN=6b3239; M_WEIBOCN_PARAMS=oid%3D4362170832123773%26luicode%3D20000061%26lfid%3D4362170080831131%26uicode%3D20000061%26fid%3D4362170832123773'
-        header = {
-                    'User-Agent': user_agent,
-                    'Cookie': cookie
-             }
-        '''
+
         # display in short mode
         mode = getattr(self, 'mode', None)
         if mode == 'latest':
@@ -131,12 +126,20 @@ class WbSpider(scrapy.Spider):
                                 elif len(media_info['stream_url']) != 0:
                                     video_url = media_info['stream_url']
                                 item['video_urls'].append(video_url)
+                                item['video_name'] = card[i]['page_info']['title']
+
+                    if mode == 'all':
+                        if i ==num-1:
+                            id = card[i]['id']
+                            nextpage_url = nextpage_url_header+id
+                            print('send nextpage request: ', nextpage_url)
+                            scrapy.Request(nextpage_url, dont_filter=True)
+
                     yield item
                     # process the long text, and there are some errors . comment it tentatively.
 '''
                     seletext = Selector(text=text_str)
                     if card[i]['isLongText'] == 1:
-                        #longtext_url = seletext.xpath('//a[text="全文"]/@href').get()
                         longtext_url = seletext.xpath('//a[text()="\u5168\u6587"]/@href').get()
                         if longtext_url is not None:
                             id = longtext_url.split('/')[2]

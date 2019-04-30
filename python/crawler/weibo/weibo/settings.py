@@ -13,8 +13,8 @@ BOT_NAME = 'weibo'
 
 SPIDER_MODULES = ['weibo.spiders']
 NEWSPIDER_MODULE = 'weibo.spiders'
-ITEM_PIPELINES = {'weibo.pipelines.WeiboPicPipeline': 100,
-                  'weibo.pipelines.WeiboVideoPipeline': 300
+ITEM_PIPELINES = {'weibo.pipelines.WeiboPicPipeline': 300,
+                  'weibo.pipelines.WeiboVideoPipeline': 1
                  }
 
 IMAGES_STORE = './pic_download'
