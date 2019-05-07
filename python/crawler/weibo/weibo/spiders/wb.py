@@ -25,7 +25,6 @@ def print_nohtml(text_str):
     s2 = s2.replace(' ','')
     s2 = textwrap.fill(s2, width=70)
     print(s2)
-    print()
 
 def time_format(time_str):
     GMT_FORMAT = '%a %b %d %H:%M:%S +0800 %Y'
@@ -35,107 +34,133 @@ def time_format(time_str):
 
 class WbSpider(scrapy.Spider):
     name = 'wb'
+    page_index = 1
     allowed_domains = ['m.weibo.cn']
-    '''
     start_urls = [#'https://m.weibo.cn/api/container/getIndex?jumpfrom=wapv4&tip=1&type=uid&value=1549255637&containerid=1076031549255637', # dashijie
                   #'https://m.weibo.cn/api/container/getIndex?jumpfrom=wapv4&tip=1&type=uid&value=5829543885&containerid=1076035829543885', # chenyuqi
                   #'https://m.weibo.cn/api/container/getIndex?jumpfrom=wapv4&tip=1&type=uid&value=2219969573&containerid=1076032219969573', # zhuzhu
                   #'https://m.weibo.cn/api/container/getIndex?type=uid&value=1792673805&containerid=1076031792673805' #caoxiyue
-                  'https://m.weibo.cn/profile/info?uid=1792673805',
-                  'https://m.weibo.cn/profile/info?uid=5829543885',
-                  'https://m.weibo.cn/profile/info?uid=2219969573',
-                  'https://m.weibo.cn/profile/info?uid=1549255637'
+                  #'https://m.weibo.cn/profile/info?uid=1792673805',
+                  #'https://m.weibo.cn/profile/info?uid=5829543885',
+                  #'https://m.weibo.cn/profile/info?uid=2219969573',
+                  #'https://m.weibo.cn/profile/info?uid=1549255637'
+                  'https://m.weibo.cn/api/container/getIndex?uid=1549255637&containerid=1076031549255637',
+                  'https://m.weibo.cn/api/container/getIndex?uid=5829543885&containerid=1076035829543885',
+                  'https://m.weibo.cn/api/container/getIndex?uid=2219969573&containerid=1076032219969573',
+                  'https://m.weibo.cn/api/container/getIndex?uid=1792673805&containerid=1076031792673805'
                  ]
-    '''
-    start_urls = ['https://m.weibo.cn/profile/info?uid=2219969573']
-    #nextpage_url = 'https://m.weibo.cn/api/container/getIndex?uid=2219969573&containerid=1076032219969573&since_id=4359984190199182'
+    #start_urls = ['https://m.weibo.cn/profile/info?uid=2219969573']
+    #start_urls = ['https://m.weibo.cn/api/container/getIndex?uid=2219969573&containerid=1076032219969573']
+    def start_requests(self):
+        for url in self.start_urls:
+            print('send nextpage request: ', url)
+            yield scrapy.Request(url, self.parse, meta={'start_url':url})
 
     def parse(self, response):
-        nextpage_url_header = 'https://m.weibo.cn/profile/info?uid=2219969573&containerid=1076032219969573&since_id='
+        current_url = response.meta['start_url']
+        print("repsonse from ", current_url)
+        if current_url.find('page') == -1:
+            nextpage_url_header  = current_url+'&page='
+        else:
+            nextpage_url_header  = current_url[:-1]
         sites = json.loads(response.body_as_unicode())
         data = sites['data']
-
+        latest_index = 0
+        latest_id = 0
         # display in short mode
         mode = getattr(self, 'mode', None)
-        if mode == 'latest':
-            user_info = data['user']
-            print(user_info['screen_name'])
-            print("Followers: ", user_info['followers_count'])
-            card = data['statuses']
-            if 'isTop' in card[0]:
-                if card[0]['isTop'] == 1 and card[1]['id'] > card[0]['id']:
-                    index = 1
-                else:
-                    index = 0
-            else:
-                index = 0
-
-            time_created = time_format(card[index]['created_at'])
-            if card[index]['source'] != '':
-                print(time_created, " from ", card[index]['source'])
-            else:
-                print(time_created)
-            text_str = card[index]['text']
-            print_nohtml(text_str)
-            return
 
         if 'longTextContent' in data:
             print("******************************************************************************************************************************************")
             print("Full context: ")
             print_nohtml(data['longTextContent'])
         else:
-            user_info = data['user']
-            print()
-            printx(user_info['screen_name'])
-            print("Followers: ", user_info['followers_count'])
-            card = data['statuses']
-            num = len(card)
+            #user_info = data['user']
+            #print()
+            #printx(user_info['screen_name'])
+            #print("Followers: ", user_info['followers_count'])
+            cards = data['cards']
+            num = len(cards)
             for i in range(num):
-                    item = WeiboItem()
+                if cards[i]['card_type'] == 9:
+                    card = cards[i]['mblog']
+
+                    if mode == "latest":
+                        if "isTop" in card:
+                            latest_idnex = i
+                            latest_id = int(card['id'])
+                            continue
+                        else:
+                            if int(card['id']) > latest_id:
+                                latest_index = i
+                                latest_id = int(card['id'])
+                        if i == num-1:
+                            card = cards[latest_index]['mblog']
+                            print(card['user']['screen_name'])
+                            print("Followers: ", card['user']['followers_count'])
+                            time_created = card['created_at']
+                            if card['source'] != '':
+                                print(time_created, " from ", card['source'])
+                            else:
+                                print(time_created)
+                            text_str = card['text']
+                            print_nohtml(text_str)
+                            return
+                        else:
+                            continue
+
                     print('------------------------------------------------------------------------------------------------------------------------------------------')
-                    #print(card[i]['user']['screen_name'])
-                    time_created = time_format(card[i]['created_at'])
-                    if card[i]['source'] != '':
-                        print(time_created, " from ", card[i]['source'])
+                    print(card['user']['screen_name'])
+                    #time_created = time_format(card[i]['created_at'])
+                    time_created = card['created_at']
+                    if card['source'] != '':
+                        print(time_created, " from ", card['source'])
                     else:
                         print(time_created)
+                    # process the text: delete the html elements
+                    text_str = card['text']
+                    print_nohtml(text_str)
+
                     # init the item
-                    item['wb_name'] = user_info['screen_name']+'-'+time_created
+                    item = WeiboItem()
+                    item['wb_name'] = card['user']['screen_name']+'-'+time_created
                     item['pic_urls'] = []
                     item['video_urls'] = []
-                    # process the text: delete the html elements
-                    text_str = card[i]['text']
-                    print_nohtml(text_str)
 
                     ispic = getattr(self, 'pic', None)
                     if ispic == '1':
                         # process pictures
-                        if 'pics' in card[i]:
-                            pics = card[i]['pics']
+                        if 'pics' in card:
+                            pics = card['pics']
                             pic_num = len(pics)
                             for j in range(pic_num):
                                 item['pic_urls'].append(pics[j]['large']['url']) 
                     isvideo = getattr(self, 'video', None)
                     if isvideo == '1':
                         # process videos
-                        if 'page_info' in card[i]:
-                            if 'media_info' in card[i]['page_info']:
-                                media_info = card[i]['page_info']['media_info']
+                        if 'page_info' in card:
+                            if 'media_info' in card['page_info']:
+                                media_info = card['page_info']['media_info']
                                 if len(media_info['stream_url_hd']) != 0:
                                     video_url = media_info['stream_url_hd']
                                 elif len(media_info['stream_url']) != 0:
                                     video_url = media_info['stream_url']
                                 item['video_urls'].append(video_url)
-                                item['video_name'] = card[i]['page_info']['title']
-
-                    if mode == 'all':
-                        if i ==num-1:
-                            id = card[i]['id']
-                            nextpage_url = nextpage_url_header+id
-                            print('send nextpage request: ', nextpage_url)
-                            scrapy.Request(nextpage_url, dont_filter=True)
+                                item['video_name'] = card['page_info']['title']
 
                     yield item
+                    if mode == 'all':
+                        if i ==num-1:
+                            max_page = int(getattr(self, 'page', None))
+                            #id = card[i]['id']
+                            self.page_index = self.page_index + 1
+                            if self.page_index == max_page+1:
+                                self.page_index = 1
+                                return
+                            nextpage_url = nextpage_url_header+str(self.page_index)
+                            print('send nextpage request: ', nextpage_url)
+                            yield response.follow(nextpage_url, self.parse, dont_filter=True, meta={'start_url':nextpage_url})
+
                     # process the long text, and there are some errors . comment it tentatively.
 '''
                     seletext = Selector(text=text_str)
