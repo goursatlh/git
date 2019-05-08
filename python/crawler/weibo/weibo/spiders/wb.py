@@ -64,7 +64,7 @@ class WbSpider(scrapy.Spider):
 
     def parse(self, response):
         current_url = response.meta['start_url']
-        #print("repsonse from ", current_url)
+        print("repsonse from ", current_url)
 
         sites = json.loads(response.body_as_unicode())
         data = sites['data']
@@ -153,13 +153,15 @@ class WbSpider(scrapy.Spider):
 
                     yield item
                     if mode == 'all':
-                        if i ==num-1:
-                            max_page = int(getattr(self, 'page', None))
-                            current_page = int(current_url[-1])
-                            if current_page == max_page:
-                                return
-                            nextpage_url = current_url[:-1]+str(current_page+1)
-                            print('send nextpage request: ', nextpage_url)
+                        if i == num-1:
+                            current_page = int(current_url.split('=')[-1])
+                            max_page = getattr(self, 'page', None)
+                            if max_page is not None:
+                                if current_page == int(max_page):
+                                    return
+                            pos = current_url.find('page')
+                            nextpage_url = current_url[:(pos+5)]+str(current_page+1)
+                            print('send next page url ', nextpage_url)
                             yield response.follow(nextpage_url, self.parse, dont_filter=True, meta={'start_url':nextpage_url})
 
                     # process the long text, and there are some errors . comment it tentatively.
