@@ -44,25 +44,28 @@ class WbSpider(scrapy.Spider):
                   #'https://m.weibo.cn/profile/info?uid=5829543885',
                   #'https://m.weibo.cn/profile/info?uid=2219969573',
                   #'https://m.weibo.cn/profile/info?uid=1549255637'
-                  'https://m.weibo.cn/api/container/getIndex?uid=1549255637&containerid=1076031549255637',
-                  'https://m.weibo.cn/api/container/getIndex?uid=5829543885&containerid=1076035829543885',
-                  'https://m.weibo.cn/api/container/getIndex?uid=2219969573&containerid=1076032219969573',
-                  'https://m.weibo.cn/api/container/getIndex?uid=1792673805&containerid=1076031792673805'
+                  'https://m.weibo.cn/api/container/getIndex?uid=1549255637&containerid=1076031549255637&page=1',
+                  'https://m.weibo.cn/api/container/getIndex?uid=5829543885&containerid=1076035829543885&page=1',
+                  'https://m.weibo.cn/api/container/getIndex?uid=2219969573&containerid=1076032219969573&page=1',
+                  'https://m.weibo.cn/api/container/getIndex?uid=1792673805&containerid=1076031792673805&page=1'
                  ]
     #start_urls = ['https://m.weibo.cn/profile/info?uid=2219969573']
     #start_urls = ['https://m.weibo.cn/api/container/getIndex?uid=2219969573&containerid=1076032219969573']
     def start_requests(self):
-        for url in self.start_urls:
-            print('send nextpage request: ', url)
+        uid = getattr(self, 'uid', None)
+        if uid is not None:
+            url = 'https://m.weibo.cn/api/container/getIndex?uid='+uid+'&containerid=107603'+uid+'&page=1'
+            #print('send nextpage request: ', url)
             yield scrapy.Request(url, self.parse, meta={'start_url':url})
+        else:
+            for url in self.start_urls:
+                #print('send nextpage request: ', url)
+                yield scrapy.Request(url, self.parse, meta={'start_url':url})
 
     def parse(self, response):
         current_url = response.meta['start_url']
-        print("repsonse from ", current_url)
-        if current_url.find('page') == -1:
-            nextpage_url_header  = current_url+'&page='
-        else:
-            nextpage_url_header  = current_url[:-1]
+        #print("repsonse from ", current_url)
+
         sites = json.loads(response.body_as_unicode())
         data = sites['data']
         latest_index = 0
@@ -152,12 +155,10 @@ class WbSpider(scrapy.Spider):
                     if mode == 'all':
                         if i ==num-1:
                             max_page = int(getattr(self, 'page', None))
-                            #id = card[i]['id']
-                            self.page_index = self.page_index + 1
-                            if self.page_index == max_page+1:
-                                self.page_index = 1
+                            current_page = int(current_url[-1])
+                            if current_page == max_page:
                                 return
-                            nextpage_url = nextpage_url_header+str(self.page_index)
+                            nextpage_url = current_url[:-1]+str(current_page+1)
                             print('send nextpage request: ', nextpage_url)
                             yield response.follow(nextpage_url, self.parse, dont_filter=True, meta={'start_url':nextpage_url})
 
