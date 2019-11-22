@@ -1,0 +1,29 @@
+#!/usr/bin/env python3
+from ctypes import *
+import os
+import re
+
+lib = cdll.LoadLibrary(os.getcwd() + '/lru3.so')
+f = open("dict1.txt", "r")
+f2 = open("dict2.txt", "r")
+#input = f.read().split(',')
+#input2 = f2.read().split(',')
+'''
+input = f.read()
+p= re.compile('.+?"(.+?)"')
+iter = p.findall(input)
+for var in iter:
+    print(var)
+'''
+
+input2 = f2.read()
+print(input2)
+p2= re.compile('.+?[(.+?)]')
+iter2 = p2.findall(input2)
+for var in iter2:
+    print(var)
+#pLRUCache = lib.lRUCacheCreate(input2[0][0])
+#lib.lRUCachePut(pLRUCache, 1, 1)
+#lib.lRUCachePut(pLRUCache, 2, 2)
+#lib.lRUCacheShow(pLRUCache)
+
