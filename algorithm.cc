@@ -1,5 +1,5 @@
 
-#if 1  // max sum for the sub-list, if the result is -xx, return 0
+#if 0  // max sum for the sub-list, if the result is -xx, return 0
 #include <iostream>
 #include <vector>
 #include <stdlib.h>
@@ -822,7 +822,7 @@ void lsd(string &s1, string &s2)
     }
 }
 
-/* find the longest dupulicat substring in on string */
+/* find the longest dupulicat substring in one string */
 void ldss(string &s1)
 {
     unsigned int len = 0;
@@ -901,7 +901,7 @@ int main(int argc, char **argv)
 }
 #endif
 
-#if 1
+#if 0
 int main(int argc, char **argv)
 {
     struct timeval tvstart, tvend;
@@ -1003,7 +1003,7 @@ return 0;
 }
 #endif
 
-#if 0 // rb tree
+#if 1 // rb tree
 #include <iostream>
 #include <list>
 
@@ -1015,41 +1015,41 @@ using std::list;
 class Node
 {
 public:
-Node *left;
-Node *right;
-int color;
+    Node *left;
+    Node *right;
+    int color;
 #define RED 0
 #define BLACK 1
-int key;
+    int key;
 
-Node(int key, int color): key(key), color(color) 
-{
-    left = right = NULL;
-}
+    Node(int key, int color): key(key), color(color) 
+    {
+        left = right = NULL;
+    }
 };
 
 class RBT
 {
-Node *root;
+    Node *root;
 public:
-RBT(): root(NULL) {}
-//public api
-void put(int key);  
-void get(int key);  
-void del(int key);  
-void print();  
-void NatureDisplayTree();
+    RBT(): root(NULL) {}
+    //public api
+    void put(int key);  
+    void get(int key);  
+    void del(int key);  
+    void print();  
+    void NatureDisplayTree();
 private:
-//process balance
-void rotate_left(Node *&x);
-void rotate_right(Node *&x);
-bool is_red(Node *x);
-void flip_color(Node *x);
+    //process balance
+    void rotate_left(Node *&x);
+    void rotate_right(Node *&x);
+    bool is_red(Node *x);
+    void flip_color(Node *x);
 
-//internal api
-int get(Node *x, int key);
-void put(Node *&x, int key);
-void print(Node *x);  
+    //internal api
+    int get(Node *x, int key);
+    void put(Node *&x, int key);
+    void print(Node *x);  
 };
 
 class DisplayInfo  
@@ -1063,154 +1063,154 @@ int spaceNum;
 
 void RBT::NatureDisplayTree()
 {
-int i;
-list<Node *>Q;
-list<DisplayInfo>QI;
-int screenWidth=64;
-int dataWidth=2;
-DisplayInfo info;    //将插入队列的结点的打印信息
-DisplayInfo preInfo; //队尾的结点的打印信息
-Node *curNode;       //队列当前取出的结点
-DisplayInfo curInfo; //队列当前取出的结点的打印信息
-if(!root)
-{
-    printf("Tree is empty !\n");
-    return;
-}
-
-printf("Nature Display Tree:\n");
-Q.push_back(root);
-info.level=1;
-info.enter=true;
-info.spaceNum=screenWidth>>info.level;
-info.pos=info.spaceNum;
-QI.push_back(info);
-preInfo=info;
-while(Q.size())
-{
-    curNode=Q.front();
-    Q.pop_front();
-    curInfo=QI.front();
-    if(curInfo.enter) 
-        printf("\n\n");
-    for (i=0;i<curInfo.spaceNum;i++)
-        printf(" ");
-    printf("%2d(%d)",curNode->key, curNode->color);
-    QI.pop_front();
-    if(curNode->left)
+    int i;
+    list<Node *>Q;
+    list<DisplayInfo>QI;
+    int screenWidth=64;
+    int dataWidth=2;
+    DisplayInfo info;    //将插入队列的结点的打印信息
+    DisplayInfo preInfo; //队尾的结点的打印信息
+    Node *curNode;       //队列当前取出的结点
+    DisplayInfo curInfo; //队列当前取出的结点的打印信息
+    if(!root)
     {
-        Q.push_back(curNode->left);
-        info.level=curInfo.level+1;
-        info.pos=curInfo.pos-(screenWidth>>info.level);
-        if(info.level>preInfo.level)
-        {
-            info.enter=true;
-            info.spaceNum=info.pos;
-        }
-        else
-        {
-            info.enter=false;
-            info.spaceNum=info.pos-preInfo.pos;
-        }
-        info.spaceNum-=dataWidth;
-        QI.push_back(info);
-        preInfo=info;
-
-    }
-    if(curNode->right)
-    {
-        Q.push_back(curNode->right);
-        info.level=curInfo.level+1;
-        info.pos=curInfo.pos+(screenWidth>>info.level);
-        if(info.level>preInfo.level)
-        {
-            info.enter=true;
-            info.spaceNum=info.pos;
-        }
-        else
-        {
-            info.enter=false;
-            info.spaceNum=info.pos-preInfo.pos;
-        }
-        info.spaceNum-=dataWidth;
-        QI.push_back(info);
-        preInfo=info;
+        printf("Tree is empty !\n");
+        return;
     }
 
-}
-printf("\n");
+    printf("Nature Display Tree:\n");
+    Q.push_back(root);
+    info.level=1;
+    info.enter=true;
+    info.spaceNum=screenWidth>>info.level;
+    info.pos=info.spaceNum;
+    QI.push_back(info);
+    preInfo=info;
+    while(Q.size())
+    {
+        curNode=Q.front();
+        Q.pop_front();
+        curInfo=QI.front();
+        if(curInfo.enter) 
+            printf("\n\n");
+        for (i=0;i<curInfo.spaceNum;i++)
+            printf(" ");
+        printf("%2d(%d)",curNode->key, curNode->color);
+        QI.pop_front();
+        if(curNode->left)
+        {
+            Q.push_back(curNode->left);
+            info.level=curInfo.level+1;
+            info.pos=curInfo.pos-(screenWidth>>info.level);
+            if(info.level>preInfo.level)
+            {
+                info.enter=true;
+                info.spaceNum=info.pos;
+            }
+            else
+            {
+                info.enter=false;
+                info.spaceNum=info.pos-preInfo.pos;
+            }
+            info.spaceNum-=dataWidth;
+            QI.push_back(info);
+            preInfo=info;
+
+        }
+        if(curNode->right)
+        {
+            Q.push_back(curNode->right);
+            info.level=curInfo.level+1;
+            info.pos=curInfo.pos+(screenWidth>>info.level);
+            if(info.level>preInfo.level)
+            {
+                info.enter=true;
+                info.spaceNum=info.pos;
+            }
+            else
+            {
+                info.enter=false;
+                info.spaceNum=info.pos-preInfo.pos;
+            }
+            info.spaceNum-=dataWidth;
+            QI.push_back(info);
+            preInfo=info;
+        }
+
+    }
+    printf("\n");
 }
 
 void RBT::print()
 {
-print(root);
+    print(root);
 }
 
 void RBT::print(Node *x)
 {
-if (x)
-{
-    print(x->left);
-    cout<<x->key<<endl;
-    print(x->right);
-}
+    if (x)
+    {
+        print(x->left);
+        cout<<x->key<<endl;
+        print(x->right);
+    }
 }
 
 void RBT::put(Node *&x, int key)
 {
-Node *p;
-if (x == NULL)
-{
-   x = new Node(key, RED);
-   return;
-}
-if (key < x->key)
-   put(x->left, key);
-else if (key > x->key)
-   put(x->right, key);
-else
-   cout<<"duplicate key, can't insert to tree"<<endl;
+    Node *p;
+    if (x == NULL)
+    {
+       x = new Node(key, RED);
+       return;
+    }
+    if (key < x->key)
+       put(x->left, key);
+    else if (key > x->key)
+       put(x->right, key);
+    else
+       cout<<"duplicate key, can't insert to tree"<<endl;
 
-if (is_red(x->right) && !is_red(x->left))
-    rotate_left(x);
-if (is_red(x->left) && is_red(x->left->left))
-    rotate_right(x);
-if (is_red(x->left) && is_red(x->right))
-    flip_color(x);
+    if (is_red(x->right) && !is_red(x->left))
+        rotate_left(x);
+    if (is_red(x->left) && is_red(x->left->left))
+        rotate_right(x);
+    if (is_red(x->left) && is_red(x->right))
+        flip_color(x);
 }
 
 void RBT::put(int key)
 {
-put(root, key);
-if (root)
-    root->color = BLACK;
+    put(root, key);
+    if (root)
+        root->color = BLACK;
 }
 
 void RBT::rotate_left(Node *&x)
 {
-Node * t = x->right;
-x->right = t->left;
-t->left = x;
-t->color = x->color;
-x->color = RED;
-x = t;
+    Node * t = x->right;
+    x->right = t->left;
+    t->left = x;
+    t->color = x->color;
+    x->color = RED;
+    x = t;
 }
 
 void RBT::rotate_right(Node *&x)
 {
-Node * t = x->left;
-x->left = t->right;
-t->right = x;
-t->color = x->color;
-x->color = RED;
-x = t;
+    Node * t = x->left;
+    x->left = t->right;
+    t->right = x;
+    t->color = x->color;
+    x->color = RED;
+    x = t;
 }
 
 void RBT::flip_color(Node *x)
 {
-x->color = RED;
-x->left->color = BLACK;
-x->right->color = BLACK;
+    x->color = RED;
+    x->left->color = BLACK;
+    x->right->color = BLACK;
 }
 
 bool RBT::is_red(Node *x)
@@ -1222,37 +1222,37 @@ return (x->color == RED);
 
 int main(int argc, char **argv)
 {
-RBT t;
-int num = 0;
-int a = 0;
-// test the insert operation
-cout<<"please input the number you want to play: "<<endl;
-do {
-    cin>>num;
-} while (num <= 0);
+    RBT t;
+    int num = 0;
+    int a = 0;
+    // test the insert operation
+    cout<<"please input the number you want to play: "<<endl;
+    do {
+        cin>>num;
+    } while (num <= 0);
 
-while (num--)
-{
-    //t.put(rand()%100);
-    t.put(num);
-}
-t.print();
-t.NatureDisplayTree();
+    while (num--)
+    {
+        //t.put(rand()%100);
+        t.put(num);
+    }
+    t.print();
+    t.NatureDisplayTree();
 #if 0 
-// test the delete operation
-cout<<"plese input the key you want to delete: "<<endl;
-if (cin>>a)
-{
-    if (!t.get(a))
-        t.del(a);
-    else
-        cout<<"the key you input doesn't exist"<<endl;
-}
+    // test the delete operation
+    cout<<"plese input the key you want to delete: "<<endl;
+    if (cin>>a)
+    {
+        if (!t.get(a))
+            t.del(a);
+        else
+            cout<<"the key you input doesn't exist"<<endl;
+    }
 
-t.print();
-t.NatureDisplayTree();
+    t.print();
+    t.NatureDisplayTree();
 #endif
-return 0;
+    return 0;
 }
 #endif
 
@@ -1260,12 +1260,12 @@ return 0;
 #include <iostream>
 #include <list>
 
-using std::cout;
-using std::cin;
-using std::endl;
-using std::list;
+    using std::cout;
+    using std::cin;
+    using std::endl;
+    using std::list;
 
-class DisplayInfo  
+    class DisplayInfo  
 {  
 public:  
 int level;  

@@ -1,14 +1,30 @@
 #!/usr/bin/env python3.5
 # -*- coding: utf-8 -*-  
-# pass vs return
+
+# orderedDict
+from collections import OrderedDict
 
 
+'''
+# function parameter comment
+def f(ham: str, eggs: int = 'spam') -> "Nothing to see here":
+    print("function comment: ", f.__annotations__)
+    print("function parameters: ", ham, eggs)
+    print(type(ham),type(eggs))
+
+f("www")
+f("www", 5)
+'''
+
+'''
 from wxpy import *
 bot = Bot()
 friend = bot.friends().search('goursatlh', sex=MALE)[0]
 friend.send("Hello, this is your little dog.")
+'''
 
 '''
+# pass vs return
 def func():
     for i in range(10):
         if i%2 == 0:
@@ -65,6 +81,7 @@ t1 = time.clock()
 print("list indexed access ", t1-t0)
 '''
 
+'''
 # sum
 pagesize = 4*1024
 l = [16,41,18,8,7,2,1,0,2,2,10]

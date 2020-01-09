@@ -22,11 +22,10 @@ static DEFINE_MUTEX(my_mutex);
 spinlock_t my_spinlock;
 //spin_lock_init(my_spinlock);
 
-#define MAX_LOOP 1000
+#define MAX_LOOP 100
 static int thread_func(void *data)
 {
     printk(KERN_ALERT "thread start: %d\n", pthread1->pid);
-    //while (1)
     //while (!kthread_should_stop()) // kthread_should_stop should be added here, otherwise the thread will be hung up.
     {
         //printk(KERN_ALERT "hello world\n");
@@ -35,14 +34,14 @@ static int thread_func(void *data)
         for (i = 0; i < MAX_LOOP; i++)
         {
             //mutex_lock(&my_mutex);
-            //spin_lock(&my_spinlock);
+            spin_lock(&my_spinlock);
             j = myglobal;
             j = j + 1;
             printk(".");
             //msleep(100);
             myglobal = j;
             //mutex_unlock(&my_mutex);
-            //spin_unlock(&my_spinlock);
+            spin_unlock(&my_spinlock);
         }
         while (!kthread_should_stop())
         {
@@ -57,14 +56,14 @@ static int __init hello_init(void)
 {
     int i;
     spin_lock_init(&my_spinlock);
-    u8 *pc = (char *)kmalloc(100,GFP_KERNEL );
-    printk(KERN_ALERT "Kernel address %p\n", pc);
+    //u8 *pc = (char *)kmalloc(100,GFP_KERNEL );
+    //printk(KERN_ALERT "Kernel address %p\n", pc);
     printk(KERN_ALERT "Hello Linux kernel\n");
-    //pthread1 = kthread_run(thread_func, NULL, "hello");
+    pthread1 = kthread_run(thread_func, NULL, "hello");
     for (i = 0; i < MAX_LOOP; i++)
     {
         //mutex_lock(&my_mutex);
-        //spin_lock(&my_spinlock);
+        spin_lock(&my_spinlock);
         myglobal = myglobal + 1;
         printk("O");
         //mutex_unlock(&my_mutex);

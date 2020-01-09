@@ -1,6 +1,221 @@
 
+//fopen fopen w w+ r r+
+#if 1
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
-#if 1 // get pid by process name
+#define FILE_PATH "data"
+int main()
+{
+    FILE *fp = NULL;
+    char buff[512] = {0};
+    char buff1[32] = "hello world\n";
+    struct stat fs;
+    int flen = 0;
+    int pos = 0;
+    stat( FILE_PATH, &fs);
+    printf("file %s size %d before fopen\n", FILE_PATH, fs.st_size);
+    fp = fopen(FILE_PATH, "w+");
+    stat( FILE_PATH, &fs);
+    printf("file %s size %d after fopen\n", FILE_PATH, fs.st_size);
+    //setvbuf ( fp , sBuf, _IOFBF , 1024 );
+    //sleep(600);
+#if 0
+    if (fp)
+    {
+        pos = (int)ftell(fp);
+        printf("1 current file pointer %d\n",pos);
+        flen = fread( buff, 1, sizeof(buff), fp);
+        if (flen >= 0)
+        {
+            printf("read %d bytes: %s\n", flen, buff);
+        }
+        sleep(600);
+        pos = (int)ftell(fp);
+        printf("2 current file pointer %d\n",pos);
+
+        fwrite(buff1, 1, strlen(buff1), fp);
+        
+        pos = (int)ftell(fp);
+        printf("3 current file pointer %d\n",pos);
+       
+        fseek(fp, 0, SEEK_SET);
+        pos = (int)ftell(fp);
+        printf("4 current file pointer %d\n",pos);
+        
+        flen = fread( buff, 1, sizeof(buff), fp);
+        if (flen >= 0)
+        {
+            printf("read again %d bytes: %s\n", flen, buff);
+        }
+        pos = (int)ftell(fp);
+        printf("5 current file pointer %d\n",pos);
+        fclose(fp);
+    }
+#endif
+    return 0;
+}
+#endif
+
+// fopen fseek
+#if 0
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
+//#define FILE_PATH "test.txt"
+#define FILE_PATH "data"
+
+int main()
+{
+    FILE *fp = NULL;
+    char buff[512] = {0};
+    char buff1[32] = "hello world\n";
+    struct stat fs;
+    int flen = 0;
+    int pos = 0;
+    stat( FILE_PATH, &fs);
+    printf("file %s size %d\n", FILE_PATH, fs.st_size);
+    fp = fopen(FILE_PATH, "a+");
+    //setvbuf ( fp , sBuf, _IOFBF , 1024 );
+    //sleep(600);
+    if (fp)
+    {
+        pos = (int)ftell(fp);
+        printf("1 current file pointer %d\n",pos);
+        flen = fread( buff, 1, sizeof(buff), fp);
+        if (flen >= 0)
+        {
+            printf("read %d bytes: %s\n", flen, buff);
+        }
+        sleep(600);
+        pos = (int)ftell(fp);
+        printf("2 current file pointer %d\n",pos);
+
+        fwrite(buff1, 1, strlen(buff1), fp);
+        
+        pos = (int)ftell(fp);
+        printf("3 current file pointer %d\n",pos);
+       
+        fseek(fp, 0, SEEK_SET);
+        pos = (int)ftell(fp);
+        printf("4 current file pointer %d\n",pos);
+        
+        flen = fread( buff, 1, sizeof(buff), fp);
+        if (flen >= 0)
+        {
+            printf("read again %d bytes: %s\n", flen, buff);
+        }
+        pos = (int)ftell(fp);
+        printf("5 current file pointer %d\n",pos);
+        fclose(fp);
+    }
+
+    return 0;
+}
+#endif
+
+#if 0
+#include <stdio.h>
+#include <string.h>
+int main()
+{
+    char input_str[1280] = {0};
+    int max_len = 0;
+    int cur_len = 0;
+    int left_index = 0;
+    int right_index = 0;
+    int i,j;
+    printf("please input string: \n");
+    scanf("%s", input_str);
+    printf("Your input string is: %s\n", input_str);
+
+    if (strlen(input_str) == 1)
+        max_len = 1;
+    else 
+    {
+        max_len = 1;
+#if 0
+        for (i = 0; i < strlen(input_str); i++)
+        {
+            for (j = i+max_len; j < strlen(input_str); j++)
+            {
+                int ii = i, jj = j;
+                cur_len = 0;
+                //printf("i %d j %d\n", i, j);
+                while (jj >= ii)
+                {
+                    //printf(" %d %c %d %c\n", ii, input_str[ii], jj, input_str[jj]);
+                    if (input_str[ii] == input_str[jj])
+                    {
+                        if (ii == jj)
+                        {
+                            cur_len++;
+                        }
+                        else
+                        {
+                            cur_len += 2;
+                        }
+                        ii++;
+                        jj--;
+                        //printf(" cur_len %d\n", cur_len);
+                        continue;
+                    }
+                    else
+                    {
+                        cur_len = 0;
+                        //printf(" clean cur_len %d\n", cur_len);
+                        break;
+                    }
+                }
+                if (cur_len > max_len)
+                {
+                    max_len = cur_len;
+                    left_index = i;
+                    right_index = j;
+                }
+                if (max_len == 0)
+                {
+                    max_len = 1;
+                    left_index = right_index = 0;
+                }
+            }
+        }
+#endif
+        {
+            int len = 0;
+            char tmp_str1[1024] = {0};
+            for (i = 0; i < strlen(input_str); i++)
+            {
+                for (j = i+max_len; j < strlen(input_str); j++)
+                {
+                    len = j-i+1;
+
+                }
+            
+            }
+
+        }
+    }
+    printf("the longest plalindrome string len %d, %d %d\n", max_len, left_index, right_index);
+    return 0;
+}
+
+#endif
+
+#if 0
+#include <stdio.h>
+#define LOG(fmt, args...) { printf("clientdb " fmt "\n", ## args);}
+int main()
+{
+    LOG("hello world");
+    return 0;
+}
+#endif
+#if 0 // get pid by process name
 #include <sys/types.h>
 #include <dirent.h>
 #include <stdio.h>

@@ -28,10 +28,10 @@ char *rand_str(unsigned int len)
     for (int i = 0; i < len; ++i)
     {
         iRand = rand() % LEN;            // iRand = 0 - 61
-        cout<<"iRand "<<iRand<<endl;
+        //cout<<"iRand "<<iRand<<endl;
         szStr[i] = g_arrCharElem[iRand];
     }
-    cout<<"----------------------------------------------------------------"<<endl;
+    //cout<<"----------------------------------------------------------------"<<endl;
     cout << szStr << endl;
     return szStr;
 }

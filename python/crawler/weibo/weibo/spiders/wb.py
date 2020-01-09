@@ -44,11 +44,12 @@ class WbSpider(scrapy.Spider):
                   #'https://m.weibo.cn/profile/info?uid=5829543885',
                   #'https://m.weibo.cn/profile/info?uid=2219969573',
                   #'https://m.weibo.cn/profile/info?uid=1549255637'
-                  #'https://m.weibo.cn/api/container/getIndex?uid=1549255637&containerid=1076031549255637&page=1',
-                  #'https://m.weibo.cn/api/container/getIndex?uid=5829543885&containerid=1076035829543885&page=1',
-                  #'https://m.weibo.cn/api/container/getIndex?uid=2219969573&containerid=1076032219969573&page=1',
-                  #'https://m.weibo.cn/api/container/getIndex?uid=1792673805&containerid=1076031792673805&page=1',
-                  'https://m.weibo.cn/api/container/getIndex?uid=6049590367&containerid=1076036049590367&page=1'
+                  'https://m.weibo.cn/api/container/getIndex?uid=1549255637&containerid=1076031549255637&page=1',
+                  'https://m.weibo.cn/api/container/getIndex?uid=5829543885&containerid=1076035829543885&page=1',
+                  'https://m.weibo.cn/api/container/getIndex?uid=2219969573&containerid=1076032219969573&page=1',
+                  'https://m.weibo.cn/api/container/getIndex?uid=1792673805&containerid=1076031792673805&page=1',
+                  'https://m.weibo.cn/api/container/getIndex?uid=6049590367&containerid=1076036049590367&page=1',
+                  'https://m.weibo.cn/api/container/getIndex?uid=5393135816&containerid=1076035393135816&page=1'
                  ]
 
     def start_requests(self):
@@ -62,7 +63,7 @@ class WbSpider(scrapy.Spider):
 
     def parse(self, response):
         current_url = response.meta['start_url']
-        print("repsonse from ", current_url)
+        #print("repsonse from ", current_url)
 
         sites = json.loads(response.body_as_unicode())
         data = sites['data']

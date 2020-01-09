@@ -317,7 +317,8 @@ void rb_erase(struct rb_node *node, struct rb_root *root)
         else
         {
                 struct rb_node *old = node, *left;
-                
+               
+                // choose the smallest one in the right sub-tree
                 node = node->rb_right;
                 while ((left = node->rb_left) != NULL)
                         node = left;
