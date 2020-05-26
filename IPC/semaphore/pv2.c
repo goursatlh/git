@@ -9,13 +9,9 @@ int semid;
 int main()
 {
 	int flag1, flag2, key, i, init_ok, tmperrno;
-
 	struct semid_ds sem_info;
-
 	struct seminfo sem_info2;
-
 	union semun arg;	//union semun£º Çë²Î¿¼¸½Â¼2
-
 	struct sembuf askfor_res, free_res;
 
 	flag1 = IPC_CREAT | IPC_EXCL | 00666;
@@ -76,6 +72,7 @@ int main()
 		if (semctl(semid, 0, SETVAL, arg) == -1)
 			perror("semctl setval error");
 	}
+
 	//get some information about the semaphore and the limit of semaphore in redhat8.0
 	arg.buf = &sem_info;
 	if (semctl(semid, 0, IPC_STAT, arg) == -1)

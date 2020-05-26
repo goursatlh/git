@@ -16,7 +16,7 @@ module_param(interval, int, 0644);
 MODULE_PARM_DESC(interval, "");
 
 // 回调函数耗时
-static int dt = 100;
+static int dt = 100000;
 module_param(dt, int, 0644);
 MODULE_PARM_DESC(dt, "");
 
@@ -32,7 +32,8 @@ static void timer_func(unsigned long data)
 	int i = data;
 	struct wrapper *w = &wr[i];
 
-    //printk(KERN_ALERT "timer handler: timer size %d, dt %d , expires %d, stop %d\n", size, dt, interval, stop);
+    printk(KERN_ALERT "timer handler(%p): jiffies %d, timer size %d, dt %d , expires %d, stop %d\n", 
+           w->timer, jiffies, size, dt, interval, stop);
 	spin_lock_bh(&(w->lock));
 	if (stop == 0) {
 		mdelay(dt); // 以忙等模拟耗时

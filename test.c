@@ -1,6 +1,23 @@
 
+
+
+
+#if 0
+#include <stdio.h>
+int main()
+{
+    int a[10];
+    printf("%x\n", a);
+    printf("%x\n", &a);
+    printf("%x\n", a+1); // pointer to the next element in the array
+    printf("%x\n", &a+1);// pointer to the position next to the whole array
+    return 0;
+}
+#endif
+
+
 //fopen fopen w w+ r r+
-#if 1
+#if 0
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -414,12 +431,14 @@ int main()
     return 0;
 }
 #endif
+
 #if 0 // redirect stdout to file
 #include <stdio.h>
 int main()
 {
     freopen("test1.txt", "w+", stdout); 
     printf("test printf redirect\n");
+    system("dmesg|grep IPv6:");
     freopen("/dev/tty", "w+", stdout); 
     printf("printf back to stdou: test printf redirect\n");
     return 0;
@@ -639,6 +658,22 @@ int main()
 }
 
 #endif
+
+#if 0
+#include <stdio.h>
+#include <stddef.h>
+#include <time.h>
+int main(void)
+{
+    time_t timer;
+    struct tm *tblock;
+    timer = time(NULL);
+    tblock = localtime(&timer);
+    printf("Local time is: %s\n", asctime(tblock));
+    return 0;
+}
+#endif
+
 #if 0 // time funcs
 #include <stdio.h>
 #include <time.h>
@@ -1209,7 +1244,7 @@ int main()
 }
 #endif
 
-#if 0
+#if 0   // flock between process and its child process
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -1314,9 +1349,11 @@ void readfile_thread(char *filepath)
 	}
 	flock(fd, LOCK_EX);
 	printf("lock the file for read.\n");
+#if 0
 	sleep(100);
 	printf("sub process end.\n");
 	close(fd);
+#endif
 	return;
 }
 
@@ -1328,9 +1365,8 @@ int main()
     printf("main process : %d %d\n", getpid(), gettid());
 	pthread_create(&thread_id, NULL, readfile_thread, filepath);
 
-	sleep(2);
+	sleep(20000000);
 	int fd = open(filepath, O_RDONLY);
-
 	if (fd == -1)
 	{
 		printf("read file error, %s.\n", strerror(errno));
