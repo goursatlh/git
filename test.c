@@ -1124,13 +1124,14 @@ int main()
 }
 #endif
 
-#if 0
+#if 1
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <sys/file.h>
 
 int main()
 {
@@ -1154,6 +1155,9 @@ int main()
 		{
 			printf("the file was not locked.\n");
 		}
+
+                //exit(0);
+#if 0
 		printf("please input a number to unlock the file.\n");
 		scanf("%d", &i);
 		if (flock(fd, LOCK_UN) == 0)
@@ -1164,7 +1168,9 @@ int main()
 		{
 			printf("the file was not unlocked.\n");
 		}
+#endif
 		close(fd);
+                sleep(100000);
 	}
 	else
 	{
@@ -1339,7 +1345,7 @@ int main()
 
 void readfile_thread(char *filepath)
 {
-    printf("thread process : %d %d\n", getpid(), gettid());
+        printf("thread process : %d %d\n", getpid(), gettid());
 	int fd = open(filepath, O_RDONLY);
 
 	if (fd == -1)
