@@ -1,5 +1,54 @@
+#if 0 // flock vs execl
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <sys/file.h>
+#include <unistd.h>
+#include <pthread.h>
 
+void *thread_function(void *arg)
+{
+        FILE * in = NULL;
+        char *path = "/home/wt/code/git/file.txt";
 
+        printf("thread enter. pid %d\n", getpid());
+        in = fopen(path, "r");
+        if (in == NULL)
+        {
+                return NULL;
+        }
+
+	if (flock(fileno(in), LOCK_SH) == 0)
+	{       
+		printf("Acquire the flock. pid %d\n", getpid());
+	}
+	else    
+	{       
+		printf("the file was not locked.\n");
+	}
+
+        sleep(10000000);
+        fclose(in);
+        printf("Free the flock. pid %d\n", getpid());
+        return NULL;
+}
+
+int main()
+{
+        pthread_t mythread;
+        printf("main enter. pid %d\n", getpid());
+        if (pthread_create(&mythread, NULL, thread_function, NULL))
+        {
+                printf("error creating thread\n");
+        }
+        sleep(5);
+        execl("/home/wt/code/git/hello", "/home/wt/code/git/hello", NULL);
+        return 0;
+}
+#endif
 
 
 #if 0
