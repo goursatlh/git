@@ -1124,7 +1124,7 @@ int main()
 }
 #endif
 
-#if 1
+#if 0
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -1136,7 +1136,7 @@ int main()
 int main()
 {
 	int fd, i;
-	char path[] = "./file.txt";
+	char path[] = "/home/wt/code/git/file.txt";
 	extern int errno;
 
 	fd = open(path, O_WRONLY | O_CREAT);
@@ -1147,7 +1147,7 @@ int main()
 		scanf("%d", &i);
 		printf("try lock file:%s...\n", path);
 
-		if (flock(fd, LOCK_EX) == 0)
+		if (flock(fd, LOCK_SH) == 0)
 		{
 			printf("the file was locked.\n");
 		}
@@ -1169,8 +1169,8 @@ int main()
 			printf("the file was not unlocked.\n");
 		}
 #endif
-		close(fd);
                 sleep(100000);
+		close(fd);
 	}
 	else
 	{
@@ -1250,7 +1250,7 @@ int main()
 }
 #endif
 
-#if 0   // flock between process and its child process
+#if 0  // flock between process and its child process
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -1294,13 +1294,20 @@ int main()
 		else if (pid == 0)
 		{		// child
 			sleep(5);
-
-			//if(flock(fd,LOCK_SH)==0) {
-			//  printf("child add ex success\n");
-			//} else { 
-			//  printf("child add ex failed\n");
-			//}
-
+                        //close(fd);
+		        //printf("child tries to lock file...\n");
+		        //printf("child unlock file...\n");
+#if 0
+			if(flock(fd,LOCK_EX)==0) 
+                        {
+			    printf("child add ex success\n");
+			} 
+                        else 
+                        { 
+			    printf("child add ex failed\n");
+			}
+#endif
+#if 0
 			if (flock(fd, LOCK_UN) == 0)
 			{
 				printf("child unlock success.\n");
@@ -1309,12 +1316,17 @@ int main()
 			{
 				printf("child unlock fail.\n");
 			}
-			sleep(5);
+#endif
+			sleep(5000);
+                        return 0;
 		}
 		else
 		{		// parent
-			int pid2 = wait(NULL);
-
+			//int pid2 = wait(NULL);
+                        close(fd);
+			printf("the file was unlocked.\n");
+                        //flock(fd, LOCK_UN);
+                        sleep(5000);
 			printf("end\n");
 		}
 
