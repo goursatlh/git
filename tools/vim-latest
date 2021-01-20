@@ -30,6 +30,13 @@ set encoding=prc
 set cscopequickfix=s-,c-,d-,i-,t-,e-
 set laststatus=1
 colorscheme desert
+
+"tab = 4
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+
 "set nowrap  "do not newline
 set autoindent
 set clipboard+=unnamed
