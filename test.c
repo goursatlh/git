@@ -1,3 +1,40 @@
+
+#if 0 // select deadloop
+#include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/select.h>
+
+int main(int argc, char *argv[])
+{
+    char buf[256];
+    fd_set rset;
+    int ret = 0;
+    struct timeval tv;
+
+    tv.tv_sec = 100;
+    tv.tv_usec = 0;
+    FD_ZERO(&rset);
+
+    while (1)
+    {
+        FD_SET(STDIN_FILENO, &rset);
+        printf("select tv %lu %lu\n", tv.tv_sec, tv.tv_usec);   
+        ret = select(STDIN_FILENO+1, &rset, NULL, NULL, &tv);
+        printf("select ret %d tv %lu %lu\n", ret, tv.tv_sec, tv.tv_usec);   
+        if (ret >= 0)
+        {
+            if (FD_ISSET(STDIN_FILENO, &rset))
+            {
+                ret = read(STDIN_FILENO, buf, 256);
+                printf("hello world! %d tv %lu %lu\n", ret, tv.tv_sec, tv.tv_usec);   
+            }
+        }
+    }
+    return 0;
+}
+#endif
+
 #if 0 // flock vs execl
 #include <stdio.h>
 #include <unistd.h>
