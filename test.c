@@ -1,4 +1,69 @@
 
+
+#if 0 // inlie assembly to c 2
+#include <stdio.h>
+
+int call(int x,int y)
+{
+        int sum = 0;
+        asm("movl %[val1],%%ebx\n\t"
+            "movl %[val2],%%ecx\n\t"
+            "addl %%ebx,%%ecx\n\t"
+            "movl %%ecx,%[SUM]"
+            :[SUM] "=r" (sum)      //这个是output-list
+            :[val1] "r" (x),[val2] "r" (y)    //这个是input-list
+            :"%ebx","%ecx"          //这个是overwriter list
+        );
+        return sum;
+}
+
+int callnum(int x,int y)
+{
+        int sum = 0;
+        asm("movl %1,%%ebx\n\t"
+            "movl %2,%%ecx\n\t"
+            "addl %%ebx,%%ecx\n\t"
+            "movl %%ecx,%0"
+            :"=r" (sum)      //这个是output-list if no name, start number 0,1,2 from outputlist to inputlist
+            :"r" (x), "r" (y)    //这个是input-list
+            :"%ebx","%ecx"          //这个是overwriter list
+        );
+        return sum;
+}
+
+int main()
+{
+        int a=15;
+        int b=20;
+        //printf("%d\n",call(a,b));
+        printf("%d\n",callnum(a,b));
+        return 0;
+}
+#endif
+
+#if 0 // inline assembly to c
+#include <stdio.h>
+
+int main()
+{
+    int a = 10, b = 0;
+
+    __asm__  __volatile__ (
+    "movl %1, %%eax; \n\t"
+    "movl %%eax, %0;"
+
+    :"=r"(b)   // output
+    :"r"(a)    // input
+    :"%eax");
+
+	printf("Result: %d, %d \n", a, b);
+	return 0;
+}
+
+#endif
+
+
+
 #if 0 // select deadloop
 #include <stdio.h>
 #include <sys/types.h>
