@@ -188,6 +188,7 @@ with Sample() as sample:
 print("come here")
 '''
 
+
 '''
 # parameters for python functions
 
@@ -471,10 +472,13 @@ class App():
 
 a = App(1,2)
 print(a.a, a.b, a.c, App.c)
+a.app1(35)
+print(a.a, a.b, a.c, App.c)
+
 a(2,3)
 print(a.a, a.b)
 
-a.app1(22)
+#a.app1(22)
 
 b = App(10,20)
 print(b.a, b.b, b.c, App.c)
@@ -491,7 +495,6 @@ print("b.name", b.name)
 c = B()
 print("c.name", c.name)
 
-
 # classmathod
 class Kls(object):
     no_inst = 0
@@ -507,10 +510,12 @@ print(ik1.get_no_of_instance())
 ik2 = Kls()
 print(ik1.get_no_of_instance())
 print(ik1.no_inst, ik2.no_inst)
+'''
 
+'''
 # class type
 class Student(object):
-    "decribe class Student"
+    "describe class Student"
     __x = 2
     def __init__(self, name, score):
         self.name = name
@@ -520,13 +525,15 @@ class Student(object):
 
 r = Student("walter", 20)
 #print(r.__x)
-print(dir(r))
+#print(dir(r))
 r.printc()
 #print(r.__score) #error, private element, can't be accessed outside of the class
 #r.__x = 22 #equal to add a new public element for object r
 #print(r.__x)
-print(r._Student__score) #not recommend
+#print(r._Student__score) #not recommend # __score will be expanded to _Student__score by python compiler
+'''
 
+'''
 # inherit
 class animal():
     def printx(self):
@@ -563,7 +570,31 @@ a = AA("walter", 90)
 #a.age = 18 # this element is not in the __slots__
 print(a.name, a.score)
 print(a.__slots__)
+'''
 
+# add func to a instance and a class
+class Student(object):
+    pass
+
+s = Student()
+
+# add a method to an instance : MethodType = class method(object)
+from types import MethodType
+def set_age(self, age):
+    self.age = age
+def set_score(self, score):
+    self.score = score
+
+s.set_age = MethodType(set_age, s)
+s.set_age(2)
+print(s.age)
+
+# add a method to a class
+Student.set_score = set_score
+s.set_score(99)
+print(s.score)
+
+'''
 # @property change attribute to functions
 class Student():
     #@property
