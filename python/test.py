@@ -572,6 +572,7 @@ print(a.name, a.score)
 print(a.__slots__)
 '''
 
+'''
 # add func to a instance and a class
 class Student(object):
     pass
@@ -591,17 +592,22 @@ print(s.age)
 
 # add a method to a class
 Student.set_score = set_score
-s.set_score(99)
+s.set_score(69)
 print(s.score)
+'''
 
 '''
 # @property change attribute to functions
 class Student():
-    #@property
+    def __init__(self, score=0):
+        self._score = score
+
+    @property
     def score(self): #equire to get_score()
         print("get") 
         return self._score
-    #@score.setter
+
+    @score.setter
     def score(self, score): #equire to set_score()
         if not isinstance(score, int):
             raise ValueError("score must be an int")
@@ -610,12 +616,22 @@ class Student():
         print("set", score)
         self._score = score
 s = Student()
-print(type(s.score))
-s.score = 99
+s.score = 2
 print(s.score)
-#print(s.score) # you can only to use s.score, s.score = xx, you can't use s.score()/s.score(value)
 '''
 
+#print(s.score)
+#print(s.score) # you can only to use s.score, s.score = xx, you can't use s.score()/s.score(value)
+
+'''
+# function with the same name: the second funciton will take effect.
+def test(a=1):
+    print("AAA", a)
+
+def test():
+    print("BBB")
+test()
+'''
 
 '''
 # variable namespace
@@ -699,7 +715,6 @@ func(2,3)
 func(100)
 '''
 
-'''
 #decorator
 def document_it(func):
     def new_function(*args, **kwargs):
@@ -743,7 +758,7 @@ def now1(name):
 #issues
 #1, why define a new function in log1. 
 #decorator end
-'''
+
 
 '''
 #variable parameters
