@@ -23,20 +23,20 @@ int myglobal = 0;
 spinlock_t my_spinlock;
 //spin_lock_init(my_spinlock);
 
-#define MAX_LOOP 1000000000000000000000000000000000000000000000000000000000000000000000000000
+#define MAX_LOOP 10000000
 static int thread_func(void *data)
 {
     int i, j;
 
     printk(KERN_ALERT "thread start: %d\n", pthread1->pid);
-    //msleep(3000);
+    msleep(300);
     //for (i = 0; i < MAX_LOOP; i++)
     while (1)
     {
-        //printk(KERN_ALERT "thread(%d) want to acquire the spinlock\n", pthread1->pid);
+        printk(KERN_ALERT "thread(%d) want to acquire the spinlock\n", pthread1->pid);
         //mutex_lock(&my_mutex);
         spin_lock(&my_spinlock);
-        //printk(KERN_ALERT "thread(%d) hold the spinlock\n", pthread1->pid);
+        printk(KERN_ALERT "thread(%d) hold the spinlock\n", pthread1->pid);
         j = myglobal;
         j = j + 1;
         j = j - 1;
@@ -62,11 +62,14 @@ static int __init hello_init(void)
     int i;
     spin_lock_init(&my_spinlock);
     printk(KERN_ALERT "main Hello Linux kernel pid %d %s\n", current->pid, current->comm);
-    pthread1 = kthread_run(thread_func, NULL, "hello");
+    //pthread1 = kthread_run(thread_func, NULL, "hello");
     printk(KERN_ALERT "main thread(%d) want to acquire the spinlock\n", current->pid);
-    //spin_lock(&my_spinlock);
+    spin_lock(&my_spinlock);
     printk(KERN_ALERT "main thread(%d) hold the spinlock\n", current->pid);
+    printk(KERN_ALERT "main thread(%d) sleeping...\n", current->pid);
+    msleep(10000000);
     //for (i = 0; i < MAX_LOOP; i++)
+#if 0
     while (1)
     {
         //mutex_lock(&my_mutex);
@@ -79,6 +82,7 @@ static int __init hello_init(void)
         spin_unlock(&my_spinlock);
         msleep(1);
     }
+#endif
     //msleep(100000);
     //spin_unlock(&my_spinlock);
     printk(KERN_ALERT "main thread(%d) release the spinlock\n", current->pid);

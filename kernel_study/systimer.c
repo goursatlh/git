@@ -1,11 +1,25 @@
 #include <linux/init.h>
 #include <linux/module.h>     
 #include <linux/kernel.h>     
+#include <linux/time.h>
 #include <linux/delay.h>     
 #include <linux/spinlock.h>     
 
 spinlock_t lock;
 unsigned long flags;
+
+struct timeval {
+            long tv_sec;         /* seconds */
+            long tv_usec;        /* microseconds */
+};
+
+void do_gettimeofday(struct timeval *tv)
+{
+	struct timespec64 ts;
+	ktime_get_real_ts64(&ts);
+	tv->tv_sec = ts.tv_sec;
+	tv->tv_usec = ts.tv_nsec/1000;
+}
 
 static int __init systimer_init(void)
 {
@@ -18,15 +32,17 @@ static int __init systimer_init(void)
         do_gettimeofday(&now);
         printk(KERN_ALERT "start time: %lu: %lu\n", now.tv_sec, now.tv_usec);
         spin_lock_irqsave(&lock, flags); 
-        printk( KERN_DEBUG "the jiffies is %ld\n" ,jiffies);
+        printk( KERN_DEBUG "1 the jiffies is %ld\n" ,jiffies);
         mdelay(2000);
-        printk( KERN_DEBUG "the jiffies is %ld\n" ,jiffies);
-        do_gettimeofday(&now);
-        printk(KERN_ALERT "mid time: %lu: %lu\n", now.tv_sec, now.tv_usec);
+        printk( KERN_DEBUG "2 the jiffies is %ld\n" ,jiffies);
+        //do_gettimeofday(&now);
+        //printk(KERN_ALERT "mid time: %lu: %lu\n", now.tv_sec, now.tv_usec);
         spin_unlock_irqrestore(&lock, flags);
-        do_gettimeofday(&now);
-        printk(KERN_ALERT "end time: %lu: %lu\n", now.tv_sec, now.tv_usec);
+        printk( KERN_DEBUG "3 the jiffies is %ld\n" ,jiffies);
+        //do_gettimeofday(&now);
+        //printk(KERN_ALERT "end time: %lu: %lu\n", now.tv_sec, now.tv_usec);
         msleep(2000);
+        printk( KERN_DEBUG "4 the jiffies is %ld\n" ,jiffies);
     }
     return 0;
 }

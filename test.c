@@ -1,7 +1,44 @@
 
+#if 0 // duplicate name between user apis and glibc 
+//#define _DEFAULT_SOURCE
+#include <stdlib.h>
+#include <stdio.h>
+
+int system(__const char *__command) __wur
+{
+    printf("execute %s\n", __command);
+    return 0;
+}
+
+int main()
+{
+    system("who");
+    return 0;
+}
+#endif
+
 
 #if 0 // inlie assembly to c 2
 #include <stdio.h>
+
+#if 0
+int call_teq(int x)
+{
+        unsigned long tmp;
+
+        __asm__ __volatile__(
+"       ldrex   %0, [%1]\n"
+"       teq     %0, #0\n"
+"       strexeq %0, %2, [%1]"
+        : "=&r" (tmp)
+        : "r" (x), "r" (1)
+        : "cc");
+
+        printf("tmp %d\n", tmp);
+
+        return tmp;
+}
+#endif
 
 int call(int x,int y)
 {
@@ -20,7 +57,8 @@ int call(int x,int y)
 int callnum(int x,int y)
 {
         int sum = 0;
-        asm("movl %1,%%ebx\n\t"
+        asm("@ callnum \n"
+            "movl %1,%%ebx\n\t"
             "movl %2,%%ecx\n\t"
             "addl %%ebx,%%ecx\n\t"
             "movl %%ecx,%0"
@@ -1412,6 +1450,8 @@ int main()
 #include <string.h>
 
 int fd = 0;
+int fd2 = 0;
+int fd3 = 0;
 int main()
 {
 	int i;
@@ -1426,6 +1466,7 @@ int main()
 		scanf("%d", &i);
 		printf("try lock file:%s...\n", path);
 
+#if 0 // flock
 		if (flock(fd, LOCK_EX) == 0)
 		{
 			printf("the file was locked.\n");
@@ -1434,7 +1475,40 @@ int main()
 		{
 			printf("the file was not locked.\n");
 		}
+#endif
+#if 1 // fcntl
+{
+		struct flock lock;
+        lock.l_type = F_WRLCK;
+        lock.l_start = 0;
+        lock.l_whence = SEEK_SET;
+        lock.l_len = 0;   
+        lock.l_pid = getpid();
 
+		if (fcntl(fd, F_SETLKW, &lock) == 0)
+		{
+			printf("the file was locked.\n");
+		}
+		else
+		{
+			printf("the file was not locked.\n");
+		}
+}
+#endif
+        //close(fd);
+
+#if 0 // nest flock
+	    fd3 = open(path, O_WRONLY | O_CREAT);
+		printf("twice: try lock file:%s...\n", path);
+		if (flock(fd3, LOCK_EX) == 0)
+		{
+			printf("the file was locked again.\n");
+		}
+		else
+		{
+			printf("the file was not locked again.\n");
+		}
+#endif
 		int pid;
 
 		if ((pid = fork()) < 0)
@@ -1444,20 +1518,40 @@ int main()
 		}
 		else if (pid == 0)
 		{		// child
-			sleep(5);
+			//sleep(5);
+            fd2 = open(path, O_WRONLY | O_CREAT);
                         //close(fd);
-		        //printf("child tries to lock file...\n");
+		    printf("child tries to lock file...\n");
 		        //printf("child unlock file...\n");
 #if 0
-			if(flock(fd,LOCK_EX)==0) 
-                        {
+			if(flock(fd2,LOCK_EX)==0) 
+            {
 			    printf("child add ex success\n");
 			} 
-                        else 
-                        { 
+            else 
+            { 
 			    printf("child add ex failed\n");
 			}
+            close(fd2);
+			printf("child close\n");
 #endif
+        {
+            struct flock lock;
+            lock.l_type = F_WRLCK;
+            lock.l_start = 0;
+            lock.l_whence = SEEK_SET;
+            lock.l_len = 0;   
+            lock.l_pid = getpid();
+
+            if (fcntl(fd2, F_SETLKW, &lock) == 0)
+            {
+                printf("the file was locked.\n");
+            }
+            else
+            {
+                printf("the file was not locked.\n");
+            }
+        }
 #if 0
 			if (flock(fd, LOCK_UN) == 0)
 			{
@@ -1469,18 +1563,21 @@ int main()
 			}
 #endif
 			sleep(5000);
-                        return 0;
+            return 0;
 		}
 		else
 		{		// parent
 			//int pid2 = wait(NULL);
-                        close(fd);
-			printf("the file was unlocked.\n");
+            sleep(300);
+            //flock(fd, LOCK_UN);
+			//printf("father unlock\n");
+            close(fd);
+			printf("father close\n");
+			//printf("the file was unlocked.\n");
                         //flock(fd, LOCK_UN);
-                        sleep(5000);
+            sleep(5000);
 			printf("end\n");
 		}
-
 	}
 	else
 	{
@@ -1508,21 +1605,21 @@ int main()
 
 void readfile_thread(char *filepath)
 {
-        printf("thread process : %d %d\n", getpid(), gettid());
-	int fd = open(filepath, O_RDONLY);
-
+    printf("thread process : %d %d\n", getpid(), gettid());
+	
+    int fd = open(filepath, O_RDONLY);
 	if (fd == -1)
 	{
 		printf("read file error, %s.\n", strerror(errno));
 		return;
 	}
 	flock(fd, LOCK_EX);
-	printf("lock the file for read.\n");
-#if 0
-	sleep(100);
-	printf("sub process end.\n");
+	printf("thread lock the file for read.\n");
+	flock(fd, LOCK_EX);
+	printf("thread lock the file for read again.\n");
+	sleep(10);
+	printf("thread end.\n");
 	close(fd);
-#endif
 	return;
 }
 
@@ -1534,7 +1631,7 @@ int main()
     printf("main process : %d %d\n", getpid(), gettid());
 	pthread_create(&thread_id, NULL, readfile_thread, filepath);
 
-	sleep(20000000);
+	sleep(3);
 	int fd = open(filepath, O_RDONLY);
 	if (fd == -1)
 	{
@@ -1542,7 +1639,11 @@ int main()
 		return;
 	}
 	flock(fd, LOCK_EX);
+	printf("main process lock the file for read.\n");
+	//pthread_create(&thread_id, NULL, readfile_thread, filepath);
+    sleep(10000);
 	printf("main process end.\n");
+    close(fd);
 	return 0;
 }
 
@@ -1584,6 +1685,181 @@ int main()
 
 #endif
 
+
+#if 0 // system() issue 2
+#include <sys/types.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <sys/wait.h>
+
+void sig_chld(int signo) 
+{
+    pid_t pid;
+    int stat;
+
+    printf("sig handler enter.\n");
+    //system("who");
+    //signal(SIGCHLD, SIG_DFL);
+
+    //while ( (pid = waitpid(-1, &stat, WNOHANG)) > 0) 
+    while ( (pid = wait(&stat)) > 0) 
+    {
+        printf("child %d terminated\n", pid);
+    }
+    printf("sig handler exit.\n");
+    return;
+}
+
+int main()
+{
+    pid_t pid;
+    pid = fork();
+    if (pid > 0)
+    {
+        signal(SIGCHLD, sig_chld);
+        sleep(3);
+        system("echo 123");
+        printf("main process exit.\n");
+    }
+    else if (pid == 0)
+    {
+        sleep(300);
+        printf("son process exit.\n");
+        return 0;
+    }
+    return 0;
+}
+#endif
+
+#if 0
+#include <pwd.h>
+#include <error.h>
+#include <signal.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+ 
+static void my_alarm(int signo)
+{
+        struct passwd *rootptr;
+        char *p = NULL;
+ 
+        printf("in signal handler\n");
+        //if ((rootptr = getpwnam("root")) == NULL)
+        if ((p = malloc(128)) == NULL)
+        {
+                printf("getpwnam(root) error\n");
+                return;
+        }
+        memset(p, 0, 128);
+        alarm(1);
+        if (p)
+        {
+                free(p);
+        }
+        return;
+}
+
+unsigned long num = 0; 
+
+int main(void)
+{
+        struct passwd *ptr;
+        char *p = NULL;
+ 
+        signal(SIGALRM, my_alarm);
+        alarm(1);
+        for ( ; ; )
+        {
+                if ((p = malloc(128)) == NULL)
+                //if ((ptr = getpwnam("sebastien")) == NULL)
+                {
+                        //printf("getpwnam error\n");
+                        continue;
+                }
+                //if (strcmp(ptr->pw_name, "sebastien") != 0)
+                memset(p, 0, 128);
+                if (strcpy(p, "hello world.") != 0)
+                {
+                        printf("return value corrupted!, %lu %p\n", num++, p);
+                }
+                if (p)
+                {
+                        free(p);
+                }
+        }
+        return 0;
+}
+#endif
+
+
+#if 0 // signal pignbi
+#include <stdlib.h>
+#include <signal.h>
+#include <stdio.h>
+#include <unistd.h>
+
+static void sig_usr1(int signo)
+{
+  printf("SIGUSR1 function\n");
+}
+static void sig_usr2(int signo)
+{
+  printf("SIGUSR2 function\n");
+}
+
+static void sig_int(int signo)
+{
+  printf("SIGINT function\n");
+}
+
+void sig_catch(int sig_no, void (*f)(int))
+{
+    struct sigaction sa;
+    sa.sa_handler = f;
+    sa.sa_flags = 0;
+    sigemptyset(&sa.sa_mask);
+    sigaction(sig_no, &sa, (struct sigaction *) 0);
+}
+
+
+int main()
+{
+  sigset_t newmask,oldmask;
+  
+  sig_catch(SIGUSR1,sig_usr1);
+  sig_catch(SIGUSR2,sig_usr2);
+  sig_catch(SIGINT,sig_int);
+   
+//  signal(SIGUSR1,sig_usr1);
+//  signal(SIGUSR2,sig_usr2);
+//  signal(SIGINT,sig_int);
+      
+  sigemptyset(&newmask);
+  sigaddset(&newmask,SIGUSR1);
+  sigaddset(&newmask,SIGUSR2);
+  sigaddset(&newmask,SIGINT);
+  
+  sigprocmask(SIG_BLOCK,&newmask,&oldmask);
+  printf("SIGUSR is blocked\n");
+
+  kill(getpid(),SIGUSR2);
+  kill(getpid(),SIGUSR1);
+  kill(getpid(),SIGUSR2);
+  kill(getpid(),SIGUSR1);
+  kill(getpid(),SIGUSR2);
+  kill(getpid(),SIGUSR1);
+  kill(getpid(),SIGINT);
+  printf("SIGUSR is unblocked\n");    
+
+  //方法一    
+  sigprocmask(SIG_UNBLOCK,&newmask,NULL);
+  
+  //方法二
+  //sigprocmask(SIG_SETMASK,&oldmask,NULL);
+  
+} 
+#endif
 
 #if 0				// endian
 #include <stdio.h>
@@ -1795,7 +2071,7 @@ int main()
 }
 #endif
 
-#if 0
+#if 1
 /* 
  * use fopen in w+/r+: 
  * r+     Open for reading and writing.  The stream is positioned at the beginning of the file.
@@ -1809,10 +2085,10 @@ int main()
 	FILE *fp2 = NULL;
 	char cmd[128] = { 0 };
 
-
-	fp = fopen("txt", "w+");
+	fp = fopen("/home/wt/code/git/xx/txt", "a");
 	if (fp != NULL)
 	{
+        printf("hello world.\n");
 		while (fgets(cmd, sizeof(cmd), fp) != NULL)
 		{
 			printf("%s\n", cmd);
@@ -1820,7 +2096,7 @@ int main()
 		fclose(fp);
 	}
 
-	fp2 = fopen("txt1", "r+");
+	fp2 = fopen("txt1", "a");
 	if (fp2 != NULL)
 	{
 		while (fgets(cmd, sizeof(cmd), fp2) != NULL)

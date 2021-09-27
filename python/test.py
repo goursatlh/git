@@ -715,6 +715,7 @@ func(2,3)
 func(100)
 '''
 
+'''
 #decorator
 def document_it(func):
     def new_function(*args, **kwargs):
@@ -758,6 +759,7 @@ def now1(name):
 #issues
 #1, why define a new function in log1. 
 #decorator end
+'''
 
 
 '''
@@ -861,7 +863,6 @@ else:           # client
 
 s.close()
 '''
-
 
 '''
 #yield from
@@ -1322,6 +1323,94 @@ class Student(object):
 boy = Student("jerry", 20)
 boy.print_score()
 
+class Dog:
+    """ dog class """
+    def __init__(self, name, age):
+        self.name = name
+        self.ag = age
+    def sit(self):
+        print("dog sits")
+    
+my_dog = Dog("sam", 2)
+my_dog.sit()
+'''
+
+'''
+# super() for class
+class Car:
+    def __init__(self, name, model, age):
+        self.name = name
+        self.model = model
+        self.age = age
+
+    def run(self):
+        pass
+
+class ElectricCar(Car):
+    def __init__(self, name, model, age, batterySize=100):
+        #Car.__init__(self, name, model, age)
+        super().__init__(name, model, age)
+        self.batterySize = batterySize 
+    pass
+
+my_car = Car("Tesla", 1200, 3)
+print(my_car.name)
+my_electricCar = ElectricCar("Tesla", 1200, 3)
+print(my_electricCar.name)
+print(my_electricCar.batterySize)
+
+my_electricCar1 = ElectricCar("Tesla", 1200, 3, 200)
+print(my_electricCar1.name)
+print(my_electricCar1.batterySize)
+
+class A:
+    def __init__(self):
+        print("A define")
+
+class B(A):
+    def __init__(self):
+        A.__init__(self)
+        print("B define")
+
+class C(A):
+    def __init__(self):
+        A.__init__(self)
+        print("C define")
+
+class D(B, C):
+    def __init__(self):
+        B.__init__(self)
+        C.__init__(self)
+        print("D define")
+
+d = D()
+'''
+
+
+'''
+class A:
+    def __init__(self):
+        print("A define")
+
+class B(A):
+    def __init__(self):
+        super().__init__()
+        print("B define")
+
+class C(A):
+    def __init__(self):
+        super().__init__()
+        print("C define")
+
+class D(B, C):
+    def __init__(self):
+        super().__init__()
+        print("D define")
+
+d = D()
+print(D.mro())
+
+
 #list 
 classmates = ["jerry", "tom", "carl"]
 print(classmates)
@@ -1475,28 +1564,35 @@ for x in c:
 
 
 #print("next ", next(g))
+'''
 
+'''
 def fib(max):
     n,a,b = 0,0,1
-    print("come here enter ", n)
+    #print("come here enter ", n)
     while n < max:
-        print("come here 1 ", n)
+        #print("come here 1 ", n)
         yield b
-        print("come here 2 ", n)
+        #print("come here 2 ", n)
+        #print(b)
         a, b=b, a+b
         n = n + 1
-        if b > 20:
-            print("greate than 20")
-            return
     return "done"
-g = fib(20)
-print(type(g))
-print(next(g))
-print(next(g))
-print(next(g))
-print(next(g))
-print(next(g))
+g = fib(10)
+#print(type(g))
+#print(next(g))
+#print(next(g))
 
+for i in g:
+    print(i)
+
+while True:
+    try:
+        x = next(g)
+        print(x)
+    except StopIteration as e:
+        print('Generator return value:', e.value)
+        break
 '''
 '''
 def circle(x):
