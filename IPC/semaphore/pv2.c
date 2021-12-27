@@ -1,8 +1,23 @@
-#include <linux/sem.h>
+//#include <linux/sem.h>
+
+#define _GNU_SOURCE 
 #include <stdio.h>
 #include <errno.h>
-#define SEM_PATH "/unix/my_sem"
-#define max_tries 3
+
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/sem.h>
+
+#define SEM_PATH "/home/wt/code/git/IPC/semaphore/sem_walter"
+# define max_tries 3
+
+union semun {
+   int              val;    /* Value for SETVAL */
+   struct semid_ds *buf;    /* Buffer for IPC_STAT, IPC_SET */
+   unsigned short  *array;  /* Array for GETALL, SETALL */
+   struct seminfo  *__buf;  /* Buffer for IPC_INFO
+							   (Linux-specific) */
+};
 
 int semid;
 
@@ -17,6 +32,7 @@ int main()
 	flag1 = IPC_CREAT | IPC_EXCL | 00666;
 	flag2 = IPC_CREAT | 00666;
 	key = ftok(SEM_PATH, 'a');
+    printf("key %d\n", key);
 	//error handling for ftok here;
 	init_ok = 0;
 	semid = semget(key, 1, flag1);
@@ -76,7 +92,7 @@ int main()
 	//get some information about the semaphore and the limit of semaphore in redhat8.0
 	arg.buf = &sem_info;
 	if (semctl(semid, 0, IPC_STAT, arg) == -1)
-		perror("semctl IPC STAT");
+		perror("semctl IPC STAT error !");
 	printf("owner's uid is %d\n", arg.buf->sem_perm.uid);
 	printf("owner's gid is %d\n", arg.buf->sem_perm.gid);
 	printf("creater's uid is %d\n", arg.buf->sem_perm.cuid);
@@ -84,7 +100,7 @@ int main()
 
 	arg.__buf = &sem_info2;
 	if (semctl(semid, 0, IPC_INFO, arg) == -1)
-		perror("semctl IPC_INFO");
+		perror("semctl IPC_INFO erro !");
 	printf("the number of entries in semaphore map is %d \n",
 	       arg.__buf->semmap);
 	printf("max number of semaphore identifiers is %d \n",
@@ -100,8 +116,8 @@ int main()
 	       arg.__buf->semume);
 	printf("the sizeof of struct sem_undo is %d \n", arg.__buf->semusz);
 	printf("the maximum semaphore value is %d \n", arg.__buf->semvmx);
-
-	//now ask for available resource:  
+	
+    //now ask for available resource:  
 	askfor_res.sem_num = 0;
 	askfor_res.sem_op = -1;
 	askfor_res.sem_flg = SEM_UNDO;

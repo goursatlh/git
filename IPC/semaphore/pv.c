@@ -43,7 +43,7 @@ int main()
 			getsema(mutexid, "DAD");
 			semop(mutexid, &p, 1);
 			printf("prnt in\n");
-			sleep(1);
+			sleep(100);
 			printf("prnt out\n");
 			semop(mutexid, &v, 1);
 			i++;
@@ -62,7 +62,7 @@ int main()
 			getsema(mutexid, "SON");
 			semop(mutexid, &p, 1);
 			printf("chid in\n");
-			sleep(1);
+			sleep(100);
 			printf("chld out\n");
 			semop(mutexid, &v, 1);
 			j++;

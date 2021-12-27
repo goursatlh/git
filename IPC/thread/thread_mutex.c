@@ -9,16 +9,19 @@ pthread_mutex_t mymutex = PTHREAD_MUTEX_INITIALIZER;
 void *thread_function(void *arg)
 {
 	int i, j;
+    int k;
 
-	for (i = 0; i < 10; i++)
+	for (i = 0; i < 10000; i++)
 	{
 		pthread_mutex_lock(&mymutex);
 		j = myglobal;
 		j = j + 1;
 		printf(".");
 		fflush(stdout);
-		sleep(1);
+		//sleep(1);
 		myglobal = j;
+        if (i == 3000)
+            k = k/0;
 		pthread_mutex_unlock(&mymutex);
 	}
 	return NULL;
@@ -35,7 +38,7 @@ int main(void)
 		printf("error creating thread.\n");
 		abort();
 	}
-	for (i = 0; i < 10; i++)
+	for (i = 0; i < 10000; i++)
 	{
 
 		pthread_mutex_lock(&mymutex);
@@ -43,7 +46,7 @@ int main(void)
 		pthread_mutex_unlock(&mymutex);
 		printf("O");
 		fflush(stdout);
-		sleep(1);
+		//sleep(1);
 	}
 	if (pthread_join(mythread, NULL))
 	{

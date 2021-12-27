@@ -3,21 +3,22 @@
 #include <unistd.h>
 #include <stdio.h>
 
-int myglobal;
+int myglobal = 0;
 
 void *thread_function(void *arg)
 {
 	int i, j;
 
-	for (i = 0; i < 10; i++)
+	for (i = 0; i < 10000; i++)
 	{
 		j = myglobal;
 		j = j + 1;
+		myglobal = myglobal + 1;
 		printf(".");
 		fflush(stdout);
-		sleep(1);
+		//sleep(1);
 		myglobal = j;
-		printf("\nmyglobal %d\n", myglobal);
+		//printf("\nmyglobal %d\n", myglobal);
 	}
 	return;
 }
@@ -36,13 +37,13 @@ int main(void)
 		abort();
 	}
 
-	for (i = 0; i < 10; i++)
+	for (i = 0; i < 10000; i++)
 	{
 		myglobal = myglobal + 1;
 		printf("O");
-		printf("\nmyglobal %d\n", myglobal);
+		//printf("\nmyglobal %d\n", myglobal);
 		fflush(stdout);
-		sleep(1);
+		//sleep(1);
 	}
 
 	if (pthread_join(mythread, NULL))

@@ -1,4 +1,34 @@
 
+
+#if 0 // how to display the time in format
+#include <stdio.h>            
+#include <sys/time.h>         
+#include <time.h>             
+
+int main()
+{
+    char str[128]; 
+    struct timeval tv; 
+    struct tm *tmp;
+    time_t now;
+
+    // method 1
+    gettimeofday(&tv, NULL); 
+    tmp = localtime(&tv.tv_sec);   
+    strftime(str, sizeof(str), "%Y-%m-%d %H:%M:%S", tmp); 
+    printf(">>>>>>> %s.%03ld\n", str, tv.tv_usec / 1000);
+
+    // method 2
+    time(&now);
+    tmp = localtime(&now);
+    strftime(str, sizeof(str), "@<%Y%m%d %H:%M:%S>", tmp);
+    printf(">>>>>>> %s\n", str);  
+
+    return 0;
+}
+#endif
+
+
 #if 0 // duplicate name between user apis and glibc 
 //#define _DEFAULT_SOURCE
 #include <stdlib.h>
@@ -2071,7 +2101,7 @@ int main()
 }
 #endif
 
-#if 1
+#if 0
 /* 
  * use fopen in w+/r+: 
  * r+     Open for reading and writing.  The stream is positioned at the beginning of the file.
