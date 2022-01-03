@@ -16,22 +16,36 @@ void printPending(sigset_t *pending)
 	printf("\n");
 }
 
+int count = 0;
+void handler(int signo)
+{
+    count++;
+	printf("handler signo:%d, count %d\n", signo, count);
+}
+
 int main()
 {
 	sigset_t set, oset;
 	sigemptyset(&set);
 	sigemptyset(&oset);
 
+    signal(2,handler);
 	sigaddset(&set, 2); //SIGINT
 	sigprocmask(SIG_SETMASK, &set, &oset); //阻塞2号信号
 
 	sigset_t pending;
 	sigemptyset(&pending);
 
+    int count = 0;
 	while (1){
 		sigpending(&pending); //获取pending
 		printPending(&pending); //打印pending位图（1表示未决）
 		sleep(1);
+		count++;
+		if (count == 30){
+			sigprocmask(SIG_SETMASK, &oset, NULL); //恢复曾经的信号屏蔽字
+			printf("恢复信号屏蔽字\n");
+		}
 	}
 	return 0;
 }

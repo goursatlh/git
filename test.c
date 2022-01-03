@@ -1716,27 +1716,28 @@ int main()
 #endif
 
 
-#if 0 // system() issue 2
+#if 1 // system() issue 2: wait() in signal handler will cause the parent process to get stuck.
 #include <sys/types.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <sys/wait.h>
 
+//this will be triggered by system .
 void sig_chld(int signo) 
 {
     pid_t pid;
     int stat;
 
-    printf("sig handler enter.\n");
+    printf("sig handler enter pid %d.\n", getpid());
     //system("who");
     //signal(SIGCHLD, SIG_DFL);
 
-    //while ( (pid = waitpid(-1, &stat, WNOHANG)) > 0) 
+    //while ( (pid = waitpid(-1, &stat, WNOHANG)) > 0)
     while ( (pid = wait(&stat)) > 0) 
     {
         printf("child %d terminated\n", pid);
     }
-    printf("sig handler exit.\n");
+    printf("sig handler exit pid %d.\n", getpid());
     return;
 }
 
@@ -1746,15 +1747,22 @@ int main()
     pid = fork();
     if (pid > 0)
     {
+        printf("parent process start pid %d.\n", getpid());
         signal(SIGCHLD, sig_chld);
         sleep(3);
         system("echo 123");
-        printf("main process exit.\n");
+        while (1)
+        {
+            sleep(1);
+            printf("parent process loops to do something.\n");
+        }
+        printf("parent process exit pid %d.\n", getpid());
     }
     else if (pid == 0)
     {
+        printf("son process begin pid %d.\n", getpid());
         sleep(300);
-        printf("son process exit.\n");
+        printf("son process exit pid %d.\n", getpid());
         return 0;
     }
     return 0;
