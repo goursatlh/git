@@ -22,6 +22,7 @@ int main(void)
 	{			/* parent */
 		printf("dad pid %d\n", getpid());
 		close(fd[0]);
+        printf("write: hello world\n");
 		write(fd[1], "hello world\n", 12);
 		//close(fd[1]); //if close here, the read2 in son_process will return 0; if no close, the read2 will block;
 		sleep(1000);
@@ -37,7 +38,7 @@ int main(void)
 		n = read(fd[0], line, 256);	//read2 
 		printf("read %d\n", n);
 	}
-      EXIT:
+EXIT:
 	return 0;
 }
 

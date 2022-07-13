@@ -19,9 +19,12 @@ void *thread_function(void *arg)
 		printf(".");
 		fflush(stdout);
 		//sleep(1);
+		usleep(1000);
+		printf("^");
+		fflush(stdout);
 		myglobal = j;
-        if (i == 3000)
-            k = k/0;
+        //if (i == 3000)
+        //    k = k/0;
 		pthread_mutex_unlock(&mymutex);
 	}
 	return NULL;
@@ -41,6 +44,8 @@ int main(void)
 	for (i = 0; i < 10000; i++)
 	{
 
+		printf("$");
+		fflush(stdout);
 		pthread_mutex_lock(&mymutex);
 		myglobal = myglobal + 1;
 		pthread_mutex_unlock(&mymutex);

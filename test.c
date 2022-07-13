@@ -1,5 +1,5 @@
 
-#if 1 // COW
+#if 0 // COW
 #define _XOPEN_SOURCE 700
 #include <fcntl.h> /* open */
 #include <stdint.h> /* uint64_t  */
@@ -8,7 +8,7 @@
 #include <unistd.h> /* pread, sysconf */
 #include <sys/types.h>
 
-/* virt_to_phys apis begin */
+/*************************************** virt_to_phys apis begin *******************************************/
 typedef struct {
     uint64_t pfn : 55;
     unsigned int soft_dirty : 1;
@@ -74,7 +74,7 @@ int virt_to_phys_user(uintptr_t *paddr, pid_t pid, uintptr_t vaddr)
     *paddr = (entry.pfn * sysconf(_SC_PAGE_SIZE)) + (vaddr % sysconf(_SC_PAGE_SIZE));
     return 0;
 }
-/* virt_to_phys apis end */
+/**************************************** virt_to_phys apis end ******************************************************/
 
 /* test */
 int data = 10;
@@ -703,7 +703,7 @@ int main(void)
 
 
 
-#if 0 // thread lock
+#if 1 // thread lock
 #include <stdio.h>
 #include <time.h>
 #include <string.h>

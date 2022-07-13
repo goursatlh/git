@@ -1,17 +1,41 @@
 #! /bin/bash
+#set -e
+if [ $# -ne 4 ];then
+    echo "error input, Usage: $0 on/off function_name type 0/1(stack enable/disable)"
+    exit -1
+fi
+
 if [ $1 = "on" ];then
-    if [ ! -d /debug ];then
+    if [ ! -d /debug ] || [ ! -d /debug/tracing ];then
         echo "mount the /debug filesystem"
+        mkdir -p /debug
         mount -t debugfs nodev /debug
     fi
     echo 1 > /proc/sys/kernel/ftrace_enabled
 
     cd /debug/tracing/
-    echo function > current_tracer
-    
-    if [ -n $2 ];then
-        echo $2 > set_ftrace_filter
+   
+    if [ $2 = 1 ];then
+        echo function > current_tracer
+        if [ -n $3 ];then
+            echo $3 > set_ftrace_filter
+        fi
+        if [ $4 = 1 ];then
+            echo 1 > options/func_stack_trace
+        fi
     fi
+    
+    if [ $2 = 2 ];then
+        echo function_graph > current_tracer
+        if [ -n $3 ];then
+            echo $3 > set_graph_function
+        fi
+        echo $4 > max_graph_depth
+        if [ $4 != 1 ];then
+            echo $4 > max_graph_depth
+        fi
+    fi
+    
     echo "ftrace start: "
     echo >trace;echo 1 >tracing_on
     exit
@@ -25,6 +49,7 @@ if [ $1 = "off" ];then
     cd /debug/tracing/
     cat trace >$path/$txt
     echo 0 > tracing_on
+    echo 0 > options/func_stack_trace
     echo >trace
     #cd -
     echo "ftrace end"
