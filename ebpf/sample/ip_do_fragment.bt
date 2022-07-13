@@ -1,0 +1,24 @@
+#!/usr/bin/env bpftrace
+#include <linux/skbuff.h>
+#include <uapi/linux/ip.h>
+
+BEGIN
+{
+ printf("Tracing ip_do_fragment. Hit Ctrl-C to end.\n");
+ //printf("%-8s %-8s %-16s ", "TIME", "PID","COMM");
+ //printf("%-39s %-6s %-39s %-6s\n", "SADDR","SPORT", "DADDR", "DPORT");
+}
+
+kprobe:ip_do_fragment
+{
+    //printf("%s\n", kstack());
+	$skb = ((struct sk_buff *)arg2);
+    $ip = (struct iphdr *)($skb->head + $skb->network_header);
+    printf("ip protocol %d total len %d\n", $ip->protocol, $ip->tot_len);
+    printf("ip %s/%s \n", ntop($ip->saddr), ntop($ip->daddr));
+}
+
+END
+{
+ printf("Tracing ip_do_fragment end.\n");
+}

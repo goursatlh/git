@@ -1,0 +1,25 @@
+#!/usr/bin/env bpftrace
+#include <linux/skbuff.h>
+#include <uapi/linux/ip.h>
+
+BEGIN
+{
+    printf("Tracing kfree_skb. Hit Ctrl-C to end.\n");
+}
+
+kprobe:kfree_skb
+{
+    //printf("%s\n", kstack());
+	$skb = ((struct sk_buff *)arg0);
+    $ip = (struct iphdr *)($skb->head + $skb->network_header);
+    if (($ip->protocol != 17) && ($ip->protocol != 0))
+    {
+        printf("ip protocol %d total len %d  ip dst %s/src %s \n", 
+                $ip->protocol, $ip->tot_len, ntop($ip->saddr), ntop($ip->daddr));
+    }
+}
+
+END
+{
+    printf("Tracing kfree_skb end.\n");
+}
