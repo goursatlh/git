@@ -6,7 +6,9 @@
 
 /* For each probe you need to allocate a kprobe structure */
 static struct kprobe kp = {
-	.symbol_name	= "_do_fork",
+	//.symbol_name	= "_do_fork",
+	//.symbol_name	= "__do_sys_fork",
+	.symbol_name	= "__do_sys_clone",
 };
 
 static int handler_pre(struct kprobe *p, struct pt_regs *regs)

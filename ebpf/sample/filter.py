@@ -1,11 +1,26 @@
 #!/usr/bin/env python3
- 
 from bcc import BPF
 import time
- 
+import sys
+
+if len(sys.argv) != 4:
+    print("Bad input: usage: ./filter.py interface cfile func")
+    exit(0)
+
+if_name = sys.argv[1]
+file_name = sys.argv[2]
+func_name = sys.argv[3]
+
+''' 
 device = "lo"
 b = BPF(src_file="filter.c")
 fn = b.load_func("udpfilter", BPF.XDP)
+b.attach_xdp(device, fn, 0)
+'''
+
+device = if_name
+b = BPF(src_file=file_name)
+fn = b.load_func(func_name, BPF.XDP)
 b.attach_xdp(device, fn, 0)
  
 try:

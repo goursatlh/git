@@ -1,0 +1,29 @@
+#!/usr/bin/env bpftrace
+#include <linux/skbuff.h>
+#include <uapi/linux/ip.h>
+
+BEGIN
+{
+    printf("Tracing __alloc_skb. Hit Ctrl-C to end.\n");
+}
+
+kprobe:__build_skb
+{
+	//$skb = ((struct sk_buff *)arg0);
+	@len = arg1;
+    //printf("kstack: ================================ \n");
+    printf("__build_skb skb len %u\n", @len);
+    //printf("%s\n", kstack());
+    //printf("skb(%p) %u %u\n", $skb, $skb->len, @len);
+}
+
+kretprobe:__build_skb
+{
+    $skb = (struct sk_buff *)retval;
+    printf("__build_skb %p len %u\n", $skb, $skb->len);
+}
+
+END
+{
+    printf("Tracing __alloc_skb end.\n");
+}

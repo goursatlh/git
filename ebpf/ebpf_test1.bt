@@ -1,0 +1,16 @@
+#!/usr/bin/env bpftrace
+
+uprobe:/home/wt/code/test:add {
+    printf("program begin\n");
+    @start = nsecs;
+}
+
+uretprobe:/home/wt/code/test:add {
+    printf("cost: %ld ns\n", nsecs-@start);
+}
+
+END
+{
+    printf("program end\n");
+    clear(@start);
+}

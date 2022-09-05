@@ -1,0 +1,39 @@
+#!/usr/bin/env bpftrace
+#include <linux/skbuff.h>
+#include <uapi/linux/ip.h>
+#include <linux/netdevice.h>
+BEGIN
+{
+    printf("Tracing __alloc_skb. Hit Ctrl-C to end.\n");
+}
+
+kprobe:gro_normal_one
+{
+    @napi = (struct napi_struct *)arg0;
+	@skb = ((struct sk_buff *)arg1);
+	@len = arg2;
+    if (@skb->len >= 10000)
+    {
+        printf("kstack: ================================ \n");
+        printf("%s\n", kstack());
+        printf("skb(%p) len %u seg %u napi %u\n", @skb, @skb->len, @len, @napi->rx_count);
+    }
+}
+
+kprobe:netif_receive_skb_list_internal
+/@skb->len >= 10000/
+{
+    //$napi = (struct napi_struct *)arg0;
+    printf("netif_receive_skb_list_internal napi count %u\n", @napi->rx_count);
+}
+//kretprobe:__napi_alloc_skb
+///@len >= 100/
+//{
+//    $skb = (struct sk_buff *)retval;
+//    printf("__napi_alloc_skb %p len %u\n", $skb, $skb->len);
+//}
+
+END
+{
+    printf("Tracing __alloc_skb end.\n");
+}

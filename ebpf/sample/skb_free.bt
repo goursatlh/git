@@ -14,8 +14,9 @@ kprobe:kfree_skb
     $ip = (struct iphdr *)($skb->head + $skb->network_header);
     if (($ip->protocol != 17) && ($ip->protocol != 0))
     {
-        printf("ip protocol %d total len %d  ip dst %s/src %s \n", 
-                $ip->protocol, $ip->tot_len, ntop($ip->saddr), ntop($ip->daddr));
+        printf("%s\n", kstack());
+        printf("skb %p, ip protocol %d total len %d  ip dst %s/src %s \n", 
+                $skb, $ip->protocol, $ip->tot_len, ntop($ip->saddr), ntop($ip->daddr));
     }
 }
 
