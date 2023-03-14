@@ -1216,7 +1216,7 @@ print(str1.lstrip('*'))
 '''
 
 '''
-# rex in python
+# rex.1
 import re
 import os # execute shell command in .py
 
@@ -1232,6 +1232,25 @@ m = re.match(r"^(\d{3})-(\d{8})$", "010-12345678")
 print(m.group(0))
 print(m.group(1))
 print(m.group(2))
+'''
+
+'''
+# rex.2 
+# re.match : find the first match in the beginning of the string
+# re.search: find the first match in the whole string
+# re.findall: find all the matches in the whole string
+import re
+
+list = ["xguru99 get guxu guxx", "guru99 give", "guru Selenium"]
+for element in list:
+    #z = re.match("(g\w+)\W(g\w+)", element)
+    z = re.search("(g\w+)\W(g\w+)", element)
+    #z = re.findall("(g\w+)\W(g\w+)", element)
+    if z:
+        print(z.groups())
+        #print(z.group(0))
+        #print(z)
+
 '''
 
 '''
