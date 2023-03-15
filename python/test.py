@@ -1253,6 +1253,66 @@ for element in list:
 
 '''
 
+# rex.3
+# ?=
+# ?!
+# ?<=
+# ?<!
+
+import re
+'''
+list = ["a regular expression", "gure99 give", "guru Selenium", "regex represents regular expression"]
+for element in list:
+    print(element )
+    z = re.findall("re(?=gular)", element)
+    if z:
+        print("1", z)
+
+    z = re.findall("re(?!g)", element)
+    if z:
+        print("2", z)
+
+    z = re.findall("(?<=\w)re", element)
+    if z:
+        print("3", z)
+
+    z = re.findall("(?<!\w)re", element)
+    if z:
+        print("4", z)
+
+# regex include "this", exclude "that"
+exam = ["this and that is runoob test", 
+        "this is runoob test", 
+        "that is cat, and this is just",
+        "this is the case, not that ",
+        "a that this",
+        "this ",
+        "runoob thatthis is the case ",
+        "this is a pig that",
+        "this is thisthat"]
+
+for element in exam:
+    #z = re.search("^((?<!that).)*this(.(?!that))*$", element)
+    z = re.search("^(.(?<!that))*this((?!that).)*$", element)
+    #z = re.search("^(.(?!that))*this(.(?!that))*$", element)
+    #z = re.search("^((?<!that).)*this((?<!that).)*$", element)
+    if z:
+        print("5", z.group(0))
+'''
+
+'''
+exam = ["abc1Zx#1", 
+        "this is runoob test 1 Z", 
+        "afasfasfasfasfasfasfA1zZZZZZZZZZZZ", 
+        "this is the case, not that ",
+        "123Az"]
+for element in exam:
+    print(element )
+    z = re.match("(?=.*?[A-Z])(?=.*?\d)(?=.*?[a-z]).{8,}", element)
+    if z:
+        print("6", z.group(0))
+'''
+
 '''
 # file io
 f = open("txt", "r+")         
