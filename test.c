@@ -407,30 +407,32 @@ int main()
 #endif
 
 // fopen fseek
-#if 0
+#if 1
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
-//#define FILE_PATH "test.txt"
-#define FILE_PATH "data"
+#define FILE_PATH "2.txt"
 
 int main()
 {
     FILE *fp = NULL;
     char buff[512] = {0};
     char buff1[32] = "hello world\n";
+    char buff2[512] = {0};
     struct stat fs;
     int flen = 0;
     int pos = 0;
     stat( FILE_PATH, &fs);
     printf("file %s size %d\n", FILE_PATH, fs.st_size);
+
     fp = fopen(FILE_PATH, "a+");
     //setvbuf ( fp , sBuf, _IOFBF , 1024 );
     //sleep(600);
     if (fp)
     {
+#if 0
         pos = (int)ftell(fp);
         printf("1 current file pointer %d\n",pos);
         flen = fread( buff, 1, sizeof(buff), fp);
@@ -438,26 +440,44 @@ int main()
         {
             printf("read %d bytes: %s\n", flen, buff);
         }
-        sleep(600);
         pos = (int)ftell(fp);
         printf("2 current file pointer %d\n",pos);
-
+#endif
         fwrite(buff1, 1, strlen(buff1), fp);
-        
+        //fprintf(fp, "%s\n", buff1);
+        rewind(fp);
+        flen = fread( buff, sizeof(buff),1, fp);
+        if (flen >= 0)
+        {
+            printf("read again %d bytes: %s err %d\n", flen, buff, ferror(fp));
+        }
+       
+
         pos = (int)ftell(fp);
         printf("3 current file pointer %d\n",pos);
-       
-        fseek(fp, 0, SEEK_SET);
+#if 0 
+        //fseek(fp, 0, SEEK_SET);
+        rewind(fp);
         pos = (int)ftell(fp);
         printf("4 current file pointer %d\n",pos);
         
         flen = fread( buff, 1, sizeof(buff), fp);
         if (flen >= 0)
         {
-            printf("read again %d bytes: %s\n", flen, buff);
+            printf("read third %d bytes: %s\n", flen, buff);
         }
         pos = (int)ftell(fp);
         printf("5 current file pointer %d\n",pos);
+
+        fseek(fp, -strlen(buff), SEEK_CUR);
+        pos = (int)ftell(fp);
+        printf("6 current file pointer %d\n",pos);
+
+        if (fgets(buff2, 256, fp))
+        {
+            printf("fgets %d bytes: %s\n", strlen(buff2), buff2);
+        }
+#endif
         fclose(fp);
     }
 
@@ -703,7 +723,7 @@ int main(void)
 
 
 
-#if 1 // thread lock
+#if 0 // thread lock
 #include <stdio.h>
 #include <time.h>
 #include <string.h>
