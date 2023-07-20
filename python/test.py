@@ -407,8 +407,27 @@ print([m(2) for m in multipliers()])
 l = [i for i in range(10) if i % 2 == 0]
 print(l)
 '''
+
 '''
-# matplotlib
+# matplotlib:
+# use matplotlib to draw cos
+import sys
+import numpy as np
+import matplotlib.pyplot as plt
+
+R = 3.4
+#x = np.arange(0,0.5*np.pi, 0.1) 
+x = np.linspace(0,90) 
+#y = R - R*np.cos(x)
+y = R - R*np.cos(x*np.pi/180)
+plt.plot(x, y)
+#ax.set_xlabel('number')
+#ax.set_ylabel('distance')
+plt.show()
+'''
+
+'''
+# use matplotlib to draw cos pictures
 import sys
 import tkinter
 import matplotlib.pyplot as plt
@@ -1289,28 +1308,28 @@ exam = ["this and that is runoob test",
         "this ",
         "runoob thatthis is the case ",
         "this is a pig that",
-        "this is thisthat"]
+        "this is xxthatxx"]
 
 for element in exam:
     #z = re.search("^((?<!that).)*this(.(?!that))*$", element)
-    z = re.search("^(.(?<!that))*this((?!that).)*$", element)
+    z = re.search("^(.(?<!that))*this((?!that).)*$", element) # exclude "thisthat"
     #z = re.search("^(.(?!that))*this(.(?!that))*$", element)
     #z = re.search("^((?<!that).)*this((?<!that).)*$", element)
     if z:
         print("5", z.group(0))
-'''
 
-'''
+# validity of password: include one [a-z] && [A-Z] && [0-9] , len >= 8
 exam = ["abc1Zx#1", 
         "this is runoob test 1 Z", 
         "afasfasfasfasfasfasfA1zZZZZZZZZZZZ", 
-        "this is the case, not that ",
-        "123Az"]
+        "123Az",
+        "123456789",
+        "z"]
 for element in exam:
-    print(element )
     z = re.match("(?=.*?[A-Z])(?=.*?\d)(?=.*?[a-z]).{8,}", element)
     if z:
         print("6", z.group(0))
+
 '''
 
 '''
@@ -1726,8 +1745,10 @@ print(add_end())
 print(add_end())
 print(add_end())
 '''
+
 '''
 # list, tuple, dict, set
+# list
 L = [3, 2, 1]
 print(L)
 print(L[0], L[1])
@@ -1744,15 +1765,27 @@ print(L)
 L.pop(1)
 print(L)
 
-T = (2, 1);
-print(T)
-print(T[0])
-#T[0] = 3
+L1 = list(range(10))
+print(L1)
+'''
 
-T1 = (1, "hello", T, L)
+'''
+# tuple
+# fixed len;indexing;multi-type-elements
+T = (2, 2, "hello", (1,2,3), 1, [2,"2",2])
+print(T)
+print(T.__len__())
+print(T[3])
+#T[0] = 3
+T1 = T.__add__((3,4))
 print(T1)
-L[0] = 99
-print(T1)
+#T[0] = 99
+
+
+s = {1,3,2,9,"hello",2}
+print(s)
+print(s.__len__())
+
 
 D = {"sam":1, "gary":3}
 print(D)
@@ -1768,7 +1801,9 @@ print(D)
 D[T] = 20
 print(D)
 #D[T1] = 30
+'''
 
+'''
 S = set([10, 2, 3, 0, 0, 2])
 print(S)
 S1 = set(T)
@@ -1777,6 +1812,7 @@ print(D)
 S2 = set(D)
 print(S2)
 '''
+
 '''
 def funcx(*n):
     sum = 0
