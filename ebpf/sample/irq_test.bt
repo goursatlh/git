@@ -1,0 +1,21 @@
+#!/usr/bin/env bpftrace
+
+#include <linux/skbuff.h>
+#include <uapi/linux/ip.h>
+#include <linux/netdevice.h>
+
+BEGIN
+{
+    printf("Tracing __common_interrupt. Hit Ctrl-C to end.\n");
+}
+
+kprobe:__common_interrupt
+{
+	@irq = arg1;
+    printf("__common_interrupt %u\n", @irq);
+}
+
+END
+{
+    printf("Tracing __common_interrupt end.\n");
+}

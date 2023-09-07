@@ -1,6 +1,8 @@
 #obj-m := module_test.o force_rmmod.o killd.o rcu_test.o memory_test.o meltdown_mod.o systimer.o crash.o deadlock_test.o atomic_opt.o softlockup_test.o timer_test.o
 
-obj-m := file_ops_in_irq.o
+#obj-m := file_ops_in_irq.o
+#obj-m := sockex1_kern.o
+obj-m := crash.o force_rmmod.o
 CURRENT_PATH := $(shell pwd)
 
 VERSION_NUM :=$(shell uname -r)

@@ -1,0 +1,30 @@
+#!/usr/bin/env bpftrace
+BEGIN
+{
+    printf("Tracing context switch. Hit Ctrl-C to end.\n");
+}
+
+
+tracepoint:sched:sched_wakeup,
+tracepoint:sched:sched_wakeup_new
+{
+	@qtime[args->pid] = nsecs;
+}
+
+tracepoint:sched:sched_switch
+{
+	if (args->prev_state == TASK_RUNNING) {
+		@qtime[args->prev_pid] = nsecs;
+	}
+
+	$ns = @qtime[args->next_pid];
+	if ($ns) {
+		@usecs = hist((nsecs - $ns) / 1000);
+	}
+	delete(@qtime[args->next_pid]);
+}
+
+END
+{
+    printf("Tracing context switch end.\n");
+}

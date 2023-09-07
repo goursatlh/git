@@ -14,6 +14,8 @@ static int __init hello_init(void)
         printk("kmalloc failed.\n");
         return -1;
     }
+
+    *(int *)0 = 0;
     p += 2560000;
     *p = 1;
     printk(KERN_ALERT "Hello Linux kernel\n");
@@ -27,3 +29,7 @@ static void __exit hello_exit(void)
 
 module_init(hello_init);
 module_exit(hello_exit);
+
+MODULE_AUTHOR("Barry Song <baohua@kernel.org>");
+MODULE_DESCRIPTION("proc exmaple");
+MODULE_LICENSE("GPL v2");

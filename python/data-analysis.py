@@ -80,6 +80,7 @@ def crawl(url):
     root = html.fromstring(page)
     image_urls = root.xpath('//img[@data-original]/@data-original')
     for image_url in image_urls:
+        print("save img url: ", image_url)
         save_image(image_url)
 
 

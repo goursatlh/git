@@ -3,15 +3,10 @@
 from bcc import BPF
 
 bpf_text = """
-#include <linux/fs.h> 
 #include <bcc/proto.h>
 #include <linux/skbuff.h>
-#include <net/inet_sock.h>
-#include <bcc/proto.h>
-#include <linux/ip.h>
-#include <linux/icmp.h>
 #include <uapi/linux/ptrace.h>
-#include <net/sock.h>
+#include <uapi/linux/icmp.h>
 
 #if 0
 int kprobe__ip_rcv_finish(struct pt_regs *ctx, struct net *net, struct sock *sk, struct sk_buff *skb) 
@@ -24,10 +19,13 @@ int kprobe__ip_rcv_finish(struct pt_regs *ctx, struct net *net, struct sock *sk,
 }
 #endif
 
-int kprobe__icmp_rcv(struct pt_regs *ctx, struct sk_buff *skb) 
+//int kprobe__icmp_rcv(struct pt_regs *ctx, struct sk_buff *skb) 
+int kprobe__icmp_rcv(struct pt_regs *ctx) 
 {
+    bpf_trace_printk("hello world\\n");
+    struct sk_buff *skb = (struct sk_buff *)PT_REGS_PARM1(ctx); 
     struct icmphdr *icmph = (struct icmphdr *)(skb->head + skb->transport_header);
-    bpf_trace_printk("icmp_rcv skb len %d/%d dev %s\\n", skb->len, skb->data_len, skb->dev->name);
+    //bpf_trace_printk("icmp_rcv skb len %d/%d dev %s\\n", skb->len, skb->data_len, skb->dev->name);
     bpf_trace_printk("icmp_rcv type: %d code %d transport_header %d\\n", icmph->type, icmph->code, skb->transport_header); 
     return 0;
 }

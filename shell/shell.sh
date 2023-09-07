@@ -1,6 +1,16 @@
 #!/bin/bash
 CMD="\033[1;32mUsage for: \033[0m"
 
+no_exec1() {
+echo "difference between [] and [[ ]]"
+strA="helloworld"
+strB="low"
+if [[ $strA =~ $strB ]];then
+        echo "including"
+else
+        echo "not including"
+fi
+
 echo "memory check"
 
 totalRss=0;
@@ -40,7 +50,6 @@ echo TOTAL: Rss $totalRss kB Pss $totalPss kB Uss $totalUss kB;
 
 
 echo "hello world"
-no_exec1() {
 echo -e ${CMD}"process opt"
 echo "PID: " "$$"
 if [ ! -e test ];then         

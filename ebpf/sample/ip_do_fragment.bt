@@ -11,7 +11,7 @@ BEGIN
 
 kprobe:ip_do_fragment
 {
-    //printf("%s\n", kstack());
+    printf("%s\n", kstack());
 	$skb = ((struct sk_buff *)arg2);
     $ip = (struct iphdr *)($skb->head + $skb->network_header);
     printf("ip protocol %d total len %d\n", $ip->protocol, $ip->tot_len);

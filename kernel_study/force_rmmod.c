@@ -4,12 +4,16 @@
 #include <linux/cpu.h>     
 #include <linux/percpu.h>     
 
+#include <asm/local.h>
+
 static unsigned long addr = 0;
 module_param(addr, ulong, S_IRUGO);
 
-int force(void *data)
+//int force(void *data)
+void force(void)
 {
-    return 0;
+    //return 0;
+    return;
 }
     
 static int __init rm_init(void)
@@ -29,14 +33,24 @@ static int __init rm_init(void)
         (mod->refptr[i])->decs = 0;  
     }
 #endif
+#if 0
     for_each_possible_cpu(cpu)
     {
         per_cpu_ptr(mod->refptr, cpu)->decs = 0;
         per_cpu_ptr(mod->refptr, cpu)->incs = 0;
     }
-    printk(KERN_ALERT "force rm module %s, module state %d, reference %d\n", 
-                       mod->name, mod->state, module_refcount(mod));
+#endif
+    //linux-5.15.0-71
+    for_each_possible_cpu(cpu)
+    {
+        local_set((local_t*)per_cpu_ptr(&(mod->refcnt), cpu), 0);
+    }
+    printk(KERN_ALERT "force rm module %s, module state %d, reference %d %d\n", 
+                       mod->name, mod->state, module_refcount(mod), atomic_read(&mod->refcnt));
 
+    atomic_set(&mod->refcnt, 1);
+    printk(KERN_ALERT "force rm module %s, module state %d, reference %d %d\n", 
+                       mod->name, mod->state, module_refcount(mod), atomic_read(&mod->refcnt));
     return 0;
 }
     
