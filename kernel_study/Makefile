@@ -2,7 +2,8 @@
 
 #obj-m := file_ops_in_irq.o
 #obj-m := sockex1_kern.o
-obj-m := crash.o force_rmmod.o
+#obj-m := mem_test.o
+obj-m := vir2phy_kern.o
 CURRENT_PATH := $(shell pwd)
 
 VERSION_NUM :=$(shell uname -r)
