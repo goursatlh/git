@@ -23,19 +23,34 @@ static pte_t* get_pte(struct task_struct *task, unsigned long address)
 	struct mm_struct *mm = task->mm;
 	pgd = pgd_offset(mm, address);
 	if (pgd_none(*pgd)|| pgd_bad(*pgd))
+    {
+        printk(KERN_ALERT "PGD/P4D/PUD/PMD/PTE failed, %d\n", __LINE__);
 		return NULL;
+    }
 	p4d = p4d_offset(pgd, address);
 	if (p4d_none(*p4d)|| p4d_bad(*p4d))
+    {
+        printk(KERN_ALERT "PGD/P4D/PUD/PMD/PTE failed, %d\n", __LINE__);
 		return NULL;
+    }
 	pud = pud_offset(p4d, address);
 	if (pud_none(*pud)|| pud_bad(*pud))
+    {
+        printk(KERN_ALERT "PGD/P4D/PUD/PMD/PTE failed, %d\n", __LINE__);
 		return NULL;
+    }
 	pmd = pmd_offset(pud, address);
 	if (pmd_none(*pmd)|| pmd_bad(*pmd))
+    {
+        printk(KERN_ALERT "PGD/P4D/PUD/PMD/PTE failed, %d\n", __LINE__);
 		return NULL;
+    }
 	pte = pte_offset_kernel(pmd, address);
 	if (pte_none(*pte))
+    {
+        printk(KERN_ALERT "PGD/P4D/PUD/PMD/PTE failed, %d\n", __LINE__);
 		return NULL;
+    }
     printk(KERN_ALERT "KERN_INFO vir addr 0x%lx, page table: %p %p %p %p %p\n", address, pgd, p4d, pud, pmd, pte);
 	return pte;
 }

@@ -427,6 +427,41 @@ plt.show()
 '''
 
 '''
+# matplotlib: y = (sinx/x)
+# use matplotlib to draw cos
+import sys
+import numpy as np
+import matplotlib.pyplot as plt
+
+R = 3.4
+x = np.arange(-10*np.pi,10*np.pi, 0.1) 
+y = R*np.sin(x)/x
+plt.plot(x, y)
+#ax.set_xlabel('number')
+#ax.set_ylabel('distance')
+plt.show()
+'''
+
+# How to use sinx to simulate the fangbo 
+import numpy as np
+import matplotlib.pyplot as plt
+
+def calculate_formula(x):
+    result = 0
+    for i in range(1, 5, 2):
+        result += np.sin(i * x) / i
+    return result
+
+x = np.linspace(-10, 10, 1000)
+y = calculate_formula(x)
+
+plt.plot(x, y)
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Graph of y = sin(x) + sin(3x)/3 + sin(5x)/5 + ... ')
+plt.show()
+
+'''
 # use matplotlib to draw cos pictures
 import sys
 import tkinter

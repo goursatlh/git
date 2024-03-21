@@ -18,14 +18,14 @@
  * 4, vmalloc
  * */
 
-
 static int __init memx_init(void)
 {
-    //struct page *pg = NULL;
+    struct page *pg = NULL;
     struct kmem_cache *mem_cache = NULL;
-    //unsigned long paddr = 0;
-    unsigned long cout = 100000;
+    unsigned long paddr = 0;
+    unsigned long cout = 1;
     unsigned long num = 0;
+    unsigned long pfn = 0;
     void *pmem = NULL;
     printk(KERN_ALERT "mem test init\n");
 
@@ -37,13 +37,15 @@ static int __init memx_init(void)
 								 );
     while (cout--)
     {
-#if 0 // alloc_pages
+#if 1 // alloc_pages
         pg = alloc_pages(GFP_KERNEL, 0);
         if (pg > 0)
         {
             printk(KERN_ALERT "alloc_pages return %p\n", pg);
             paddr = page_to_phys(pg);
-            printk(KERN_ALERT "pages to phy add %lx\n", paddr);
+            printk(KERN_ALERT "pages to phy addr %lx\n", paddr);
+            pfn = page_to_pfn(pg);
+            printk(KERN_ALERT "pages to pfn %lx\n", pfn);
         }
         else
         {
@@ -52,6 +54,7 @@ static int __init memx_init(void)
         }
 #endif
         ++num;
+#if 0 
 		pmem = kmem_cache_alloc(mem_cache, GFP_ATOMIC);
         if (pmem > 0)
             printk(KERN_ALERT "kmem_cache_alloc %lu return %p\n", num, pmem);
@@ -60,6 +63,7 @@ static int __init memx_init(void)
             printk(KERN_ALERT "kmem_cache_alloc return error %p\n", pmem);
             return 0;
         }
+#endif
     }
     return 0;
 }
@@ -71,3 +75,5 @@ static void __exit memx_exit(void)
 
 module_init(memx_init);
 module_exit(memx_exit);
+
+MODULE_LICENSE("GPL v2");
