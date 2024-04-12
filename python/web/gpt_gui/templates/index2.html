@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Website</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+        nav {
+            background-color: #444;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            font-size: 16px;
+        }
+        .container {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .sidebar {
+            flex: 0 0 200px;
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            color: #333;
+        }
+        .subpage {
+            background-color: #e6e6e6;
+            color: #333;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .content {
+            flex: 1;
+            background-color: #fff;
+            padding: 20px;
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .subpage-content {
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .checkbox-container {
+            margin-top: 20px;
+        }
+        footer {
+            background-color: #444;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        Business Website
+    </header>
+    <nav>
+        <ul style="list-style-type: none; padding: 0;">
+            <li style="display: inline; margin-right: 20px;"><a href="#" style="color: #fff; text-decoration: none;">Home</a></li>
+            <li style="display: inline; margin-right: 20px;"><a href="#" style="color: #fff; text-decoration: none;">About</a></li>
+            <li style="display: inline; margin-right: 20px;"><a href="#" style="color: #fff; text-decoration: none;">Services</a></li>
+            <li style="display: inline;"><a href="#" style="color: #fff; text-decoration: none;">Contact</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <div class="sidebar">
+            <h2 style="color: #333; margin-bottom: 20px;">Subpages</h2>
+            <ul style="list-style-type: none; padding: 0;">
+                {% for subpage in subpages %}
+                <li class="subpage" onclick="displaySubpage('{{ subpage.content }}')">
+                    {{ subpage.title }}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="content" id="content">
+            <h2 style="margin-bottom: 20px;">Subpage Content</h2>
+            <div class="subpage-content" id="subpage-content"></div>
+            <div class="checkbox-container">
+                <h3>Title (Gray background bar)</h3>
+                <input type="checkbox" id="checkbox">
+                <label for="checkbox">Enable STP</label>
+            </div>
+        </div>
+    </div>
+    <footer>
+        &copy; 2024 Business Website. All rights reserved.
+    </footer>
+    <script>
+        function displaySubpage(content) {
+            document.getElementById('subpage-content').innerHTML = content;
+        }
+    </script>
+</body>
+</html>
+

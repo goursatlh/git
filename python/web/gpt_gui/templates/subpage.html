@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ subpage.title }}</title>
+    <style>
+        .title-bar {
+            background-color: blue;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .checkbox-container {
+            margin-top: 20px;
+        }
+        .enable-stp {
+            background-color: lightblue;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ subpage.title }}</h1>
+    <div class="title-bar">Title (Blue background bar)</div>
+    <div class="checkbox-container">
+        <input type="checkbox" id="checkbox1">
+        <label for="checkbox1">Enable STP</label><br>
+        <div class="enable-stp">Enable STP</div>
+        <input type="checkbox" id="checkbox2">
+        <label for="checkbox2">Enable STP</label><br>
+        <div class="enable-stp">Enable STP</div>
+        <input type="checkbox" id="checkbox3">
+        <label for="checkbox3">Enable STP</label><br>
+        <div class="enable-stp">Enable STP</div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .sidebar {
+            flex: 0 0 200px;
+            background-color: #3498db;
+            padding: 20px;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+        .subpage {
+            background-color: #2980b9;
+            color: #fff;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .content {
+            flex: 1;
+            background-color: #fff;
+            padding: 20px;
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .subpage-content {
+            background-color: #3498db;
+            color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .checkbox-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h2 style="color: #fff; margin-bottom: 20px;">Subpages</h2>
+            <ul style="list-style-type: none; padding: 0;">
+                {% for subpage in subpages %}
+                <li class="subpage" onclick="displaySubpage('{{ subpage.content }}')">
+                    {{ subpage.title }}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="content" id="content">
+            <h2 style="margin-bottom: 20px;">Subpage Content</h2>
+            <div class="subpage-content" id="subpage-content"></div>
+            <div class="checkbox-container">
+                <h3>Title (Blue background bar)</h3>
+                <input type="checkbox" id="checkbox">
+                <label for="checkbox">Enable STP</label>
+            </div>
+        </div>
+    </div>
+    <script>
+        function displaySubpage(content) {
+            document.getElementById('subpage-content').innerHTML = content;
+        }
+    </script>
+</body>
+</html>
+
