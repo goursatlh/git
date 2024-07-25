@@ -1,0 +1,206 @@
+#!/usr/bin/env bpftrace
+
+#include <linux/skbuff.h>
+#include <uapi/linux/ip.h>
+#include "/home/wt/code/kernel_code/linux-6.5/net/mac80211/ieee80211_i.h"
+
+BEGIN
+{
+    printf("Tracing 80211 frames rcv path. Hit Ctrl-C to end.\n");
+}
+
+kprobe:iwl_mvm_rx_mpdu_mq
+{
+    printf("\n\niwl_mvm_rx_mpdu_mq\n");
+}
+
+/*
+kprobe:__alloc_skb
+{
+    printf("__alloc_skb len %u\n", arg0);
+}
+kretprobe:__alloc_skb
+{
+    $skb = (struct sk_buff *)retval;
+    printf("__alloc_skb ret skb %p len %u/%u/%u\n", $skb, $skb->len, $skb->data_len, $skb->truesize);
+}
+kprobe:skb_copy
+{
+    $skb = (struct sk_buff *)arg0;
+    printf("skb_copy skb %p\n", $skb);
+}
+kretprobe:skb_copy
+{
+    $skb = (struct sk_buff *)retval;
+    printf("skb_copy ret skb %p len %u/%u/%u\n", $skb, $skb->len, $skb->data_len, $skb->truesize);
+}
+
+kprobe:kfree_skbmem
+{
+    $skb = (struct sk_buff *)arg0;
+    printf("kfree_skbmem skb %p len %u/%u/%u\n", $skb, $skb->len, $skb->data_len, $skb->truesize);
+}
+*/
+
+kprobe:skb_copy
+{
+    $skb = (struct sk_buff *)arg0;
+    printf("skb_copy skb %p\n", $skb);
+}
+kretprobe:skb_copy
+{
+    $skb = (struct sk_buff *)retval;
+    printf("skb_copy ret skb %p len %u/%u/%u\n", $skb, $skb->len, $skb->data_len, $skb->truesize);
+}
+
+kprobe:skb_queue_tail
+{
+    $skb = (struct sk_buff *)arg1;
+    $head = arg0;
+    printf("skb_queue_tail skb %p len %u/%u/%u, add to list %p\n", $skb, $skb->len, $skb->data_len, $skb->truesize, $head);
+}
+
+kprobe:ieee80211_rx_napi
+{
+    $skb = (struct sk_buff *)arg2;
+    //printf("%s\n", kstack());
+    printf("ieee80211_rx_napi skb %p len %u/%u/%u\n", $skb, $skb->len, $skb->data_len, $skb->truesize);
+}
+
+kprobe:napi_gro_receive
+{
+    $skb = (struct sk_buff *)arg1;
+    //printf("%s\n", kstack());
+    printf("napi_gro_receive skb %p len %u/%u/%u\n", $skb, $skb->len, $skb->data_len, $skb->truesize);
+}
+
+kprobe:ieee80211_rx_for_interface
+{
+    $skb = (struct sk_buff *)arg1;
+    printf("ieee80211_rx_for_interface skb %p len %u/%u/%u consume %d\n", $skb, $skb->len, $skb->data_len, $skb->truesize, arg2);
+}
+
+kprobe:ieee80211_prepare_and_rx_handle
+{
+    $skb = (struct sk_buff *)arg1;
+    printf("ieee80211_prepare_and_rx_handle skb %p len %u/%u/%u consume %d\n", $skb, $skb->len, $skb->data_len, $skb->truesize, arg2);
+}
+
+kprobe:__ieee80211_rx_handle_packet
+{
+    $skb = (struct sk_buff *)arg2;
+    printf("__ieee80211_rx_handlers_packet skb %p len %u/%u/%u\n", $skb, $skb->len, $skb->data_len, $skb->truesize);
+}
+
+kprobe:ieee80211_rx_handlers
+{
+    printf("ieee80211_rx_handlers\n");
+}
+
+kprobe:ieee80211_rx_h_mgmt
+{
+    printf("ieee80211_rx_h_mgmt\n");
+}
+kretprobe:ieee80211_rx_h_mgmt
+{
+    printf("ieee80211_rx_h_mgmt ret %d\n", retval);
+}
+
+kprobe:__ieee80211_queue_skb_to_iface
+{
+    $skb = (struct sk_buff *)arg3;
+    printf("__ieee80211_queue_skb_to_iface skb %p len %u/%u/%u\n", $skb, $skb->len, $skb->data_len, $skb->truesize);
+}
+
+kprobe:ieee80211_scan_rx
+{
+    $skb = (struct sk_buff *)arg1;
+    printf("ieee80211_scan_rx skb %p, len %u/%u/%u\n", $skb, $skb->len, $skb->data_len, $skb->truesize);
+}
+
+kprobe:ieee80211_rx_h_data
+{
+    printf("ieee80211_rx_h_data\n");
+}
+kretprobe:ieee80211_rx_h_data
+{
+    printf("ieee80211_rx_h_data ret %d\n", retval);
+}
+
+kprobe:__ieee80211_queue_skb_to_iface
+{
+    $skb = (struct sk_buff *)arg3;
+    //printf("%s\n", kstack());
+    printf("ieee80211_queue_skb_to_iface skb %p, len %u/%u/%u\n", $skb, $skb->len, $skb->data_len, $skb->truesize);
+}
+
+kprobe:ieee80211_rx_8023
+{
+    $rx = (struct ieee80211_rx_data *)arg0;
+    $skb = (struct sk_buff *)($rx->skb);
+    printf("ieee80211_rx_8023 skb %p len %u/%u/%u\n", $skb, $skb->len, $skb->data_len, $skb->truesize);
+    //printf("%s\n", kstack());
+}
+
+kprobe:ieee80211_data_to_8023_exthdr
+{
+    $skb = (struct sk_buff *)arg0;
+    printf("ieee80211_data_to_8023_exthdr skb %p len %u/%u/%u\n", $skb, $skb->len, $skb->data_len, $skb->truesize);
+}
+
+kprobe:ieee80211_deliver_skb
+{
+    $rx = (struct ieee80211_rx_data *)arg0;
+    $skb = (struct sk_buff *)($rx->skb);
+    printf("ieee80211_deliver_skb skb %p len %u/%u/%u\n", $skb, $skb->len, $skb->data_len, $skb->truesize);
+}
+
+kprobe:ieee80211_deliver_skb_to_local_stack
+{
+    $skb = (struct sk_buff *)arg0;
+    $rx = (struct ieee80211_rx_data *)arg1;
+    //printf("%s\n", kstack());
+    printf("ieee80211_deliver_skb_to_local_stack skb %p, len %u/%u/%u, add skb to list %p\n", $skb, $skb->len, $skb->data_len, $skb->truesize, $rx->list);
+}
+
+kprobe:netif_receive_skb_list_internal
+{
+    $head = (struct list_head *)arg0;
+    printf("netif_receive_skb_list_internal, skb list head %p\n", $head );
+}
+
+kprobe:icmp_rcv
+{
+    //$skb = (struct sk_buff *)retval;
+    $skb = (struct sk_buff *)arg0;
+    printf("icmp_rcv skb %p, len %u/%u/%u\n", $skb, $skb->len, $skb->data_len, $skb->truesize);
+}
+
+kprobe:ieee80211_sta_rx_queued_mgmt
+{
+    $skb = (struct sk_buff *)arg1;
+    printf("ieee80211_sta_rx_queued_mgmt skb %p, len %u/%u/%u\n", $skb, $skb->len, $skb->data_len, $skb->truesize);
+    //printf("%s\n", kstack());
+}
+
+kprobe:ieee80211_rx_mgmt_auth
+{
+    $len = arg2;
+    printf("ieee80211_rx_mgmt_auth len %u\n", $len);
+}
+
+kprobe:ieee80211_rx_mgmt_beacon
+{
+    $len = arg2;
+    printf("ieee80211_rx_mgmt_beacon len %u\n", $len);
+}
+
+kprobe:ieee80211_queue_work
+{
+    printf("ieee80211_queue_work\n");
+}
+
+END
+{
+    printf("Tracing 80211 frames rcv path end.\n");
+}
