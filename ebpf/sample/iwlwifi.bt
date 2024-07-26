@@ -1,6 +1,7 @@
 #!/usr/bin/env bpftrace
 
 #include <linux/skbuff.h>
+#include <linux/device.h>
 #include <uapi/linux/ip.h>
 #include "/home/wt/code/kernel_code/linux-6.5/net/mac80211/ieee80211_i.h"
 
@@ -52,12 +53,24 @@ kretprobe:skb_copy
     $skb = (struct sk_buff *)retval;
     printf("skb_copy ret skb %p len %u/%u/%u\n", $skb, $skb->len, $skb->data_len, $skb->truesize);
 }
-
+/*
 kprobe:skb_queue_tail
 {
     $skb = (struct sk_buff *)arg1;
     $head = arg0;
     printf("skb_queue_tail skb %p len %u/%u/%u, add to list %p\n", $skb, $skb->len, $skb->data_len, $skb->truesize, $head);
+}
+*/
+kprobe:device_add
+{
+    $dev = (struct device *)arg0;
+    if ($dev != 0)
+    {
+        if ($dev->init_name != 0)
+	{
+	    printf("device_add  %s\n", str($dev->init_name));
+	}
+    }
 }
 
 kprobe:ieee80211_rx_napi

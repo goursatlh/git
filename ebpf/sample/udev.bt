@@ -1,0 +1,72 @@
+#!/usr/bin/env bpftrace
+
+#include <linux/skbuff.h>
+#include <linux/device.h>
+#include <linux/netdevice.h>
+#include <linux/kobject.h>
+#include <linux/sysfs.h>
+#include <uapi/linux/ip.h>
+
+BEGIN
+{
+    printf("Tracing udev flow. Hit Ctrl-C to end.\n");
+}
+
+kprobe:device_add
+{
+    //printf("device_add  %s\n", kstack());
+    $dev = (struct device *)arg0;
+    //printf("device_add  %s\n", str($dev->init_name));
+    if ($dev != 0)
+    {
+        if ($dev->init_name != 0)
+	{
+	    printf("device_add  %s\n", str($dev->init_name));
+	}
+    }
+}
+
+/*
+kprobe:netdev_uevent
+{
+    $dev = (struct device *)arg0;
+    $obj = $dev.kobj;
+    printf("device_add  %s\n", str($obj->name));
+}
+
+kprobe:usb_uevent
+{
+    $dev = (struct device *)arg0;
+    $obj = $dev->kobj;
+    printf("usb_uevent %s\n", str($obj.name));
+}
+*/
+
+kprobe:netdev_register_kobject
+{
+    $dev = (struct net_device *)arg0;
+    printf("netdev_register_kobject %s\n", $dev->name);
+    //printf("%s\n", kstack());
+}
+
+kprobe:device_rename
+{
+    $dev = (struct device *)arg0;
+    $obj = $dev->kobj;
+    $name = arg1;
+    printf("device_rename %s -> %s\n", str($obj.name), str($name));
+    //printf("%s\n", kstack());
+}
+
+kprobe:sysfs_create_file_ns
+{
+    $obj = (struct kobject *)arg0;
+    $parent = (struct kobject *)$obj->parent;
+    $attr = (struct attribute *)arg1;
+    printf("sysfs_create_file_ns %s/%s - %s\n", str($parent->name), str($obj->name), str($attr->name));
+}
+
+END
+{
+    printf("Tracing udev flow end. Hit Ctrl-C to end.\n");
+}
