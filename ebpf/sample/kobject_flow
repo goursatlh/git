@@ -1,5 +1,7 @@
 Attaching 8 probes...
 Tracing udev flow. Hit Ctrl-C to end.
+device_add  
+sysfs_create_dir_ns usb5/5-2
 
         sysfs_create_dir_ns+1
         kobject_add+147
@@ -15,11 +17,9 @@ Tracing udev flow. Hit Ctrl-C to end.
         ret_from_fork+71
         ret_from_fork_asm+27
 
-sysfs_create_dir_ns usb5/5-2
 ==>sysfs_create_file_ns usb5/5-2 - uevent
 
-        sysfs_add_file_mode_ns+1
-        device_create_file+64
+        sysfs_create_file_ns+1
         device_add+286
         usb_new_device+1068
         hub_port_connect+1118
@@ -35,11 +35,8 @@ sysfs_create_dir_ns usb5/5-2
 -->sysfs_add_file_mode_ns usb5/5-2 - uevent
 
         sysfs_add_file_mode_ns+1
-        internal_create_group+192
-        internal_create_groups+76
-        sysfs_create_groups+19
-        device_add_attrs+121
-        device_add+686
+        device_create_file+64
+        device_add+286
         usb_new_device+1068
         hub_port_connect+1118
         hub_port_connect_change+145
@@ -603,7 +600,41 @@ sysfs_create_dir_ns usb5/5-2
         ret_from_fork_asm+27
 
 -->sysfs_add_file_mode_ns usb5/5-2 - serial
+
+        sysfs_add_file_mode_ns+1
+        internal_create_group+192
+        internal_create_groups+76
+        sysfs_create_groups+19
+        device_add_attrs+121
+        device_add+686
+        usb_new_device+1068
+        hub_port_connect+1118
+        hub_port_connect_change+145
+        port_event+1618
+        hub_event+341
+        process_one_work+576
+        worker_thread+80
+        kthread+242
+        ret_from_fork+71
+        ret_from_fork_asm+27
+
 ==>sysfs_create_file_ns usb5/5-2 - waiting_for_supplier
+
+        sysfs_create_file_ns+1
+        device_add_attrs+394
+        device_add+686
+        usb_new_device+1068
+        hub_port_connect+1118
+        hub_port_connect_change+145
+        port_event+1618
+        hub_event+341
+        process_one_work+576
+        worker_thread+80
+        kthread+242
+        ret_from_fork+71
+        ret_from_fork_asm+27
+
+-->sysfs_add_file_mode_ns usb5/5-2 - waiting_for_supplier
 
         sysfs_add_file_mode_ns+1
         device_create_file+64
@@ -620,11 +651,9 @@ sysfs_create_dir_ns usb5/5-2
         ret_from_fork+71
         ret_from_fork_asm+27
 
--->sysfs_add_file_mode_ns usb5/5-2 - waiting_for_supplier
 ==>sysfs_create_file_ns usb5/5-2 - removable
 
-        sysfs_add_file_mode_ns+1
-        device_create_file+64
+        sysfs_create_file_ns+1
         device_add_attrs+210
         device_add+686
         usb_new_device+1068
@@ -641,10 +670,8 @@ sysfs_create_dir_ns usb5/5-2
 -->sysfs_add_file_mode_ns usb5/5-2 - removable
 
         sysfs_add_file_mode_ns+1
-        internal_create_group+390
-        internal_create_groups+76
-        sysfs_create_groups+19
-        device_add_attrs+444
+        device_create_file+64
+        device_add_attrs+210
         device_add+686
         usb_new_device+1068
         hub_port_connect+1118
@@ -737,9 +764,10 @@ sysfs_create_dir_ns usb5/5-2
 
         sysfs_add_file_mode_ns+1
         internal_create_group+390
-        sysfs_create_group+19
-        dpm_sysfs_add+55
-        device_add+975
+        internal_create_groups+76
+        sysfs_create_groups+19
+        device_add_attrs+444
+        device_add+686
         usb_new_device+1068
         hub_port_connect+1118
         hub_port_connect_change+145
@@ -826,7 +854,9 @@ sysfs_create_dir_ns usb5/5-2
 -->sysfs_add_file_mode_ns usb5/5-2 - runtime_enabled
 
         sysfs_add_file_mode_ns+1
-        dpm_sysfs_add+250
+        internal_create_group+390
+        sysfs_create_group+19
+        dpm_sysfs_add+55
         device_add+975
         usb_new_device+1068
         hub_port_connect+1118
@@ -888,10 +918,24 @@ sysfs_create_dir_ns usb5/5-2
         ret_from_fork_asm+27
 
 -->sysfs_add_file_mode_ns usb5/5-2 - autosuspend_delay_ms
-==>sysfs_create_file_ns usb5/5-2 - dev
 
         sysfs_add_file_mode_ns+1
-        device_create_file+64
+        dpm_sysfs_add+250
+        device_add+975
+        usb_new_device+1068
+        hub_port_connect+1118
+        hub_port_connect_change+145
+        port_event+1618
+        hub_event+341
+        process_one_work+576
+        worker_thread+80
+        kthread+242
+        ret_from_fork+71
+        ret_from_fork_asm+27
+
+==>sysfs_create_file_ns usb5/5-2 - dev
+
+        sysfs_create_file_ns+1
         device_add+1024
         usb_new_device+1068
         hub_port_connect+1118
@@ -907,12 +951,8 @@ sysfs_create_dir_ns usb5/5-2
 -->sysfs_add_file_mode_ns usb5/5-2 - dev
 
         sysfs_add_file_mode_ns+1
-        usb_create_sysfs_dev_files+200
-        usb_bus_notify+111
-        notifier_call_chain+97
-        blocking_notifier_call_chain+65
-        bus_notify+55
-        device_add+1246
+        device_create_file+64
+        device_add+1024
         usb_new_device+1068
         hub_port_connect+1118
         hub_port_connect_change+145
@@ -927,7 +967,7 @@ sysfs_create_dir_ns usb5/5-2
 -->sysfs_add_file_mode_ns usb5/5-2 - persist
 
         sysfs_add_file_mode_ns+1
-        usb_create_sysfs_dev_files+113
+        usb_create_sysfs_dev_files+200
         usb_bus_notify+111
         notifier_call_chain+97
         blocking_notifier_call_chain+65
@@ -1007,21 +1047,12 @@ sysfs_create_dir_ns usb5/5-2
 -->sysfs_add_file_mode_ns usb5/5-2 - active_duration
 
         sysfs_add_file_mode_ns+1
-        wakeup_sysfs_add+27
-        device_set_wakeup_capable+96
-        usb_set_device_state+132
-        usb_set_configuration+1446
-        usb_generic_driver_probe+105
-        usb_probe_device+174
-        really_probe+460
-        __driver_probe_device+140
-        driver_probe_device+36
-        __device_attach_driver+205
-        bus_for_each_drv+151
-        __device_attach+182
-        device_initial_probe+19
-        bus_probe_device+159
-        device_add+1287
+        usb_create_sysfs_dev_files+113
+        usb_bus_notify+111
+        notifier_call_chain+97
+        blocking_notifier_call_chain+65
+        bus_notify+55
+        device_add+1246
         usb_new_device+1068
         hub_port_connect+1118
         hub_port_connect_change+145
@@ -1267,6 +1298,36 @@ sysfs_create_dir_ns usb5/5-2
 
 -->sysfs_add_file_mode_ns usb5/5-2 - wakeup_last_time_ms
 
+        sysfs_add_file_mode_ns+1
+        wakeup_sysfs_add+27
+        device_set_wakeup_capable+96
+        usb_set_device_state+132
+        usb_set_configuration+1446
+        usb_generic_driver_probe+105
+        usb_probe_device+174
+        really_probe+460
+        __driver_probe_device+140
+        driver_probe_device+36
+        __device_attach_driver+205
+        bus_for_each_drv+151
+        __device_attach+182
+        device_initial_probe+19
+        bus_probe_device+159
+        device_add+1287
+        usb_new_device+1068
+        hub_port_connect+1118
+        hub_port_connect_change+145
+        port_event+1618
+        hub_event+341
+        process_one_work+576
+        worker_thread+80
+        kthread+242
+        ret_from_fork+71
+        ret_from_fork_asm+27
+
+device_add  
+sysfs_create_dir_ns 5-2/5-2:2.0
+
         sysfs_create_dir_ns+1
         kobject_add+147
         device_add+228
@@ -1293,11 +1354,9 @@ sysfs_create_dir_ns usb5/5-2
         ret_from_fork+71
         ret_from_fork_asm+27
 
-sysfs_create_dir_ns 5-2/5-2:2.0
 ==>sysfs_create_file_ns 5-2/5-2:2.0 - uevent
 
-        sysfs_add_file_mode_ns+1
-        device_create_file+64
+        sysfs_create_file_ns+1
         device_add+286
         usb_set_configuration+1543
         usb_generic_driver_probe+105
@@ -1325,11 +1384,8 @@ sysfs_create_dir_ns 5-2/5-2:2.0
 -->sysfs_add_file_mode_ns 5-2/5-2:2.0 - uevent
 
         sysfs_add_file_mode_ns+1
-        internal_create_group+192
-        internal_create_groups+76
-        sysfs_create_groups+19
-        device_add_attrs+121
-        device_add+686
+        device_create_file+64
+        device_add+286
         usb_set_configuration+1543
         usb_generic_driver_probe+105
         usb_probe_device+174
@@ -1602,10 +1658,39 @@ sysfs_create_dir_ns 5-2/5-2:2.0
         ret_from_fork_asm+27
 
 -->sysfs_add_file_mode_ns 5-2/5-2:2.0 - authorized
-==>sysfs_create_file_ns 5-2/5-2:2.0 - waiting_for_supplier
 
         sysfs_add_file_mode_ns+1
-        device_create_file+64
+        internal_create_group+192
+        internal_create_groups+76
+        sysfs_create_groups+19
+        device_add_attrs+121
+        device_add+686
+        usb_set_configuration+1543
+        usb_generic_driver_probe+105
+        usb_probe_device+174
+        really_probe+460
+        __driver_probe_device+140
+        driver_probe_device+36
+        __device_attach_driver+205
+        bus_for_each_drv+151
+        __device_attach+182
+        device_initial_probe+19
+        bus_probe_device+159
+        device_add+1287
+        usb_new_device+1068
+        hub_port_connect+1118
+        hub_port_connect_change+145
+        port_event+1618
+        hub_event+341
+        process_one_work+576
+        worker_thread+80
+        kthread+242
+        ret_from_fork+71
+        ret_from_fork_asm+27
+
+==>sysfs_create_file_ns 5-2/5-2:2.0 - waiting_for_supplier
+
+        sysfs_create_file_ns+1
         device_add_attrs+394
         device_add+686
         usb_set_configuration+1543
@@ -1634,10 +1719,8 @@ sysfs_create_dir_ns 5-2/5-2:2.0
 -->sysfs_add_file_mode_ns 5-2/5-2:2.0 - waiting_for_supplier
 
         sysfs_add_file_mode_ns+1
-        internal_create_group+390
-        internal_create_groups+76
-        sysfs_create_groups+19
-        device_add_attrs+444
+        device_create_file+64
+        device_add_attrs+394
         device_add+686
         usb_set_configuration+1543
         usb_generic_driver_probe+105
@@ -1790,9 +1873,10 @@ sysfs_create_dir_ns 5-2/5-2:2.0
 
         sysfs_add_file_mode_ns+1
         internal_create_group+390
-        sysfs_create_group+19
-        dpm_sysfs_add+55
-        device_add+975
+        internal_create_groups+76
+        sysfs_create_groups+19
+        device_add_attrs+444
+        device_add+686
         usb_set_configuration+1543
         usb_generic_driver_probe+105
         usb_probe_device+174
@@ -1937,7 +2021,68 @@ sysfs_create_dir_ns 5-2/5-2:2.0
         ret_from_fork_asm+27
 
 -->sysfs_add_file_mode_ns 5-2/5-2:2.0 - runtime_enabled
+
+        sysfs_add_file_mode_ns+1
+        internal_create_group+390
+        sysfs_create_group+19
+        dpm_sysfs_add+55
+        device_add+975
+        usb_set_configuration+1543
+        usb_generic_driver_probe+105
+        usb_probe_device+174
+        really_probe+460
+        __driver_probe_device+140
+        driver_probe_device+36
+        __device_attach_driver+205
+        bus_for_each_drv+151
+        __device_attach+182
+        device_initial_probe+19
+        bus_probe_device+159
+        device_add+1287
+        usb_new_device+1068
+        hub_port_connect+1118
+        hub_port_connect_change+145
+        port_event+1618
+        hub_event+341
+        process_one_work+576
+        worker_thread+80
+        kthread+242
+        ret_from_fork+71
+        ret_from_fork_asm+27
+
 ==>sysfs_create_file_ns 5-2/5-2:2.0 - interface
+
+        sysfs_create_file_ns+1
+        usb_create_sysfs_intf_files+59
+        usb_bus_notify+83
+        notifier_call_chain+97
+        blocking_notifier_call_chain+65
+        bus_notify+55
+        device_add+1246
+        usb_set_configuration+1543
+        usb_generic_driver_probe+105
+        usb_probe_device+174
+        really_probe+460
+        __driver_probe_device+140
+        driver_probe_device+36
+        __device_attach_driver+205
+        bus_for_each_drv+151
+        __device_attach+182
+        device_initial_probe+19
+        bus_probe_device+159
+        device_add+1287
+        usb_new_device+1068
+        hub_port_connect+1118
+        hub_port_connect_change+145
+        port_event+1618
+        hub_event+341
+        process_one_work+576
+        worker_thread+80
+        kthread+242
+        ret_from_fork+71
+        ret_from_fork_asm+27
+
+-->sysfs_add_file_mode_ns 5-2/5-2:2.0 - interface
 
         sysfs_add_file_mode_ns+1
         device_create_file+64
@@ -1970,7 +2115,8 @@ sysfs_create_dir_ns 5-2/5-2:2.0
         ret_from_fork+71
         ret_from_fork_asm+27
 
--->sysfs_add_file_mode_ns 5-2/5-2:2.0 - interface
+device_add  
+sysfs_create_dir_ns 5-2:2.0/ep_83
 
         sysfs_create_dir_ns+1
         kobject_add+147
@@ -2001,11 +2147,9 @@ sysfs_create_dir_ns 5-2/5-2:2.0
         ret_from_fork+71
         ret_from_fork_asm+27
 
-sysfs_create_dir_ns 5-2:2.0/ep_83
 ==>sysfs_create_file_ns 5-2:2.0/ep_83 - uevent
 
-        sysfs_add_file_mode_ns+1
-        device_create_file+64
+        sysfs_create_file_ns+1
         device_add+286
         device_register+26
         usb_create_ep_devs+126
@@ -2036,11 +2180,8 @@ sysfs_create_dir_ns 5-2:2.0/ep_83
 -->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - uevent
 
         sysfs_add_file_mode_ns+1
-        internal_create_group+192
-        internal_create_groups+76
-        sysfs_create_groups+19
-        device_add_attrs+121
-        device_add+686
+        device_create_file+64
+        device_add+286
         device_register+26
         usb_create_ep_devs+126
         create_intf_ep_devs.isra.0+86
@@ -2308,10 +2449,11 @@ sysfs_create_dir_ns 5-2:2.0/ep_83
 -->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - direction
 
         sysfs_add_file_mode_ns+1
-        internal_create_group+390
-        sysfs_create_group+19
-        dpm_sysfs_add+55
-        device_add+975
+        internal_create_group+192
+        internal_create_groups+76
+        sysfs_create_groups+19
+        device_add_attrs+121
+        device_add+686
         device_register+26
         usb_create_ep_devs+126
         create_intf_ep_devs.isra.0+86
@@ -2473,7 +2615,9 @@ sysfs_create_dir_ns 5-2:2.0/ep_83
 -->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - runtime_enabled
 
         sysfs_add_file_mode_ns+1
-        dpm_sysfs_add+250
+        internal_create_group+390
+        sysfs_create_group+19
+        dpm_sysfs_add+55
         device_add+975
         device_register+26
         usb_create_ep_devs+126
@@ -2596,6 +2740,38 @@ sysfs_create_dir_ns 5-2:2.0/ep_83
 
 -->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - autosuspend_delay_ms
 
+        sysfs_add_file_mode_ns+1
+        dpm_sysfs_add+250
+        device_add+975
+        device_register+26
+        usb_create_ep_devs+126
+        create_intf_ep_devs.isra.0+86
+        usb_set_configuration+1715
+        usb_generic_driver_probe+105
+        usb_probe_device+174
+        really_probe+460
+        __driver_probe_device+140
+        driver_probe_device+36
+        __device_attach_driver+205
+        bus_for_each_drv+151
+        __device_attach+182
+        device_initial_probe+19
+        bus_probe_device+159
+        device_add+1287
+        usb_new_device+1068
+        hub_port_connect+1118
+        hub_port_connect_change+145
+        port_event+1618
+        hub_event+341
+        process_one_work+576
+        worker_thread+80
+        kthread+242
+        ret_from_fork+71
+        ret_from_fork_asm+27
+
+device_add  
+sysfs_create_dir_ns 5-2/5-2:2.1
+
         sysfs_create_dir_ns+1
         kobject_add+147
         device_add+228
@@ -2622,11 +2798,9 @@ sysfs_create_dir_ns 5-2:2.0/ep_83
         ret_from_fork+71
         ret_from_fork_asm+27
 
-sysfs_create_dir_ns 5-2/5-2:2.1
 ==>sysfs_create_file_ns 5-2/5-2:2.1 - uevent
 
-        sysfs_add_file_mode_ns+1
-        device_create_file+64
+        sysfs_create_file_ns+1
         device_add+286
         usb_set_configuration+1543
         usb_generic_driver_probe+105
@@ -2654,11 +2828,8 @@ sysfs_create_dir_ns 5-2/5-2:2.1
 -->sysfs_add_file_mode_ns 5-2/5-2:2.1 - uevent
 
         sysfs_add_file_mode_ns+1
-        internal_create_group+192
-        internal_create_groups+76
-        sysfs_create_groups+19
-        device_add_attrs+121
-        device_add+686
+        device_create_file+64
+        device_add+286
         usb_set_configuration+1543
         usb_generic_driver_probe+105
         usb_probe_device+174
@@ -2931,10 +3102,39 @@ sysfs_create_dir_ns 5-2/5-2:2.1
         ret_from_fork_asm+27
 
 -->sysfs_add_file_mode_ns 5-2/5-2:2.1 - authorized
-==>sysfs_create_file_ns 5-2/5-2:2.1 - waiting_for_supplier
 
         sysfs_add_file_mode_ns+1
-        device_create_file+64
+        internal_create_group+192
+        internal_create_groups+76
+        sysfs_create_groups+19
+        device_add_attrs+121
+        device_add+686
+        usb_set_configuration+1543
+        usb_generic_driver_probe+105
+        usb_probe_device+174
+        really_probe+460
+        __driver_probe_device+140
+        driver_probe_device+36
+        __device_attach_driver+205
+        bus_for_each_drv+151
+        __device_attach+182
+        device_initial_probe+19
+        bus_probe_device+159
+        device_add+1287
+        usb_new_device+1068
+        hub_port_connect+1118
+        hub_port_connect_change+145
+        port_event+1618
+        hub_event+341
+        process_one_work+576
+        worker_thread+80
+        kthread+242
+        ret_from_fork+71
+        ret_from_fork_asm+27
+
+==>sysfs_create_file_ns 5-2/5-2:2.1 - waiting_for_supplier
+
+        sysfs_create_file_ns+1
         device_add_attrs+394
         device_add+686
         usb_set_configuration+1543
@@ -2963,10 +3163,8 @@ sysfs_create_dir_ns 5-2/5-2:2.1
 -->sysfs_add_file_mode_ns 5-2/5-2:2.1 - waiting_for_supplier
 
         sysfs_add_file_mode_ns+1
-        internal_create_group+390
-        internal_create_groups+76
-        sysfs_create_groups+19
-        device_add_attrs+444
+        device_create_file+64
+        device_add_attrs+394
         device_add+686
         usb_set_configuration+1543
         usb_generic_driver_probe+105
@@ -3119,9 +3317,10 @@ sysfs_create_dir_ns 5-2/5-2:2.1
 
         sysfs_add_file_mode_ns+1
         internal_create_group+390
-        sysfs_create_group+19
-        dpm_sysfs_add+55
-        device_add+975
+        internal_create_groups+76
+        sysfs_create_groups+19
+        device_add_attrs+444
+        device_add+686
         usb_set_configuration+1543
         usb_generic_driver_probe+105
         usb_probe_device+174
@@ -3268,12 +3467,13 @@ sysfs_create_dir_ns 5-2/5-2:2.1
 -->sysfs_add_file_mode_ns 5-2/5-2:2.1 - runtime_enabled
 
         sysfs_add_file_mode_ns+1
-        wakeup_sysfs_add+27
-        device_set_wakeup_capable+96
-        usb_set_device_state+132
-        usb_set_configuration+1446
-        rtl8152_cfgselector_probe+103
-        usb_probe_device+60
+        internal_create_group+390
+        sysfs_create_group+19
+        dpm_sysfs_add+55
+        device_add+975
+        usb_set_configuration+1543
+        usb_generic_driver_probe+105
+        usb_probe_device+174
         really_probe+460
         __driver_probe_device+140
         driver_probe_device+36
@@ -3528,6 +3728,36 @@ sysfs_create_dir_ns 5-2/5-2:2.1
 
 -->sysfs_add_file_mode_ns usb5/5-2 - wakeup_last_time_ms
 
+        sysfs_add_file_mode_ns+1
+        wakeup_sysfs_add+27
+        device_set_wakeup_capable+96
+        usb_set_device_state+132
+        usb_set_configuration+1446
+        rtl8152_cfgselector_probe+103
+        usb_probe_device+60
+        really_probe+460
+        __driver_probe_device+140
+        driver_probe_device+36
+        __device_attach_driver+205
+        bus_for_each_drv+151
+        __device_attach+182
+        device_initial_probe+19
+        bus_probe_device+159
+        device_add+1287
+        usb_new_device+1068
+        hub_port_connect+1118
+        hub_port_connect_change+145
+        port_event+1618
+        hub_event+341
+        process_one_work+576
+        worker_thread+80
+        kthread+242
+        ret_from_fork+71
+        ret_from_fork_asm+27
+
+device_add  
+sysfs_create_dir_ns 5-2/5-2:1.0
+
         sysfs_create_dir_ns+1
         kobject_add+147
         device_add+228
@@ -3554,11 +3784,9 @@ sysfs_create_dir_ns 5-2/5-2:2.1
         ret_from_fork+71
         ret_from_fork_asm+27
 
-sysfs_create_dir_ns 5-2/5-2:1.0
 ==>sysfs_create_file_ns 5-2/5-2:1.0 - uevent
 
-        sysfs_add_file_mode_ns+1
-        device_create_file+64
+        sysfs_create_file_ns+1
         device_add+286
         usb_set_configuration+1543
         rtl8152_cfgselector_probe+103
@@ -3586,11 +3814,8 @@ sysfs_create_dir_ns 5-2/5-2:1.0
 -->sysfs_add_file_mode_ns 5-2/5-2:1.0 - uevent
 
         sysfs_add_file_mode_ns+1
-        internal_create_group+192
-        internal_create_groups+76
-        sysfs_create_groups+19
-        device_add_attrs+121
-        device_add+686
+        device_create_file+64
+        device_add+286
         usb_set_configuration+1543
         rtl8152_cfgselector_probe+103
         usb_probe_device+60
@@ -3863,10 +4088,39 @@ sysfs_create_dir_ns 5-2/5-2:1.0
         ret_from_fork_asm+27
 
 -->sysfs_add_file_mode_ns 5-2/5-2:1.0 - authorized
-==>sysfs_create_file_ns 5-2/5-2:1.0 - waiting_for_supplier
 
         sysfs_add_file_mode_ns+1
-        device_create_file+64
+        internal_create_group+192
+        internal_create_groups+76
+        sysfs_create_groups+19
+        device_add_attrs+121
+        device_add+686
+        usb_set_configuration+1543
+        rtl8152_cfgselector_probe+103
+        usb_probe_device+60
+        really_probe+460
+        __driver_probe_device+140
+        driver_probe_device+36
+        __device_attach_driver+205
+        bus_for_each_drv+151
+        __device_attach+182
+        device_initial_probe+19
+        bus_probe_device+159
+        device_add+1287
+        usb_new_device+1068
+        hub_port_connect+1118
+        hub_port_connect_change+145
+        port_event+1618
+        hub_event+341
+        process_one_work+576
+        worker_thread+80
+        kthread+242
+        ret_from_fork+71
+        ret_from_fork_asm+27
+
+==>sysfs_create_file_ns 5-2/5-2:1.0 - waiting_for_supplier
+
+        sysfs_create_file_ns+1
         device_add_attrs+394
         device_add+686
         usb_set_configuration+1543
@@ -3895,10 +4149,8 @@ sysfs_create_dir_ns 5-2/5-2:1.0
 -->sysfs_add_file_mode_ns 5-2/5-2:1.0 - waiting_for_supplier
 
         sysfs_add_file_mode_ns+1
-        internal_create_group+390
-        internal_create_groups+76
-        sysfs_create_groups+19
-        device_add_attrs+444
+        device_create_file+64
+        device_add_attrs+394
         device_add+686
         usb_set_configuration+1543
         rtl8152_cfgselector_probe+103
@@ -4051,9 +4303,10 @@ sysfs_create_dir_ns 5-2/5-2:1.0
 
         sysfs_add_file_mode_ns+1
         internal_create_group+390
-        sysfs_create_group+19
-        dpm_sysfs_add+55
-        device_add+975
+        internal_create_groups+76
+        sysfs_create_groups+19
+        device_add_attrs+444
+        device_add+686
         usb_set_configuration+1543
         rtl8152_cfgselector_probe+103
         usb_probe_device+60
@@ -4200,22 +4453,10 @@ sysfs_create_dir_ns 5-2/5-2:1.0
 -->sysfs_add_file_mode_ns 5-2/5-2:1.0 - runtime_enabled
 
         sysfs_add_file_mode_ns+1
-        wakeup_sysfs_add+27
-        device_set_wakeup_capable+96
-        usb_set_device_state+132
-        usb_reset_and_verify_device+666
-        usb_reset_device+332
-        rtl8152_probe+205
-        usb_probe_interface+238
-        really_probe+460
-        __driver_probe_device+140
-        driver_probe_device+36
-        __device_attach_driver+205
-        bus_for_each_drv+151
-        __device_attach+182
-        device_initial_probe+19
-        bus_probe_device+159
-        device_add+1287
+        internal_create_group+390
+        sysfs_create_group+19
+        dpm_sysfs_add+55
+        device_add+975
         usb_set_configuration+1543
         rtl8152_cfgselector_probe+103
         usb_probe_device+60
@@ -4577,6 +4818,49 @@ sysfs_create_dir_ns 5-2/5-2:1.0
 
 -->sysfs_add_file_mode_ns usb5/5-2 - wakeup_last_time_ms
 
+        sysfs_add_file_mode_ns+1
+        wakeup_sysfs_add+27
+        device_set_wakeup_capable+96
+        usb_set_device_state+132
+        usb_reset_and_verify_device+666
+        usb_reset_device+332
+        rtl8152_probe+205
+        usb_probe_interface+238
+        really_probe+460
+        __driver_probe_device+140
+        driver_probe_device+36
+        __device_attach_driver+205
+        bus_for_each_drv+151
+        __device_attach+182
+        device_initial_probe+19
+        bus_probe_device+159
+        device_add+1287
+        usb_set_configuration+1543
+        rtl8152_cfgselector_probe+103
+        usb_probe_device+60
+        really_probe+460
+        __driver_probe_device+140
+        driver_probe_device+36
+        __device_attach_driver+205
+        bus_for_each_drv+151
+        __device_attach+182
+        device_initial_probe+19
+        bus_probe_device+159
+        device_add+1287
+        usb_new_device+1068
+        hub_port_connect+1118
+        hub_port_connect_change+145
+        port_event+1618
+        hub_event+341
+        process_one_work+576
+        worker_thread+80
+        kthread+242
+        ret_from_fork+71
+        ret_from_fork_asm+27
+
+device_add  
+sysfs_create_dir_ns 5-2/wakeup
+
         sysfs_create_dir_ns+1
         kobject_add+147
         get_device_parent+382
@@ -4623,7 +4907,7 @@ sysfs_create_dir_ns 5-2/5-2:1.0
         ret_from_fork+71
         ret_from_fork_asm+27
 
-sysfs_create_dir_ns 5-2/wakeup
+sysfs_create_dir_ns wakeup/wakeup47
 
         sysfs_create_dir_ns+1
         kobject_add+147
@@ -4670,11 +4954,9 @@ sysfs_create_dir_ns 5-2/wakeup
         ret_from_fork+71
         ret_from_fork_asm+27
 
-sysfs_create_dir_ns wakeup/wakeup47
 ==>sysfs_create_file_ns wakeup/wakeup47 - uevent
 
-        sysfs_add_file_mode_ns+1
-        device_create_file+64
+        sysfs_create_file_ns+1
         device_add+286
         wakeup_source_device_create+189
         wakeup_source_sysfs_add+18
@@ -4721,11 +5003,8 @@ sysfs_create_dir_ns wakeup/wakeup47
 -->sysfs_add_file_mode_ns wakeup/wakeup47 - uevent
 
         sysfs_add_file_mode_ns+1
-        internal_create_group+192
-        internal_create_groups+76
-        sysfs_create_groups+19
-        device_add_attrs+352
-        device_add+686
+        device_create_file+64
+        device_add+286
         wakeup_source_device_create+189
         wakeup_source_sysfs_add+18
         wakeup_source_register+79
@@ -5219,7 +5498,58 @@ sysfs_create_dir_ns wakeup/wakeup47
         ret_from_fork_asm+27
 
 -->sysfs_add_file_mode_ns wakeup/wakeup47 - prevent_suspend_time_ms
+
+        sysfs_add_file_mode_ns+1
+        internal_create_group+192
+        internal_create_groups+76
+        sysfs_create_groups+19
+        device_add_attrs+352
+        device_add+686
+        wakeup_source_device_create+189
+        wakeup_source_sysfs_add+18
+        wakeup_source_register+79
+        device_wakeup_enable+75
+        device_set_wakeup_enable+27
+        __rtl_set_wol+442
+        rtl_runtime_suspend_enable+264
+        r8153b_init+300
+        rtl8152_probe+1307
+        usb_probe_interface+238
+        really_probe+460
+        __driver_probe_device+140
+        driver_probe_device+36
+        __device_attach_driver+205
+        bus_for_each_drv+151
+        __device_attach+182
+        device_initial_probe+19
+        bus_probe_device+159
+        device_add+1287
+        usb_set_configuration+1543
+        rtl8152_cfgselector_probe+103
+        usb_probe_device+60
+        really_probe+460
+        __driver_probe_device+140
+        driver_probe_device+36
+        __device_attach_driver+205
+        bus_for_each_drv+151
+        __device_attach+182
+        device_initial_probe+19
+        bus_probe_device+159
+        device_add+1287
+        usb_new_device+1068
+        hub_port_connect+1118
+        hub_port_connect_change+145
+        port_event+1618
+        hub_event+341
+        process_one_work+576
+        worker_thread+80
+        kthread+242
+        ret_from_fork+71
+        ret_from_fork_asm+27
+
 netdev_register_kobject eth0
+device_add  
+sysfs_create_dir_ns 5-2:1.0/net
 
         sysfs_create_dir_ns+1
         kobject_add+147
@@ -5262,7 +5592,7 @@ netdev_register_kobject eth0
         ret_from_fork+71
         ret_from_fork_asm+27
 
-sysfs_create_dir_ns 5-2:1.0/net
+sysfs_create_dir_ns net/eth0
 
         sysfs_create_dir_ns+1
         kobject_add+147
@@ -5304,11 +5634,9 @@ sysfs_create_dir_ns 5-2:1.0/net
         ret_from_fork+71
         ret_from_fork_asm+27
 
-sysfs_create_dir_ns net/eth0
 ==>sysfs_create_file_ns net/eth0 - uevent
 
-        sysfs_add_file_mode_ns+1
-        device_create_file+64
+        sysfs_create_file_ns+1
         device_add+286
         netdev_register_kobject+146
         register_netdevice+1365
@@ -5350,11 +5678,8 @@ sysfs_create_dir_ns net/eth0
 -->sysfs_add_file_mode_ns net/eth0 - uevent
 
         sysfs_add_file_mode_ns+1
-        internal_create_group+192
-        internal_create_groups+76
-        sysfs_create_groups+19
-        device_add_attrs+63
-        device_add+686
+        device_create_file+64
+        device_add+286
         netdev_register_kobject+146
         register_netdevice+1365
         register_netdev+30
@@ -6790,10 +7115,10 @@ sysfs_create_dir_ns net/eth0
 -->sysfs_add_file_mode_ns net/eth0 - threaded
 
         sysfs_add_file_mode_ns+1
-        internal_create_group+390
+        internal_create_group+192
         internal_create_groups+76
         sysfs_create_groups+19
-        device_add_attrs+352
+        device_add_attrs+63
         device_add+686
         netdev_register_kobject+146
         register_netdevice+1365
@@ -7871,9 +8196,10 @@ sysfs_create_dir_ns net/eth0
 
         sysfs_add_file_mode_ns+1
         internal_create_group+390
-        sysfs_create_group+19
-        dpm_sysfs_add+55
-        device_add+975
+        internal_create_groups+76
+        sysfs_create_groups+19
+        device_add_attrs+352
+        device_add+686
         netdev_register_kobject+146
         register_netdevice+1365
         register_netdev+30
@@ -8090,7 +8416,9 @@ sysfs_create_dir_ns net/eth0
 -->sysfs_add_file_mode_ns net/eth0 - runtime_enabled
 
         sysfs_add_file_mode_ns+1
-        dpm_sysfs_add+250
+        internal_create_group+390
+        sysfs_create_group+19
+        dpm_sysfs_add+55
         device_add+975
         netdev_register_kobject+146
         register_netdevice+1365
@@ -8257,6 +8585,48 @@ sysfs_create_dir_ns net/eth0
 
 -->sysfs_add_file_mode_ns net/eth0 - autosuspend_delay_ms
 
+        sysfs_add_file_mode_ns+1
+        dpm_sysfs_add+250
+        device_add+975
+        netdev_register_kobject+146
+        register_netdevice+1365
+        register_netdev+30
+        rtl8152_probe+1411
+        usb_probe_interface+238
+        really_probe+460
+        __driver_probe_device+140
+        driver_probe_device+36
+        __device_attach_driver+205
+        bus_for_each_drv+151
+        __device_attach+182
+        device_initial_probe+19
+        bus_probe_device+159
+        device_add+1287
+        usb_set_configuration+1543
+        rtl8152_cfgselector_probe+103
+        usb_probe_device+60
+        really_probe+460
+        __driver_probe_device+140
+        driver_probe_device+36
+        __device_attach_driver+205
+        bus_for_each_drv+151
+        __device_attach+182
+        device_initial_probe+19
+        bus_probe_device+159
+        device_add+1287
+        usb_new_device+1068
+        hub_port_connect+1118
+        hub_port_connect_change+145
+        port_event+1618
+        hub_event+341
+        process_one_work+576
+        worker_thread+80
+        kthread+242
+        ret_from_fork+71
+        ret_from_fork_asm+27
+
+sysfs_create_dir_ns eth0/queues
+
         sysfs_create_dir_ns+1
         kset_register+95
         kset_create_and_add+110
@@ -8297,55 +8667,9 @@ sysfs_create_dir_ns net/eth0
         ret_from_fork+71
         ret_from_fork_asm+27
 
-sysfs_create_dir_ns eth0/queues
-
-        sysfs_create_dir_ns+1
-        kobject_init_and_add+136
-        net_rx_queue_update_kobjects+252
-        netdev_register_kobject+243
-        register_netdevice+1365
-        register_netdev+30
-        rtl8152_probe+1411
-        usb_probe_interface+238
-        really_probe+460
-        __driver_probe_device+140
-        driver_probe_device+36
-        __device_attach_driver+205
-        bus_for_each_drv+151
-        __device_attach+182
-        device_initial_probe+19
-        bus_probe_device+159
-        device_add+1287
-        usb_set_configuration+1543
-        rtl8152_cfgselector_probe+103
-        usb_probe_device+60
-        really_probe+460
-        __driver_probe_device+140
-        driver_probe_device+36
-        __device_attach_driver+205
-        bus_for_each_drv+151
-        __device_attach+182
-        device_initial_probe+19
-        bus_probe_device+159
-        device_add+1287
-        usb_new_device+1068
-        hub_port_connect+1118
-        hub_port_connect_change+145
-        port_event+1618
-        hub_event+341
-        process_one_work+576
-        worker_thread+80
-        kthread+242
-        ret_from_fork+71
-        ret_from_fork_asm+27
-
 sysfs_create_dir_ns queues/rx-0
 
-        sysfs_add_file_mode_ns+1
-        internal_create_group+192
-        internal_create_groups+76
-        sysfs_create_groups+19
-        kobject_add_internal+196
+        sysfs_create_dir_ns+1
         kobject_init_and_add+136
         net_rx_queue_update_kobjects+252
         netdev_register_kobject+243
@@ -8433,10 +8757,14 @@ sysfs_create_dir_ns queues/rx-0
 
 -->sysfs_add_file_mode_ns queues/rx-0 - rps_flow_cnt
 
-        sysfs_create_dir_ns+1
+        sysfs_add_file_mode_ns+1
+        internal_create_group+192
+        internal_create_groups+76
+        sysfs_create_groups+19
+        kobject_add_internal+196
         kobject_init_and_add+136
-        netdev_queue_update_kobjects+161
-        netdev_register_kobject+263
+        net_rx_queue_update_kobjects+252
+        netdev_register_kobject+243
         register_netdevice+1365
         register_netdev+30
         rtl8152_probe+1411
@@ -8475,11 +8803,7 @@ sysfs_create_dir_ns queues/rx-0
 
 sysfs_create_dir_ns queues/tx-0
 
-        sysfs_add_file_mode_ns+1
-        internal_create_group+192
-        internal_create_groups+76
-        sysfs_create_groups+19
-        kobject_add_internal+196
+        sysfs_create_dir_ns+1
         kobject_init_and_add+136
         netdev_queue_update_kobjects+161
         netdev_register_kobject+263
@@ -8706,9 +9030,12 @@ sysfs_create_dir_ns queues/tx-0
 -->sysfs_add_file_mode_ns queues/tx-0 - tx_maxrate
 
         sysfs_add_file_mode_ns+1
-        internal_create_group+390
-        sysfs_create_group+19
-        netdev_queue_update_kobjects+183
+        internal_create_group+192
+        internal_create_groups+76
+        sysfs_create_groups+19
+        kobject_add_internal+196
+        kobject_init_and_add+136
+        netdev_queue_update_kobjects+161
         netdev_register_kobject+263
         register_netdevice+1365
         register_netdev+30
@@ -8920,6 +9247,50 @@ sysfs_create_dir_ns queues/tx-0
 
 -->sysfs_add_file_mode_ns queues/tx-0 - inflight
 
+        sysfs_add_file_mode_ns+1
+        internal_create_group+390
+        sysfs_create_group+19
+        netdev_queue_update_kobjects+183
+        netdev_register_kobject+263
+        register_netdevice+1365
+        register_netdev+30
+        rtl8152_probe+1411
+        usb_probe_interface+238
+        really_probe+460
+        __driver_probe_device+140
+        driver_probe_device+36
+        __device_attach_driver+205
+        bus_for_each_drv+151
+        __device_attach+182
+        device_initial_probe+19
+        bus_probe_device+159
+        device_add+1287
+        usb_set_configuration+1543
+        rtl8152_cfgselector_probe+103
+        usb_probe_device+60
+        really_probe+460
+        __driver_probe_device+140
+        driver_probe_device+36
+        __device_attach_driver+205
+        bus_for_each_drv+151
+        __device_attach+182
+        device_initial_probe+19
+        bus_probe_device+159
+        device_add+1287
+        usb_new_device+1068
+        hub_port_connect+1118
+        hub_port_connect_change+145
+        port_event+1618
+        hub_event+341
+        process_one_work+576
+        worker_thread+80
+        kthread+242
+        ret_from_fork+71
+        ret_from_fork_asm+27
+
+device_add  
+sysfs_create_dir_ns wakeup/wakeup48
+
         sysfs_create_dir_ns+1
         kobject_add+147
         device_add+228
@@ -8962,11 +9333,9 @@ sysfs_create_dir_ns queues/tx-0
         ret_from_fork+71
         ret_from_fork_asm+27
 
-sysfs_create_dir_ns wakeup/wakeup48
 ==>sysfs_create_file_ns wakeup/wakeup48 - uevent
 
-        sysfs_add_file_mode_ns+1
-        device_create_file+64
+        sysfs_create_file_ns+1
         device_add+286
         wakeup_source_device_create+189
         wakeup_source_sysfs_add+18
@@ -9010,11 +9379,8 @@ sysfs_create_dir_ns wakeup/wakeup48
 -->sysfs_add_file_mode_ns wakeup/wakeup48 - uevent
 
         sysfs_add_file_mode_ns+1
-        internal_create_group+192
-        internal_create_groups+76
-        sysfs_create_groups+19
-        device_add_attrs+352
-        device_add+686
+        device_create_file+64
+        device_add+286
         wakeup_source_device_create+189
         wakeup_source_sysfs_add+18
         wakeup_source_register+79
@@ -9479,6 +9845,54 @@ sysfs_create_dir_ns wakeup/wakeup48
 
 -->sysfs_add_file_mode_ns wakeup/wakeup48 - prevent_suspend_time_ms
 
+        sysfs_add_file_mode_ns+1
+        internal_create_group+192
+        internal_create_groups+76
+        sysfs_create_groups+19
+        device_add_attrs+352
+        device_add+686
+        wakeup_source_device_create+189
+        wakeup_source_sysfs_add+18
+        wakeup_source_register+79
+        device_wakeup_enable+75
+        device_set_wakeup_enable+27
+        rtl8152_probe+1842
+        usb_probe_interface+238
+        really_probe+460
+        __driver_probe_device+140
+        driver_probe_device+36
+        __device_attach_driver+205
+        bus_for_each_drv+151
+        __device_attach+182
+        device_initial_probe+19
+        bus_probe_device+159
+        device_add+1287
+        usb_set_configuration+1543
+        rtl8152_cfgselector_probe+103
+        usb_probe_device+60
+        really_probe+460
+        __driver_probe_device+140
+        driver_probe_device+36
+        __device_attach_driver+205
+        bus_for_each_drv+151
+        __device_attach+182
+        device_initial_probe+19
+        bus_probe_device+159
+        device_add+1287
+        usb_new_device+1068
+        hub_port_connect+1118
+        hub_port_connect_change+145
+        port_event+1618
+        hub_event+341
+        process_one_work+576
+        worker_thread+80
+        kthread+242
+        ret_from_fork+71
+        ret_from_fork_asm+27
+
+device_add  
+sysfs_create_dir_ns 5-2:1.0/ep_81
+
         sysfs_create_dir_ns+1
         kobject_add+147
         device_add+228
@@ -9508,11 +9922,9 @@ sysfs_create_dir_ns wakeup/wakeup48
         ret_from_fork+71
         ret_from_fork_asm+27
 
-sysfs_create_dir_ns 5-2:1.0/ep_81
 ==>sysfs_create_file_ns 5-2:1.0/ep_81 - uevent
 
-        sysfs_add_file_mode_ns+1
-        device_create_file+64
+        sysfs_create_file_ns+1
         device_add+286
         device_register+26
         usb_create_ep_devs+126
@@ -9543,11 +9955,8 @@ sysfs_create_dir_ns 5-2:1.0/ep_81
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - uevent
 
         sysfs_add_file_mode_ns+1
-        internal_create_group+192
-        internal_create_groups+76
-        sysfs_create_groups+19
-        device_add_attrs+121
-        device_add+686
+        device_create_file+64
+        device_add+286
         device_register+26
         usb_create_ep_devs+126
         create_intf_ep_devs.isra.0+86
@@ -9815,10 +10224,11 @@ sysfs_create_dir_ns 5-2:1.0/ep_81
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - direction
 
         sysfs_add_file_mode_ns+1
-        internal_create_group+390
-        sysfs_create_group+19
-        dpm_sysfs_add+55
-        device_add+975
+        internal_create_group+192
+        internal_create_groups+76
+        sysfs_create_groups+19
+        device_add_attrs+121
+        device_add+686
         device_register+26
         usb_create_ep_devs+126
         create_intf_ep_devs.isra.0+86
@@ -9980,7 +10390,9 @@ sysfs_create_dir_ns 5-2:1.0/ep_81
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - runtime_enabled
 
         sysfs_add_file_mode_ns+1
-        dpm_sysfs_add+250
+        internal_create_group+390
+        sysfs_create_group+19
+        dpm_sysfs_add+55
         device_add+975
         device_register+26
         usb_create_ep_devs+126
@@ -10103,6 +10515,38 @@ sysfs_create_dir_ns 5-2:1.0/ep_81
 
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - autosuspend_delay_ms
 
+        sysfs_add_file_mode_ns+1
+        dpm_sysfs_add+250
+        device_add+975
+        device_register+26
+        usb_create_ep_devs+126
+        create_intf_ep_devs.isra.0+86
+        usb_set_configuration+1715
+        rtl8152_cfgselector_probe+103
+        usb_probe_device+60
+        really_probe+460
+        __driver_probe_device+140
+        driver_probe_device+36
+        __device_attach_driver+205
+        bus_for_each_drv+151
+        __device_attach+182
+        device_initial_probe+19
+        bus_probe_device+159
+        device_add+1287
+        usb_new_device+1068
+        hub_port_connect+1118
+        hub_port_connect_change+145
+        port_event+1618
+        hub_event+341
+        process_one_work+576
+        worker_thread+80
+        kthread+242
+        ret_from_fork+71
+        ret_from_fork_asm+27
+
+device_add  
+sysfs_create_dir_ns 5-2:1.0/ep_02
+
         sysfs_create_dir_ns+1
         kobject_add+147
         device_add+228
@@ -10132,11 +10576,9 @@ sysfs_create_dir_ns 5-2:1.0/ep_81
         ret_from_fork+71
         ret_from_fork_asm+27
 
-sysfs_create_dir_ns 5-2:1.0/ep_02
 ==>sysfs_create_file_ns 5-2:1.0/ep_02 - uevent
 
-        sysfs_add_file_mode_ns+1
-        device_create_file+64
+        sysfs_create_file_ns+1
         device_add+286
         device_register+26
         usb_create_ep_devs+126
@@ -10167,11 +10609,8 @@ sysfs_create_dir_ns 5-2:1.0/ep_02
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - uevent
 
         sysfs_add_file_mode_ns+1
-        internal_create_group+192
-        internal_create_groups+76
-        sysfs_create_groups+19
-        device_add_attrs+121
-        device_add+686
+        device_create_file+64
+        device_add+286
         device_register+26
         usb_create_ep_devs+126
         create_intf_ep_devs.isra.0+86
@@ -10439,10 +10878,11 @@ sysfs_create_dir_ns 5-2:1.0/ep_02
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - direction
 
         sysfs_add_file_mode_ns+1
-        internal_create_group+390
-        sysfs_create_group+19
-        dpm_sysfs_add+55
-        device_add+975
+        internal_create_group+192
+        internal_create_groups+76
+        sysfs_create_groups+19
+        device_add_attrs+121
+        device_add+686
         device_register+26
         usb_create_ep_devs+126
         create_intf_ep_devs.isra.0+86
@@ -10604,7 +11044,9 @@ sysfs_create_dir_ns 5-2:1.0/ep_02
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - runtime_enabled
 
         sysfs_add_file_mode_ns+1
-        dpm_sysfs_add+250
+        internal_create_group+390
+        sysfs_create_group+19
+        dpm_sysfs_add+55
         device_add+975
         device_register+26
         usb_create_ep_devs+126
@@ -10727,6 +11169,38 @@ sysfs_create_dir_ns 5-2:1.0/ep_02
 
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - autosuspend_delay_ms
 
+        sysfs_add_file_mode_ns+1
+        dpm_sysfs_add+250
+        device_add+975
+        device_register+26
+        usb_create_ep_devs+126
+        create_intf_ep_devs.isra.0+86
+        usb_set_configuration+1715
+        rtl8152_cfgselector_probe+103
+        usb_probe_device+60
+        really_probe+460
+        __driver_probe_device+140
+        driver_probe_device+36
+        __device_attach_driver+205
+        bus_for_each_drv+151
+        __device_attach+182
+        device_initial_probe+19
+        bus_probe_device+159
+        device_add+1287
+        usb_new_device+1068
+        hub_port_connect+1118
+        hub_port_connect_change+145
+        port_event+1618
+        hub_event+341
+        process_one_work+576
+        worker_thread+80
+        kthread+242
+        ret_from_fork+71
+        ret_from_fork_asm+27
+
+device_add  
+sysfs_create_dir_ns 5-2:1.0/ep_83
+
         sysfs_create_dir_ns+1
         kobject_add+147
         device_add+228
@@ -10756,11 +11230,9 @@ sysfs_create_dir_ns 5-2:1.0/ep_02
         ret_from_fork+71
         ret_from_fork_asm+27
 
-sysfs_create_dir_ns 5-2:1.0/ep_83
 ==>sysfs_create_file_ns 5-2:1.0/ep_83 - uevent
 
-        sysfs_add_file_mode_ns+1
-        device_create_file+64
+        sysfs_create_file_ns+1
         device_add+286
         device_register+26
         usb_create_ep_devs+126
@@ -10791,11 +11263,8 @@ sysfs_create_dir_ns 5-2:1.0/ep_83
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - uevent
 
         sysfs_add_file_mode_ns+1
-        internal_create_group+192
-        internal_create_groups+76
-        sysfs_create_groups+19
-        device_add_attrs+121
-        device_add+686
+        device_create_file+64
+        device_add+286
         device_register+26
         usb_create_ep_devs+126
         create_intf_ep_devs.isra.0+86
@@ -11063,10 +11532,11 @@ sysfs_create_dir_ns 5-2:1.0/ep_83
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - direction
 
         sysfs_add_file_mode_ns+1
-        internal_create_group+390
-        sysfs_create_group+19
-        dpm_sysfs_add+55
-        device_add+975
+        internal_create_group+192
+        internal_create_groups+76
+        sysfs_create_groups+19
+        device_add_attrs+121
+        device_add+686
         device_register+26
         usb_create_ep_devs+126
         create_intf_ep_devs.isra.0+86
@@ -11228,7 +11698,9 @@ sysfs_create_dir_ns 5-2:1.0/ep_83
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - runtime_enabled
 
         sysfs_add_file_mode_ns+1
-        dpm_sysfs_add+250
+        internal_create_group+390
+        sysfs_create_group+19
+        dpm_sysfs_add+55
         device_add+975
         device_register+26
         usb_create_ep_devs+126
@@ -11351,6 +11823,38 @@ sysfs_create_dir_ns 5-2:1.0/ep_83
 
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - autosuspend_delay_ms
 
+        sysfs_add_file_mode_ns+1
+        dpm_sysfs_add+250
+        device_add+975
+        device_register+26
+        usb_create_ep_devs+126
+        create_intf_ep_devs.isra.0+86
+        usb_set_configuration+1715
+        rtl8152_cfgselector_probe+103
+        usb_probe_device+60
+        really_probe+460
+        __driver_probe_device+140
+        driver_probe_device+36
+        __device_attach_driver+205
+        bus_for_each_drv+151
+        __device_attach+182
+        device_initial_probe+19
+        bus_probe_device+159
+        device_add+1287
+        usb_new_device+1068
+        hub_port_connect+1118
+        hub_port_connect_change+145
+        port_event+1618
+        hub_event+341
+        process_one_work+576
+        worker_thread+80
+        kthread+242
+        ret_from_fork+71
+        ret_from_fork_asm+27
+
+device_add  
+sysfs_create_dir_ns 5-2/ep_00
+
         sysfs_create_dir_ns+1
         kobject_add+147
         device_add+228
@@ -11367,11 +11871,9 @@ sysfs_create_dir_ns 5-2:1.0/ep_83
         ret_from_fork+71
         ret_from_fork_asm+27
 
-sysfs_create_dir_ns 5-2/ep_00
 ==>sysfs_create_file_ns 5-2/ep_00 - uevent
 
-        sysfs_add_file_mode_ns+1
-        device_create_file+64
+        sysfs_create_file_ns+1
         device_add+286
         device_register+26
         usb_create_ep_devs+126
@@ -11389,11 +11891,8 @@ sysfs_create_dir_ns 5-2/ep_00
 -->sysfs_add_file_mode_ns 5-2/ep_00 - uevent
 
         sysfs_add_file_mode_ns+1
-        internal_create_group+192
-        internal_create_groups+76
-        sysfs_create_groups+19
-        device_add_attrs+121
-        device_add+686
+        device_create_file+64
+        device_add+286
         device_register+26
         usb_create_ep_devs+126
         usb_new_device+855
@@ -11557,10 +12056,11 @@ sysfs_create_dir_ns 5-2/ep_00
 -->sysfs_add_file_mode_ns 5-2/ep_00 - direction
 
         sysfs_add_file_mode_ns+1
-        internal_create_group+390
-        sysfs_create_group+19
-        dpm_sysfs_add+55
-        device_add+975
+        internal_create_group+192
+        internal_create_groups+76
+        sysfs_create_groups+19
+        device_add_attrs+121
+        device_add+686
         device_register+26
         usb_create_ep_devs+126
         usb_new_device+855
@@ -11657,7 +12157,9 @@ sysfs_create_dir_ns 5-2/ep_00
 -->sysfs_add_file_mode_ns 5-2/ep_00 - runtime_enabled
 
         sysfs_add_file_mode_ns+1
-        dpm_sysfs_add+250
+        internal_create_group+390
+        sysfs_create_group+19
+        dpm_sysfs_add+55
         device_add+975
         device_register+26
         usb_create_ep_devs+126
@@ -11727,4 +12229,24 @@ sysfs_create_dir_ns 5-2/ep_00
         ret_from_fork_asm+27
 
 -->sysfs_add_file_mode_ns 5-2/ep_00 - autosuspend_delay_ms
+
+        sysfs_add_file_mode_ns+1
+        dpm_sysfs_add+250
+        device_add+975
+        device_register+26
+        usb_create_ep_devs+126
+        usb_new_device+855
+        hub_port_connect+1118
+        hub_port_connect_change+145
+        port_event+1618
+        hub_event+341
+        process_one_work+576
+        worker_thread+80
+        kthread+242
+        ret_from_fork+71
+        ret_from_fork_asm+27
+
 device_rename eth0 -> enx00e04c71fcf2
+Tracing udev flow end. Hit Ctrl-C to end.
+
+
