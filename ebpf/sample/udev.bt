@@ -5,6 +5,7 @@
 #include <linux/netdevice.h>
 #include <linux/kobject.h>
 #include <linux/sysfs.h>
+#include <linux/kernfs.h>
 #include <uapi/linux/ip.h>
 
 BEGIN
@@ -58,12 +59,29 @@ kprobe:device_rename
     //printf("%s\n", kstack());
 }
 
+kprobe:sysfs_create_dir_ns
+{
+    $obj = (struct kobject *)arg0;
+    $parent = (struct kobject *)$obj->parent;
+    printf("sysfs_create_dir_ns %s/%s\n", str($parent->name), str($obj->name));
+}
+
 kprobe:sysfs_create_file_ns
 {
     $obj = (struct kobject *)arg0;
     $parent = (struct kobject *)$obj->parent;
     $attr = (struct attribute *)arg1;
-    printf("sysfs_create_file_ns %s/%s - %s\n", str($parent->name), str($obj->name), str($attr->name));
+    printf("==>sysfs_create_file_ns %s/%s - %s\n", str($parent->name), str($obj->name), str($attr->name));
+}
+
+kprobe:sysfs_add_file_mode_ns
+{
+    $kernfs = (struct kernfs_node *)arg0;
+    $obj = (struct kobject *)$kernfs->priv;
+    $parent = (struct kobject *)$obj->parent;
+    $attr = (struct attribute *)arg1;
+    printf("%s\n", kstack());
+    printf("-->sysfs_add_file_mode_ns %s/%s - %s\n", str($parent->name), str($obj->name), str($attr->name));
 }
 
 END
