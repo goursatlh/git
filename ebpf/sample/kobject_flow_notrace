@@ -1,1832 +1,994 @@
 Attaching 13 probes...
 Tracing udev flow. Hit Ctrl-C to end.
-device_add  
-sysfs_create_dir_ns usb4/4-2
-kernfs_create_dir_ns usb4/4-2
-kernfs_new_node usb4/4-2 1
-kernfs_new_node device:20/physical_node1 4
-kernfs_new_node 4-2/firmware_node 4
-==>sysfs_create_file_ns usb4/4-2 - uevent
--->sysfs_add_file_mode_ns usb4/4-2 - uevent
-kernfs_new_node 4-2/uevent 2
-device_add_attrs  4-2
-internal_create_group 4-2/
-create_files 4-2/
--->sysfs_add_file_mode_ns usb4/4-2 - configuration
-kernfs_new_node 4-2/configuration 2
--->sysfs_add_file_mode_ns usb4/4-2 - bNumInterfaces
-kernfs_new_node 4-2/bNumInterfaces 2
--->sysfs_add_file_mode_ns usb4/4-2 - bConfigurationValue
-kernfs_new_node 4-2/bConfigurationValue 2
--->sysfs_add_file_mode_ns usb4/4-2 - bmAttributes
-kernfs_new_node 4-2/bmAttributes 2
--->sysfs_add_file_mode_ns usb4/4-2 - bMaxPower
-kernfs_new_node 4-2/bMaxPower 2
--->sysfs_add_file_mode_ns usb4/4-2 - urbnum
-kernfs_new_node 4-2/urbnum 2
--->sysfs_add_file_mode_ns usb4/4-2 - idVendor
-kernfs_new_node 4-2/idVendor 2
--->sysfs_add_file_mode_ns usb4/4-2 - idProduct
-kernfs_new_node 4-2/idProduct 2
--->sysfs_add_file_mode_ns usb4/4-2 - bcdDevice
-kernfs_new_node 4-2/bcdDevice 2
--->sysfs_add_file_mode_ns usb4/4-2 - bDeviceClass
-kernfs_new_node 4-2/bDeviceClass 2
--->sysfs_add_file_mode_ns usb4/4-2 - bDeviceSubClass
-kernfs_new_node 4-2/bDeviceSubClass 2
--->sysfs_add_file_mode_ns usb4/4-2 - bDeviceProtocol
-kernfs_new_node 4-2/bDeviceProtocol 2
--->sysfs_add_file_mode_ns usb4/4-2 - bNumConfigurations
-kernfs_new_node 4-2/bNumConfigurations 2
--->sysfs_add_file_mode_ns usb4/4-2 - bMaxPacketSize0
-kernfs_new_node 4-2/bMaxPacketSize0 2
--->sysfs_add_file_mode_ns usb4/4-2 - speed
-kernfs_new_node 4-2/speed 2
--->sysfs_add_file_mode_ns usb4/4-2 - rx_lanes
-kernfs_new_node 4-2/rx_lanes 2
--->sysfs_add_file_mode_ns usb4/4-2 - tx_lanes
-kernfs_new_node 4-2/tx_lanes 2
--->sysfs_add_file_mode_ns usb4/4-2 - busnum
-kernfs_new_node 4-2/busnum 2
--->sysfs_add_file_mode_ns usb4/4-2 - devnum
-kernfs_new_node 4-2/devnum 2
--->sysfs_add_file_mode_ns usb4/4-2 - devpath
-kernfs_new_node 4-2/devpath 2
--->sysfs_add_file_mode_ns usb4/4-2 - version
-kernfs_new_node 4-2/version 2
--->sysfs_add_file_mode_ns usb4/4-2 - maxchild
-kernfs_new_node 4-2/maxchild 2
--->sysfs_add_file_mode_ns usb4/4-2 - quirks
-kernfs_new_node 4-2/quirks 2
--->sysfs_add_file_mode_ns usb4/4-2 - avoid_reset_quirk
-kernfs_new_node 4-2/avoid_reset_quirk 2
--->sysfs_add_file_mode_ns usb4/4-2 - authorized
-kernfs_new_node 4-2/authorized 2
--->sysfs_add_file_mode_ns usb4/4-2 - remove
-kernfs_new_node 4-2/remove 2
--->sysfs_add_file_mode_ns usb4/4-2 - ltm_capable
-kernfs_new_node 4-2/ltm_capable 2
-internal_create_group 4-2/
-create_files 4-2/
--->sysfs_add_file_mode_ns usb4/4-2 - manufacturer
-kernfs_new_node 4-2/manufacturer 2
--->sysfs_add_file_mode_ns usb4/4-2 - product
-kernfs_new_node 4-2/product 2
--->sysfs_add_file_mode_ns usb4/4-2 - serial
-kernfs_new_node 4-2/serial 2
-==>sysfs_create_file_ns usb4/4-2 - waiting_for_supplier
--->sysfs_add_file_mode_ns usb4/4-2 - waiting_for_supplier
-kernfs_new_node 4-2/waiting_for_supplier 2
-==>sysfs_create_file_ns usb4/4-2 - removable
--->sysfs_add_file_mode_ns usb4/4-2 - removable
-kernfs_new_node 4-2/removable 2
-internal_create_group 4-2/physical_location
-kernfs_create_dir_ns 4-2/physical_location
-kernfs_new_node 4-2/physical_location 1
-create_files 4-2/physical_location
--->sysfs_add_file_mode_ns usb4/4-2 - panel
-kernfs_new_node physical_location/panel 2
--->sysfs_add_file_mode_ns usb4/4-2 - vertical_position
-kernfs_new_node physical_location/vertical_position 2
--->sysfs_add_file_mode_ns usb4/4-2 - horizontal_position
-kernfs_new_node physical_location/horizontal_position 2
--->sysfs_add_file_mode_ns usb4/4-2 - dock
-kernfs_new_node physical_location/dock 2
--->sysfs_add_file_mode_ns usb4/4-2 - lid
-kernfs_new_node physical_location/lid 2
-kernfs_new_node devices/4-2 4
-kernfs_new_node 4-2/subsystem 4
-internal_create_group 4-2/power
-kernfs_create_dir_ns 4-2/power
-kernfs_new_node 4-2/power 1
-create_files 4-2/power
--->sysfs_add_file_mode_ns usb4/4-2 - async
-kernfs_new_node power/async 2
--->sysfs_add_file_mode_ns usb4/4-2 - runtime_status
-kernfs_new_node power/runtime_status 2
--->sysfs_add_file_mode_ns usb4/4-2 - runtime_usage
-kernfs_new_node power/runtime_usage 2
--->sysfs_add_file_mode_ns usb4/4-2 - runtime_active_kids
-kernfs_new_node power/runtime_active_kids 2
--->sysfs_add_file_mode_ns usb4/4-2 - runtime_enabled
-kernfs_new_node power/runtime_enabled 2
--->sysfs_add_file_mode_ns usb4/4-2 - control
-kernfs_new_node power/control 2
--->sysfs_add_file_mode_ns usb4/4-2 - runtime_suspended_time
-kernfs_new_node power/runtime_suspended_time 2
--->sysfs_add_file_mode_ns usb4/4-2 - runtime_active_time
-kernfs_new_node power/runtime_active_time 2
--->sysfs_add_file_mode_ns usb4/4-2 - autosuspend_delay_ms
-kernfs_new_node power/autosuspend_delay_ms 2
-==>sysfs_create_file_ns usb4/4-2 - dev
--->sysfs_add_file_mode_ns usb4/4-2 - dev
-kernfs_new_node 4-2/dev 2
-kernfs_new_node char/189:398 4
-kernfs_new_node 4-2/descriptors 2
--->sysfs_add_file_mode_ns usb4/4-2 - persist
-kernfs_new_node power/persist 2
--->sysfs_add_file_mode_ns usb4/4-2 - autosuspend
-kernfs_new_node power/autosuspend 2
--->sysfs_add_file_mode_ns usb4/4-2 - level
-kernfs_new_node power/level 2
--->sysfs_add_file_mode_ns usb4/4-2 - connected_duration
-kernfs_new_node power/connected_duration 2
--->sysfs_add_file_mode_ns usb4/4-2 - active_duration
-kernfs_new_node power/active_duration 2
-kernfs_new_node r8152-cfgselector/4-2 4
-kernfs_new_node 4-2/driver 4
--->sysfs_add_file_mode_ns usb4/4-2 - wakeup
-kernfs_new_node power/wakeup 2
--->sysfs_add_file_mode_ns usb4/4-2 - wakeup_count
-kernfs_new_node power/wakeup_count 2
--->sysfs_add_file_mode_ns usb4/4-2 - wakeup_active_count
-kernfs_new_node power/wakeup_active_count 2
--->sysfs_add_file_mode_ns usb4/4-2 - wakeup_abort_count
-kernfs_new_node power/wakeup_abort_count 2
--->sysfs_add_file_mode_ns usb4/4-2 - wakeup_expire_count
-kernfs_new_node power/wakeup_expire_count 2
--->sysfs_add_file_mode_ns usb4/4-2 - wakeup_active
-kernfs_new_node power/wakeup_active 2
--->sysfs_add_file_mode_ns usb4/4-2 - wakeup_total_time_ms
-kernfs_new_node power/wakeup_total_time_ms 2
--->sysfs_add_file_mode_ns usb4/4-2 - wakeup_max_time_ms
-kernfs_new_node power/wakeup_max_time_ms 2
--->sysfs_add_file_mode_ns usb4/4-2 - wakeup_last_time_ms
-kernfs_new_node power/wakeup_last_time_ms 2
-device_add  
-sysfs_create_dir_ns 4-2/4-2:2.0
-kernfs_create_dir_ns 4-2/4-2:2.0
-kernfs_new_node 4-2/4-2:2.0 1
-kernfs_new_node device:20/physical_node2 4
-kernfs_new_node 4-2:2.0/firmware_node 4
-==>sysfs_create_file_ns 4-2/4-2:2.0 - uevent
--->sysfs_add_file_mode_ns 4-2/4-2:2.0 - uevent
-kernfs_new_node 4-2:2.0/uevent 2
-device_add_attrs  4-2:2.0
-internal_create_group 4-2:2.0/
-create_files 4-2:2.0/
--->sysfs_add_file_mode_ns 4-2/4-2:2.0 - bInterfaceNumber
-kernfs_new_node 4-2:2.0/bInterfaceNumber 2
--->sysfs_add_file_mode_ns 4-2/4-2:2.0 - bAlternateSetting
-kernfs_new_node 4-2:2.0/bAlternateSetting 2
--->sysfs_add_file_mode_ns 4-2/4-2:2.0 - bNumEndpoints
-kernfs_new_node 4-2:2.0/bNumEndpoints 2
--->sysfs_add_file_mode_ns 4-2/4-2:2.0 - bInterfaceClass
-kernfs_new_node 4-2:2.0/bInterfaceClass 2
--->sysfs_add_file_mode_ns 4-2/4-2:2.0 - bInterfaceSubClass
-kernfs_new_node 4-2:2.0/bInterfaceSubClass 2
--->sysfs_add_file_mode_ns 4-2/4-2:2.0 - bInterfaceProtocol
-kernfs_new_node 4-2:2.0/bInterfaceProtocol 2
--->sysfs_add_file_mode_ns 4-2/4-2:2.0 - modalias
-kernfs_new_node 4-2:2.0/modalias 2
--->sysfs_add_file_mode_ns 4-2/4-2:2.0 - supports_autosuspend
-kernfs_new_node 4-2:2.0/supports_autosuspend 2
--->sysfs_add_file_mode_ns 4-2/4-2:2.0 - authorized
-kernfs_new_node 4-2:2.0/authorized 2
-internal_create_group 4-2:2.0/
-create_files 4-2:2.0/
-internal_create_group 4-2:2.0/
-create_files 4-2:2.0/
-==>sysfs_create_file_ns 4-2/4-2:2.0 - waiting_for_supplier
--->sysfs_add_file_mode_ns 4-2/4-2:2.0 - waiting_for_supplier
-kernfs_new_node 4-2:2.0/waiting_for_supplier 2
-internal_create_group 4-2:2.0/physical_location
-kernfs_create_dir_ns 4-2:2.0/physical_location
-kernfs_new_node 4-2:2.0/physical_location 1
-create_files 4-2:2.0/physical_location
--->sysfs_add_file_mode_ns 4-2/4-2:2.0 - panel
-kernfs_new_node physical_location/panel 2
--->sysfs_add_file_mode_ns 4-2/4-2:2.0 - vertical_position
-kernfs_new_node physical_location/vertical_position 2
--->sysfs_add_file_mode_ns 4-2/4-2:2.0 - horizontal_position
-kernfs_new_node physical_location/horizontal_position 2
--->sysfs_add_file_mode_ns 4-2/4-2:2.0 - dock
-kernfs_new_node physical_location/dock 2
--->sysfs_add_file_mode_ns 4-2/4-2:2.0 - lid
-kernfs_new_node physical_location/lid 2
-kernfs_new_node devices/4-2:2.0 4
-kernfs_new_node 4-2:2.0/subsystem 4
-internal_create_group 4-2:2.0/power
-kernfs_create_dir_ns 4-2:2.0/power
-kernfs_new_node 4-2:2.0/power 1
-create_files 4-2:2.0/power
--->sysfs_add_file_mode_ns 4-2/4-2:2.0 - async
-kernfs_new_node power/async 2
--->sysfs_add_file_mode_ns 4-2/4-2:2.0 - runtime_status
-kernfs_new_node power/runtime_status 2
--->sysfs_add_file_mode_ns 4-2/4-2:2.0 - runtime_usage
-kernfs_new_node power/runtime_usage 2
--->sysfs_add_file_mode_ns 4-2/4-2:2.0 - runtime_active_kids
-kernfs_new_node power/runtime_active_kids 2
--->sysfs_add_file_mode_ns 4-2/4-2:2.0 - runtime_enabled
-kernfs_new_node power/runtime_enabled 2
-==>sysfs_create_file_ns 4-2/4-2:2.0 - interface
--->sysfs_add_file_mode_ns 4-2/4-2:2.0 - interface
-kernfs_new_node 4-2:2.0/interface 2
-kernfs_new_node r8152/4-2:2.0 4
-kernfs_new_node 4-2:2.0/driver 4
-kernfs_new_node cdc_ether/4-2:2.0 4
-kernfs_new_node 4-2:2.0/driver 4
-kernfs_new_node r8153_ecm/4-2:2.0 4
-kernfs_new_node 4-2:2.0/driver 4
-device_add  
-sysfs_create_dir_ns 4-2:2.0/ep_83
-kernfs_create_dir_ns 4-2:2.0/ep_83
-kernfs_new_node 4-2:2.0/ep_83 1
-==>sysfs_create_file_ns 4-2:2.0/ep_83 - uevent
--->sysfs_add_file_mode_ns 4-2:2.0/ep_83 - uevent
-kernfs_new_node ep_83/uevent 2
-device_add_attrs  ep_83
-internal_create_group ep_83/
-create_files ep_83/
--->sysfs_add_file_mode_ns 4-2:2.0/ep_83 - bLength
-kernfs_new_node ep_83/bLength 2
--->sysfs_add_file_mode_ns 4-2:2.0/ep_83 - bEndpointAddress
-kernfs_new_node ep_83/bEndpointAddress 2
--->sysfs_add_file_mode_ns 4-2:2.0/ep_83 - bmAttributes
-kernfs_new_node ep_83/bmAttributes 2
--->sysfs_add_file_mode_ns 4-2:2.0/ep_83 - bInterval
-kernfs_new_node ep_83/bInterval 2
--->sysfs_add_file_mode_ns 4-2:2.0/ep_83 - wMaxPacketSize
-kernfs_new_node ep_83/wMaxPacketSize 2
--->sysfs_add_file_mode_ns 4-2:2.0/ep_83 - interval
-kernfs_new_node ep_83/interval 2
--->sysfs_add_file_mode_ns 4-2:2.0/ep_83 - type
-kernfs_new_node ep_83/type 2
--->sysfs_add_file_mode_ns 4-2:2.0/ep_83 - direction
-kernfs_new_node ep_83/direction 2
-internal_create_group ep_83/power
-kernfs_create_dir_ns ep_83/power
-kernfs_new_node ep_83/power 1
-create_files ep_83/power
--->sysfs_add_file_mode_ns 4-2:2.0/ep_83 - async
-kernfs_new_node power/async 2
--->sysfs_add_file_mode_ns 4-2:2.0/ep_83 - runtime_status
-kernfs_new_node power/runtime_status 2
--->sysfs_add_file_mode_ns 4-2:2.0/ep_83 - runtime_usage
-kernfs_new_node power/runtime_usage 2
--->sysfs_add_file_mode_ns 4-2:2.0/ep_83 - runtime_active_kids
-kernfs_new_node power/runtime_active_kids 2
--->sysfs_add_file_mode_ns 4-2:2.0/ep_83 - runtime_enabled
-kernfs_new_node power/runtime_enabled 2
--->sysfs_add_file_mode_ns 4-2:2.0/ep_83 - control
-kernfs_new_node power/control 2
--->sysfs_add_file_mode_ns 4-2:2.0/ep_83 - runtime_suspended_time
-kernfs_new_node power/runtime_suspended_time 2
--->sysfs_add_file_mode_ns 4-2:2.0/ep_83 - runtime_active_time
-kernfs_new_node power/runtime_active_time 2
--->sysfs_add_file_mode_ns 4-2:2.0/ep_83 - autosuspend_delay_ms
-kernfs_new_node power/autosuspend_delay_ms 2
-device_add  
-sysfs_create_dir_ns 4-2/4-2:2.1
-kernfs_create_dir_ns 4-2/4-2:2.1
-kernfs_new_node 4-2/4-2:2.1 1
-kernfs_new_node device:20/physical_node3 4
-kernfs_new_node 4-2:2.1/firmware_node 4
-==>sysfs_create_file_ns 4-2/4-2:2.1 - uevent
--->sysfs_add_file_mode_ns 4-2/4-2:2.1 - uevent
-kernfs_new_node 4-2:2.1/uevent 2
-device_add_attrs  4-2:2.1
-internal_create_group 4-2:2.1/
-create_files 4-2:2.1/
--->sysfs_add_file_mode_ns 4-2/4-2:2.1 - bInterfaceNumber
-kernfs_new_node 4-2:2.1/bInterfaceNumber 2
--->sysfs_add_file_mode_ns 4-2/4-2:2.1 - bAlternateSetting
-kernfs_new_node 4-2:2.1/bAlternateSetting 2
--->sysfs_add_file_mode_ns 4-2/4-2:2.1 - bNumEndpoints
-kernfs_new_node 4-2:2.1/bNumEndpoints 2
--->sysfs_add_file_mode_ns 4-2/4-2:2.1 - bInterfaceClass
-kernfs_new_node 4-2:2.1/bInterfaceClass 2
--->sysfs_add_file_mode_ns 4-2/4-2:2.1 - bInterfaceSubClass
-kernfs_new_node 4-2:2.1/bInterfaceSubClass 2
--->sysfs_add_file_mode_ns 4-2/4-2:2.1 - bInterfaceProtocol
-kernfs_new_node 4-2:2.1/bInterfaceProtocol 2
--->sysfs_add_file_mode_ns 4-2/4-2:2.1 - modalias
-kernfs_new_node 4-2:2.1/modalias 2
--->sysfs_add_file_mode_ns 4-2/4-2:2.1 - supports_autosuspend
-kernfs_new_node 4-2:2.1/supports_autosuspend 2
--->sysfs_add_file_mode_ns 4-2/4-2:2.1 - authorized
-kernfs_new_node 4-2:2.1/authorized 2
-internal_create_group 4-2:2.1/
-create_files 4-2:2.1/
-internal_create_group 4-2:2.1/
-create_files 4-2:2.1/
-==>sysfs_create_file_ns 4-2/4-2:2.1 - waiting_for_supplier
--->sysfs_add_file_mode_ns 4-2/4-2:2.1 - waiting_for_supplier
-kernfs_new_node 4-2:2.1/waiting_for_supplier 2
-internal_create_group 4-2:2.1/physical_location
-kernfs_create_dir_ns 4-2:2.1/physical_location
-kernfs_new_node 4-2:2.1/physical_location 1
-create_files 4-2:2.1/physical_location
--->sysfs_add_file_mode_ns 4-2/4-2:2.1 - panel
-kernfs_new_node physical_location/panel 2
--->sysfs_add_file_mode_ns 4-2/4-2:2.1 - vertical_position
-kernfs_new_node physical_location/vertical_position 2
--->sysfs_add_file_mode_ns 4-2/4-2:2.1 - horizontal_position
-kernfs_new_node physical_location/horizontal_position 2
--->sysfs_add_file_mode_ns 4-2/4-2:2.1 - dock
-kernfs_new_node physical_location/dock 2
--->sysfs_add_file_mode_ns 4-2/4-2:2.1 - lid
-kernfs_new_node physical_location/lid 2
-kernfs_new_node devices/4-2:2.1 4
-kernfs_new_node 4-2:2.1/subsystem 4
-internal_create_group 4-2:2.1/power
-kernfs_create_dir_ns 4-2:2.1/power
-kernfs_new_node 4-2:2.1/power 1
-create_files 4-2:2.1/power
--->sysfs_add_file_mode_ns 4-2/4-2:2.1 - async
-kernfs_new_node power/async 2
--->sysfs_add_file_mode_ns 4-2/4-2:2.1 - runtime_status
-kernfs_new_node power/runtime_status 2
--->sysfs_add_file_mode_ns 4-2/4-2:2.1 - runtime_usage
-kernfs_new_node power/runtime_usage 2
--->sysfs_add_file_mode_ns 4-2/4-2:2.1 - runtime_active_kids
-kernfs_new_node power/runtime_active_kids 2
--->sysfs_add_file_mode_ns 4-2/4-2:2.1 - runtime_enabled
-kernfs_new_node power/runtime_enabled 2
-kernfs_new_node r8152/4-2:2.1 4
-kernfs_new_node 4-2:2.1/driver 4
--->sysfs_add_file_mode_ns usb4/4-2 - wakeup
-kernfs_new_node power/wakeup 2
--->sysfs_add_file_mode_ns usb4/4-2 - wakeup_count
-kernfs_new_node power/wakeup_count 2
--->sysfs_add_file_mode_ns usb4/4-2 - wakeup_active_count
-kernfs_new_node power/wakeup_active_count 2
--->sysfs_add_file_mode_ns usb4/4-2 - wakeup_abort_count
-kernfs_new_node power/wakeup_abort_count 2
--->sysfs_add_file_mode_ns usb4/4-2 - wakeup_expire_count
-kernfs_new_node power/wakeup_expire_count 2
--->sysfs_add_file_mode_ns usb4/4-2 - wakeup_active
-kernfs_new_node power/wakeup_active 2
--->sysfs_add_file_mode_ns usb4/4-2 - wakeup_total_time_ms
-kernfs_new_node power/wakeup_total_time_ms 2
--->sysfs_add_file_mode_ns usb4/4-2 - wakeup_max_time_ms
-kernfs_new_node power/wakeup_max_time_ms 2
--->sysfs_add_file_mode_ns usb4/4-2 - wakeup_last_time_ms
-kernfs_new_node power/wakeup_last_time_ms 2
-device_add  
-sysfs_create_dir_ns 4-2/4-2:1.0
-kernfs_create_dir_ns 4-2/4-2:1.0
-kernfs_new_node 4-2/4-2:1.0 1
-kernfs_new_node device:20/physical_node2 4
-kernfs_new_node 4-2:1.0/firmware_node 4
-==>sysfs_create_file_ns 4-2/4-2:1.0 - uevent
--->sysfs_add_file_mode_ns 4-2/4-2:1.0 - uevent
-kernfs_new_node 4-2:1.0/uevent 2
-device_add_attrs  4-2:1.0
-internal_create_group 4-2:1.0/
-create_files 4-2:1.0/
--->sysfs_add_file_mode_ns 4-2/4-2:1.0 - bInterfaceNumber
-kernfs_new_node 4-2:1.0/bInterfaceNumber 2
--->sysfs_add_file_mode_ns 4-2/4-2:1.0 - bAlternateSetting
-kernfs_new_node 4-2:1.0/bAlternateSetting 2
--->sysfs_add_file_mode_ns 4-2/4-2:1.0 - bNumEndpoints
-kernfs_new_node 4-2:1.0/bNumEndpoints 2
--->sysfs_add_file_mode_ns 4-2/4-2:1.0 - bInterfaceClass
-kernfs_new_node 4-2:1.0/bInterfaceClass 2
--->sysfs_add_file_mode_ns 4-2/4-2:1.0 - bInterfaceSubClass
-kernfs_new_node 4-2:1.0/bInterfaceSubClass 2
--->sysfs_add_file_mode_ns 4-2/4-2:1.0 - bInterfaceProtocol
-kernfs_new_node 4-2:1.0/bInterfaceProtocol 2
--->sysfs_add_file_mode_ns 4-2/4-2:1.0 - modalias
-kernfs_new_node 4-2:1.0/modalias 2
--->sysfs_add_file_mode_ns 4-2/4-2:1.0 - supports_autosuspend
-kernfs_new_node 4-2:1.0/supports_autosuspend 2
--->sysfs_add_file_mode_ns 4-2/4-2:1.0 - authorized
-kernfs_new_node 4-2:1.0/authorized 2
-internal_create_group 4-2:1.0/
-create_files 4-2:1.0/
-internal_create_group 4-2:1.0/
-create_files 4-2:1.0/
-==>sysfs_create_file_ns 4-2/4-2:1.0 - waiting_for_supplier
--->sysfs_add_file_mode_ns 4-2/4-2:1.0 - waiting_for_supplier
-kernfs_new_node 4-2:1.0/waiting_for_supplier 2
-internal_create_group 4-2:1.0/physical_location
-kernfs_create_dir_ns 4-2:1.0/physical_location
-kernfs_new_node 4-2:1.0/physical_location 1
-create_files 4-2:1.0/physical_location
--->sysfs_add_file_mode_ns 4-2/4-2:1.0 - panel
-kernfs_new_node physical_location/panel 2
--->sysfs_add_file_mode_ns 4-2/4-2:1.0 - vertical_position
-kernfs_new_node physical_location/vertical_position 2
--->sysfs_add_file_mode_ns 4-2/4-2:1.0 - horizontal_position
-kernfs_new_node physical_location/horizontal_position 2
--->sysfs_add_file_mode_ns 4-2/4-2:1.0 - dock
-kernfs_new_node physical_location/dock 2
--->sysfs_add_file_mode_ns 4-2/4-2:1.0 - lid
-kernfs_new_node physical_location/lid 2
-kernfs_new_node devices/4-2:1.0 4
-kernfs_new_node 4-2:1.0/subsystem 4
-internal_create_group 4-2:1.0/power
-kernfs_create_dir_ns 4-2:1.0/power
-kernfs_new_node 4-2:1.0/power 1
-create_files 4-2:1.0/power
--->sysfs_add_file_mode_ns 4-2/4-2:1.0 - async
-kernfs_new_node power/async 2
--->sysfs_add_file_mode_ns 4-2/4-2:1.0 - runtime_status
-kernfs_new_node power/runtime_status 2
--->sysfs_add_file_mode_ns 4-2/4-2:1.0 - runtime_usage
-kernfs_new_node power/runtime_usage 2
--->sysfs_add_file_mode_ns 4-2/4-2:1.0 - runtime_active_kids
-kernfs_new_node power/runtime_active_kids 2
--->sysfs_add_file_mode_ns 4-2/4-2:1.0 - runtime_enabled
-kernfs_new_node power/runtime_enabled 2
-kernfs_new_node r8152/4-2:1.0 4
-kernfs_new_node 4-2:1.0/driver 4
-netdev_register_kobject eth0
-device_add  
-sysfs_create_dir_ns 4-2:1.0/net
-kernfs_create_dir_ns 4-2:1.0/net
-kernfs_new_node 4-2:1.0/net 1
-sysfs_create_dir_ns net/eth0
-kernfs_create_dir_ns net/eth0
-kernfs_new_node net/eth0 1
-==>sysfs_create_file_ns net/eth0 - uevent
--->sysfs_add_file_mode_ns net/eth0 - uevent
-kernfs_new_node eth0/uevent 2
-kernfs_new_node eth0/subsystem 4
-kernfs_new_node eth0/device 4
-kernfs_new_node net/eth0 4
-device_add_attrs  eth0
-internal_create_group eth0/
-create_files eth0/
--->sysfs_add_file_mode_ns net/eth0 - netdev_group
-kernfs_new_node eth0/netdev_group 2
--->sysfs_add_file_mode_ns net/eth0 - type
-kernfs_new_node eth0/type 2
--->sysfs_add_file_mode_ns net/eth0 - dev_id
-kernfs_new_node eth0/dev_id 2
--->sysfs_add_file_mode_ns net/eth0 - dev_port
-kernfs_new_node eth0/dev_port 2
--->sysfs_add_file_mode_ns net/eth0 - iflink
-kernfs_new_node eth0/iflink 2
--->sysfs_add_file_mode_ns net/eth0 - ifindex
-kernfs_new_node eth0/ifindex 2
--->sysfs_add_file_mode_ns net/eth0 - name_assign_type
-kernfs_new_node eth0/name_assign_type 2
--->sysfs_add_file_mode_ns net/eth0 - addr_assign_type
-kernfs_new_node eth0/addr_assign_type 2
--->sysfs_add_file_mode_ns net/eth0 - addr_len
-kernfs_new_node eth0/addr_len 2
--->sysfs_add_file_mode_ns net/eth0 - link_mode
-kernfs_new_node eth0/link_mode 2
--->sysfs_add_file_mode_ns net/eth0 - address
-kernfs_new_node eth0/address 2
--->sysfs_add_file_mode_ns net/eth0 - broadcast
-kernfs_new_node eth0/broadcast 2
--->sysfs_add_file_mode_ns net/eth0 - speed
-kernfs_new_node eth0/speed 2
--->sysfs_add_file_mode_ns net/eth0 - duplex
-kernfs_new_node eth0/duplex 2
--->sysfs_add_file_mode_ns net/eth0 - dormant
-kernfs_new_node eth0/dormant 2
--->sysfs_add_file_mode_ns net/eth0 - testing
-kernfs_new_node eth0/testing 2
--->sysfs_add_file_mode_ns net/eth0 - operstate
-kernfs_new_node eth0/operstate 2
--->sysfs_add_file_mode_ns net/eth0 - carrier_changes
-kernfs_new_node eth0/carrier_changes 2
--->sysfs_add_file_mode_ns net/eth0 - ifalias
-kernfs_new_node eth0/ifalias 2
--->sysfs_add_file_mode_ns net/eth0 - carrier
-kernfs_new_node eth0/carrier 2
--->sysfs_add_file_mode_ns net/eth0 - mtu
-kernfs_new_node eth0/mtu 2
--->sysfs_add_file_mode_ns net/eth0 - flags
-kernfs_new_node eth0/flags 2
--->sysfs_add_file_mode_ns net/eth0 - tx_queue_len
-kernfs_new_node eth0/tx_queue_len 2
--->sysfs_add_file_mode_ns net/eth0 - gro_flush_timeout
-kernfs_new_node eth0/gro_flush_timeout 2
--->sysfs_add_file_mode_ns net/eth0 - napi_defer_hard_irqs
-kernfs_new_node eth0/napi_defer_hard_irqs 2
--->sysfs_add_file_mode_ns net/eth0 - phys_port_id
-kernfs_new_node eth0/phys_port_id 2
--->sysfs_add_file_mode_ns net/eth0 - phys_port_name
-kernfs_new_node eth0/phys_port_name 2
--->sysfs_add_file_mode_ns net/eth0 - phys_switch_id
-kernfs_new_node eth0/phys_switch_id 2
--->sysfs_add_file_mode_ns net/eth0 - proto_down
-kernfs_new_node eth0/proto_down 2
--->sysfs_add_file_mode_ns net/eth0 - carrier_up_count
-kernfs_new_node eth0/carrier_up_count 2
--->sysfs_add_file_mode_ns net/eth0 - carrier_down_count
-kernfs_new_node eth0/carrier_down_count 2
--->sysfs_add_file_mode_ns net/eth0 - threaded
-kernfs_new_node eth0/threaded 2
-internal_create_group eth0/statistics
-kernfs_create_dir_ns eth0/statistics
-kernfs_new_node eth0/statistics 1
-create_files eth0/statistics
--->sysfs_add_file_mode_ns net/eth0 - rx_packets
-kernfs_new_node statistics/rx_packets 2
--->sysfs_add_file_mode_ns net/eth0 - tx_packets
-kernfs_new_node statistics/tx_packets 2
--->sysfs_add_file_mode_ns net/eth0 - rx_bytes
-kernfs_new_node statistics/rx_bytes 2
--->sysfs_add_file_mode_ns net/eth0 - tx_bytes
-kernfs_new_node statistics/tx_bytes 2
--->sysfs_add_file_mode_ns net/eth0 - rx_errors
-kernfs_new_node statistics/rx_errors 2
--->sysfs_add_file_mode_ns net/eth0 - tx_errors
-kernfs_new_node statistics/tx_errors 2
--->sysfs_add_file_mode_ns net/eth0 - rx_dropped
-kernfs_new_node statistics/rx_dropped 2
--->sysfs_add_file_mode_ns net/eth0 - tx_dropped
-kernfs_new_node statistics/tx_dropped 2
--->sysfs_add_file_mode_ns net/eth0 - multicast
-kernfs_new_node statistics/multicast 2
--->sysfs_add_file_mode_ns net/eth0 - collisions
-kernfs_new_node statistics/collisions 2
--->sysfs_add_file_mode_ns net/eth0 - rx_length_errors
-kernfs_new_node statistics/rx_length_errors 2
--->sysfs_add_file_mode_ns net/eth0 - rx_over_errors
-kernfs_new_node statistics/rx_over_errors 2
--->sysfs_add_file_mode_ns net/eth0 - rx_crc_errors
-kernfs_new_node statistics/rx_crc_errors 2
--->sysfs_add_file_mode_ns net/eth0 - rx_frame_errors
-kernfs_new_node statistics/rx_frame_errors 2
--->sysfs_add_file_mode_ns net/eth0 - rx_fifo_errors
-kernfs_new_node statistics/rx_fifo_errors 2
--->sysfs_add_file_mode_ns net/eth0 - rx_missed_errors
-kernfs_new_node statistics/rx_missed_errors 2
--->sysfs_add_file_mode_ns net/eth0 - tx_aborted_errors
-kernfs_new_node statistics/tx_aborted_errors 2
--->sysfs_add_file_mode_ns net/eth0 - tx_carrier_errors
-kernfs_new_node statistics/tx_carrier_errors 2
--->sysfs_add_file_mode_ns net/eth0 - tx_fifo_errors
-kernfs_new_node statistics/tx_fifo_errors 2
--->sysfs_add_file_mode_ns net/eth0 - tx_heartbeat_errors
-kernfs_new_node statistics/tx_heartbeat_errors 2
--->sysfs_add_file_mode_ns net/eth0 - tx_window_errors
-kernfs_new_node statistics/tx_window_errors 2
--->sysfs_add_file_mode_ns net/eth0 - rx_compressed
-kernfs_new_node statistics/rx_compressed 2
--->sysfs_add_file_mode_ns net/eth0 - tx_compressed
-kernfs_new_node statistics/tx_compressed 2
--->sysfs_add_file_mode_ns net/eth0 - rx_nohandler
-kernfs_new_node statistics/rx_nohandler 2
-internal_create_group eth0/power
-kernfs_create_dir_ns eth0/power
-kernfs_new_node eth0/power 1
-create_files eth0/power
--->sysfs_add_file_mode_ns net/eth0 - async
-kernfs_new_node power/async 2
--->sysfs_add_file_mode_ns net/eth0 - runtime_status
-kernfs_new_node power/runtime_status 2
--->sysfs_add_file_mode_ns net/eth0 - runtime_usage
-kernfs_new_node power/runtime_usage 2
--->sysfs_add_file_mode_ns net/eth0 - runtime_active_kids
-kernfs_new_node power/runtime_active_kids 2
--->sysfs_add_file_mode_ns net/eth0 - runtime_enabled
-kernfs_new_node power/runtime_enabled 2
--->sysfs_add_file_mode_ns net/eth0 - control
-kernfs_new_node power/control 2
--->sysfs_add_file_mode_ns net/eth0 - runtime_suspended_time
-kernfs_new_node power/runtime_suspended_time 2
--->sysfs_add_file_mode_ns net/eth0 - runtime_active_time
-kernfs_new_node power/runtime_active_time 2
--->sysfs_add_file_mode_ns net/eth0 - autosuspend_delay_ms
-kernfs_new_node power/autosuspend_delay_ms 2
-sysfs_create_dir_ns eth0/queues
-kernfs_create_dir_ns eth0/queues
-kernfs_new_node eth0/queues 1
-sysfs_create_dir_ns queues/rx-0
-kernfs_create_dir_ns queues/rx-0
-kernfs_new_node queues/rx-0 1
-internal_create_group rx-0/
-create_files rx-0/
--->sysfs_add_file_mode_ns queues/rx-0 - rps_cpus
-kernfs_new_node rx-0/rps_cpus 2
--->sysfs_add_file_mode_ns queues/rx-0 - rps_flow_cnt
-kernfs_new_node rx-0/rps_flow_cnt 2
-sysfs_create_dir_ns queues/tx-0
-kernfs_create_dir_ns queues/tx-0
-kernfs_new_node queues/tx-0 1
-internal_create_group tx-0/
-create_files tx-0/
--->sysfs_add_file_mode_ns queues/tx-0 - tx_timeout
-kernfs_new_node tx-0/tx_timeout 2
--->sysfs_add_file_mode_ns queues/tx-0 - traffic_class
-kernfs_new_node tx-0/traffic_class 2
--->sysfs_add_file_mode_ns queues/tx-0 - xps_cpus
-kernfs_new_node tx-0/xps_cpus 2
--->sysfs_add_file_mode_ns queues/tx-0 - xps_rxqs
-kernfs_new_node tx-0/xps_rxqs 2
--->sysfs_add_file_mode_ns queues/tx-0 - tx_maxrate
-kernfs_new_node tx-0/tx_maxrate 2
-internal_create_group tx-0/byte_queue_limits
-kernfs_create_dir_ns tx-0/byte_queue_limits
-kernfs_new_node tx-0/byte_queue_limits 1
-create_files tx-0/byte_queue_limits
--->sysfs_add_file_mode_ns queues/tx-0 - limit
-kernfs_new_node byte_queue_limits/limit 2
--->sysfs_add_file_mode_ns queues/tx-0 - limit_max
-kernfs_new_node byte_queue_limits/limit_max 2
--->sysfs_add_file_mode_ns queues/tx-0 - limit_min
-kernfs_new_node byte_queue_limits/limit_min 2
--->sysfs_add_file_mode_ns queues/tx-0 - hold_time
-kernfs_new_node byte_queue_limits/hold_time 2
--->sysfs_add_file_mode_ns queues/tx-0 - inflight
-kernfs_new_node byte_queue_limits/inflight 2
-device_add  
-sysfs_create_dir_ns 4-2/wakeup
-kernfs_create_dir_ns 4-2/wakeup
-kernfs_new_node 4-2/wakeup 1
-sysfs_create_dir_ns wakeup/wakeup32
-kernfs_create_dir_ns wakeup/wakeup32
-kernfs_new_node wakeup/wakeup32 1
-==>sysfs_create_file_ns wakeup/wakeup32 - uevent
--->sysfs_add_file_mode_ns wakeup/wakeup32 - uevent
-kernfs_new_node wakeup32/uevent 2
-kernfs_new_node wakeup32/subsystem 4
-kernfs_new_node wakeup32/device 4
-kernfs_new_node wakeup/wakeup32 4
-device_add_attrs  wakeup32
-internal_create_group wakeup32/
-create_files wakeup32/
--->sysfs_add_file_mode_ns wakeup/wakeup32 - name
-kernfs_new_node wakeup32/name 2
--->sysfs_add_file_mode_ns wakeup/wakeup32 - active_count
-kernfs_new_node wakeup32/active_count 2
--->sysfs_add_file_mode_ns wakeup/wakeup32 - event_count
-kernfs_new_node wakeup32/event_count 2
--->sysfs_add_file_mode_ns wakeup/wakeup32 - wakeup_count
-kernfs_new_node wakeup32/wakeup_count 2
--->sysfs_add_file_mode_ns wakeup/wakeup32 - expire_count
-kernfs_new_node wakeup32/expire_count 2
--->sysfs_add_file_mode_ns wakeup/wakeup32 - active_time_ms
-kernfs_new_node wakeup32/active_time_ms 2
--->sysfs_add_file_mode_ns wakeup/wakeup32 - total_time_ms
-kernfs_new_node wakeup32/total_time_ms 2
--->sysfs_add_file_mode_ns wakeup/wakeup32 - max_time_ms
-kernfs_new_node wakeup32/max_time_ms 2
--->sysfs_add_file_mode_ns wakeup/wakeup32 - last_change_ms
-kernfs_new_node wakeup32/last_change_ms 2
--->sysfs_add_file_mode_ns wakeup/wakeup32 - prevent_suspend_time_ms
-kernfs_new_node wakeup32/prevent_suspend_time_ms 2
-device_add  
-sysfs_create_dir_ns 4-2:1.0/ep_81
-kernfs_create_dir_ns 4-2:1.0/ep_81
-kernfs_new_node 4-2:1.0/ep_81 1
-==>sysfs_create_file_ns 4-2:1.0/ep_81 - uevent
--->sysfs_add_file_mode_ns 4-2:1.0/ep_81 - uevent
-kernfs_new_node ep_81/uevent 2
-device_add_attrs  ep_81
-internal_create_group ep_81/
-create_files ep_81/
--->sysfs_add_file_mode_ns 4-2:1.0/ep_81 - bLength
-kernfs_new_node ep_81/bLength 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_81 - bEndpointAddress
-kernfs_new_node ep_81/bEndpointAddress 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_81 - bmAttributes
-kernfs_new_node ep_81/bmAttributes 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_81 - bInterval
-kernfs_new_node ep_81/bInterval 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_81 - wMaxPacketSize
-kernfs_new_node ep_81/wMaxPacketSize 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_81 - interval
-kernfs_new_node ep_81/interval 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_81 - type
-kernfs_new_node ep_81/type 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_81 - direction
-kernfs_new_node ep_81/direction 2
-internal_create_group ep_81/power
-kernfs_create_dir_ns ep_81/power
-kernfs_new_node ep_81/power 1
-create_files ep_81/power
--->sysfs_add_file_mode_ns 4-2:1.0/ep_81 - async
-kernfs_new_node power/async 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_81 - runtime_status
-kernfs_new_node power/runtime_status 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_81 - runtime_usage
-kernfs_new_node power/runtime_usage 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_81 - runtime_active_kids
-kernfs_new_node power/runtime_active_kids 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_81 - runtime_enabled
-kernfs_new_node power/runtime_enabled 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_81 - control
-kernfs_new_node power/control 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_81 - runtime_suspended_time
-kernfs_new_node power/runtime_suspended_time 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_81 - runtime_active_time
-kernfs_new_node power/runtime_active_time 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_81 - autosuspend_delay_ms
-kernfs_new_node power/autosuspend_delay_ms 2
-device_add  
-sysfs_create_dir_ns 4-2:1.0/ep_02
-kernfs_create_dir_ns 4-2:1.0/ep_02
-kernfs_new_node 4-2:1.0/ep_02 1
-==>sysfs_create_file_ns 4-2:1.0/ep_02 - uevent
--->sysfs_add_file_mode_ns 4-2:1.0/ep_02 - uevent
-kernfs_new_node ep_02/uevent 2
-device_add_attrs  ep_02
-internal_create_group ep_02/
-create_files ep_02/
--->sysfs_add_file_mode_ns 4-2:1.0/ep_02 - bLength
-kernfs_new_node ep_02/bLength 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_02 - bEndpointAddress
-kernfs_new_node ep_02/bEndpointAddress 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_02 - bmAttributes
-kernfs_new_node ep_02/bmAttributes 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_02 - bInterval
-kernfs_new_node ep_02/bInterval 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_02 - wMaxPacketSize
-kernfs_new_node ep_02/wMaxPacketSize 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_02 - interval
-kernfs_new_node ep_02/interval 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_02 - type
-kernfs_new_node ep_02/type 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_02 - direction
-kernfs_new_node ep_02/direction 2
-internal_create_group ep_02/power
-kernfs_create_dir_ns ep_02/power
-kernfs_new_node ep_02/power 1
-create_files ep_02/power
--->sysfs_add_file_mode_ns 4-2:1.0/ep_02 - async
-kernfs_new_node power/async 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_02 - runtime_status
-kernfs_new_node power/runtime_status 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_02 - runtime_usage
-kernfs_new_node power/runtime_usage 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_02 - runtime_active_kids
-kernfs_new_node power/runtime_active_kids 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_02 - runtime_enabled
-kernfs_new_node power/runtime_enabled 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_02 - control
-kernfs_new_node power/control 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_02 - runtime_suspended_time
-kernfs_new_node power/runtime_suspended_time 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_02 - runtime_active_time
-kernfs_new_node power/runtime_active_time 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_02 - autosuspend_delay_ms
-kernfs_new_node power/autosuspend_delay_ms 2
-device_add  
-sysfs_create_dir_ns 4-2:1.0/ep_83
-kernfs_create_dir_ns 4-2:1.0/ep_83
-kernfs_new_node 4-2:1.0/ep_83 1
-==>sysfs_create_file_ns 4-2:1.0/ep_83 - uevent
--->sysfs_add_file_mode_ns 4-2:1.0/ep_83 - uevent
-kernfs_new_node ep_83/uevent 2
-device_add_attrs  ep_83
-internal_create_group ep_83/
-create_files ep_83/
--->sysfs_add_file_mode_ns 4-2:1.0/ep_83 - bLength
-kernfs_new_node ep_83/bLength 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_83 - bEndpointAddress
-kernfs_new_node ep_83/bEndpointAddress 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_83 - bmAttributes
-kernfs_new_node ep_83/bmAttributes 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_83 - bInterval
-kernfs_new_node ep_83/bInterval 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_83 - wMaxPacketSize
-kernfs_new_node ep_83/wMaxPacketSize 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_83 - interval
-kernfs_new_node ep_83/interval 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_83 - type
-kernfs_new_node ep_83/type 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_83 - direction
-kernfs_new_node ep_83/direction 2
-internal_create_group ep_83/power
-kernfs_create_dir_ns ep_83/power
-kernfs_new_node ep_83/power 1
-create_files ep_83/power
--->sysfs_add_file_mode_ns 4-2:1.0/ep_83 - async
-kernfs_new_node power/async 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_83 - runtime_status
-kernfs_new_node power/runtime_status 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_83 - runtime_usage
-kernfs_new_node power/runtime_usage 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_83 - runtime_active_kids
-kernfs_new_node power/runtime_active_kids 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_83 - runtime_enabled
-kernfs_new_node power/runtime_enabled 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_83 - control
-kernfs_new_node power/control 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_83 - runtime_suspended_time
-kernfs_new_node power/runtime_suspended_time 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_83 - runtime_active_time
-kernfs_new_node power/runtime_active_time 2
--->sysfs_add_file_mode_ns 4-2:1.0/ep_83 - autosuspend_delay_ms
-kernfs_new_node power/autosuspend_delay_ms 2
-kernfs_new_node 4-2/port 4
-kernfs_new_node usb4-port2/device 4
-device_add  
-sysfs_create_dir_ns 4-2/ep_00
-kernfs_create_dir_ns 4-2/ep_00
-kernfs_new_node 4-2/ep_00 1
-==>sysfs_create_file_ns 4-2/ep_00 - uevent
--->sysfs_add_file_mode_ns 4-2/ep_00 - uevent
-kernfs_new_node ep_00/uevent 2
-device_add_attrs  ep_00
-internal_create_group ep_00/
-create_files ep_00/
--->sysfs_add_file_mode_ns 4-2/ep_00 - bLength
-kernfs_new_node ep_00/bLength 2
--->sysfs_add_file_mode_ns 4-2/ep_00 - bEndpointAddress
-kernfs_new_node ep_00/bEndpointAddress 2
--->sysfs_add_file_mode_ns 4-2/ep_00 - bmAttributes
-kernfs_new_node ep_00/bmAttributes 2
--->sysfs_add_file_mode_ns 4-2/ep_00 - bInterval
-kernfs_new_node ep_00/bInterval 2
--->sysfs_add_file_mode_ns 4-2/ep_00 - wMaxPacketSize
-kernfs_new_node ep_00/wMaxPacketSize 2
--->sysfs_add_file_mode_ns 4-2/ep_00 - interval
-kernfs_new_node ep_00/interval 2
--->sysfs_add_file_mode_ns 4-2/ep_00 - type
-kernfs_new_node ep_00/type 2
--->sysfs_add_file_mode_ns 4-2/ep_00 - direction
-kernfs_new_node ep_00/direction 2
-internal_create_group ep_00/power
-kernfs_create_dir_ns ep_00/power
-kernfs_new_node ep_00/power 1
-create_files ep_00/power
--->sysfs_add_file_mode_ns 4-2/ep_00 - async
-kernfs_new_node power/async 2
--->sysfs_add_file_mode_ns 4-2/ep_00 - runtime_status
-kernfs_new_node power/runtime_status 2
--->sysfs_add_file_mode_ns 4-2/ep_00 - runtime_usage
-kernfs_new_node power/runtime_usage 2
--->sysfs_add_file_mode_ns 4-2/ep_00 - runtime_active_kids
-kernfs_new_node power/runtime_active_kids 2
--->sysfs_add_file_mode_ns 4-2/ep_00 - runtime_enabled
-kernfs_new_node power/runtime_enabled 2
--->sysfs_add_file_mode_ns 4-2/ep_00 - control
-kernfs_new_node power/control 2
--->sysfs_add_file_mode_ns 4-2/ep_00 - runtime_suspended_time
-kernfs_new_node power/runtime_suspended_time 2
--->sysfs_add_file_mode_ns 4-2/ep_00 - runtime_active_time
-kernfs_new_node power/runtime_active_time 2
--->sysfs_add_file_mode_ns 4-2/ep_00 - autosuspend_delay_ms
-kernfs_new_node power/autosuspend_delay_ms 2
+
+
 device_add  
 sysfs_create_dir_ns usb5/5-2
 kernfs_create_dir_ns usb5/5-2
-kernfs_new_node usb5/5-2 1
-kernfs_new_node device:24/physical_node1 4
-kernfs_new_node 5-2/firmware_node 4
+---->kernfs_new_node usb5/5-2 1
+---->kernfs_new_node device:24/physical_node1 4
+---->kernfs_new_node 5-2/firmware_node 4
 ==>sysfs_create_file_ns usb5/5-2 - uevent
 -->sysfs_add_file_mode_ns usb5/5-2 - uevent
-kernfs_new_node 5-2/uevent 2
+---->kernfs_new_node 5-2/uevent 2
 device_add_attrs  5-2
 internal_create_group 5-2/
 create_files 5-2/
 -->sysfs_add_file_mode_ns usb5/5-2 - configuration
-kernfs_new_node 5-2/configuration 2
+---->kernfs_new_node 5-2/configuration 2
 -->sysfs_add_file_mode_ns usb5/5-2 - bNumInterfaces
-kernfs_new_node 5-2/bNumInterfaces 2
+---->kernfs_new_node 5-2/bNumInterfaces 2
 -->sysfs_add_file_mode_ns usb5/5-2 - bConfigurationValue
-kernfs_new_node 5-2/bConfigurationValue 2
+---->kernfs_new_node 5-2/bConfigurationValue 2
 -->sysfs_add_file_mode_ns usb5/5-2 - bmAttributes
-kernfs_new_node 5-2/bmAttributes 2
+---->kernfs_new_node 5-2/bmAttributes 2
 -->sysfs_add_file_mode_ns usb5/5-2 - bMaxPower
-kernfs_new_node 5-2/bMaxPower 2
+---->kernfs_new_node 5-2/bMaxPower 2
 -->sysfs_add_file_mode_ns usb5/5-2 - urbnum
-kernfs_new_node 5-2/urbnum 2
+---->kernfs_new_node 5-2/urbnum 2
 -->sysfs_add_file_mode_ns usb5/5-2 - idVendor
-kernfs_new_node 5-2/idVendor 2
+---->kernfs_new_node 5-2/idVendor 2
 -->sysfs_add_file_mode_ns usb5/5-2 - idProduct
-kernfs_new_node 5-2/idProduct 2
+---->kernfs_new_node 5-2/idProduct 2
 -->sysfs_add_file_mode_ns usb5/5-2 - bcdDevice
-kernfs_new_node 5-2/bcdDevice 2
+---->kernfs_new_node 5-2/bcdDevice 2
 -->sysfs_add_file_mode_ns usb5/5-2 - bDeviceClass
-kernfs_new_node 5-2/bDeviceClass 2
+---->kernfs_new_node 5-2/bDeviceClass 2
 -->sysfs_add_file_mode_ns usb5/5-2 - bDeviceSubClass
-kernfs_new_node 5-2/bDeviceSubClass 2
+---->kernfs_new_node 5-2/bDeviceSubClass 2
 -->sysfs_add_file_mode_ns usb5/5-2 - bDeviceProtocol
-kernfs_new_node 5-2/bDeviceProtocol 2
+---->kernfs_new_node 5-2/bDeviceProtocol 2
 -->sysfs_add_file_mode_ns usb5/5-2 - bNumConfigurations
-kernfs_new_node 5-2/bNumConfigurations 2
+---->kernfs_new_node 5-2/bNumConfigurations 2
 -->sysfs_add_file_mode_ns usb5/5-2 - bMaxPacketSize0
-kernfs_new_node 5-2/bMaxPacketSize0 2
+---->kernfs_new_node 5-2/bMaxPacketSize0 2
 -->sysfs_add_file_mode_ns usb5/5-2 - speed
-kernfs_new_node 5-2/speed 2
+---->kernfs_new_node 5-2/speed 2
 -->sysfs_add_file_mode_ns usb5/5-2 - rx_lanes
-kernfs_new_node 5-2/rx_lanes 2
+---->kernfs_new_node 5-2/rx_lanes 2
 -->sysfs_add_file_mode_ns usb5/5-2 - tx_lanes
-kernfs_new_node 5-2/tx_lanes 2
+---->kernfs_new_node 5-2/tx_lanes 2
 -->sysfs_add_file_mode_ns usb5/5-2 - busnum
-kernfs_new_node 5-2/busnum 2
+---->kernfs_new_node 5-2/busnum 2
 -->sysfs_add_file_mode_ns usb5/5-2 - devnum
-kernfs_new_node 5-2/devnum 2
+---->kernfs_new_node 5-2/devnum 2
 -->sysfs_add_file_mode_ns usb5/5-2 - devpath
-kernfs_new_node 5-2/devpath 2
+---->kernfs_new_node 5-2/devpath 2
 -->sysfs_add_file_mode_ns usb5/5-2 - version
-kernfs_new_node 5-2/version 2
+---->kernfs_new_node 5-2/version 2
 -->sysfs_add_file_mode_ns usb5/5-2 - maxchild
-kernfs_new_node 5-2/maxchild 2
+---->kernfs_new_node 5-2/maxchild 2
 -->sysfs_add_file_mode_ns usb5/5-2 - quirks
-kernfs_new_node 5-2/quirks 2
+---->kernfs_new_node 5-2/quirks 2
 -->sysfs_add_file_mode_ns usb5/5-2 - avoid_reset_quirk
-kernfs_new_node 5-2/avoid_reset_quirk 2
+---->kernfs_new_node 5-2/avoid_reset_quirk 2
 -->sysfs_add_file_mode_ns usb5/5-2 - authorized
-kernfs_new_node 5-2/authorized 2
+---->kernfs_new_node 5-2/authorized 2
 -->sysfs_add_file_mode_ns usb5/5-2 - remove
-kernfs_new_node 5-2/remove 2
+---->kernfs_new_node 5-2/remove 2
 -->sysfs_add_file_mode_ns usb5/5-2 - ltm_capable
-kernfs_new_node 5-2/ltm_capable 2
+---->kernfs_new_node 5-2/ltm_capable 2
 internal_create_group 5-2/
 create_files 5-2/
 -->sysfs_add_file_mode_ns usb5/5-2 - manufacturer
-kernfs_new_node 5-2/manufacturer 2
+---->kernfs_new_node 5-2/manufacturer 2
 -->sysfs_add_file_mode_ns usb5/5-2 - product
-kernfs_new_node 5-2/product 2
+---->kernfs_new_node 5-2/product 2
 -->sysfs_add_file_mode_ns usb5/5-2 - serial
-kernfs_new_node 5-2/serial 2
+---->kernfs_new_node 5-2/serial 2
 ==>sysfs_create_file_ns usb5/5-2 - waiting_for_supplier
 -->sysfs_add_file_mode_ns usb5/5-2 - waiting_for_supplier
-kernfs_new_node 5-2/waiting_for_supplier 2
+---->kernfs_new_node 5-2/waiting_for_supplier 2
 ==>sysfs_create_file_ns usb5/5-2 - removable
 -->sysfs_add_file_mode_ns usb5/5-2 - removable
-kernfs_new_node 5-2/removable 2
+---->kernfs_new_node 5-2/removable 2
 internal_create_group 5-2/physical_location
 kernfs_create_dir_ns 5-2/physical_location
-kernfs_new_node 5-2/physical_location 1
+---->kernfs_new_node 5-2/physical_location 1
 create_files 5-2/physical_location
 -->sysfs_add_file_mode_ns usb5/5-2 - panel
-kernfs_new_node physical_location/panel 2
+---->kernfs_new_node physical_location/panel 2
 -->sysfs_add_file_mode_ns usb5/5-2 - vertical_position
-kernfs_new_node physical_location/vertical_position 2
+---->kernfs_new_node physical_location/vertical_position 2
 -->sysfs_add_file_mode_ns usb5/5-2 - horizontal_position
-kernfs_new_node physical_location/horizontal_position 2
+---->kernfs_new_node physical_location/horizontal_position 2
 -->sysfs_add_file_mode_ns usb5/5-2 - dock
-kernfs_new_node physical_location/dock 2
+---->kernfs_new_node physical_location/dock 2
 -->sysfs_add_file_mode_ns usb5/5-2 - lid
-kernfs_new_node physical_location/lid 2
-kernfs_new_node devices/5-2 4
-kernfs_new_node 5-2/subsystem 4
+---->kernfs_new_node physical_location/lid 2
+---->kernfs_new_node devices/5-2 4
+---->kernfs_new_node 5-2/subsystem 4
 internal_create_group 5-2/power
 kernfs_create_dir_ns 5-2/power
-kernfs_new_node 5-2/power 1
+---->kernfs_new_node 5-2/power 1
 create_files 5-2/power
 -->sysfs_add_file_mode_ns usb5/5-2 - async
-kernfs_new_node power/async 2
+---->kernfs_new_node power/async 2
 -->sysfs_add_file_mode_ns usb5/5-2 - runtime_status
-kernfs_new_node power/runtime_status 2
+---->kernfs_new_node power/runtime_status 2
 -->sysfs_add_file_mode_ns usb5/5-2 - runtime_usage
-kernfs_new_node power/runtime_usage 2
+---->kernfs_new_node power/runtime_usage 2
 -->sysfs_add_file_mode_ns usb5/5-2 - runtime_active_kids
-kernfs_new_node power/runtime_active_kids 2
+---->kernfs_new_node power/runtime_active_kids 2
 -->sysfs_add_file_mode_ns usb5/5-2 - runtime_enabled
-kernfs_new_node power/runtime_enabled 2
+---->kernfs_new_node power/runtime_enabled 2
 -->sysfs_add_file_mode_ns usb5/5-2 - control
-kernfs_new_node power/control 2
+---->kernfs_new_node power/control 2
 -->sysfs_add_file_mode_ns usb5/5-2 - runtime_suspended_time
-kernfs_new_node power/runtime_suspended_time 2
+---->kernfs_new_node power/runtime_suspended_time 2
 -->sysfs_add_file_mode_ns usb5/5-2 - runtime_active_time
-kernfs_new_node power/runtime_active_time 2
+---->kernfs_new_node power/runtime_active_time 2
 -->sysfs_add_file_mode_ns usb5/5-2 - autosuspend_delay_ms
-kernfs_new_node power/autosuspend_delay_ms 2
+---->kernfs_new_node power/autosuspend_delay_ms 2
 ==>sysfs_create_file_ns usb5/5-2 - dev
 -->sysfs_add_file_mode_ns usb5/5-2 - dev
-kernfs_new_node 5-2/dev 2
-kernfs_new_node char/189:535 4
-kernfs_new_node 5-2/descriptors 2
+---->kernfs_new_node 5-2/dev 2
+---->kernfs_new_node char/189:539 4
+---->kernfs_new_node 5-2/descriptors 2
 -->sysfs_add_file_mode_ns usb5/5-2 - persist
-kernfs_new_node power/persist 2
+---->kernfs_new_node power/persist 2
 -->sysfs_add_file_mode_ns usb5/5-2 - autosuspend
-kernfs_new_node power/autosuspend 2
+---->kernfs_new_node power/autosuspend 2
 -->sysfs_add_file_mode_ns usb5/5-2 - level
-kernfs_new_node power/level 2
+---->kernfs_new_node power/level 2
 -->sysfs_add_file_mode_ns usb5/5-2 - connected_duration
-kernfs_new_node power/connected_duration 2
+---->kernfs_new_node power/connected_duration 2
 -->sysfs_add_file_mode_ns usb5/5-2 - active_duration
-kernfs_new_node power/active_duration 2
-kernfs_new_node r8152-cfgselector/5-2 4
-kernfs_new_node 5-2/driver 4
+---->kernfs_new_node power/active_duration 2
+---->kernfs_new_node r8152-cfgselector/5-2 4
+---->kernfs_new_node 5-2/driver 4
 -->sysfs_add_file_mode_ns usb5/5-2 - wakeup
-kernfs_new_node power/wakeup 2
+---->kernfs_new_node power/wakeup 2
 -->sysfs_add_file_mode_ns usb5/5-2 - wakeup_count
-kernfs_new_node power/wakeup_count 2
+---->kernfs_new_node power/wakeup_count 2
 -->sysfs_add_file_mode_ns usb5/5-2 - wakeup_active_count
-kernfs_new_node power/wakeup_active_count 2
+---->kernfs_new_node power/wakeup_active_count 2
 -->sysfs_add_file_mode_ns usb5/5-2 - wakeup_abort_count
-kernfs_new_node power/wakeup_abort_count 2
+---->kernfs_new_node power/wakeup_abort_count 2
 -->sysfs_add_file_mode_ns usb5/5-2 - wakeup_expire_count
-kernfs_new_node power/wakeup_expire_count 2
+---->kernfs_new_node power/wakeup_expire_count 2
 -->sysfs_add_file_mode_ns usb5/5-2 - wakeup_active
-kernfs_new_node power/wakeup_active 2
+---->kernfs_new_node power/wakeup_active 2
 -->sysfs_add_file_mode_ns usb5/5-2 - wakeup_total_time_ms
-kernfs_new_node power/wakeup_total_time_ms 2
+---->kernfs_new_node power/wakeup_total_time_ms 2
 -->sysfs_add_file_mode_ns usb5/5-2 - wakeup_max_time_ms
-kernfs_new_node power/wakeup_max_time_ms 2
+---->kernfs_new_node power/wakeup_max_time_ms 2
 -->sysfs_add_file_mode_ns usb5/5-2 - wakeup_last_time_ms
-kernfs_new_node power/wakeup_last_time_ms 2
+---->kernfs_new_node power/wakeup_last_time_ms 2
+
+
 device_add  
 sysfs_create_dir_ns 5-2/5-2:2.0
 kernfs_create_dir_ns 5-2/5-2:2.0
-kernfs_new_node 5-2/5-2:2.0 1
-kernfs_new_node device:24/physical_node2 4
-kernfs_new_node 5-2:2.0/firmware_node 4
+---->kernfs_new_node 5-2/5-2:2.0 1
+---->kernfs_new_node device:24/physical_node2 4
+---->kernfs_new_node 5-2:2.0/firmware_node 4
 ==>sysfs_create_file_ns 5-2/5-2:2.0 - uevent
 -->sysfs_add_file_mode_ns 5-2/5-2:2.0 - uevent
-kernfs_new_node 5-2:2.0/uevent 2
+---->kernfs_new_node 5-2:2.0/uevent 2
 device_add_attrs  5-2:2.0
 internal_create_group 5-2:2.0/
 create_files 5-2:2.0/
 -->sysfs_add_file_mode_ns 5-2/5-2:2.0 - bInterfaceNumber
-kernfs_new_node 5-2:2.0/bInterfaceNumber 2
+---->kernfs_new_node 5-2:2.0/bInterfaceNumber 2
 -->sysfs_add_file_mode_ns 5-2/5-2:2.0 - bAlternateSetting
-kernfs_new_node 5-2:2.0/bAlternateSetting 2
+---->kernfs_new_node 5-2:2.0/bAlternateSetting 2
 -->sysfs_add_file_mode_ns 5-2/5-2:2.0 - bNumEndpoints
-kernfs_new_node 5-2:2.0/bNumEndpoints 2
+---->kernfs_new_node 5-2:2.0/bNumEndpoints 2
 -->sysfs_add_file_mode_ns 5-2/5-2:2.0 - bInterfaceClass
-kernfs_new_node 5-2:2.0/bInterfaceClass 2
+---->kernfs_new_node 5-2:2.0/bInterfaceClass 2
 -->sysfs_add_file_mode_ns 5-2/5-2:2.0 - bInterfaceSubClass
-kernfs_new_node 5-2:2.0/bInterfaceSubClass 2
+---->kernfs_new_node 5-2:2.0/bInterfaceSubClass 2
 -->sysfs_add_file_mode_ns 5-2/5-2:2.0 - bInterfaceProtocol
-kernfs_new_node 5-2:2.0/bInterfaceProtocol 2
+---->kernfs_new_node 5-2:2.0/bInterfaceProtocol 2
 -->sysfs_add_file_mode_ns 5-2/5-2:2.0 - modalias
-kernfs_new_node 5-2:2.0/modalias 2
+---->kernfs_new_node 5-2:2.0/modalias 2
 -->sysfs_add_file_mode_ns 5-2/5-2:2.0 - supports_autosuspend
-kernfs_new_node 5-2:2.0/supports_autosuspend 2
+---->kernfs_new_node 5-2:2.0/supports_autosuspend 2
 -->sysfs_add_file_mode_ns 5-2/5-2:2.0 - authorized
-kernfs_new_node 5-2:2.0/authorized 2
+---->kernfs_new_node 5-2:2.0/authorized 2
 internal_create_group 5-2:2.0/
 create_files 5-2:2.0/
 internal_create_group 5-2:2.0/
 create_files 5-2:2.0/
 ==>sysfs_create_file_ns 5-2/5-2:2.0 - waiting_for_supplier
 -->sysfs_add_file_mode_ns 5-2/5-2:2.0 - waiting_for_supplier
-kernfs_new_node 5-2:2.0/waiting_for_supplier 2
+---->kernfs_new_node 5-2:2.0/waiting_for_supplier 2
 internal_create_group 5-2:2.0/physical_location
 kernfs_create_dir_ns 5-2:2.0/physical_location
-kernfs_new_node 5-2:2.0/physical_location 1
+---->kernfs_new_node 5-2:2.0/physical_location 1
 create_files 5-2:2.0/physical_location
 -->sysfs_add_file_mode_ns 5-2/5-2:2.0 - panel
-kernfs_new_node physical_location/panel 2
+---->kernfs_new_node physical_location/panel 2
 -->sysfs_add_file_mode_ns 5-2/5-2:2.0 - vertical_position
-kernfs_new_node physical_location/vertical_position 2
+---->kernfs_new_node physical_location/vertical_position 2
 -->sysfs_add_file_mode_ns 5-2/5-2:2.0 - horizontal_position
-kernfs_new_node physical_location/horizontal_position 2
+---->kernfs_new_node physical_location/horizontal_position 2
 -->sysfs_add_file_mode_ns 5-2/5-2:2.0 - dock
-kernfs_new_node physical_location/dock 2
+---->kernfs_new_node physical_location/dock 2
 -->sysfs_add_file_mode_ns 5-2/5-2:2.0 - lid
-kernfs_new_node physical_location/lid 2
-kernfs_new_node devices/5-2:2.0 4
-kernfs_new_node 5-2:2.0/subsystem 4
+---->kernfs_new_node physical_location/lid 2
+---->kernfs_new_node devices/5-2:2.0 4
+---->kernfs_new_node 5-2:2.0/subsystem 4
 internal_create_group 5-2:2.0/power
 kernfs_create_dir_ns 5-2:2.0/power
-kernfs_new_node 5-2:2.0/power 1
+---->kernfs_new_node 5-2:2.0/power 1
 create_files 5-2:2.0/power
 -->sysfs_add_file_mode_ns 5-2/5-2:2.0 - async
-kernfs_new_node power/async 2
+---->kernfs_new_node power/async 2
 -->sysfs_add_file_mode_ns 5-2/5-2:2.0 - runtime_status
-kernfs_new_node power/runtime_status 2
+---->kernfs_new_node power/runtime_status 2
 -->sysfs_add_file_mode_ns 5-2/5-2:2.0 - runtime_usage
-kernfs_new_node power/runtime_usage 2
+---->kernfs_new_node power/runtime_usage 2
 -->sysfs_add_file_mode_ns 5-2/5-2:2.0 - runtime_active_kids
-kernfs_new_node power/runtime_active_kids 2
+---->kernfs_new_node power/runtime_active_kids 2
 -->sysfs_add_file_mode_ns 5-2/5-2:2.0 - runtime_enabled
-kernfs_new_node power/runtime_enabled 2
+---->kernfs_new_node power/runtime_enabled 2
 ==>sysfs_create_file_ns 5-2/5-2:2.0 - interface
 -->sysfs_add_file_mode_ns 5-2/5-2:2.0 - interface
-kernfs_new_node 5-2:2.0/interface 2
-kernfs_new_node r8152/5-2:2.0 4
-kernfs_new_node 5-2:2.0/driver 4
-kernfs_new_node cdc_ether/5-2:2.0 4
-kernfs_new_node 5-2:2.0/driver 4
-kernfs_new_node r8153_ecm/5-2:2.0 4
-kernfs_new_node 5-2:2.0/driver 4
+---->kernfs_new_node 5-2:2.0/interface 2
+---->kernfs_new_node r8152/5-2:2.0 4
+---->kernfs_new_node 5-2:2.0/driver 4
+---->kernfs_new_node cdc_ether/5-2:2.0 4
+---->kernfs_new_node 5-2:2.0/driver 4
+---->kernfs_new_node r8153_ecm/5-2:2.0 4
+---->kernfs_new_node 5-2:2.0/driver 4
+
+
 device_add  
 sysfs_create_dir_ns 5-2:2.0/ep_83
 kernfs_create_dir_ns 5-2:2.0/ep_83
-kernfs_new_node 5-2:2.0/ep_83 1
+---->kernfs_new_node 5-2:2.0/ep_83 1
 ==>sysfs_create_file_ns 5-2:2.0/ep_83 - uevent
 -->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - uevent
-kernfs_new_node ep_83/uevent 2
+---->kernfs_new_node ep_83/uevent 2
 device_add_attrs  ep_83
 internal_create_group ep_83/
 create_files ep_83/
 -->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - bLength
-kernfs_new_node ep_83/bLength 2
+---->kernfs_new_node ep_83/bLength 2
 -->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - bEndpointAddress
-kernfs_new_node ep_83/bEndpointAddress 2
+---->kernfs_new_node ep_83/bEndpointAddress 2
 -->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - bmAttributes
-kernfs_new_node ep_83/bmAttributes 2
+---->kernfs_new_node ep_83/bmAttributes 2
 -->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - bInterval
-kernfs_new_node ep_83/bInterval 2
+---->kernfs_new_node ep_83/bInterval 2
 -->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - wMaxPacketSize
-kernfs_new_node ep_83/wMaxPacketSize 2
+---->kernfs_new_node ep_83/wMaxPacketSize 2
 -->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - interval
-kernfs_new_node ep_83/interval 2
+---->kernfs_new_node ep_83/interval 2
 -->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - type
-kernfs_new_node ep_83/type 2
+---->kernfs_new_node ep_83/type 2
 -->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - direction
-kernfs_new_node ep_83/direction 2
+---->kernfs_new_node ep_83/direction 2
 internal_create_group ep_83/power
 kernfs_create_dir_ns ep_83/power
-kernfs_new_node ep_83/power 1
+---->kernfs_new_node ep_83/power 1
 create_files ep_83/power
 -->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - async
-kernfs_new_node power/async 2
+---->kernfs_new_node power/async 2
 -->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - runtime_status
-kernfs_new_node power/runtime_status 2
+---->kernfs_new_node power/runtime_status 2
 -->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - runtime_usage
-kernfs_new_node power/runtime_usage 2
+---->kernfs_new_node power/runtime_usage 2
 -->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - runtime_active_kids
-kernfs_new_node power/runtime_active_kids 2
+---->kernfs_new_node power/runtime_active_kids 2
 -->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - runtime_enabled
-kernfs_new_node power/runtime_enabled 2
+---->kernfs_new_node power/runtime_enabled 2
 -->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - control
-kernfs_new_node power/control 2
+---->kernfs_new_node power/control 2
 -->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - runtime_suspended_time
-kernfs_new_node power/runtime_suspended_time 2
+---->kernfs_new_node power/runtime_suspended_time 2
 -->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - runtime_active_time
-kernfs_new_node power/runtime_active_time 2
+---->kernfs_new_node power/runtime_active_time 2
 -->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - autosuspend_delay_ms
-kernfs_new_node power/autosuspend_delay_ms 2
+---->kernfs_new_node power/autosuspend_delay_ms 2
+
+
 device_add  
 sysfs_create_dir_ns 5-2/5-2:2.1
 kernfs_create_dir_ns 5-2/5-2:2.1
-kernfs_new_node 5-2/5-2:2.1 1
-kernfs_new_node device:24/physical_node3 4
-kernfs_new_node 5-2:2.1/firmware_node 4
+---->kernfs_new_node 5-2/5-2:2.1 1
+---->kernfs_new_node device:24/physical_node3 4
+---->kernfs_new_node 5-2:2.1/firmware_node 4
 ==>sysfs_create_file_ns 5-2/5-2:2.1 - uevent
 -->sysfs_add_file_mode_ns 5-2/5-2:2.1 - uevent
-kernfs_new_node 5-2:2.1/uevent 2
+---->kernfs_new_node 5-2:2.1/uevent 2
 device_add_attrs  5-2:2.1
 internal_create_group 5-2:2.1/
 create_files 5-2:2.1/
 -->sysfs_add_file_mode_ns 5-2/5-2:2.1 - bInterfaceNumber
-kernfs_new_node 5-2:2.1/bInterfaceNumber 2
+---->kernfs_new_node 5-2:2.1/bInterfaceNumber 2
 -->sysfs_add_file_mode_ns 5-2/5-2:2.1 - bAlternateSetting
-kernfs_new_node 5-2:2.1/bAlternateSetting 2
+---->kernfs_new_node 5-2:2.1/bAlternateSetting 2
 -->sysfs_add_file_mode_ns 5-2/5-2:2.1 - bNumEndpoints
-kernfs_new_node 5-2:2.1/bNumEndpoints 2
+---->kernfs_new_node 5-2:2.1/bNumEndpoints 2
 -->sysfs_add_file_mode_ns 5-2/5-2:2.1 - bInterfaceClass
-kernfs_new_node 5-2:2.1/bInterfaceClass 2
+---->kernfs_new_node 5-2:2.1/bInterfaceClass 2
 -->sysfs_add_file_mode_ns 5-2/5-2:2.1 - bInterfaceSubClass
-kernfs_new_node 5-2:2.1/bInterfaceSubClass 2
+---->kernfs_new_node 5-2:2.1/bInterfaceSubClass 2
 -->sysfs_add_file_mode_ns 5-2/5-2:2.1 - bInterfaceProtocol
-kernfs_new_node 5-2:2.1/bInterfaceProtocol 2
+---->kernfs_new_node 5-2:2.1/bInterfaceProtocol 2
 -->sysfs_add_file_mode_ns 5-2/5-2:2.1 - modalias
-kernfs_new_node 5-2:2.1/modalias 2
+---->kernfs_new_node 5-2:2.1/modalias 2
 -->sysfs_add_file_mode_ns 5-2/5-2:2.1 - supports_autosuspend
-kernfs_new_node 5-2:2.1/supports_autosuspend 2
+---->kernfs_new_node 5-2:2.1/supports_autosuspend 2
 -->sysfs_add_file_mode_ns 5-2/5-2:2.1 - authorized
-kernfs_new_node 5-2:2.1/authorized 2
+---->kernfs_new_node 5-2:2.1/authorized 2
 internal_create_group 5-2:2.1/
 create_files 5-2:2.1/
 internal_create_group 5-2:2.1/
 create_files 5-2:2.1/
 ==>sysfs_create_file_ns 5-2/5-2:2.1 - waiting_for_supplier
 -->sysfs_add_file_mode_ns 5-2/5-2:2.1 - waiting_for_supplier
-kernfs_new_node 5-2:2.1/waiting_for_supplier 2
+---->kernfs_new_node 5-2:2.1/waiting_for_supplier 2
 internal_create_group 5-2:2.1/physical_location
 kernfs_create_dir_ns 5-2:2.1/physical_location
-kernfs_new_node 5-2:2.1/physical_location 1
+---->kernfs_new_node 5-2:2.1/physical_location 1
 create_files 5-2:2.1/physical_location
 -->sysfs_add_file_mode_ns 5-2/5-2:2.1 - panel
-kernfs_new_node physical_location/panel 2
+---->kernfs_new_node physical_location/panel 2
 -->sysfs_add_file_mode_ns 5-2/5-2:2.1 - vertical_position
-kernfs_new_node physical_location/vertical_position 2
+---->kernfs_new_node physical_location/vertical_position 2
 -->sysfs_add_file_mode_ns 5-2/5-2:2.1 - horizontal_position
-kernfs_new_node physical_location/horizontal_position 2
+---->kernfs_new_node physical_location/horizontal_position 2
 -->sysfs_add_file_mode_ns 5-2/5-2:2.1 - dock
-kernfs_new_node physical_location/dock 2
+---->kernfs_new_node physical_location/dock 2
 -->sysfs_add_file_mode_ns 5-2/5-2:2.1 - lid
-kernfs_new_node physical_location/lid 2
-kernfs_new_node devices/5-2:2.1 4
-kernfs_new_node 5-2:2.1/subsystem 4
+---->kernfs_new_node physical_location/lid 2
+---->kernfs_new_node devices/5-2:2.1 4
+---->kernfs_new_node 5-2:2.1/subsystem 4
 internal_create_group 5-2:2.1/power
 kernfs_create_dir_ns 5-2:2.1/power
-kernfs_new_node 5-2:2.1/power 1
+---->kernfs_new_node 5-2:2.1/power 1
 create_files 5-2:2.1/power
 -->sysfs_add_file_mode_ns 5-2/5-2:2.1 - async
-kernfs_new_node power/async 2
+---->kernfs_new_node power/async 2
 -->sysfs_add_file_mode_ns 5-2/5-2:2.1 - runtime_status
-kernfs_new_node power/runtime_status 2
+---->kernfs_new_node power/runtime_status 2
 -->sysfs_add_file_mode_ns 5-2/5-2:2.1 - runtime_usage
-kernfs_new_node power/runtime_usage 2
+---->kernfs_new_node power/runtime_usage 2
 -->sysfs_add_file_mode_ns 5-2/5-2:2.1 - runtime_active_kids
-kernfs_new_node power/runtime_active_kids 2
+---->kernfs_new_node power/runtime_active_kids 2
 -->sysfs_add_file_mode_ns 5-2/5-2:2.1 - runtime_enabled
-kernfs_new_node power/runtime_enabled 2
-kernfs_new_node r8152/5-2:2.1 4
-kernfs_new_node 5-2:2.1/driver 4
+---->kernfs_new_node power/runtime_enabled 2
+---->kernfs_new_node r8152/5-2:2.1 4
+---->kernfs_new_node 5-2:2.1/driver 4
 -->sysfs_add_file_mode_ns usb5/5-2 - wakeup
-kernfs_new_node power/wakeup 2
+---->kernfs_new_node power/wakeup 2
 -->sysfs_add_file_mode_ns usb5/5-2 - wakeup_count
-kernfs_new_node power/wakeup_count 2
+---->kernfs_new_node power/wakeup_count 2
 -->sysfs_add_file_mode_ns usb5/5-2 - wakeup_active_count
-kernfs_new_node power/wakeup_active_count 2
+---->kernfs_new_node power/wakeup_active_count 2
 -->sysfs_add_file_mode_ns usb5/5-2 - wakeup_abort_count
-kernfs_new_node power/wakeup_abort_count 2
+---->kernfs_new_node power/wakeup_abort_count 2
 -->sysfs_add_file_mode_ns usb5/5-2 - wakeup_expire_count
-kernfs_new_node power/wakeup_expire_count 2
+---->kernfs_new_node power/wakeup_expire_count 2
 -->sysfs_add_file_mode_ns usb5/5-2 - wakeup_active
-kernfs_new_node power/wakeup_active 2
+---->kernfs_new_node power/wakeup_active 2
 -->sysfs_add_file_mode_ns usb5/5-2 - wakeup_total_time_ms
-kernfs_new_node power/wakeup_total_time_ms 2
+---->kernfs_new_node power/wakeup_total_time_ms 2
 -->sysfs_add_file_mode_ns usb5/5-2 - wakeup_max_time_ms
-kernfs_new_node power/wakeup_max_time_ms 2
+---->kernfs_new_node power/wakeup_max_time_ms 2
 -->sysfs_add_file_mode_ns usb5/5-2 - wakeup_last_time_ms
-kernfs_new_node power/wakeup_last_time_ms 2
+---->kernfs_new_node power/wakeup_last_time_ms 2
+
+
 device_add  
 sysfs_create_dir_ns 5-2/5-2:1.0
 kernfs_create_dir_ns 5-2/5-2:1.0
-kernfs_new_node 5-2/5-2:1.0 1
-kernfs_new_node device:24/physical_node2 4
-kernfs_new_node 5-2:1.0/firmware_node 4
+---->kernfs_new_node 5-2/5-2:1.0 1
+---->kernfs_new_node device:24/physical_node2 4
+---->kernfs_new_node 5-2:1.0/firmware_node 4
 ==>sysfs_create_file_ns 5-2/5-2:1.0 - uevent
 -->sysfs_add_file_mode_ns 5-2/5-2:1.0 - uevent
-kernfs_new_node 5-2:1.0/uevent 2
+---->kernfs_new_node 5-2:1.0/uevent 2
 device_add_attrs  5-2:1.0
 internal_create_group 5-2:1.0/
 create_files 5-2:1.0/
 -->sysfs_add_file_mode_ns 5-2/5-2:1.0 - bInterfaceNumber
-kernfs_new_node 5-2:1.0/bInterfaceNumber 2
+---->kernfs_new_node 5-2:1.0/bInterfaceNumber 2
 -->sysfs_add_file_mode_ns 5-2/5-2:1.0 - bAlternateSetting
-kernfs_new_node 5-2:1.0/bAlternateSetting 2
+---->kernfs_new_node 5-2:1.0/bAlternateSetting 2
 -->sysfs_add_file_mode_ns 5-2/5-2:1.0 - bNumEndpoints
-kernfs_new_node 5-2:1.0/bNumEndpoints 2
+---->kernfs_new_node 5-2:1.0/bNumEndpoints 2
 -->sysfs_add_file_mode_ns 5-2/5-2:1.0 - bInterfaceClass
-kernfs_new_node 5-2:1.0/bInterfaceClass 2
+---->kernfs_new_node 5-2:1.0/bInterfaceClass 2
 -->sysfs_add_file_mode_ns 5-2/5-2:1.0 - bInterfaceSubClass
-kernfs_new_node 5-2:1.0/bInterfaceSubClass 2
+---->kernfs_new_node 5-2:1.0/bInterfaceSubClass 2
 -->sysfs_add_file_mode_ns 5-2/5-2:1.0 - bInterfaceProtocol
-kernfs_new_node 5-2:1.0/bInterfaceProtocol 2
+---->kernfs_new_node 5-2:1.0/bInterfaceProtocol 2
 -->sysfs_add_file_mode_ns 5-2/5-2:1.0 - modalias
-kernfs_new_node 5-2:1.0/modalias 2
+---->kernfs_new_node 5-2:1.0/modalias 2
 -->sysfs_add_file_mode_ns 5-2/5-2:1.0 - supports_autosuspend
-kernfs_new_node 5-2:1.0/supports_autosuspend 2
+---->kernfs_new_node 5-2:1.0/supports_autosuspend 2
 -->sysfs_add_file_mode_ns 5-2/5-2:1.0 - authorized
-kernfs_new_node 5-2:1.0/authorized 2
+---->kernfs_new_node 5-2:1.0/authorized 2
 internal_create_group 5-2:1.0/
 create_files 5-2:1.0/
 internal_create_group 5-2:1.0/
 create_files 5-2:1.0/
 ==>sysfs_create_file_ns 5-2/5-2:1.0 - waiting_for_supplier
 -->sysfs_add_file_mode_ns 5-2/5-2:1.0 - waiting_for_supplier
-kernfs_new_node 5-2:1.0/waiting_for_supplier 2
+---->kernfs_new_node 5-2:1.0/waiting_for_supplier 2
 internal_create_group 5-2:1.0/physical_location
 kernfs_create_dir_ns 5-2:1.0/physical_location
-kernfs_new_node 5-2:1.0/physical_location 1
+---->kernfs_new_node 5-2:1.0/physical_location 1
 create_files 5-2:1.0/physical_location
 -->sysfs_add_file_mode_ns 5-2/5-2:1.0 - panel
-kernfs_new_node physical_location/panel 2
+---->kernfs_new_node physical_location/panel 2
 -->sysfs_add_file_mode_ns 5-2/5-2:1.0 - vertical_position
-kernfs_new_node physical_location/vertical_position 2
+---->kernfs_new_node physical_location/vertical_position 2
 -->sysfs_add_file_mode_ns 5-2/5-2:1.0 - horizontal_position
-kernfs_new_node physical_location/horizontal_position 2
+---->kernfs_new_node physical_location/horizontal_position 2
 -->sysfs_add_file_mode_ns 5-2/5-2:1.0 - dock
-kernfs_new_node physical_location/dock 2
+---->kernfs_new_node physical_location/dock 2
 -->sysfs_add_file_mode_ns 5-2/5-2:1.0 - lid
-kernfs_new_node physical_location/lid 2
-kernfs_new_node devices/5-2:1.0 4
-kernfs_new_node 5-2:1.0/subsystem 4
+---->kernfs_new_node physical_location/lid 2
+---->kernfs_new_node devices/5-2:1.0 4
+---->kernfs_new_node 5-2:1.0/subsystem 4
 internal_create_group 5-2:1.0/power
 kernfs_create_dir_ns 5-2:1.0/power
-kernfs_new_node 5-2:1.0/power 1
+---->kernfs_new_node 5-2:1.0/power 1
 create_files 5-2:1.0/power
 -->sysfs_add_file_mode_ns 5-2/5-2:1.0 - async
-kernfs_new_node power/async 2
+---->kernfs_new_node power/async 2
 -->sysfs_add_file_mode_ns 5-2/5-2:1.0 - runtime_status
-kernfs_new_node power/runtime_status 2
+---->kernfs_new_node power/runtime_status 2
 -->sysfs_add_file_mode_ns 5-2/5-2:1.0 - runtime_usage
-kernfs_new_node power/runtime_usage 2
+---->kernfs_new_node power/runtime_usage 2
 -->sysfs_add_file_mode_ns 5-2/5-2:1.0 - runtime_active_kids
-kernfs_new_node power/runtime_active_kids 2
+---->kernfs_new_node power/runtime_active_kids 2
 -->sysfs_add_file_mode_ns 5-2/5-2:1.0 - runtime_enabled
-kernfs_new_node power/runtime_enabled 2
-kernfs_new_node r8152/5-2:1.0 4
-kernfs_new_node 5-2:1.0/driver 4
+---->kernfs_new_node power/runtime_enabled 2
+---->kernfs_new_node r8152/5-2:1.0 4
+---->kernfs_new_node 5-2:1.0/driver 4
 -->sysfs_add_file_mode_ns usb5/5-2 - wakeup
-kernfs_new_node power/wakeup 2
+---->kernfs_new_node power/wakeup 2
 -->sysfs_add_file_mode_ns usb5/5-2 - wakeup_count
-kernfs_new_node power/wakeup_count 2
+---->kernfs_new_node power/wakeup_count 2
 -->sysfs_add_file_mode_ns usb5/5-2 - wakeup_active_count
-kernfs_new_node power/wakeup_active_count 2
+---->kernfs_new_node power/wakeup_active_count 2
 -->sysfs_add_file_mode_ns usb5/5-2 - wakeup_abort_count
-kernfs_new_node power/wakeup_abort_count 2
+---->kernfs_new_node power/wakeup_abort_count 2
 -->sysfs_add_file_mode_ns usb5/5-2 - wakeup_expire_count
-kernfs_new_node power/wakeup_expire_count 2
+---->kernfs_new_node power/wakeup_expire_count 2
 -->sysfs_add_file_mode_ns usb5/5-2 - wakeup_active
-kernfs_new_node power/wakeup_active 2
+---->kernfs_new_node power/wakeup_active 2
 -->sysfs_add_file_mode_ns usb5/5-2 - wakeup_total_time_ms
-kernfs_new_node power/wakeup_total_time_ms 2
+---->kernfs_new_node power/wakeup_total_time_ms 2
 -->sysfs_add_file_mode_ns usb5/5-2 - wakeup_max_time_ms
-kernfs_new_node power/wakeup_max_time_ms 2
+---->kernfs_new_node power/wakeup_max_time_ms 2
 -->sysfs_add_file_mode_ns usb5/5-2 - wakeup_last_time_ms
-kernfs_new_node power/wakeup_last_time_ms 2
+---->kernfs_new_node power/wakeup_last_time_ms 2
+
+
 device_add  
 sysfs_create_dir_ns 5-2/wakeup
 kernfs_create_dir_ns 5-2/wakeup
-kernfs_new_node 5-2/wakeup 1
+---->kernfs_new_node 5-2/wakeup 1
 sysfs_create_dir_ns wakeup/wakeup32
 kernfs_create_dir_ns wakeup/wakeup32
-kernfs_new_node wakeup/wakeup32 1
+---->kernfs_new_node wakeup/wakeup32 1
 ==>sysfs_create_file_ns wakeup/wakeup32 - uevent
 -->sysfs_add_file_mode_ns wakeup/wakeup32 - uevent
-kernfs_new_node wakeup32/uevent 2
-kernfs_new_node wakeup32/subsystem 4
-kernfs_new_node wakeup32/device 4
-kernfs_new_node wakeup/wakeup32 4
+---->kernfs_new_node wakeup32/uevent 2
+---->kernfs_new_node wakeup32/subsystem 4
+---->kernfs_new_node wakeup32/device 4
+---->kernfs_new_node wakeup/wakeup32 4
 device_add_attrs  wakeup32
 internal_create_group wakeup32/
 create_files wakeup32/
 -->sysfs_add_file_mode_ns wakeup/wakeup32 - name
-kernfs_new_node wakeup32/name 2
+---->kernfs_new_node wakeup32/name 2
 -->sysfs_add_file_mode_ns wakeup/wakeup32 - active_count
-kernfs_new_node wakeup32/active_count 2
+---->kernfs_new_node wakeup32/active_count 2
 -->sysfs_add_file_mode_ns wakeup/wakeup32 - event_count
-kernfs_new_node wakeup32/event_count 2
+---->kernfs_new_node wakeup32/event_count 2
 -->sysfs_add_file_mode_ns wakeup/wakeup32 - wakeup_count
-kernfs_new_node wakeup32/wakeup_count 2
+---->kernfs_new_node wakeup32/wakeup_count 2
 -->sysfs_add_file_mode_ns wakeup/wakeup32 - expire_count
-kernfs_new_node wakeup32/expire_count 2
+---->kernfs_new_node wakeup32/expire_count 2
 -->sysfs_add_file_mode_ns wakeup/wakeup32 - active_time_ms
-kernfs_new_node wakeup32/active_time_ms 2
+---->kernfs_new_node wakeup32/active_time_ms 2
 -->sysfs_add_file_mode_ns wakeup/wakeup32 - total_time_ms
-kernfs_new_node wakeup32/total_time_ms 2
+---->kernfs_new_node wakeup32/total_time_ms 2
 -->sysfs_add_file_mode_ns wakeup/wakeup32 - max_time_ms
-kernfs_new_node wakeup32/max_time_ms 2
+---->kernfs_new_node wakeup32/max_time_ms 2
 -->sysfs_add_file_mode_ns wakeup/wakeup32 - last_change_ms
-kernfs_new_node wakeup32/last_change_ms 2
+---->kernfs_new_node wakeup32/last_change_ms 2
 -->sysfs_add_file_mode_ns wakeup/wakeup32 - prevent_suspend_time_ms
-kernfs_new_node wakeup32/prevent_suspend_time_ms 2
+---->kernfs_new_node wakeup32/prevent_suspend_time_ms 2
 netdev_register_kobject eth0
+
+
 device_add  
 sysfs_create_dir_ns 5-2:1.0/net
 kernfs_create_dir_ns 5-2:1.0/net
-kernfs_new_node 5-2:1.0/net 1
+---->kernfs_new_node 5-2:1.0/net 1
 sysfs_create_dir_ns net/eth0
 kernfs_create_dir_ns net/eth0
-kernfs_new_node net/eth0 1
+---->kernfs_new_node net/eth0 1
 ==>sysfs_create_file_ns net/eth0 - uevent
 -->sysfs_add_file_mode_ns net/eth0 - uevent
-kernfs_new_node eth0/uevent 2
-kernfs_new_node eth0/subsystem 4
-kernfs_new_node eth0/device 4
-kernfs_new_node net/eth0 4
+---->kernfs_new_node eth0/uevent 2
+---->kernfs_new_node eth0/subsystem 4
+---->kernfs_new_node eth0/device 4
+---->kernfs_new_node net/eth0 4
 device_add_attrs  eth0
 internal_create_group eth0/
 create_files eth0/
 -->sysfs_add_file_mode_ns net/eth0 - netdev_group
-kernfs_new_node eth0/netdev_group 2
+---->kernfs_new_node eth0/netdev_group 2
 -->sysfs_add_file_mode_ns net/eth0 - type
-kernfs_new_node eth0/type 2
+---->kernfs_new_node eth0/type 2
 -->sysfs_add_file_mode_ns net/eth0 - dev_id
-kernfs_new_node eth0/dev_id 2
+---->kernfs_new_node eth0/dev_id 2
 -->sysfs_add_file_mode_ns net/eth0 - dev_port
-kernfs_new_node eth0/dev_port 2
+---->kernfs_new_node eth0/dev_port 2
 -->sysfs_add_file_mode_ns net/eth0 - iflink
-kernfs_new_node eth0/iflink 2
+---->kernfs_new_node eth0/iflink 2
 -->sysfs_add_file_mode_ns net/eth0 - ifindex
-kernfs_new_node eth0/ifindex 2
+---->kernfs_new_node eth0/ifindex 2
 -->sysfs_add_file_mode_ns net/eth0 - name_assign_type
-kernfs_new_node eth0/name_assign_type 2
+---->kernfs_new_node eth0/name_assign_type 2
 -->sysfs_add_file_mode_ns net/eth0 - addr_assign_type
-kernfs_new_node eth0/addr_assign_type 2
+---->kernfs_new_node eth0/addr_assign_type 2
 -->sysfs_add_file_mode_ns net/eth0 - addr_len
-kernfs_new_node eth0/addr_len 2
+---->kernfs_new_node eth0/addr_len 2
 -->sysfs_add_file_mode_ns net/eth0 - link_mode
-kernfs_new_node eth0/link_mode 2
+---->kernfs_new_node eth0/link_mode 2
 -->sysfs_add_file_mode_ns net/eth0 - address
-kernfs_new_node eth0/address 2
+---->kernfs_new_node eth0/address 2
 -->sysfs_add_file_mode_ns net/eth0 - broadcast
-kernfs_new_node eth0/broadcast 2
+---->kernfs_new_node eth0/broadcast 2
 -->sysfs_add_file_mode_ns net/eth0 - speed
-kernfs_new_node eth0/speed 2
+---->kernfs_new_node eth0/speed 2
 -->sysfs_add_file_mode_ns net/eth0 - duplex
-kernfs_new_node eth0/duplex 2
+---->kernfs_new_node eth0/duplex 2
 -->sysfs_add_file_mode_ns net/eth0 - dormant
-kernfs_new_node eth0/dormant 2
+---->kernfs_new_node eth0/dormant 2
 -->sysfs_add_file_mode_ns net/eth0 - testing
-kernfs_new_node eth0/testing 2
+---->kernfs_new_node eth0/testing 2
 -->sysfs_add_file_mode_ns net/eth0 - operstate
-kernfs_new_node eth0/operstate 2
+---->kernfs_new_node eth0/operstate 2
 -->sysfs_add_file_mode_ns net/eth0 - carrier_changes
-kernfs_new_node eth0/carrier_changes 2
+---->kernfs_new_node eth0/carrier_changes 2
 -->sysfs_add_file_mode_ns net/eth0 - ifalias
-kernfs_new_node eth0/ifalias 2
+---->kernfs_new_node eth0/ifalias 2
 -->sysfs_add_file_mode_ns net/eth0 - carrier
-kernfs_new_node eth0/carrier 2
+---->kernfs_new_node eth0/carrier 2
 -->sysfs_add_file_mode_ns net/eth0 - mtu
-kernfs_new_node eth0/mtu 2
+---->kernfs_new_node eth0/mtu 2
 -->sysfs_add_file_mode_ns net/eth0 - flags
-kernfs_new_node eth0/flags 2
+---->kernfs_new_node eth0/flags 2
 -->sysfs_add_file_mode_ns net/eth0 - tx_queue_len
-kernfs_new_node eth0/tx_queue_len 2
+---->kernfs_new_node eth0/tx_queue_len 2
 -->sysfs_add_file_mode_ns net/eth0 - gro_flush_timeout
-kernfs_new_node eth0/gro_flush_timeout 2
+---->kernfs_new_node eth0/gro_flush_timeout 2
 -->sysfs_add_file_mode_ns net/eth0 - napi_defer_hard_irqs
-kernfs_new_node eth0/napi_defer_hard_irqs 2
+---->kernfs_new_node eth0/napi_defer_hard_irqs 2
 -->sysfs_add_file_mode_ns net/eth0 - phys_port_id
-kernfs_new_node eth0/phys_port_id 2
+---->kernfs_new_node eth0/phys_port_id 2
 -->sysfs_add_file_mode_ns net/eth0 - phys_port_name
-kernfs_new_node eth0/phys_port_name 2
+---->kernfs_new_node eth0/phys_port_name 2
 -->sysfs_add_file_mode_ns net/eth0 - phys_switch_id
-kernfs_new_node eth0/phys_switch_id 2
+---->kernfs_new_node eth0/phys_switch_id 2
 -->sysfs_add_file_mode_ns net/eth0 - proto_down
-kernfs_new_node eth0/proto_down 2
+---->kernfs_new_node eth0/proto_down 2
 -->sysfs_add_file_mode_ns net/eth0 - carrier_up_count
-kernfs_new_node eth0/carrier_up_count 2
+---->kernfs_new_node eth0/carrier_up_count 2
 -->sysfs_add_file_mode_ns net/eth0 - carrier_down_count
-kernfs_new_node eth0/carrier_down_count 2
+---->kernfs_new_node eth0/carrier_down_count 2
 -->sysfs_add_file_mode_ns net/eth0 - threaded
-kernfs_new_node eth0/threaded 2
+---->kernfs_new_node eth0/threaded 2
 internal_create_group eth0/statistics
 kernfs_create_dir_ns eth0/statistics
-kernfs_new_node eth0/statistics 1
+---->kernfs_new_node eth0/statistics 1
 create_files eth0/statistics
 -->sysfs_add_file_mode_ns net/eth0 - rx_packets
-kernfs_new_node statistics/rx_packets 2
+---->kernfs_new_node statistics/rx_packets 2
 -->sysfs_add_file_mode_ns net/eth0 - tx_packets
-kernfs_new_node statistics/tx_packets 2
+---->kernfs_new_node statistics/tx_packets 2
 -->sysfs_add_file_mode_ns net/eth0 - rx_bytes
-kernfs_new_node statistics/rx_bytes 2
+---->kernfs_new_node statistics/rx_bytes 2
 -->sysfs_add_file_mode_ns net/eth0 - tx_bytes
-kernfs_new_node statistics/tx_bytes 2
+---->kernfs_new_node statistics/tx_bytes 2
 -->sysfs_add_file_mode_ns net/eth0 - rx_errors
-kernfs_new_node statistics/rx_errors 2
+---->kernfs_new_node statistics/rx_errors 2
 -->sysfs_add_file_mode_ns net/eth0 - tx_errors
-kernfs_new_node statistics/tx_errors 2
+---->kernfs_new_node statistics/tx_errors 2
 -->sysfs_add_file_mode_ns net/eth0 - rx_dropped
-kernfs_new_node statistics/rx_dropped 2
+---->kernfs_new_node statistics/rx_dropped 2
 -->sysfs_add_file_mode_ns net/eth0 - tx_dropped
-kernfs_new_node statistics/tx_dropped 2
+---->kernfs_new_node statistics/tx_dropped 2
 -->sysfs_add_file_mode_ns net/eth0 - multicast
-kernfs_new_node statistics/multicast 2
+---->kernfs_new_node statistics/multicast 2
 -->sysfs_add_file_mode_ns net/eth0 - collisions
-kernfs_new_node statistics/collisions 2
+---->kernfs_new_node statistics/collisions 2
 -->sysfs_add_file_mode_ns net/eth0 - rx_length_errors
-kernfs_new_node statistics/rx_length_errors 2
+---->kernfs_new_node statistics/rx_length_errors 2
 -->sysfs_add_file_mode_ns net/eth0 - rx_over_errors
-kernfs_new_node statistics/rx_over_errors 2
+---->kernfs_new_node statistics/rx_over_errors 2
 -->sysfs_add_file_mode_ns net/eth0 - rx_crc_errors
-kernfs_new_node statistics/rx_crc_errors 2
+---->kernfs_new_node statistics/rx_crc_errors 2
 -->sysfs_add_file_mode_ns net/eth0 - rx_frame_errors
-kernfs_new_node statistics/rx_frame_errors 2
+---->kernfs_new_node statistics/rx_frame_errors 2
 -->sysfs_add_file_mode_ns net/eth0 - rx_fifo_errors
-kernfs_new_node statistics/rx_fifo_errors 2
+---->kernfs_new_node statistics/rx_fifo_errors 2
 -->sysfs_add_file_mode_ns net/eth0 - rx_missed_errors
-kernfs_new_node statistics/rx_missed_errors 2
+---->kernfs_new_node statistics/rx_missed_errors 2
 -->sysfs_add_file_mode_ns net/eth0 - tx_aborted_errors
-kernfs_new_node statistics/tx_aborted_errors 2
+---->kernfs_new_node statistics/tx_aborted_errors 2
 -->sysfs_add_file_mode_ns net/eth0 - tx_carrier_errors
-kernfs_new_node statistics/tx_carrier_errors 2
+---->kernfs_new_node statistics/tx_carrier_errors 2
 -->sysfs_add_file_mode_ns net/eth0 - tx_fifo_errors
-kernfs_new_node statistics/tx_fifo_errors 2
+---->kernfs_new_node statistics/tx_fifo_errors 2
 -->sysfs_add_file_mode_ns net/eth0 - tx_heartbeat_errors
-kernfs_new_node statistics/tx_heartbeat_errors 2
+---->kernfs_new_node statistics/tx_heartbeat_errors 2
 -->sysfs_add_file_mode_ns net/eth0 - tx_window_errors
-kernfs_new_node statistics/tx_window_errors 2
+---->kernfs_new_node statistics/tx_window_errors 2
 -->sysfs_add_file_mode_ns net/eth0 - rx_compressed
-kernfs_new_node statistics/rx_compressed 2
+---->kernfs_new_node statistics/rx_compressed 2
 -->sysfs_add_file_mode_ns net/eth0 - tx_compressed
-kernfs_new_node statistics/tx_compressed 2
+---->kernfs_new_node statistics/tx_compressed 2
 -->sysfs_add_file_mode_ns net/eth0 - rx_nohandler
-kernfs_new_node statistics/rx_nohandler 2
+---->kernfs_new_node statistics/rx_nohandler 2
 internal_create_group eth0/power
 kernfs_create_dir_ns eth0/power
-kernfs_new_node eth0/power 1
+---->kernfs_new_node eth0/power 1
 create_files eth0/power
 -->sysfs_add_file_mode_ns net/eth0 - async
-kernfs_new_node power/async 2
+---->kernfs_new_node power/async 2
 -->sysfs_add_file_mode_ns net/eth0 - runtime_status
-kernfs_new_node power/runtime_status 2
+---->kernfs_new_node power/runtime_status 2
 -->sysfs_add_file_mode_ns net/eth0 - runtime_usage
-kernfs_new_node power/runtime_usage 2
+---->kernfs_new_node power/runtime_usage 2
 -->sysfs_add_file_mode_ns net/eth0 - runtime_active_kids
-kernfs_new_node power/runtime_active_kids 2
+---->kernfs_new_node power/runtime_active_kids 2
 -->sysfs_add_file_mode_ns net/eth0 - runtime_enabled
-kernfs_new_node power/runtime_enabled 2
+---->kernfs_new_node power/runtime_enabled 2
 -->sysfs_add_file_mode_ns net/eth0 - control
-kernfs_new_node power/control 2
+---->kernfs_new_node power/control 2
 -->sysfs_add_file_mode_ns net/eth0 - runtime_suspended_time
-kernfs_new_node power/runtime_suspended_time 2
+---->kernfs_new_node power/runtime_suspended_time 2
 -->sysfs_add_file_mode_ns net/eth0 - runtime_active_time
-kernfs_new_node power/runtime_active_time 2
+---->kernfs_new_node power/runtime_active_time 2
 -->sysfs_add_file_mode_ns net/eth0 - autosuspend_delay_ms
-kernfs_new_node power/autosuspend_delay_ms 2
+---->kernfs_new_node power/autosuspend_delay_ms 2
 sysfs_create_dir_ns eth0/queues
 kernfs_create_dir_ns eth0/queues
-kernfs_new_node eth0/queues 1
+---->kernfs_new_node eth0/queues 1
 sysfs_create_dir_ns queues/rx-0
 kernfs_create_dir_ns queues/rx-0
-kernfs_new_node queues/rx-0 1
+---->kernfs_new_node queues/rx-0 1
 internal_create_group rx-0/
 create_files rx-0/
 -->sysfs_add_file_mode_ns queues/rx-0 - rps_cpus
-kernfs_new_node rx-0/rps_cpus 2
+---->kernfs_new_node rx-0/rps_cpus 2
 -->sysfs_add_file_mode_ns queues/rx-0 - rps_flow_cnt
-kernfs_new_node rx-0/rps_flow_cnt 2
+---->kernfs_new_node rx-0/rps_flow_cnt 2
 sysfs_create_dir_ns queues/tx-0
 kernfs_create_dir_ns queues/tx-0
-kernfs_new_node queues/tx-0 1
+---->kernfs_new_node queues/tx-0 1
 internal_create_group tx-0/
 create_files tx-0/
 -->sysfs_add_file_mode_ns queues/tx-0 - tx_timeout
-kernfs_new_node tx-0/tx_timeout 2
+---->kernfs_new_node tx-0/tx_timeout 2
 -->sysfs_add_file_mode_ns queues/tx-0 - traffic_class
-kernfs_new_node tx-0/traffic_class 2
+---->kernfs_new_node tx-0/traffic_class 2
 -->sysfs_add_file_mode_ns queues/tx-0 - xps_cpus
-kernfs_new_node tx-0/xps_cpus 2
+---->kernfs_new_node tx-0/xps_cpus 2
 -->sysfs_add_file_mode_ns queues/tx-0 - xps_rxqs
-kernfs_new_node tx-0/xps_rxqs 2
+---->kernfs_new_node tx-0/xps_rxqs 2
 -->sysfs_add_file_mode_ns queues/tx-0 - tx_maxrate
-kernfs_new_node tx-0/tx_maxrate 2
+---->kernfs_new_node tx-0/tx_maxrate 2
 internal_create_group tx-0/byte_queue_limits
 kernfs_create_dir_ns tx-0/byte_queue_limits
-kernfs_new_node tx-0/byte_queue_limits 1
+---->kernfs_new_node tx-0/byte_queue_limits 1
 create_files tx-0/byte_queue_limits
 -->sysfs_add_file_mode_ns queues/tx-0 - limit
-kernfs_new_node byte_queue_limits/limit 2
+---->kernfs_new_node byte_queue_limits/limit 2
 -->sysfs_add_file_mode_ns queues/tx-0 - limit_max
-kernfs_new_node byte_queue_limits/limit_max 2
+---->kernfs_new_node byte_queue_limits/limit_max 2
 -->sysfs_add_file_mode_ns queues/tx-0 - limit_min
-kernfs_new_node byte_queue_limits/limit_min 2
+---->kernfs_new_node byte_queue_limits/limit_min 2
 -->sysfs_add_file_mode_ns queues/tx-0 - hold_time
-kernfs_new_node byte_queue_limits/hold_time 2
+---->kernfs_new_node byte_queue_limits/hold_time 2
 -->sysfs_add_file_mode_ns queues/tx-0 - inflight
-kernfs_new_node byte_queue_limits/inflight 2
+---->kernfs_new_node byte_queue_limits/inflight 2
+
+
 device_add  
 sysfs_create_dir_ns wakeup/wakeup47
 kernfs_create_dir_ns wakeup/wakeup47
-kernfs_new_node wakeup/wakeup47 1
+---->kernfs_new_node wakeup/wakeup47 1
 ==>sysfs_create_file_ns wakeup/wakeup47 - uevent
 -->sysfs_add_file_mode_ns wakeup/wakeup47 - uevent
-kernfs_new_node wakeup47/uevent 2
-kernfs_new_node wakeup47/subsystem 4
-kernfs_new_node wakeup47/device 4
-kernfs_new_node wakeup/wakeup47 4
+---->kernfs_new_node wakeup47/uevent 2
+---->kernfs_new_node wakeup47/subsystem 4
+---->kernfs_new_node wakeup47/device 4
+---->kernfs_new_node wakeup/wakeup47 4
 device_add_attrs  wakeup47
 internal_create_group wakeup47/
 create_files wakeup47/
 -->sysfs_add_file_mode_ns wakeup/wakeup47 - name
-kernfs_new_node wakeup47/name 2
+---->kernfs_new_node wakeup47/name 2
 -->sysfs_add_file_mode_ns wakeup/wakeup47 - active_count
-kernfs_new_node wakeup47/active_count 2
+---->kernfs_new_node wakeup47/active_count 2
 -->sysfs_add_file_mode_ns wakeup/wakeup47 - event_count
-kernfs_new_node wakeup47/event_count 2
+---->kernfs_new_node wakeup47/event_count 2
 -->sysfs_add_file_mode_ns wakeup/wakeup47 - wakeup_count
-kernfs_new_node wakeup47/wakeup_count 2
+---->kernfs_new_node wakeup47/wakeup_count 2
 -->sysfs_add_file_mode_ns wakeup/wakeup47 - expire_count
-kernfs_new_node wakeup47/expire_count 2
+---->kernfs_new_node wakeup47/expire_count 2
 -->sysfs_add_file_mode_ns wakeup/wakeup47 - active_time_ms
-kernfs_new_node wakeup47/active_time_ms 2
+---->kernfs_new_node wakeup47/active_time_ms 2
 -->sysfs_add_file_mode_ns wakeup/wakeup47 - total_time_ms
-kernfs_new_node wakeup47/total_time_ms 2
+---->kernfs_new_node wakeup47/total_time_ms 2
 -->sysfs_add_file_mode_ns wakeup/wakeup47 - max_time_ms
-kernfs_new_node wakeup47/max_time_ms 2
+---->kernfs_new_node wakeup47/max_time_ms 2
 -->sysfs_add_file_mode_ns wakeup/wakeup47 - last_change_ms
-kernfs_new_node wakeup47/last_change_ms 2
+---->kernfs_new_node wakeup47/last_change_ms 2
 -->sysfs_add_file_mode_ns wakeup/wakeup47 - prevent_suspend_time_ms
-kernfs_new_node wakeup47/prevent_suspend_time_ms 2
+---->kernfs_new_node wakeup47/prevent_suspend_time_ms 2
+
+
 device_add  
 sysfs_create_dir_ns 5-2:1.0/ep_81
 kernfs_create_dir_ns 5-2:1.0/ep_81
-kernfs_new_node 5-2:1.0/ep_81 1
+---->kernfs_new_node 5-2:1.0/ep_81 1
 ==>sysfs_create_file_ns 5-2:1.0/ep_81 - uevent
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - uevent
-kernfs_new_node ep_81/uevent 2
+---->kernfs_new_node ep_81/uevent 2
 device_add_attrs  ep_81
 internal_create_group ep_81/
 create_files ep_81/
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - bLength
-kernfs_new_node ep_81/bLength 2
+---->kernfs_new_node ep_81/bLength 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - bEndpointAddress
-kernfs_new_node ep_81/bEndpointAddress 2
+---->kernfs_new_node ep_81/bEndpointAddress 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - bmAttributes
-kernfs_new_node ep_81/bmAttributes 2
+---->kernfs_new_node ep_81/bmAttributes 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - bInterval
-kernfs_new_node ep_81/bInterval 2
+---->kernfs_new_node ep_81/bInterval 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - wMaxPacketSize
-kernfs_new_node ep_81/wMaxPacketSize 2
+---->kernfs_new_node ep_81/wMaxPacketSize 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - interval
-kernfs_new_node ep_81/interval 2
+---->kernfs_new_node ep_81/interval 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - type
-kernfs_new_node ep_81/type 2
+---->kernfs_new_node ep_81/type 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - direction
-kernfs_new_node ep_81/direction 2
+---->kernfs_new_node ep_81/direction 2
 internal_create_group ep_81/power
 kernfs_create_dir_ns ep_81/power
-kernfs_new_node ep_81/power 1
+---->kernfs_new_node ep_81/power 1
 create_files ep_81/power
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - async
-kernfs_new_node power/async 2
+---->kernfs_new_node power/async 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - runtime_status
-kernfs_new_node power/runtime_status 2
+---->kernfs_new_node power/runtime_status 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - runtime_usage
-kernfs_new_node power/runtime_usage 2
+---->kernfs_new_node power/runtime_usage 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - runtime_active_kids
-kernfs_new_node power/runtime_active_kids 2
+---->kernfs_new_node power/runtime_active_kids 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - runtime_enabled
-kernfs_new_node power/runtime_enabled 2
+---->kernfs_new_node power/runtime_enabled 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - control
-kernfs_new_node power/control 2
+---->kernfs_new_node power/control 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - runtime_suspended_time
-kernfs_new_node power/runtime_suspended_time 2
+---->kernfs_new_node power/runtime_suspended_time 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - runtime_active_time
-kernfs_new_node power/runtime_active_time 2
+---->kernfs_new_node power/runtime_active_time 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - autosuspend_delay_ms
-kernfs_new_node power/autosuspend_delay_ms 2
+---->kernfs_new_node power/autosuspend_delay_ms 2
+
+
 device_add  
 sysfs_create_dir_ns 5-2:1.0/ep_02
 kernfs_create_dir_ns 5-2:1.0/ep_02
-kernfs_new_node 5-2:1.0/ep_02 1
+---->kernfs_new_node 5-2:1.0/ep_02 1
 ==>sysfs_create_file_ns 5-2:1.0/ep_02 - uevent
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - uevent
-kernfs_new_node ep_02/uevent 2
+---->kernfs_new_node ep_02/uevent 2
 device_add_attrs  ep_02
 internal_create_group ep_02/
 create_files ep_02/
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - bLength
-kernfs_new_node ep_02/bLength 2
+---->kernfs_new_node ep_02/bLength 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - bEndpointAddress
-kernfs_new_node ep_02/bEndpointAddress 2
+---->kernfs_new_node ep_02/bEndpointAddress 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - bmAttributes
-kernfs_new_node ep_02/bmAttributes 2
+---->kernfs_new_node ep_02/bmAttributes 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - bInterval
-kernfs_new_node ep_02/bInterval 2
+---->kernfs_new_node ep_02/bInterval 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - wMaxPacketSize
-kernfs_new_node ep_02/wMaxPacketSize 2
+---->kernfs_new_node ep_02/wMaxPacketSize 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - interval
-kernfs_new_node ep_02/interval 2
+---->kernfs_new_node ep_02/interval 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - type
-kernfs_new_node ep_02/type 2
+---->kernfs_new_node ep_02/type 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - direction
-kernfs_new_node ep_02/direction 2
+---->kernfs_new_node ep_02/direction 2
 internal_create_group ep_02/power
 kernfs_create_dir_ns ep_02/power
-kernfs_new_node ep_02/power 1
+---->kernfs_new_node ep_02/power 1
 create_files ep_02/power
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - async
-kernfs_new_node power/async 2
+---->kernfs_new_node power/async 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - runtime_status
-kernfs_new_node power/runtime_status 2
+---->kernfs_new_node power/runtime_status 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - runtime_usage
-kernfs_new_node power/runtime_usage 2
+---->kernfs_new_node power/runtime_usage 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - runtime_active_kids
-kernfs_new_node power/runtime_active_kids 2
+---->kernfs_new_node power/runtime_active_kids 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - runtime_enabled
-kernfs_new_node power/runtime_enabled 2
+---->kernfs_new_node power/runtime_enabled 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - control
-kernfs_new_node power/control 2
+---->kernfs_new_node power/control 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - runtime_suspended_time
-kernfs_new_node power/runtime_suspended_time 2
+---->kernfs_new_node power/runtime_suspended_time 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - runtime_active_time
-kernfs_new_node power/runtime_active_time 2
+---->kernfs_new_node power/runtime_active_time 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - autosuspend_delay_ms
-kernfs_new_node power/autosuspend_delay_ms 2
+---->kernfs_new_node power/autosuspend_delay_ms 2
+
+
 device_add  
 sysfs_create_dir_ns 5-2:1.0/ep_83
 kernfs_create_dir_ns 5-2:1.0/ep_83
-kernfs_new_node 5-2:1.0/ep_83 1
+---->kernfs_new_node 5-2:1.0/ep_83 1
 ==>sysfs_create_file_ns 5-2:1.0/ep_83 - uevent
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - uevent
-kernfs_new_node ep_83/uevent 2
+---->kernfs_new_node ep_83/uevent 2
 device_add_attrs  ep_83
 internal_create_group ep_83/
 create_files ep_83/
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - bLength
-kernfs_new_node ep_83/bLength 2
+---->kernfs_new_node ep_83/bLength 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - bEndpointAddress
-kernfs_new_node ep_83/bEndpointAddress 2
+---->kernfs_new_node ep_83/bEndpointAddress 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - bmAttributes
-kernfs_new_node ep_83/bmAttributes 2
+---->kernfs_new_node ep_83/bmAttributes 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - bInterval
-kernfs_new_node ep_83/bInterval 2
+---->kernfs_new_node ep_83/bInterval 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - wMaxPacketSize
-kernfs_new_node ep_83/wMaxPacketSize 2
+---->kernfs_new_node ep_83/wMaxPacketSize 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - interval
-kernfs_new_node ep_83/interval 2
+---->kernfs_new_node ep_83/interval 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - type
-kernfs_new_node ep_83/type 2
+---->kernfs_new_node ep_83/type 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - direction
-kernfs_new_node ep_83/direction 2
+---->kernfs_new_node ep_83/direction 2
 internal_create_group ep_83/power
 kernfs_create_dir_ns ep_83/power
-kernfs_new_node ep_83/power 1
+---->kernfs_new_node ep_83/power 1
 create_files ep_83/power
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - async
-kernfs_new_node power/async 2
+---->kernfs_new_node power/async 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - runtime_status
-kernfs_new_node power/runtime_status 2
+---->kernfs_new_node power/runtime_status 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - runtime_usage
-kernfs_new_node power/runtime_usage 2
+---->kernfs_new_node power/runtime_usage 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - runtime_active_kids
-kernfs_new_node power/runtime_active_kids 2
+---->kernfs_new_node power/runtime_active_kids 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - runtime_enabled
-kernfs_new_node power/runtime_enabled 2
+---->kernfs_new_node power/runtime_enabled 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - control
-kernfs_new_node power/control 2
+---->kernfs_new_node power/control 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - runtime_suspended_time
-kernfs_new_node power/runtime_suspended_time 2
+---->kernfs_new_node power/runtime_suspended_time 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - runtime_active_time
-kernfs_new_node power/runtime_active_time 2
+---->kernfs_new_node power/runtime_active_time 2
 -->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - autosuspend_delay_ms
-kernfs_new_node power/autosuspend_delay_ms 2
-kernfs_new_node 5-2/port 4
-kernfs_new_node usb5-port2/device 4
+---->kernfs_new_node power/autosuspend_delay_ms 2
+---->kernfs_new_node 5-2/port 4
+---->kernfs_new_node usb5-port2/device 4
+
+
 device_add  
 sysfs_create_dir_ns 5-2/ep_00
 kernfs_create_dir_ns 5-2/ep_00
-kernfs_new_node 5-2/ep_00 1
+---->kernfs_new_node 5-2/ep_00 1
 ==>sysfs_create_file_ns 5-2/ep_00 - uevent
 -->sysfs_add_file_mode_ns 5-2/ep_00 - uevent
-kernfs_new_node ep_00/uevent 2
+---->kernfs_new_node ep_00/uevent 2
 device_add_attrs  ep_00
 internal_create_group ep_00/
 create_files ep_00/
 -->sysfs_add_file_mode_ns 5-2/ep_00 - bLength
-kernfs_new_node ep_00/bLength 2
+---->kernfs_new_node ep_00/bLength 2
 -->sysfs_add_file_mode_ns 5-2/ep_00 - bEndpointAddress
-kernfs_new_node ep_00/bEndpointAddress 2
+---->kernfs_new_node ep_00/bEndpointAddress 2
 -->sysfs_add_file_mode_ns 5-2/ep_00 - bmAttributes
-kernfs_new_node ep_00/bmAttributes 2
+---->kernfs_new_node ep_00/bmAttributes 2
 -->sysfs_add_file_mode_ns 5-2/ep_00 - bInterval
-kernfs_new_node ep_00/bInterval 2
+---->kernfs_new_node ep_00/bInterval 2
 -->sysfs_add_file_mode_ns 5-2/ep_00 - wMaxPacketSize
-kernfs_new_node ep_00/wMaxPacketSize 2
+---->kernfs_new_node ep_00/wMaxPacketSize 2
 -->sysfs_add_file_mode_ns 5-2/ep_00 - interval
-kernfs_new_node ep_00/interval 2
+---->kernfs_new_node ep_00/interval 2
 -->sysfs_add_file_mode_ns 5-2/ep_00 - type
-kernfs_new_node ep_00/type 2
+---->kernfs_new_node ep_00/type 2
 -->sysfs_add_file_mode_ns 5-2/ep_00 - direction
-kernfs_new_node ep_00/direction 2
+---->kernfs_new_node ep_00/direction 2
 internal_create_group ep_00/power
 kernfs_create_dir_ns ep_00/power
-kernfs_new_node ep_00/power 1
+---->kernfs_new_node ep_00/power 1
 create_files ep_00/power
 -->sysfs_add_file_mode_ns 5-2/ep_00 - async
-kernfs_new_node power/async 2
+---->kernfs_new_node power/async 2
 -->sysfs_add_file_mode_ns 5-2/ep_00 - runtime_status
-kernfs_new_node power/runtime_status 2
+---->kernfs_new_node power/runtime_status 2
 -->sysfs_add_file_mode_ns 5-2/ep_00 - runtime_usage
-kernfs_new_node power/runtime_usage 2
+---->kernfs_new_node power/runtime_usage 2
 -->sysfs_add_file_mode_ns 5-2/ep_00 - runtime_active_kids
-kernfs_new_node power/runtime_active_kids 2
+---->kernfs_new_node power/runtime_active_kids 2
 -->sysfs_add_file_mode_ns 5-2/ep_00 - runtime_enabled
-kernfs_new_node power/runtime_enabled 2
+---->kernfs_new_node power/runtime_enabled 2
 -->sysfs_add_file_mode_ns 5-2/ep_00 - control
-kernfs_new_node power/control 2
+---->kernfs_new_node power/control 2
 -->sysfs_add_file_mode_ns 5-2/ep_00 - runtime_suspended_time
-kernfs_new_node power/runtime_suspended_time 2
+---->kernfs_new_node power/runtime_suspended_time 2
 -->sysfs_add_file_mode_ns 5-2/ep_00 - runtime_active_time
-kernfs_new_node power/runtime_active_time 2
+---->kernfs_new_node power/runtime_active_time 2
 -->sysfs_add_file_mode_ns 5-2/ep_00 - autosuspend_delay_ms
-kernfs_new_node power/autosuspend_delay_ms 2
+---->kernfs_new_node power/autosuspend_delay_ms 2
 device_rename eth0 -> enx00e04c71fcf2
 kernfs_create_dir_ns system.slice/NetworkManager-dispatcher.service
-kernfs_new_node system.slice/NetworkManager-dispatcher.service 1
-kernfs_new_node NetworkManager-dispatcher.service/cgroup.type 2
-kernfs_new_node NetworkManager-dispatcher.service/cgroup.procs 2
-kernfs_new_node NetworkManager-dispatcher.service/cgroup.threads 2
-kernfs_new_node NetworkManager-dispatcher.service/cgroup.controllers 2
-kernfs_new_node NetworkManager-dispatcher.service/cgroup.subtree_control 2
-kernfs_new_node NetworkManager-dispatcher.service/cgroup.events 2
-kernfs_new_node NetworkManager-dispatcher.service/cgroup.max.descendants 2
-kernfs_new_node NetworkManager-dispatcher.service/cgroup.max.depth 2
-kernfs_new_node NetworkManager-dispatcher.service/cgroup.stat 2
-kernfs_new_node NetworkManager-dispatcher.service/cgroup.freeze 2
-kernfs_new_node NetworkManager-dispatcher.service/cgroup.kill 2
-kernfs_new_node NetworkManager-dispatcher.service/cpu.stat 2
-kernfs_new_node NetworkManager-dispatcher.service/io.pressure 2
-kernfs_new_node NetworkManager-dispatcher.service/memory.pressure 2
-kernfs_new_node NetworkManager-dispatcher.service/cpu.pressure 2
-kernfs_new_node NetworkManager-dispatcher.service/cgroup.pressure 2
-kernfs_new_node NetworkManager-dispatcher.service/cpuset.cpus 2
-kernfs_new_node NetworkManager-dispatcher.service/cpuset.mems 2
-kernfs_new_node NetworkManager-dispatcher.service/cpuset.cpus.effective 2
-kernfs_new_node NetworkManager-dispatcher.service/cpuset.mems.effective 2
-kernfs_new_node NetworkManager-dispatcher.service/cpuset.cpus.partition 2
-kernfs_new_node NetworkManager-dispatcher.service/cpu.weight 2
-kernfs_new_node NetworkManager-dispatcher.service/cpu.weight.nice 2
-kernfs_new_node NetworkManager-dispatcher.service/cpu.idle 2
-kernfs_new_node NetworkManager-dispatcher.service/cpu.max 2
-kernfs_new_node NetworkManager-dispatcher.service/cpu.max.burst 2
-kernfs_new_node NetworkManager-dispatcher.service/cpu.uclamp.min 2
-kernfs_new_node NetworkManager-dispatcher.service/cpu.uclamp.max 2
-kernfs_new_node NetworkManager-dispatcher.service/io.stat 2
-kernfs_new_node NetworkManager-dispatcher.service/io.max 2
-kernfs_new_node NetworkManager-dispatcher.service/io.prio.class 2
-kernfs_new_node NetworkManager-dispatcher.service/io.weight 2
-kernfs_new_node NetworkManager-dispatcher.service/memory.current 2
-kernfs_new_node NetworkManager-dispatcher.service/memory.peak 2
-kernfs_new_node NetworkManager-dispatcher.service/memory.min 2
-kernfs_new_node NetworkManager-dispatcher.service/memory.low 2
-kernfs_new_node NetworkManager-dispatcher.service/memory.high 2
-kernfs_new_node NetworkManager-dispatcher.service/memory.max 2
-kernfs_new_node NetworkManager-dispatcher.service/memory.events 2
-kernfs_new_node NetworkManager-dispatcher.service/memory.events.local 2
-kernfs_new_node NetworkManager-dispatcher.service/memory.stat 2
-kernfs_new_node NetworkManager-dispatcher.service/memory.numa_stat 2
-kernfs_new_node NetworkManager-dispatcher.service/memory.oom.group 2
-kernfs_new_node NetworkManager-dispatcher.service/memory.reclaim 2
-kernfs_new_node NetworkManager-dispatcher.service/memory.swap.current 2
-kernfs_new_node NetworkManager-dispatcher.service/memory.swap.high 2
-kernfs_new_node NetworkManager-dispatcher.service/memory.swap.max 2
-kernfs_new_node NetworkManager-dispatcher.service/memory.swap.peak 2
-kernfs_new_node NetworkManager-dispatcher.service/memory.swap.events 2
-kernfs_new_node NetworkManager-dispatcher.service/memory.zswap.current 2
-kernfs_new_node NetworkManager-dispatcher.service/memory.zswap.max 2
-kernfs_new_node NetworkManager-dispatcher.service/pids.max 2
-kernfs_new_node NetworkManager-dispatcher.service/pids.current 2
-kernfs_new_node NetworkManager-dispatcher.service/pids.peak 2
-kernfs_new_node NetworkManager-dispatcher.service/pids.events 2
-Tracing udev flow end. Hit Ctrl-C to end.
-
-
+---->kernfs_new_node system.slice/NetworkManager-dispatcher.service 1
+---->kernfs_new_node NetworkManager-dispatcher.service/cgroup.type 2
+---->kernfs_new_node NetworkManager-dispatcher.service/cgroup.procs 2
+---->kernfs_new_node NetworkManager-dispatcher.service/cgroup.threads 2
+---->kernfs_new_node NetworkManager-dispatcher.service/cgroup.controllers 2
+---->kernfs_new_node NetworkManager-dispatcher.service/cgroup.subtree_control 2
+---->kernfs_new_node NetworkManager-dispatcher.service/cgroup.events 2
+---->kernfs_new_node NetworkManager-dispatcher.service/cgroup.max.descendants 2
+---->kernfs_new_node NetworkManager-dispatcher.service/cgroup.max.depth 2
+---->kernfs_new_node NetworkManager-dispatcher.service/cgroup.stat 2
+---->kernfs_new_node NetworkManager-dispatcher.service/cgroup.freeze 2
+---->kernfs_new_node NetworkManager-dispatcher.service/cgroup.kill 2
+---->kernfs_new_node NetworkManager-dispatcher.service/cpu.stat 2
+---->kernfs_new_node NetworkManager-dispatcher.service/io.pressure 2
+---->kernfs_new_node NetworkManager-dispatcher.service/memory.pressure 2
+---->kernfs_new_node NetworkManager-dispatcher.service/cpu.pressure 2
+---->kernfs_new_node NetworkManager-dispatcher.service/cgroup.pressure 2
+---->kernfs_new_node NetworkManager-dispatcher.service/cpuset.cpus 2
+---->kernfs_new_node NetworkManager-dispatcher.service/cpuset.mems 2
+---->kernfs_new_node NetworkManager-dispatcher.service/cpuset.cpus.effective 2
+---->kernfs_new_node NetworkManager-dispatcher.service/cpuset.mems.effective 2
+---->kernfs_new_node NetworkManager-dispatcher.service/cpuset.cpus.partition 2
+---->kernfs_new_node NetworkManager-dispatcher.service/cpu.weight 2
+---->kernfs_new_node NetworkManager-dispatcher.service/cpu.weight.nice 2
+---->kernfs_new_node NetworkManager-dispatcher.service/cpu.idle 2
+---->kernfs_new_node NetworkManager-dispatcher.service/cpu.max 2
+---->kernfs_new_node NetworkManager-dispatcher.service/cpu.max.burst 2
+---->kernfs_new_node NetworkManager-dispatcher.service/cpu.uclamp.min 2
+---->kernfs_new_node NetworkManager-dispatcher.service/cpu.uclamp.max 2
+---->kernfs_new_node NetworkManager-dispatcher.service/io.stat 2
+---->kernfs_new_node NetworkManager-dispatcher.service/io.max 2
+---->kernfs_new_node NetworkManager-dispatcher.service/io.prio.class 2
+---->kernfs_new_node NetworkManager-dispatcher.service/io.weight 2
+---->kernfs_new_node NetworkManager-dispatcher.service/memory.current 2
+---->kernfs_new_node NetworkManager-dispatcher.service/memory.peak 2
+---->kernfs_new_node NetworkManager-dispatcher.service/memory.min 2
+---->kernfs_new_node NetworkManager-dispatcher.service/memory.low 2
+---->kernfs_new_node NetworkManager-dispatcher.service/memory.high 2
+---->kernfs_new_node NetworkManager-dispatcher.service/memory.max 2
+---->kernfs_new_node NetworkManager-dispatcher.service/memory.events 2
+---->kernfs_new_node NetworkManager-dispatcher.service/memory.events.local 2
+---->kernfs_new_node NetworkManager-dispatcher.service/memory.stat 2
+---->kernfs_new_node NetworkManager-dispatcher.service/memory.numa_stat 2
+---->kernfs_new_node NetworkManager-dispatcher.service/memory.oom.group 2
+---->kernfs_new_node NetworkManager-dispatcher.service/memory.reclaim 2
+---->kernfs_new_node NetworkManager-dispatcher.service/memory.swap.current 2
+---->kernfs_new_node NetworkManager-dispatcher.service/memory.swap.high 2
+---->kernfs_new_node NetworkManager-dispatcher.service/memory.swap.max 2
+---->kernfs_new_node NetworkManager-dispatcher.service/memory.swap.peak 2
+---->kernfs_new_node NetworkManager-dispatcher.service/memory.swap.events 2
+---->kernfs_new_node NetworkManager-dispatcher.service/memory.zswap.current 2
+---->kernfs_new_node NetworkManager-dispatcher.service/memory.zswap.max 2
+---->kernfs_new_node NetworkManager-dispatcher.service/pids.max 2
+---->kernfs_new_node NetworkManager-dispatcher.service/pids.current 2
+---->kernfs_new_node NetworkManager-dispatcher.service/pids.peak 2
+---->kernfs_new_node NetworkManager-dispatcher.service/pids.events 2
