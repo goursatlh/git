@@ -1,0 +1,472 @@
+Attaching 11 probes...
+Tracing udev flow. Hit Ctrl-C to end.
+device_add  
+sysfs_create_dir_ns usb5/5-2
+==>sysfs_create_file_ns usb5/5-2 - uevent
+-->sysfs_add_file_mode_ns usb5/5-2 - uevent
+device_add_attrs  5-2
+internal_create_group 5-2/
+create_files 5-2/
+-->sysfs_add_file_mode_ns usb5/5-2 - configuration
+-->sysfs_add_file_mode_ns usb5/5-2 - bNumInterfaces
+-->sysfs_add_file_mode_ns usb5/5-2 - bConfigurationValue
+-->sysfs_add_file_mode_ns usb5/5-2 - bmAttributes
+-->sysfs_add_file_mode_ns usb5/5-2 - bMaxPower
+-->sysfs_add_file_mode_ns usb5/5-2 - urbnum
+-->sysfs_add_file_mode_ns usb5/5-2 - idVendor
+-->sysfs_add_file_mode_ns usb5/5-2 - idProduct
+-->sysfs_add_file_mode_ns usb5/5-2 - bcdDevice
+-->sysfs_add_file_mode_ns usb5/5-2 - bDeviceClass
+-->sysfs_add_file_mode_ns usb5/5-2 - bDeviceSubClass
+-->sysfs_add_file_mode_ns usb5/5-2 - bDeviceProtocol
+-->sysfs_add_file_mode_ns usb5/5-2 - bNumConfigurations
+-->sysfs_add_file_mode_ns usb5/5-2 - bMaxPacketSize0
+-->sysfs_add_file_mode_ns usb5/5-2 - speed
+-->sysfs_add_file_mode_ns usb5/5-2 - rx_lanes
+-->sysfs_add_file_mode_ns usb5/5-2 - tx_lanes
+-->sysfs_add_file_mode_ns usb5/5-2 - busnum
+-->sysfs_add_file_mode_ns usb5/5-2 - devnum
+-->sysfs_add_file_mode_ns usb5/5-2 - devpath
+-->sysfs_add_file_mode_ns usb5/5-2 - version
+-->sysfs_add_file_mode_ns usb5/5-2 - maxchild
+-->sysfs_add_file_mode_ns usb5/5-2 - quirks
+-->sysfs_add_file_mode_ns usb5/5-2 - avoid_reset_quirk
+-->sysfs_add_file_mode_ns usb5/5-2 - authorized
+-->sysfs_add_file_mode_ns usb5/5-2 - remove
+-->sysfs_add_file_mode_ns usb5/5-2 - ltm_capable
+internal_create_group 5-2/
+create_files 5-2/
+-->sysfs_add_file_mode_ns usb5/5-2 - manufacturer
+-->sysfs_add_file_mode_ns usb5/5-2 - product
+-->sysfs_add_file_mode_ns usb5/5-2 - serial
+==>sysfs_create_file_ns usb5/5-2 - waiting_for_supplier
+-->sysfs_add_file_mode_ns usb5/5-2 - waiting_for_supplier
+==>sysfs_create_file_ns usb5/5-2 - removable
+-->sysfs_add_file_mode_ns usb5/5-2 - removable
+internal_create_group 5-2/physical_location
+create_files 5-2/physical_location
+-->sysfs_add_file_mode_ns usb5/5-2 - panel
+-->sysfs_add_file_mode_ns usb5/5-2 - vertical_position
+-->sysfs_add_file_mode_ns usb5/5-2 - horizontal_position
+-->sysfs_add_file_mode_ns usb5/5-2 - dock
+-->sysfs_add_file_mode_ns usb5/5-2 - lid
+internal_create_group 5-2/power
+create_files 5-2/power
+-->sysfs_add_file_mode_ns usb5/5-2 - async
+-->sysfs_add_file_mode_ns usb5/5-2 - runtime_status
+-->sysfs_add_file_mode_ns usb5/5-2 - runtime_usage
+-->sysfs_add_file_mode_ns usb5/5-2 - runtime_active_kids
+-->sysfs_add_file_mode_ns usb5/5-2 - runtime_enabled
+-->sysfs_add_file_mode_ns usb5/5-2 - control
+-->sysfs_add_file_mode_ns usb5/5-2 - runtime_suspended_time
+-->sysfs_add_file_mode_ns usb5/5-2 - runtime_active_time
+-->sysfs_add_file_mode_ns usb5/5-2 - autosuspend_delay_ms
+==>sysfs_create_file_ns usb5/5-2 - dev
+-->sysfs_add_file_mode_ns usb5/5-2 - dev
+-->sysfs_add_file_mode_ns usb5/5-2 - persist
+-->sysfs_add_file_mode_ns usb5/5-2 - autosuspend
+-->sysfs_add_file_mode_ns usb5/5-2 - level
+-->sysfs_add_file_mode_ns usb5/5-2 - connected_duration
+-->sysfs_add_file_mode_ns usb5/5-2 - active_duration
+-->sysfs_add_file_mode_ns usb5/5-2 - wakeup
+-->sysfs_add_file_mode_ns usb5/5-2 - wakeup_count
+-->sysfs_add_file_mode_ns usb5/5-2 - wakeup_active_count
+-->sysfs_add_file_mode_ns usb5/5-2 - wakeup_abort_count
+-->sysfs_add_file_mode_ns usb5/5-2 - wakeup_expire_count
+-->sysfs_add_file_mode_ns usb5/5-2 - wakeup_active
+-->sysfs_add_file_mode_ns usb5/5-2 - wakeup_total_time_ms
+-->sysfs_add_file_mode_ns usb5/5-2 - wakeup_max_time_ms
+-->sysfs_add_file_mode_ns usb5/5-2 - wakeup_last_time_ms
+device_add  
+sysfs_create_dir_ns 5-2/5-2:2.0
+==>sysfs_create_file_ns 5-2/5-2:2.0 - uevent
+-->sysfs_add_file_mode_ns 5-2/5-2:2.0 - uevent
+device_add_attrs  5-2:2.0
+internal_create_group 5-2:2.0/
+create_files 5-2:2.0/
+-->sysfs_add_file_mode_ns 5-2/5-2:2.0 - bInterfaceNumber
+-->sysfs_add_file_mode_ns 5-2/5-2:2.0 - bAlternateSetting
+-->sysfs_add_file_mode_ns 5-2/5-2:2.0 - bNumEndpoints
+-->sysfs_add_file_mode_ns 5-2/5-2:2.0 - bInterfaceClass
+-->sysfs_add_file_mode_ns 5-2/5-2:2.0 - bInterfaceSubClass
+-->sysfs_add_file_mode_ns 5-2/5-2:2.0 - bInterfaceProtocol
+-->sysfs_add_file_mode_ns 5-2/5-2:2.0 - modalias
+-->sysfs_add_file_mode_ns 5-2/5-2:2.0 - supports_autosuspend
+-->sysfs_add_file_mode_ns 5-2/5-2:2.0 - authorized
+internal_create_group 5-2:2.0/
+create_files 5-2:2.0/
+internal_create_group 5-2:2.0/
+create_files 5-2:2.0/
+==>sysfs_create_file_ns 5-2/5-2:2.0 - waiting_for_supplier
+-->sysfs_add_file_mode_ns 5-2/5-2:2.0 - waiting_for_supplier
+internal_create_group 5-2:2.0/physical_location
+create_files 5-2:2.0/physical_location
+-->sysfs_add_file_mode_ns 5-2/5-2:2.0 - panel
+-->sysfs_add_file_mode_ns 5-2/5-2:2.0 - vertical_position
+-->sysfs_add_file_mode_ns 5-2/5-2:2.0 - horizontal_position
+-->sysfs_add_file_mode_ns 5-2/5-2:2.0 - dock
+-->sysfs_add_file_mode_ns 5-2/5-2:2.0 - lid
+internal_create_group 5-2:2.0/power
+create_files 5-2:2.0/power
+-->sysfs_add_file_mode_ns 5-2/5-2:2.0 - async
+-->sysfs_add_file_mode_ns 5-2/5-2:2.0 - runtime_status
+-->sysfs_add_file_mode_ns 5-2/5-2:2.0 - runtime_usage
+-->sysfs_add_file_mode_ns 5-2/5-2:2.0 - runtime_active_kids
+-->sysfs_add_file_mode_ns 5-2/5-2:2.0 - runtime_enabled
+==>sysfs_create_file_ns 5-2/5-2:2.0 - interface
+-->sysfs_add_file_mode_ns 5-2/5-2:2.0 - interface
+device_add  
+sysfs_create_dir_ns 5-2:2.0/ep_83
+==>sysfs_create_file_ns 5-2:2.0/ep_83 - uevent
+-->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - uevent
+device_add_attrs  ep_83
+internal_create_group ep_83/
+create_files ep_83/
+-->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - bLength
+-->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - bEndpointAddress
+-->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - bmAttributes
+-->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - bInterval
+-->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - wMaxPacketSize
+-->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - interval
+-->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - type
+-->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - direction
+internal_create_group ep_83/power
+create_files ep_83/power
+-->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - async
+-->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - runtime_status
+-->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - runtime_usage
+-->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - runtime_active_kids
+-->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - runtime_enabled
+-->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - control
+-->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - runtime_suspended_time
+-->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - runtime_active_time
+-->sysfs_add_file_mode_ns 5-2:2.0/ep_83 - autosuspend_delay_ms
+device_add  
+sysfs_create_dir_ns 5-2/5-2:2.1
+==>sysfs_create_file_ns 5-2/5-2:2.1 - uevent
+-->sysfs_add_file_mode_ns 5-2/5-2:2.1 - uevent
+device_add_attrs  5-2:2.1
+internal_create_group 5-2:2.1/
+create_files 5-2:2.1/
+-->sysfs_add_file_mode_ns 5-2/5-2:2.1 - bInterfaceNumber
+-->sysfs_add_file_mode_ns 5-2/5-2:2.1 - bAlternateSetting
+-->sysfs_add_file_mode_ns 5-2/5-2:2.1 - bNumEndpoints
+-->sysfs_add_file_mode_ns 5-2/5-2:2.1 - bInterfaceClass
+-->sysfs_add_file_mode_ns 5-2/5-2:2.1 - bInterfaceSubClass
+-->sysfs_add_file_mode_ns 5-2/5-2:2.1 - bInterfaceProtocol
+-->sysfs_add_file_mode_ns 5-2/5-2:2.1 - modalias
+-->sysfs_add_file_mode_ns 5-2/5-2:2.1 - supports_autosuspend
+-->sysfs_add_file_mode_ns 5-2/5-2:2.1 - authorized
+internal_create_group 5-2:2.1/
+create_files 5-2:2.1/
+internal_create_group 5-2:2.1/
+create_files 5-2:2.1/
+==>sysfs_create_file_ns 5-2/5-2:2.1 - waiting_for_supplier
+-->sysfs_add_file_mode_ns 5-2/5-2:2.1 - waiting_for_supplier
+internal_create_group 5-2:2.1/physical_location
+create_files 5-2:2.1/physical_location
+-->sysfs_add_file_mode_ns 5-2/5-2:2.1 - panel
+-->sysfs_add_file_mode_ns 5-2/5-2:2.1 - vertical_position
+-->sysfs_add_file_mode_ns 5-2/5-2:2.1 - horizontal_position
+-->sysfs_add_file_mode_ns 5-2/5-2:2.1 - dock
+-->sysfs_add_file_mode_ns 5-2/5-2:2.1 - lid
+internal_create_group 5-2:2.1/power
+create_files 5-2:2.1/power
+-->sysfs_add_file_mode_ns 5-2/5-2:2.1 - async
+-->sysfs_add_file_mode_ns 5-2/5-2:2.1 - runtime_status
+-->sysfs_add_file_mode_ns 5-2/5-2:2.1 - runtime_usage
+-->sysfs_add_file_mode_ns 5-2/5-2:2.1 - runtime_active_kids
+-->sysfs_add_file_mode_ns 5-2/5-2:2.1 - runtime_enabled
+-->sysfs_add_file_mode_ns usb5/5-2 - wakeup
+-->sysfs_add_file_mode_ns usb5/5-2 - wakeup_count
+-->sysfs_add_file_mode_ns usb5/5-2 - wakeup_active_count
+-->sysfs_add_file_mode_ns usb5/5-2 - wakeup_abort_count
+-->sysfs_add_file_mode_ns usb5/5-2 - wakeup_expire_count
+-->sysfs_add_file_mode_ns usb5/5-2 - wakeup_active
+-->sysfs_add_file_mode_ns usb5/5-2 - wakeup_total_time_ms
+-->sysfs_add_file_mode_ns usb5/5-2 - wakeup_max_time_ms
+-->sysfs_add_file_mode_ns usb5/5-2 - wakeup_last_time_ms
+device_add  
+sysfs_create_dir_ns 5-2/5-2:1.0
+==>sysfs_create_file_ns 5-2/5-2:1.0 - uevent
+-->sysfs_add_file_mode_ns 5-2/5-2:1.0 - uevent
+device_add_attrs  5-2:1.0
+internal_create_group 5-2:1.0/
+create_files 5-2:1.0/
+-->sysfs_add_file_mode_ns 5-2/5-2:1.0 - bInterfaceNumber
+-->sysfs_add_file_mode_ns 5-2/5-2:1.0 - bAlternateSetting
+-->sysfs_add_file_mode_ns 5-2/5-2:1.0 - bNumEndpoints
+-->sysfs_add_file_mode_ns 5-2/5-2:1.0 - bInterfaceClass
+-->sysfs_add_file_mode_ns 5-2/5-2:1.0 - bInterfaceSubClass
+-->sysfs_add_file_mode_ns 5-2/5-2:1.0 - bInterfaceProtocol
+-->sysfs_add_file_mode_ns 5-2/5-2:1.0 - modalias
+-->sysfs_add_file_mode_ns 5-2/5-2:1.0 - supports_autosuspend
+-->sysfs_add_file_mode_ns 5-2/5-2:1.0 - authorized
+internal_create_group 5-2:1.0/
+create_files 5-2:1.0/
+internal_create_group 5-2:1.0/
+create_files 5-2:1.0/
+==>sysfs_create_file_ns 5-2/5-2:1.0 - waiting_for_supplier
+-->sysfs_add_file_mode_ns 5-2/5-2:1.0 - waiting_for_supplier
+internal_create_group 5-2:1.0/physical_location
+create_files 5-2:1.0/physical_location
+-->sysfs_add_file_mode_ns 5-2/5-2:1.0 - panel
+-->sysfs_add_file_mode_ns 5-2/5-2:1.0 - vertical_position
+-->sysfs_add_file_mode_ns 5-2/5-2:1.0 - horizontal_position
+-->sysfs_add_file_mode_ns 5-2/5-2:1.0 - dock
+-->sysfs_add_file_mode_ns 5-2/5-2:1.0 - lid
+internal_create_group 5-2:1.0/power
+create_files 5-2:1.0/power
+-->sysfs_add_file_mode_ns 5-2/5-2:1.0 - async
+-->sysfs_add_file_mode_ns 5-2/5-2:1.0 - runtime_status
+-->sysfs_add_file_mode_ns 5-2/5-2:1.0 - runtime_usage
+-->sysfs_add_file_mode_ns 5-2/5-2:1.0 - runtime_active_kids
+-->sysfs_add_file_mode_ns 5-2/5-2:1.0 - runtime_enabled
+-->sysfs_add_file_mode_ns usb5/5-2 - wakeup
+-->sysfs_add_file_mode_ns usb5/5-2 - wakeup_count
+-->sysfs_add_file_mode_ns usb5/5-2 - wakeup_active_count
+-->sysfs_add_file_mode_ns usb5/5-2 - wakeup_abort_count
+-->sysfs_add_file_mode_ns usb5/5-2 - wakeup_expire_count
+-->sysfs_add_file_mode_ns usb5/5-2 - wakeup_active
+-->sysfs_add_file_mode_ns usb5/5-2 - wakeup_total_time_ms
+-->sysfs_add_file_mode_ns usb5/5-2 - wakeup_max_time_ms
+-->sysfs_add_file_mode_ns usb5/5-2 - wakeup_last_time_ms
+device_add  
+sysfs_create_dir_ns 5-2/wakeup
+sysfs_create_dir_ns wakeup/wakeup32
+==>sysfs_create_file_ns wakeup/wakeup32 - uevent
+-->sysfs_add_file_mode_ns wakeup/wakeup32 - uevent
+device_add_attrs  wakeup32
+internal_create_group wakeup32/
+create_files wakeup32/
+-->sysfs_add_file_mode_ns wakeup/wakeup32 - name
+-->sysfs_add_file_mode_ns wakeup/wakeup32 - active_count
+-->sysfs_add_file_mode_ns wakeup/wakeup32 - event_count
+-->sysfs_add_file_mode_ns wakeup/wakeup32 - wakeup_count
+-->sysfs_add_file_mode_ns wakeup/wakeup32 - expire_count
+-->sysfs_add_file_mode_ns wakeup/wakeup32 - active_time_ms
+-->sysfs_add_file_mode_ns wakeup/wakeup32 - total_time_ms
+-->sysfs_add_file_mode_ns wakeup/wakeup32 - max_time_ms
+-->sysfs_add_file_mode_ns wakeup/wakeup32 - last_change_ms
+-->sysfs_add_file_mode_ns wakeup/wakeup32 - prevent_suspend_time_ms
+netdev_register_kobject eth0
+device_add  
+sysfs_create_dir_ns 5-2:1.0/net
+sysfs_create_dir_ns net/eth0
+==>sysfs_create_file_ns net/eth0 - uevent
+-->sysfs_add_file_mode_ns net/eth0 - uevent
+device_add_attrs  eth0
+internal_create_group eth0/
+create_files eth0/
+-->sysfs_add_file_mode_ns net/eth0 - netdev_group
+-->sysfs_add_file_mode_ns net/eth0 - type
+-->sysfs_add_file_mode_ns net/eth0 - dev_id
+-->sysfs_add_file_mode_ns net/eth0 - dev_port
+-->sysfs_add_file_mode_ns net/eth0 - iflink
+-->sysfs_add_file_mode_ns net/eth0 - ifindex
+-->sysfs_add_file_mode_ns net/eth0 - name_assign_type
+-->sysfs_add_file_mode_ns net/eth0 - addr_assign_type
+-->sysfs_add_file_mode_ns net/eth0 - addr_len
+-->sysfs_add_file_mode_ns net/eth0 - link_mode
+-->sysfs_add_file_mode_ns net/eth0 - address
+-->sysfs_add_file_mode_ns net/eth0 - broadcast
+-->sysfs_add_file_mode_ns net/eth0 - speed
+-->sysfs_add_file_mode_ns net/eth0 - duplex
+-->sysfs_add_file_mode_ns net/eth0 - dormant
+-->sysfs_add_file_mode_ns net/eth0 - testing
+-->sysfs_add_file_mode_ns net/eth0 - operstate
+-->sysfs_add_file_mode_ns net/eth0 - carrier_changes
+-->sysfs_add_file_mode_ns net/eth0 - ifalias
+-->sysfs_add_file_mode_ns net/eth0 - carrier
+-->sysfs_add_file_mode_ns net/eth0 - mtu
+-->sysfs_add_file_mode_ns net/eth0 - flags
+-->sysfs_add_file_mode_ns net/eth0 - tx_queue_len
+-->sysfs_add_file_mode_ns net/eth0 - gro_flush_timeout
+-->sysfs_add_file_mode_ns net/eth0 - napi_defer_hard_irqs
+-->sysfs_add_file_mode_ns net/eth0 - phys_port_id
+-->sysfs_add_file_mode_ns net/eth0 - phys_port_name
+-->sysfs_add_file_mode_ns net/eth0 - phys_switch_id
+-->sysfs_add_file_mode_ns net/eth0 - proto_down
+-->sysfs_add_file_mode_ns net/eth0 - carrier_up_count
+-->sysfs_add_file_mode_ns net/eth0 - carrier_down_count
+-->sysfs_add_file_mode_ns net/eth0 - threaded
+internal_create_group eth0/statistics
+create_files eth0/statistics
+-->sysfs_add_file_mode_ns net/eth0 - rx_packets
+-->sysfs_add_file_mode_ns net/eth0 - tx_packets
+-->sysfs_add_file_mode_ns net/eth0 - rx_bytes
+-->sysfs_add_file_mode_ns net/eth0 - tx_bytes
+-->sysfs_add_file_mode_ns net/eth0 - rx_errors
+-->sysfs_add_file_mode_ns net/eth0 - tx_errors
+-->sysfs_add_file_mode_ns net/eth0 - rx_dropped
+-->sysfs_add_file_mode_ns net/eth0 - tx_dropped
+-->sysfs_add_file_mode_ns net/eth0 - multicast
+-->sysfs_add_file_mode_ns net/eth0 - collisions
+-->sysfs_add_file_mode_ns net/eth0 - rx_length_errors
+-->sysfs_add_file_mode_ns net/eth0 - rx_over_errors
+-->sysfs_add_file_mode_ns net/eth0 - rx_crc_errors
+-->sysfs_add_file_mode_ns net/eth0 - rx_frame_errors
+-->sysfs_add_file_mode_ns net/eth0 - rx_fifo_errors
+-->sysfs_add_file_mode_ns net/eth0 - rx_missed_errors
+-->sysfs_add_file_mode_ns net/eth0 - tx_aborted_errors
+-->sysfs_add_file_mode_ns net/eth0 - tx_carrier_errors
+-->sysfs_add_file_mode_ns net/eth0 - tx_fifo_errors
+-->sysfs_add_file_mode_ns net/eth0 - tx_heartbeat_errors
+-->sysfs_add_file_mode_ns net/eth0 - tx_window_errors
+-->sysfs_add_file_mode_ns net/eth0 - rx_compressed
+-->sysfs_add_file_mode_ns net/eth0 - tx_compressed
+-->sysfs_add_file_mode_ns net/eth0 - rx_nohandler
+internal_create_group eth0/power
+create_files eth0/power
+-->sysfs_add_file_mode_ns net/eth0 - async
+-->sysfs_add_file_mode_ns net/eth0 - runtime_status
+-->sysfs_add_file_mode_ns net/eth0 - runtime_usage
+-->sysfs_add_file_mode_ns net/eth0 - runtime_active_kids
+-->sysfs_add_file_mode_ns net/eth0 - runtime_enabled
+-->sysfs_add_file_mode_ns net/eth0 - control
+-->sysfs_add_file_mode_ns net/eth0 - runtime_suspended_time
+-->sysfs_add_file_mode_ns net/eth0 - runtime_active_time
+-->sysfs_add_file_mode_ns net/eth0 - autosuspend_delay_ms
+sysfs_create_dir_ns eth0/queues
+sysfs_create_dir_ns queues/rx-0
+internal_create_group rx-0/
+create_files rx-0/
+-->sysfs_add_file_mode_ns queues/rx-0 - rps_cpus
+-->sysfs_add_file_mode_ns queues/rx-0 - rps_flow_cnt
+sysfs_create_dir_ns queues/tx-0
+internal_create_group tx-0/
+create_files tx-0/
+-->sysfs_add_file_mode_ns queues/tx-0 - tx_timeout
+-->sysfs_add_file_mode_ns queues/tx-0 - traffic_class
+-->sysfs_add_file_mode_ns queues/tx-0 - xps_cpus
+-->sysfs_add_file_mode_ns queues/tx-0 - xps_rxqs
+-->sysfs_add_file_mode_ns queues/tx-0 - tx_maxrate
+internal_create_group tx-0/byte_queue_limits
+create_files tx-0/byte_queue_limits
+-->sysfs_add_file_mode_ns queues/tx-0 - limit
+-->sysfs_add_file_mode_ns queues/tx-0 - limit_max
+-->sysfs_add_file_mode_ns queues/tx-0 - limit_min
+-->sysfs_add_file_mode_ns queues/tx-0 - hold_time
+-->sysfs_add_file_mode_ns queues/tx-0 - inflight
+device_add  
+sysfs_create_dir_ns wakeup/wakeup47
+==>sysfs_create_file_ns wakeup/wakeup47 - uevent
+-->sysfs_add_file_mode_ns wakeup/wakeup47 - uevent
+device_add_attrs  wakeup47
+internal_create_group wakeup47/
+create_files wakeup47/
+-->sysfs_add_file_mode_ns wakeup/wakeup47 - name
+-->sysfs_add_file_mode_ns wakeup/wakeup47 - active_count
+-->sysfs_add_file_mode_ns wakeup/wakeup47 - event_count
+-->sysfs_add_file_mode_ns wakeup/wakeup47 - wakeup_count
+-->sysfs_add_file_mode_ns wakeup/wakeup47 - expire_count
+-->sysfs_add_file_mode_ns wakeup/wakeup47 - active_time_ms
+-->sysfs_add_file_mode_ns wakeup/wakeup47 - total_time_ms
+-->sysfs_add_file_mode_ns wakeup/wakeup47 - max_time_ms
+-->sysfs_add_file_mode_ns wakeup/wakeup47 - last_change_ms
+-->sysfs_add_file_mode_ns wakeup/wakeup47 - prevent_suspend_time_ms
+device_add  
+sysfs_create_dir_ns 5-2:1.0/ep_81
+==>sysfs_create_file_ns 5-2:1.0/ep_81 - uevent
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - uevent
+device_add_attrs  ep_81
+internal_create_group ep_81/
+create_files ep_81/
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - bLength
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - bEndpointAddress
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - bmAttributes
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - bInterval
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - wMaxPacketSize
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - interval
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - type
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - direction
+internal_create_group ep_81/power
+create_files ep_81/power
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - async
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - runtime_status
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - runtime_usage
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - runtime_active_kids
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - runtime_enabled
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - control
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - runtime_suspended_time
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - runtime_active_time
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_81 - autosuspend_delay_ms
+device_add  
+sysfs_create_dir_ns 5-2:1.0/ep_02
+==>sysfs_create_file_ns 5-2:1.0/ep_02 - uevent
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - uevent
+device_add_attrs  ep_02
+internal_create_group ep_02/
+create_files ep_02/
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - bLength
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - bEndpointAddress
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - bmAttributes
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - bInterval
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - wMaxPacketSize
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - interval
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - type
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - direction
+internal_create_group ep_02/power
+create_files ep_02/power
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - async
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - runtime_status
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - runtime_usage
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - runtime_active_kids
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - runtime_enabled
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - control
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - runtime_suspended_time
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - runtime_active_time
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_02 - autosuspend_delay_ms
+device_add  
+sysfs_create_dir_ns 5-2:1.0/ep_83
+==>sysfs_create_file_ns 5-2:1.0/ep_83 - uevent
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - uevent
+device_add_attrs  ep_83
+internal_create_group ep_83/
+create_files ep_83/
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - bLength
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - bEndpointAddress
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - bmAttributes
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - bInterval
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - wMaxPacketSize
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - interval
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - type
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - direction
+internal_create_group ep_83/power
+create_files ep_83/power
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - async
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - runtime_status
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - runtime_usage
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - runtime_active_kids
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - runtime_enabled
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - control
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - runtime_suspended_time
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - runtime_active_time
+-->sysfs_add_file_mode_ns 5-2:1.0/ep_83 - autosuspend_delay_ms
+device_add  
+sysfs_create_dir_ns 5-2/ep_00
+==>sysfs_create_file_ns 5-2/ep_00 - uevent
+-->sysfs_add_file_mode_ns 5-2/ep_00 - uevent
+device_add_attrs  ep_00
+internal_create_group ep_00/
+create_files ep_00/
+-->sysfs_add_file_mode_ns 5-2/ep_00 - bLength
+-->sysfs_add_file_mode_ns 5-2/ep_00 - bEndpointAddress
+-->sysfs_add_file_mode_ns 5-2/ep_00 - bmAttributes
+-->sysfs_add_file_mode_ns 5-2/ep_00 - bInterval
+-->sysfs_add_file_mode_ns 5-2/ep_00 - wMaxPacketSize
+-->sysfs_add_file_mode_ns 5-2/ep_00 - interval
+-->sysfs_add_file_mode_ns 5-2/ep_00 - type
+-->sysfs_add_file_mode_ns 5-2/ep_00 - direction
+internal_create_group ep_00/power
+create_files ep_00/power
+-->sysfs_add_file_mode_ns 5-2/ep_00 - async
+-->sysfs_add_file_mode_ns 5-2/ep_00 - runtime_status
+-->sysfs_add_file_mode_ns 5-2/ep_00 - runtime_usage
+-->sysfs_add_file_mode_ns 5-2/ep_00 - runtime_active_kids
+-->sysfs_add_file_mode_ns 5-2/ep_00 - runtime_enabled
+-->sysfs_add_file_mode_ns 5-2/ep_00 - control
+-->sysfs_add_file_mode_ns 5-2/ep_00 - runtime_suspended_time
+-->sysfs_add_file_mode_ns 5-2/ep_00 - runtime_active_time
+-->sysfs_add_file_mode_ns 5-2/ep_00 - autosuspend_delay_ms
+device_rename eth0 -> enx00e04c71fcf2
