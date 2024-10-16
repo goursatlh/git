@@ -1,3 +1,5 @@
+
+// test for git fetch 1
 #if 0 // COW
 #define _XOPEN_SOURCE 700
 #include <fcntl.h> /* open */
