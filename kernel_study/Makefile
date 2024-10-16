@@ -3,7 +3,7 @@
 #obj-m := file_ops_in_irq.o
 #obj-m := sockex1_kern.o
 #obj-m := mem_test.o
-obj-m := vir2phy_kern.o
+obj-m := sysfs_test.o
 CURRENT_PATH := $(shell pwd)
 
 VERSION_NUM :=$(shell uname -r)

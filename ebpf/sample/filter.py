@@ -11,13 +11,6 @@ if_name = sys.argv[1]
 file_name = sys.argv[2]
 func_name = sys.argv[3]
 
-''' 
-device = "lo"
-b = BPF(src_file="filter.c")
-fn = b.load_func("udpfilter", BPF.XDP)
-b.attach_xdp(device, fn, 0)
-'''
-
 device = if_name
 b = BPF(src_file=file_name)
 fn = b.load_func(func_name, BPF.XDP)

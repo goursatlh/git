@@ -38,6 +38,7 @@ int main()
 
     // Connect to the D-Bus session bus
     conn = dbus_bus_get(DBUS_BUS_SESSION, &err);
+    //conn = dbus_bus_get(DBUS_BUS_SYSTEM, &err);
     if (dbus_error_is_set(&err)) {
         fprintf(stderr, "Connection Error (%s)\n", err.message);
         dbus_error_free(&err);
@@ -55,6 +56,8 @@ int main()
         dbus_error_free(&err);
         exit(1);
     }
+    
+    printf("start the app : org.example.test, ret %d\n", ret);
     if (ret != DBUS_REQUEST_NAME_REPLY_PRIMARY_OWNER) {
         fprintf(stderr, "Not Primary Owner\n");
         exit(1);

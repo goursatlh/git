@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include <dbus/dbus.h>
 
+#define BUS_NAME "com.example.HelloWorld"
+#define OBJECT_PATH "/com/example/HelloWorld"
+#define INTERFACE_NAME "com.example.HelloWorld"
+
 int main() 
 {
     DBusError err;
@@ -13,8 +17,8 @@ int main()
     dbus_error_init(&err);
 
     // Connect to the D-Bus session bus
-    conn = dbus_bus_get(DBUS_BUS_SESSION, &err);
-    //conn = dbus_bus_get(DBUS_BUS_SYSTEM, &err);
+    //conn = dbus_bus_get(DBUS_BUS_SESSION, &err);
+    conn = dbus_bus_get(DBUS_BUS_SYSTEM, &err);
     if (dbus_error_is_set(&err)) {
         fprintf(stderr, "Connection Error (%s)\n", err.message);
         dbus_error_free(&err);
@@ -26,10 +30,10 @@ int main()
     }
 
     // Create a message
-    msg = dbus_message_new_method_call("org.example.test", // target for the message (service name)
-                                       "/org/example/test", // object to call on
-                                       "org.example.test", // interface to call on
-                                       "TestMethod"); // method name
+    msg = dbus_message_new_method_call(BUS_NAME, // target for the message (service name)
+                                       OBJECT_PATH , // object to call on
+                                       INTERFACE_NAME , // interface to call on
+                                       "SayHello"); // method name
     if (msg == NULL) {
         fprintf(stderr, "Message Null\n");
         exit(1);
@@ -55,7 +59,7 @@ int main()
     dbus_message_unref(reply);
 
     // Close the connection
-    //dbus_connection_close(conn);
+    dbus_connection_close(conn);
 
     return 0;
 }

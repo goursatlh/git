@@ -1,10 +1,10 @@
 #!/usr/bin/env bpftrace
-uprobe:/home/wt/code/test:add {
+uprobe:/home/wt/code/git/ebpf/sample/func:add {
     printf("program begin\n");
     @start = nsecs;
 }
 
-uretprobe:/home/wt/code/test:add {
+uretprobe:/home/wt/code/git/ebpf/sample/func:add {
     printf("cost: %ld ns\n", nsecs-@start);
 }
 

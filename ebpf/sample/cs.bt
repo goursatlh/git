@@ -1,4 +1,6 @@
 #!/usr/bin/env bpftrace
+#include <linux/sched.h>
+
 BEGIN
 {
     printf("Tracing context switch. Hit Ctrl-C to end.\n");

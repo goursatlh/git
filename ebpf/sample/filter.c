@@ -1,12 +1,18 @@
+
+// first you should confirm the path of your linux header files
+// in my ubuntu, the linux path is /usr/src/linux-hwe-5.15-headers-5.15.0-71/include/uapi/
+// so you should use uapi/linux/udp.h not linux/udp.h
+
 #define KBUILD_MODNAME "filter"
-#include <linux/bpf.h>
-#include <linux/if_ether.h>
-#include <linux/ip.h>
-#include <linux/in.h>
-#include <linux/udp.h>
- 
+#include <uapi/linux/bpf.h>
+#include <uapi/linux/if_ether.h>
+#include <uapi/linux/ip.h>
+#include <uapi/linux/in.h>
+#include <uapi/linux/udp.h>
+
 int udpfilter(struct xdp_md *ctx) {
   bpf_trace_printk("got a packet\n");
+  dump_stack();
   void *data = (void *)(long)ctx->data;
   void *data_end = (void *)(long)ctx->data_end;
   struct ethhdr *eth = data;
