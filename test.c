@@ -1,4 +1,4 @@
-#if 1 // COW
+#if 0 // COW
 #define _XOPEN_SOURCE 700
 #include <fcntl.h> /* open */
 #include <stdint.h> /* uint64_t  */
