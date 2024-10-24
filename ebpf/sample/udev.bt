@@ -5,7 +5,9 @@
 #include <linux/netdevice.h>
 #include <linux/kobject.h>
 #include <linux/sysfs.h>
+#include <linux/usb.h>
 #include <linux/kernfs.h>
+#include <linux/module.h>
 #include <uapi/linux/ip.h>
 
 BEGIN
@@ -13,35 +15,154 @@ BEGIN
     printf("Tracing udev flow. Hit Ctrl-C to end.\n");
 }
 
+/*
+
+kprobe:usb_parse_interface
+{
+    $dev = (struct usb_device *)arg0;
+    $config = arg1;
+    printf("\nusb_parse_interface %s  config %d\n", $dev->devpath, $config);
+    printf("%s\n", kstack());
+}
+
+kprobe:usb_parse_endpoint
+{
+    $cfg = arg1;
+    $config = arg1;
+    printf("\nusb_parse_endpoint %s  config %d\n", $dev->devpath, $config);
+    printf("%s\n", kstack());
+}
+
+*/
+
+kprobe:driver_register
+{
+    $driver = (struct device_driver *)arg0;
+    printf("driver_register %s\n", str($driver->name));
+    printf("%s\n", kstack());
+}
+
+kprobe:usb_register_device_driver
+{
+    $driver = (struct usb_device_driver *)arg0;
+    $own = (struct module *)arg1;
+    printf("usb_register_device_driver %s  own %s\n", str($driver->name), ($own->name));
+    printf("%s\n", kstack());
+}
+
+kprobe:usb_generic_driver_probe
+{
+    $usb_dev = (struct usb_device *)arg0;
+    printf("usb_generic_driver_probe %s\n", str($usb_dev->dev.kobj.name));
+    //printf("%s\n", kstack());
+}
+
+kprobe:usb_probe_device
+{
+    $dev = (struct device *)arg0;
+    printf("usb_probe_device %s\n", str($dev->kobj.name));
+    //printf("%s\n", kstack());
+}
+
+kprobe:usb_get_configuration
+{
+    $usb_dev = (struct usb_device *)arg0;
+    printf("usb_get_configuration %s  conf num %d\n", str($usb_dev->dev.kobj.name), $usb_dev->descriptor.bNumConfigurations);
+}
+
+kprobe:usb_set_configuration
+{
+    $usb_dev = (struct usb_device *)arg0;
+    $config = arg1;
+    $usb_config = (struct usb_host_config *)$usb_dev->config+$config;
+    printf("\nusb_set_configuration %s  config %d ifnum %d\n", str($usb_dev->dev.kobj.name), $config, $usb_config->desc.bNumInterfaces);
+    //printf("%s\n", kstack());
+}
+
+kprobe:usb_set_interface
+{
+    $usb_dev = (struct usb_device *)arg0;
+    $int = arg1;
+    $alt = arg2;
+    printf("usb_set_interface %s  if %d alt %d\n", str($usb_dev->dev.kobj.name), $int, $alt);
+    //printf("%s\n", kstack());
+}
+
+kprobe:create_intf_ep_devs.isra.0
+{
+    $intf = (struct usb_interface *)arg0;
+    $alt = (struct usb_host_interface *)$intf->cur_altsetting;
+    printf("create_intf_ep_devs ep num %d\n", $alt->desc.bNumEndpoints);
+}
+
+kprobe:usb_create_ep_devs
+{
+    $dev = (struct device *)arg0;
+    printf("usb_create_ep_devs %s\n", str($dev->kobj.name));
+}
+
+kprobe:usb_parse_configuration
+{
+    $usb_dev = (struct usb_device *)arg0;
+    $config = arg1;
+    $string = arg2;
+    printf("usb_parse_configuration %s  config %d %s\n", str($usb_dev->dev.kobj.name), $config, str($string));
+    //printf("%s\n", kstack());
+}
+
+kprobe:usb_set_device_state
+{
+    $usb_dev = (struct usb_device *)arg0;
+    $state = arg1;
+    printf("usb_set_device_state %s  state %d\n", str($usb_dev->dev.kobj.name), $state);
+    //printf("%s\n", kstack());
+}
+
+kprobe:usb_new_device
+{
+    $usb_dev = (struct usb_device *)arg0;
+    printf("\n\nusb_new_device devnum %d %s\n", $usb_dev->devnum, str($usb_dev->dev.kobj.name));
+    //printf("%s\n", kstack());
+}
+
+kprobe:usb_alloc_dev
+{
+    $parent = (struct usb_device *)arg0;
+    $usb = (struct usb_bus *)arg1;
+    $port = arg2;
+    printf("\n\nusb_alloc_dev parent %s bus %d port %d\n", str($parent->dev.kobj.name), $usb->busnum, $port);
+    //printf("%s\n", kstack());
+}
+
+kprobe:usb_release_dev
+{
+    $dev = (struct device *)arg0;
+    printf("usb_release_dev %s\n", str($dev->kobj.name));
+    //printf("%s\n", kstack());
+}
+
 kprobe:device_add
 {
-    //printf("device_add  %s\n", kstack());
     $dev = (struct device *)arg0;
-    //printf("device_add  %s\n", str($dev->init_name));
-    if ($dev != 0)
-    {
-        if ($dev->init_name != 0)
-	{
-	    printf("device_add  %s\n", str($dev->init_name));
-	}
-    }
+    //printf("\ndevice_add dev %p %s\n", $dev, str($dev->init_name), str($dev->bus->dev_name));
+    printf("device_add %s/%s \n",  str($dev->kobj.parent->name), str($dev->kobj.name));
+    //printf("%s\n", kstack());
 }
 
-/*
-kprobe:netdev_uevent
+kprobe:device_del
 {
     $dev = (struct device *)arg0;
-    $obj = $dev.kobj;
-    printf("device_add  %s\n", str($obj->name));
+    //printf("\ndevice_add dev %p %s\n", $dev, str($dev->init_name), str($dev->bus->dev_name));
+    printf("device_del %s/%s \n",  str($dev->kobj.parent->name), str($dev->kobj.name));
+    //printf("%s\n", kstack());
 }
 
-kprobe:usb_uevent
+kprobe:device_add_attrs
 {
     $dev = (struct device *)arg0;
     $obj = $dev->kobj;
-    printf("usb_uevent %s\n", str($obj.name));
+    printf("device_add_attrs  %s\n", str($obj.name));
 }
-*/
 
 kprobe:netdev_register_kobject
 {
@@ -59,11 +180,28 @@ kprobe:device_rename
     //printf("%s\n", kstack());
 }
 
+kprobe:internal_create_group
+{
+    $obj = (struct kobject *)arg0;
+    $group = (struct attribute_group *)arg2;
+    printf("internal_create_group %s/%s\n", str($obj->name), str($group->name));
+    //printf("%s\n", kstack());
+}
+
+kprobe:create_files
+{
+    $obj = (struct kobject *)arg1;
+    $group = (struct attribute_group *)arg4;
+    printf("create_files %s/%s\n", str($obj->name), str($group->name));
+    //printf("%s\n", kstack());
+}
+
 kprobe:sysfs_create_dir_ns
 {
     $obj = (struct kobject *)arg0;
     $parent = (struct kobject *)$obj->parent;
     printf("sysfs_create_dir_ns %s/%s\n", str($parent->name), str($obj->name));
+    //printf("%s\n", kstack());
 }
 
 kprobe:sysfs_create_file_ns
@@ -72,6 +210,7 @@ kprobe:sysfs_create_file_ns
     $parent = (struct kobject *)$obj->parent;
     $attr = (struct attribute *)arg1;
     printf("==>sysfs_create_file_ns %s/%s - %s\n", str($parent->name), str($obj->name), str($attr->name));
+    //printf("%s\n", kstack());
 }
 
 kprobe:sysfs_add_file_mode_ns
@@ -80,8 +219,32 @@ kprobe:sysfs_add_file_mode_ns
     $obj = (struct kobject *)$kernfs->priv;
     $parent = (struct kobject *)$obj->parent;
     $attr = (struct attribute *)arg1;
-    printf("%s\n", kstack());
     printf("-->sysfs_add_file_mode_ns %s/%s - %s\n", str($parent->name), str($obj->name), str($attr->name));
+    //printf("%s\n", kstack());
+}
+
+kprobe:kernfs_create_dir_ns
+{
+    $kernfs = (struct kernfs_node *)arg0;
+    $name = arg1;
+    printf("kernfs_create_dir_ns %s/%s\n", str($kernfs->name), str($name));
+    //printf("%s\n", kstack());
+}
+
+kprobe:kernfs_new_node
+{
+    $kernfs = (struct kernfs_node *)arg0;
+    $name = arg1;
+    $type = arg5;
+    printf("---->kernfs_new_node %d %s/%s\n", $type, str($kernfs->name), str($name));
+    //printf("%s\n", kstack());
+}
+
+kprobe:kernfs_remove
+{
+    $kernfs = (struct kernfs_node *)arg0;
+    printf("---->kernfs_remove %s\n", str($kernfs->name));
+    //printf("%s\n", kstack());
 }
 
 END
